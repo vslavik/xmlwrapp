@@ -32,7 +32,7 @@ package harness;
 ###########################################################################
 #
 # Test harness code. For generating screen output and XML output.
-# $Id: harness.pm,v 1.1.1.1 2003/08/18 03:38:33 pjones Exp $
+# $Id: harness.pm,v 1.2 2003/08/18 03:48:15 pjones Exp $
 #
 # To use:
 #
@@ -205,8 +205,8 @@ sub regression
 
     if (ref $run_result and ref $run_result eq 'CODE') {
 	$good = $run_result->($name);
-    } elsif (-e $run_result) { #TODO verify that $run_results is not executable
-	$good = slurp_file($run_result);
+    } elsif (-e $run_result and not -x $run_result) {
+	$good = $self->slurp_file($run_result);
     } else {
 	$good = `$run_result 2>&1`;
 
