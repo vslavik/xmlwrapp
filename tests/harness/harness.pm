@@ -32,7 +32,7 @@ package harness;
 ###########################################################################
 #
 # Test harness code. For generating screen output and XML output.
-# $Id: harness.pm,v 1.2 2003/01/07 21:26:31 pjones Exp $
+# $Id: harness.pm,v 1.4 2003/08/18 04:33:06 pjones Exp $
 #
 # To use:
 #
@@ -56,7 +56,8 @@ my $color_magenta   = '';
 my $color_reset	    = '';
 my $wchar	    = 78;
 ###########################################################################
-eval {
+eval
+{
     require Term::ANSIColor;
     import Term::ANSIColor;
 
@@ -74,7 +75,8 @@ eval {
     $wchar -= 4; # Term::ReadKey can sometimes be off by a few columns
 };
 ###########################################################################
-sub new {
+sub new
+{
     my $class = shift;
     my $test_name = shift;
 
@@ -103,6 +105,9 @@ sub new {
 	}
 
 	select XMLOUT;
+
+	$self->die_on_fail(0);
+	$self->die_on_end(0);
     }
 
     if ($self->xml) {
@@ -116,7 +121,8 @@ sub new {
     return $self;
 }
 ###########################################################################
-sub start {
+sub start 
+{
     my $self = shift;
     my $test_name = shift;
 
@@ -134,7 +140,8 @@ sub start {
     ++$self->{'tests'};
 }
 ###########################################################################
-sub pass {
+sub pass 
+{
     my $self = shift;
 
     if ($self->xml) {
@@ -146,7 +153,8 @@ sub pass {
     ++$self->{'pass'};
 }
 ###########################################################################
-sub fail {
+sub fail 
+{
     my $self = shift;
     my $info = shift;
 
@@ -172,23 +180,119 @@ sub fail {
     ++$self->{'fail'};
 }
 ###########################################################################
-sub die_on_fail {
+sub regression
+{
+    my $self	    = shift;
+    my $name	    = shift; # name of test passed to $self->start()
+    my $run_test    = shift; # sub or program to run to generate output to test
+    my $run_result  = shift; # sub, program or file to use for "good" results
+
+    $self->start($name);
+
+    my $result;
+    my $good;
+
+    if (ref $run_test and ref $run_test eq 'CODE') {
+	$result = $run_test->($name);
+    } else {
+	$result = `$run_test 2>&1`;
+
+	if ($? != 0) {
+	    $self->fail("test program $run_test failed with exit code $?");
+	    return;
+	}
+    }
+
+    if (ref $run_result and ref $run_result eq 'CODE') {
+	$good = $run_result->($name);
+    } elsif (ref $run_result and ref $run_result eq 'Regexp') {
+	if ($result =~ $run_result) {
+	    $result = $good = 1;
+	} else {
+	    $good = "=~ $run_result";
+	}
+    } elsif (-e $run_result and not -x $run_result) {
+	$good = $self->slurp_file($run_result);
+    } elsif (-e $run_result and -x $run_result) {
+	$good = `$run_result 2>&1`;
+
+	if ($? != 0) {
+	    $self->fail("failed to load regression data from command $run_result");
+	    return;
+	}
+    } else {
+	$good = $run_result;
+    }
+
+    if ($result eq $good) {
+	$self->pass();
+    } else {
+	$self->fail("regression failed\nEXPECTED: $good\nRECEIVED: $result")
+    }
+}
+###########################################################################
+sub run_test_exit_status
+{
+    my $self		    = shift;
+    my $name		    = shift; # the name of the test
+    my $run_program	    = shift; # the name of the program to run
+    my $expect_exit_status  = shift; # what the exit status should be
+
+    $self->start($name);
+    my $null = `$run_program 2>&1`;
+
+    if ($? != 0) { $? >>= 8; }
+
+    if ($? == $expect_exit_status) {
+	$self->pass();
+    } else {
+	$self->fail("bad run of $run_program, expected exit with $expect_exit_status but got $?");
+    }
+}
+###########################################################################
+sub die_on_fail 
+{
     my $self = shift;
     my $state = shift || 1;
     $self->{'die_on_fail'} = $state;
 }
 ###########################################################################
-sub die_on_end {
+sub die_on_end 
+{
     my $self = shift;
     my $state = shift || 1;
     $self->{'die_on_end'} = $state;
 }
 ###########################################################################
-sub xml { return $_[0]->{'xml'}; }
+sub xml 
+{ 
+    return $_[0]->{'xml'}; 
+}
 ###########################################################################
-sub dots { print '.' x ($wchar - length($_[0]->{'last_test_name'}) - 8) }
+sub dots 
+{ 
+    print '.' x ($wchar - length($_[0]->{'last_test_name'}) - 8) 
+}
 ###########################################################################
-sub DESTROY {
+sub slurp_file 
+{
+    my $self = shift;
+    my $filename = shift;
+    my $out;
+
+    if (not open(SF, $filename)) {
+	print STDERR "\n\n$0: failed to open $filename: $!\n";
+	exit 1 if $self->{'die_on_fail'};
+    }
+
+    my $save = $/; $/=undef; $out = <SF>; $/=$save;
+    close SF;
+
+    return $out;
+}
+###########################################################################
+sub DESTROY 
+{
     my $self = shift;
 
     if ($self->xml) {

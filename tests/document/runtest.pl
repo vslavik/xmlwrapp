@@ -44,119 +44,25 @@ sub runtests {
     my $good_result;
 
     ###########################################################################
-    $test->start("iteration test_document-01");
-    $actual_result = `./test_document-01 data/01.xml 2>&1`;
-
-    if ($? != 0) {
-	$test->fail("test process returned $?");
-    } else {
-	$good_result = slurp_file("data/01.out");
-
-	if ($actual_result ne $good_result) {
-	    $test->fail('output did not match expected value');
-	} else {
-	    $test->pass();
-	}
-    }
+    $test->regression("iteration (01)", "./test_document-01 data/01.xml", "data/01.out");
     ###########################################################################
     foreach (qw(02 03 04 05 06 07 08)) {
-	$test->start("constructors test_document-$_");
-	$actual_result = `./test_document-$_ 2>&1`;
-
-	if ($? != 0) {
-	    $test->fail("test process returned $?");
-	} else {
-	    $good_result = slurp_file("data/$_.out");
-
-	    if ($actual_result ne $good_result) {
-		$test->fail('output did not match expected value');
-	    } else {
-		$test->pass();
-	    }
-	}
+	$test->regression("constructors ($_)", "./test_document-$_", "data/$_.out");
     }
     ###########################################################################
     foreach (qw(09 10)) {
-	$test->start("version test_document-$_");
-	$actual_result = `./test_document-$_ data/$_.xml 2>&1`;
-
-	if ($? != 0) {
-	    $test->fail("test process returned $?");
-	} else {
-	    $good_result = slurp_file("data/$_.out");
-
-	    if ($actual_result ne $good_result) {
-		$test->fail('output did not match expected value');
-	    } else {
-		$test->pass();
-	    }
-	}
+	$test->regression("version ($_)", "./test_document-$_ data/$_.xml", "data/$_.out");
     }
     ###########################################################################
     foreach (qw(11 12)) {
-	$test->start("encoding test_document-$_");
-	$actual_result = `./test_document-$_ data/$_.xml 2>&1`;
-
-	if ($? != 0) {
-	    $test->fail("test process returned $?");
-	} else {
-	    $good_result = slurp_file("data/$_.out");
-
-	    if ($actual_result ne $good_result) {
-		$test->fail('output did not match expected value');
-	    } else {
-		$test->pass();
-	    }
-	}
+	$test->regression("encoding ($_)", "./test_document-$_ data/$_.xml", "data/$_.out");
     }
     ###########################################################################
     foreach (qw(a b)) {
-	$test->start("standalone test_document-13$_");
-	$actual_result = `./test_document-13 data/13$_.xml 2>&1`;
-
-	if ($? != 0) {
-	    $test->fail("test process returned $?");
-	} else {
-	    $good_result = slurp_file("data/13$_.out");
-
-	    if ($actual_result ne $good_result) {
-		$test->fail('output did not match expected value');
-	    } else {
-		$test->pass();
-	    }
-	}
+	$test->regression("standalone (13$_)", "./test_document-13 data/13$_.xml", "data/13$_.out");
     }
     ###########################################################################
-    $test->start("xinclusion test_document-14");
-    $actual_result = `./test_document-14 data/14.xml 2>&1`;
-
-    if ($? != 0) {
-	$test->fail("test process returned $?");
-    } else {
-	$good_result = slurp_file("data/14.out");
-
-	if ($actual_result ne $good_result) {
-	    $test->fail('output did not match expected value');
-	} else {
-	    $test->pass();
-	}
-    }
+    $test->regression("xinclusion (14)", "./test_document-14 data/14.xml", "data/14.out");
     ###########################################################################
-}
-###########################################################################
-sub slurp_file {
-    my $filename = shift;
-    my $out;
-
-
-    if (not open(SF, $filename)) {
-	print STDERR "\n\n$0: failed to open $filename: $!\n";
-	exit 1;
-    }
-
-    my $save = $/; $/=undef; $out = <SF>; $/=$save;
-    close SF;
-
-    return $out;
 }
 ###########################################################################

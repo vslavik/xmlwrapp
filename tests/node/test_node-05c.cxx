@@ -31,7 +31,7 @@
  */
 
 /*
- * This test checks xml::node::replace
+ * This test checks xml::node::insert
  */
 
 #include <xmlwrapp/xmlwrapp.h>
