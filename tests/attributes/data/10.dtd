@@ -1,0 +1,2 @@
+<!ELEMENT example (#PCDATA)>
+<!ATTLIST example optional (foo) #IMPLIED>
