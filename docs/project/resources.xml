@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<resources 
+    xmlns="http://pmade.org/xmlns/project-resources"
+    xmlns:format="http://pmade.org/xmlns/project-formating"
+    xmlns:l="http://pmade.org/xmlns/project-linking" >
+
+    <section title="Mailing Lists">
+	<item title="Announcements" link="http://pmade.org/mailman/listinfo/xmlwrapp-announce">
+	    Very quiet, mostly release announcements. [<l:ulink href="http://pmade.org/pipermail/xmlwrapp-announce/">archive</l:ulink>]
+	</item>
+
+	<item title="Users and Developers" link="http://pmade.org/mailman/listinfo/xmlwrapp-users">
+	    Questions, comments, stories? This is the place. [<l:ulink href="http://pmade.org/pipermail/xmlwrapp-users/">archive</l:ulink>]
+	</item>
+    </section>
+
+    <section title="Documentation">
+	<item title="Developers Manual" link="download/documentation/manual/sep-html/">
+	    Online HTML version of the Developers Manual
+	</item>
+
+	<item title="Developers Manual" link="download/documentation/manual/manual.html">
+	    Online HTML version of the Developers Manual (everything in one file)
+	</item>
+
+	<item title="Developers Manual" link="download/documentation/manual/manual.pdf">
+	    PDF version of the Developers Manual
+	</item>
+
+	<item title="Online API Reference" link="download/documentation/doxygen/annotated.html">
+	    Doxygen generated API documentation
+	</item>
+
+	<item title="Download API Reference" link="download/documentation/xmlwrapp-api.tar.gz">
+	    Tarball with doxygen generated API documentation
+	</item>
+    </section>
+
+    <section title="Examples">
+	<item title="Tree Parsing" link="http://cvs.pmade.org/view/xmlwrapp/examples/01-tree_parsing/example.cxx?rev=HEAD&amp;content-type=text/vnd.viewcvs-markup">
+	    This example shows how to use the tree parsing API.
+	</item>
+
+	<item title="Event Parsing" link="http://cvs.pmade.org/view/xmlwrapp/examples/02-event_parsing/example.cxx?rev=HEAD&amp;content-type=text/vnd.viewcvs-markup">
+	    Another example, this time using the event parsing API.
+	</item>
+
+	<item title="Generating XML" link="http://cvs.pmade.org/view/xmlwrapp/examples/03-xml_generation/example.cxx?rev=HEAD&amp;content-type=text/vnd.viewcvs-markup">
+	    An example showing how to use the node API to build and safe a XML tree.
+	</item>
+
+	<item title="Extensible Stylesheet Language Transformations" link="http://cvs.pmade.org/view/xmlwrapp/examples/04-xslt/example.cxx?rev=HEAD&amp;content-type=text/vnd.viewcvs-markup">
+	    This example shows how to use xsltwrapp to load and apply XSLT stylesheets.
+	</item>
+    </section>
+
+    <section title="Anonymous CVS Access">
+	<anoncvs/>
+    </section>
+
+    <section title="Similar Projects">
+	<item title="GMetaDOM" link="http://gmetadom.sourceforge.net/">
+	    A collection of librares, each library providing a DOM implementation
+	</item>
+
+	<item title="libxml++" link="http://sourceforge.net/projects/libxmlplusplus/">
+	    Another C++ wrapper around libxml2, using a different interface style
+	</item>
+
+	<item title="Xerces-C++" link="http://xml.apache.org/xerces-c/">
+	    A huge and complex XML parser from the Apache Software Foundation
+	</item>
+    </section>
+</resources>

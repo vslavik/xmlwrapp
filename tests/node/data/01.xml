@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<root>
+  <count>one</count>
+  <count>two</count>
+  <outter>
+    <inner/>
+  </outter>
+</root>

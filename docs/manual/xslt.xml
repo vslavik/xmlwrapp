@@ -1,0 +1,78 @@
+<chapter id="xslt"><title>Using the XSLT Support</title>
+    <!--=================================================================================-->
+    <para>
+	Starting with version 0.4.0, xmlwrapp supports XSLT using the <ulink url="http://xmlsoft.org/XSLT/">libxslt</ulink> XSLT
+	library. If <filename>configure.pl</filename> detects that you have libxslt installed, it will enable the creation of a
+	library called <constant>xsltwrapp</constant>.
+    </para>
+
+    <para>
+	The two main classes that you should care about are <classname>xslt::init</classname> and
+	<classname>xslt::stylesheet</classname>. There is also a general header file that will bring in all of xsltwrapp and
+	xmlwrapp called <filename>xsltwrapp/xsltwrapp.h</filename>.
+    </para>
+    <!--=================================================================================-->
+    <section id="xslt-init"><title>Preparing to use xsltwrapp</title>
+	<para>
+	    Before you use any part of xsltwrapp or xmlwrapp, you should create an instance of the
+	    <classname>xslt::init</classname> class. This class will initialize xmlwrapp and xsltwrapp, so you should not use the
+	    <classname>xml::init</classname> class if you are using the <classname>xslt::init</classname> class.
+	</para>
+    </section>
+    <!--=================================================================================-->
+    <section id="xslt-stylesheet"><title>The xslt::stylesheet Class</title>
+	<para>
+	    The <classname>xslt::stylesheet</classname> class can be used to parse an XSLT stylesheet and apply it to another XML
+	    document to produce a results document. You can have the <classname>xslt::stylesheet</classname> class parse a XSLT
+	    file, or you can give it an <classname>xml::document</classname> object that contains the stylesheet tree.
+	</para>
+
+	<para>
+	    Once you have created an <classname>xslt::stylesheet</classname> object, you can apply the loaded stylesheet to any
+	    <classname>xml::document</classname> object. The resulting document is also returned in an
+	    <classname>xml::document</classname> object.
+	</para>
+    </section>
+    <!--=================================================================================-->
+    <section id="xslt-apply-ne"><title>Applying the Stylesheet without Exceptions</title>
+	<para>
+	    If you don't want xsltwrapp to throw an exception for transformation errors, you can use one of the two
+	    <function>apply</function> member functions that take a reference to an <classname>xml::document</classname> object
+	    where the results should be placed. These functions return a <constant>bool</constant> to indicate if the
+	    transformation was successful or not.
+	</para>
+
+	<para>
+	    These functions have the following prototypes.
+	</para>
+
+	<screen>
+<![CDATA[
+bool xslt::stylesheet::apply (xml::document &doc, xml::document &result);
+bool xslt::stylesheet::apply (xml::document &doc, xml::document &result, const param_type &with_params);
+]]>
+	</screen>
+    </section>
+    <!--=================================================================================-->
+    <section id="xslt-apply-we"><title>Applying the Stylesheet with the Possibility of Exceptions</title>
+	<para>
+	    You can have xsltwrapp throw an exception (<classname>std::runtime_error</classname>) if the transformation fails. This
+	    is done using the two versions of the <function>apply</function> member function that return the resulting document.
+	    They return a reference to the results document, when the transformation was successful.
+	</para>
+
+	<para>
+	    These functions have the following prototypes.
+	</para>
+	<screen>
+<![CDATA[
+xml::document& xslt::stylesheet::apply (xml::document &doc);
+xml::document& xslt::stylesheet::apply (xml::document &doc, const param_type &with_params);
+]]>
+	</screen>
+    </section>
+    <!--=================================================================================-->
+</chapter>
+<!--
+    vim:ft=docbk:tw=130
+-->

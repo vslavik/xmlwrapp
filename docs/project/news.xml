@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<news xmlns="http://pmade.org/xmlns/project-news" xmlns:l="http://pmade.org/xmlns/project-linking">
+    <entry title="Version 0.4.2 Released" year="2003" month="06" day="20">
+	<para>
+	    Version 0.4.2, a maintenance release, is available.
+	    See the <l:ulink href="download/documentation/manual/sep-html/changelog.html">change log</l:ulink>
+	    for more information.
+	</para>
+    </entry>
+    
+    <entry title="Version 0.4.1 Released" year="2003" month="04" day="07">
+	<para>
+	    Version 0.4.1 is out. This version fixes a few small bugs and
+	    adds some new features. Read the
+	    <l:ulink href="download/documentation/manual/sep-html/changelog.html">change log</l:ulink>
+	    for more information.
+	</para>
+    </entry>
+    <entry title="Version 0.4.0 Released" year="2003" month="02" day="03">
+	<para>
+	    Version 0.4.0 is out. This version adds support for XSLT.
+	</para>
+    </entry>
+
+    <entry title="Version 0.3.0 Has Been Released" year="2003" month="01" day="07">
+	<para>
+	    Version 0.3.0 is out, and with it comes a lot of new features.
+	    Read the
+	    <l:ulink href="download/documentation/manual/sep-html/changelog.html">change log</l:ulink>
+	    and <l:ulink href="download.html">download</l:ulink> the source!
+	</para>
+    </entry>
+
+    <entry title="Bug fix release 0.2.2 is out" year="2002" month="09" day="03">
+	<para>
+	    Version 0.2.2 is out. It contains a major bug fix in
+	    xml::tree_parser.
+	</para>
+    </entry>
+
+    <entry title="Bug fix release 0.2.1 is out" year="2002" month="06" day="26">
+	<para>
+	    Version 0.2.1 is out. It contains a few bug fixes. It also has a
+	    new Win32 MSVC 6 project file.
+	</para>
+    </entry>
+    
+    <entry title="First public version of xmlwrapp is out!" year="2002" month="05" day="06">
+	<para>
+	    Unlike version 0.1.0 of xmlwrapp, version 0.2.0 is a stand-alone
+	    version ready for public consumption. This version now includes
+	    a developers manual and example applications.
+	</para>
+    </entry>
+
+    <entry title="xmlwrapp version 0.1.0 is out!" year="2002" month="04" day="11">
+	<para>
+	    The first release of xmlwrapp is out. This version was released
+	    to support version 0.5.0 of
+	    <l:ulink href="http://pmade.org/software/clo++/">clo++</l:ulink>.
+	</para>
+    </entry>
+
+    <entry title="xmlwrapp gets a web site" year="2002" month="02" day="28">
+	<para>
+	    xmlwrapp gets a home on the web.
+	</para>
+    </entry>
+</news>

@@ -1,0 +1,4 @@
+<!DOCTYPE root SYSTEM "06c.dtd" [
+<!ENTITY myname "Peter Jones">
+]>
+<root>&myname;</root>

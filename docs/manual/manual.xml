@@ -1,0 +1,106 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<book id="index" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <bookinfo>
+	<title>Working with XML using xmlwrapp</title>
+	<subtitle>A C++ Developers Guide</subtitle>
+
+	<authorgroup>
+	    <author>
+		<firstname>Peter</firstname>
+		<surname>Jones</surname>
+		<affiliation>
+		    <address>
+			<email>pjones@pmade.org</email>
+		    </address>
+		</affiliation>
+	    </author>
+	</authorgroup>
+
+	<copyright>
+	    <year>2001</year>
+	    <year>2002</year>
+	    <year>2003</year>
+	    <holder>Peter Jones (http://pmade.org/pjones/)</holder>
+	</copyright>
+
+	<legalnotice>
+	    <para>
+		Redistribution and use in source (SGML DocBook) and 'compiled'
+		forms (SGML, HTML, PDF, PostScript, RTF and so forth) with or
+		without modification, are permitted provided that the following
+		conditions are met:
+	    </para>
+
+	    <orderedlist>
+		<listitem>
+		    <para>
+			Redistributions of source code (SGML DocBook) must retain
+			the above copyright notice, this list of conditions and the
+			following disclaimer as the first lines of this file
+			unmodified.
+		    </para>
+		</listitem>
+
+		<listitem>
+		    <para>
+			Redistributions in compiled form (transformed to other DTDs,
+			converted to PDF, PostScript, RTF and other formats) must
+			reproduce the above copyright notice, this list of
+			conditions and the following disclaimer in the documentation
+			and/or other materials provided with the distribution.
+		    </para>
+		</listitem>
+	    </orderedlist>
+
+	    <important>
+		<para>
+		    THIS DOCUMENTATION IS PROVIDED BY THE AUTHOR "AS IS"
+		    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
+		    NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+		    MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+		    DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+		    ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+		    CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+		    PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF
+		    USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+		    CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+		    CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+		    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+		    USE OF THIS DOCUMENTATION, EVEN IF ADVISED OF THE
+		    POSSIBILITY OF SUCH DAMAGE.
+		</para>
+	    </important>
+	</legalnotice>
+	<abstract>
+	    <para>
+		This book provides a guide to working with XML data
+		using C++ and the xmlwrapp library. It covers everything
+		that will need to know to get started working with xmlwrapp.
+		After reading this book, you should not have any trouble
+		reading the xmlwrapp header files or using the xmlwrapp
+		reference documents.
+	    </para>
+
+	    <para>
+		The latest version of this book can be found at
+		<ulink url="http://pmade.org/software/xmlwrapp/">http://pmade.org/software/xmlwrapp/</ulink>.
+	    </para>
+	</abstract>
+    </bookinfo>
+
+    <xi:include href="intro.xml"/>
+    <xi:include href="quickstart.xml"/>
+    <xi:include href="prepare.xml"/>
+    <xi:include href="parsing.xml"/>
+    <xi:include href="documents.xml"/>
+    <xi:include href="node.xml"/>
+    <xi:include href="attributes.xml"/>
+    <xi:include href="xslt.xml"/>
+    <xi:include href="whatnext.xml"/>
+    <xi:include href="tips.xml"/>
+    <xi:include href="license.xml"/>
+    <xi:include href="bundling.xml"/>
+    <xi:include href="changelog.xml"/>
+    <xi:include href="todo.xml"/>
+    <xi:include href="credits.xml"/>
+</book>

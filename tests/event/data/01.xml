@@ -1,0 +1,13 @@
+<root>
+<!-- just under root -->
+    <one>
+	<one_dot_one this="that"/>
+    </one>
+
+    <two>
+	<two_dot_one>
+	    <two_dot_two><![CDATA[inside two_dot_two]]></two_dot_two>
+	</two_dot_one>
+    </two>
+<?someapp just above /root?>
+</root>

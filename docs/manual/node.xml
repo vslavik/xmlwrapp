@@ -1,0 +1,338 @@
+<chapter id="node"><title>XML Nodes</title>
+    <!--=================================================================================-->
+    <section id="node-types"><title>Node Types</title>
+	<para>
+	    As I mentioned earlier, almost everything in an XML document is a node. The first thing that you probably think of
+	    is the XML element, but XML elements are just one type of XML node.
+	</para>
+
+	<para>
+	    Processing instructions, XML comments and even the whitespace around XML elements are nodes. When working with the
+	    <classname>xml::node</classname> class, you are going to want to know what type of node you have. The
+	    <function>get_type</function> member function is what you should use.
+	</para>
+
+	<para>
+	    The <filename>xmlwrapp/node.h</filename> header file defines the node types as an <constant>enum</constant>. Using
+	    that <constant>enum</constant> and the <function>get_type</function> member function, you can discover what a node is
+	    holding.
+	</para>
+    </section>
+    <!--=================================================================================-->
+    <section id="node-name"><title>The Node Name</title>
+	<para>
+	    All xmlwrapp nodes have name data, but it might not be what you expect. The definition for a node's name is different
+	    for each type of node. For example, an element node's name is the tag name, but the name for a text node is a string
+	    constant, <quote>text</quote>.
+	</para>
+
+	<para>
+	    The <function>xml::node::get_name</function> function returns the name of the node. You probably guessed that
+	    <function>xml::node::set_name</function> will set the name of a node. The following table lists the most common node
+	    types and what they store in their name data.
+	</para>
+
+	<table><title>Nodes and Their Names</title>
+	    <tgroup cols="2">
+		<thead>
+		    <row>
+			<entry align="center">Node Type</entry>
+			<entry align="center">What <function>get_name</function> Returns</entry>
+		    </row>
+		</thead>
+
+		<tbody>
+		    <row>
+			<entry>Element Node (<constant>type_element</constant>)</entry>
+			<entry>The name of the tag, for example, <quote>root</quote> for <constant><![CDATA[<root/>]]></constant>.</entry>
+		    </row>
+
+		    <row>
+			<entry>Text Node (<constant>type_text</constant>)</entry>
+			<entry>The string constant <quote>text</quote>.</entry>
+		    </row>
+
+		    <row>
+			<entry>CDATA Node (<constant>type_cdata</constant>)</entry>
+			<entry>Null (zero) pointer.</entry>
+		    </row>
+
+		    <row>
+			<entry>Processing Instruction Node (<constant>type_pi</constant>)</entry>
+			<entry>The processing instruction application name.</entry>
+		    </row>
+
+		    <row>
+			<entry>Comment Node (<constant>type_comment</constant>)</entry>
+			<entry>The string constant <quote>comment</quote>.</entry>
+		    </row>
+		</tbody>
+	    </tgroup>
+	</table>
+
+	<note>
+	    <para>
+		You should be prepared to handle the case where <function>get_name</function> returns a null (zero) pointer.
+	    </para>
+	</note>
+    </section>
+    <!--=================================================================================-->
+    <section id="node-contents"><title>The Node Contents</title>
+	<para>
+	    Very much like a node's name data, its contents vary depending on what type of node it is. For text nodes and CDATA
+	    nodes, the node's contents are the text data inside the node or CDATA block. The
+	    <function>xml::node::get_content</function> function is used to get the node's content.
+	</para>
+
+	<para>
+	    You should be aware of some magic that this function does. If you call it on an element node, which has no content by
+	    the way, it will try to return the content of its children text nodes, if it has any. An example should clarify
+	    things.
+	</para>
+
+	<example id="node-contents-element-ex"><title>Element Nodes and Their Content</title>
+	    <screen>
+<![CDATA[
+<list>
+    <entry>Pick up a Sun Enterprise 10000 while you are out shopping.</entry>
+</list>
+]]>
+	    </screen>
+	</example>
+	
+	<para>
+	    Here, the <constant>entry</constant> node does not contain any contents because it is an element node. It does,
+	    however, contain a child node that is a text node. Calling the <function>get_content</function> function on that child
+	    text node should return <quote>Pick up a Sun Enterprise 10000 while you are out shopping.</quote>. What you might not
+	    expect is that calling the <function>get_content</function> function on the <constant>entry</constant> node returns
+	    the same string! Very cool if you ask me.
+	</para>
+
+	<para>
+	    To be complete, here is a table that explains what the <function>get_content</function> function returns for the
+	    common node types.
+	</para>
+
+	<table><title>Nodes and Their Contents</title>
+	    <tgroup cols="2">
+		<thead>
+		    <row>
+			<entry align="center">Node Type</entry>
+			<entry align="center">What <function>get_content</function> Returns</entry>
+		    </row>
+		</thead>
+
+		<tbody>
+		    <row>
+			<entry>Element Node (<constant>type_element</constant>)</entry>
+			<entry>The contents of its children nodes.</entry>
+		    </row>
+
+		    <row>
+			<entry>Text Node (<constant>type_text</constant>)</entry>
+			<entry>The text.</entry>
+		    </row>
+
+		    <row>
+			<entry>CDATA Node (<constant>type_cdata</constant>)</entry>
+			<entry>The text inside the CDATA block.</entry>
+		    </row>
+
+		    <row>
+			<entry>Processing Instruction Node (<constant>type_pi</constant>)</entry>
+			<entry>The processing instruction data.</entry>
+		    </row>
+
+		    <row>
+			<entry>Comment Node (<constant>type_comment</constant>)</entry>
+			<entry>The comment text.</entry>
+		    </row>
+		</tbody>
+	    </tgroup>
+	</table>
+
+	<note>
+	    <para>
+		You should be prepared to handle the case where the <function>get_content</function> function returns a null
+		(zero) pointer.
+	    </para>
+	</note>
+
+	<para>
+	    The function for setting the node's content is <function>xml::node::set_content</function>. This function performs the
+	    same magic that the <function>get_content</function> function does. That is, if you call it on an element node, it
+	    will remove all of the node's children and replace them with a text node.
+	</para>
+    </section>
+    <!--=================================================================================-->
+    <section id="node-children"><title>Accessing a Node's Children</title>
+	<!--=================================================================================-->
+	<para>
+	    From what we have seen in the past few sections, XML nodes can have children. Almost all node types can have children.
+	    In order to make effective use of a node tree, you are going to want to access the children of a node. In xmlwrapp,
+	    this is done with iterators.
+	</para>
+
+	<para>
+	    Using iterators you can walk the node tree, add nodes, remove nodes and even replace nodes. xmlwrapp iterators are
+	    just as useful as the standard library iterators.
+	</para>
+	<!--=================================================================================-->
+	<section id="node-children-begin"><title>Begin and End Iterators</title>
+	    <para>
+		Just like the standard containers, the <classname>xml::node</classname> class has <function>begin</function> and
+		<function>end</function> member functions that return either a <classname>xml::node::iterator</classname> or a
+		<classname>xml::node::const_iterator</classname>. They are very useful for working with the children of a
+		<classname>xml::node</classname>, which are <classname>xml::node</classname>s themselves.
+	    </para>
+
+	    <example id="node-children-begin-ex"><title>Using Begin and End Iterators</title>
+		<screen>
+<![CDATA[
+xml::node n;
+
+...
+
+xml::node::iterator i(n.begin());
+xml::node::iterator end(n.end());
+
+for (; i != end; ++i) {
+    // do something with this child
+}
+]]>
+		</screen>
+	    </example>
+	</section>
+	<!--=================================================================================-->
+	<section id="node-children-find"><title>Finding Children Nodes</title>
+	    <para>
+		You can use the <function>xml::node::find</function> member function to find an element node by its name. There
+		are four different version of the <function>find</function> function. All of them return a
+		<classname>xml::node::iterator</classname> or a <classname>xml::node::const_iterator</classname> that either
+		points to the found element node, or is equal to the iterator that <function>xml::node::end</function> returns.
+	    </para>
+
+	    <example id="node-children-find-ex"><title>Using Find</title>
+		<screen>
+<![CDATA[
+xml::node n;
+
+...
+
+xml::node::iterator i(n.find("entry"));
+
+if (i != n.end()) {
+    // do something with the found node
+}
+]]>
+		</screen>
+	    </example>
+	</section>
+	<!--=================================================================================-->
+    </section>
+    <!--=================================================================================-->
+    <section id="node-add"><title>Adding Children</title>
+	<para>
+	    There are two ways of adding a child to a <classname>xml::node</classname>. Which one you chose depends mostly on your
+	    style. The two member functions that allow you to do this are <function>xml::node::push_back</function> and
+	    <function>xml::node::insert</function>.
+	</para>
+
+	<!--=================================================================================-->
+	<section id="node-add-pushback"><title>Using push_back</title>
+	    <para>
+		The <function>xml::node::push_back</function> member function takes a const reference to a
+		<classname>xml::node</classname>. It will copy that node and then insert it as the last child.
+	    </para>
+
+	    <example id="node-add-pushback-ex"><title>push_back example</title>
+		<screen>
+<![CDATA[
+xml::node parent("parent");
+xml::node child("child");
+
+parent.push_back(child);
+]]>
+		</screen>
+	    </example>
+
+	    <note>
+		<para>
+		    The <function>xml::node::push_back</function> function is just like the <function>push_back</function>
+		    function for the standard library containers. You should be aware that it inserts a copy of the given node, and
+		    not the node itself.
+		</para>
+
+		<para>
+		    In the example above, if you modified the <constant>child</constant> node after it was inserted into the
+		    <constant>parent</constant> node, those modifications will not be reflected in the
+		    <constant>parent</constant> node's copy of <constant>child</constant>.
+		</para>
+
+		<para>
+		    See the next section for a better way of adding child nodes when you want to modify them after adding them to
+		    another node.
+		</para>
+	    </note>
+	</section>
+	<!--=================================================================================-->
+	<section id="node-add-insert"><title>Using insert</title>
+	    <para>
+		The <function>xml::node::insert</function> function is a lot more flexible compared to the
+		<function>xml::node::push_back</function> function. For starters, you can insert a node anywhere in the list of
+		children. This means you can add the node to the back or even the front of the child list.
+	    </para>
+
+	    <para>
+		More importantly, <function>xml::node::insert</function> returns a <classname>xml::node::iterator</classname> that
+		points to the copy of the node that was inserted. This means that you can modify the new child after it has been
+		inserted into the parent.
+	    </para>
+
+	    <example id="node-add-insert-ex"><title>insert example</title>
+		<screen>
+<![CDATA[
+xml::node parent("parent");
+xml::node child("child");
+
+xml::node::iterator i(parent.insert(parent.begin(), child);
+
+i->set_name("kid");
+]]>
+		</screen>
+	    </example>
+	</section>
+	<!--=================================================================================-->
+    </section>
+    <!--=================================================================================-->
+    <section id="node-remove"><title>Removing and Replacing Children</title>
+	<para>
+	    Using iterators, it is possible to remove children and to replace them with other nodes. To remove a child node, you
+	    first need a <classname>xml::node::iterator</classname> that points to it, then you can call
+	    <function>xml::node::erase</function>.
+	</para>
+
+	<para>
+	    The <function>xml::node::erase</function> function will return a <classname>xml::node::iterator</classname> that
+	    points to the node after the one being removed. This should help you if you are iterating over all the children and
+	    wanted to remove one without losing your place.
+	</para>
+
+	<para>
+	    To replace a node for which you have an iterator, you can use the <function>xml::node::replace</function> function. It
+	    will remove and clean up the old node, and insert the new node in its place.
+	</para>
+    </section>
+    <!--=================================================================================-->
+    <section id="node-attr"><title>Accessing Node Attributes</title>
+	<para>
+	    In addition to possibly having children, an element node may have attributes. In xmlwrapp, these attributes are stored
+	    in a <classname>xml::attributes</classname> class. You can use the <function>xml::node::get_attributes</function>
+	    function to get a reference to a node's <classname>xml::attributes</classname> object.
+	</para>
+    </section>
+    <!--=================================================================================-->
+</chapter>
+<!--
+vim:ft=docbk:tw=130
+-->

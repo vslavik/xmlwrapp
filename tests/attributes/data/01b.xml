@@ -1,0 +1,1 @@
+<root xmlns:test="http://pmade.org/namespace/test" a="a" test:a="ta" b="b" test:b="tb"/>
