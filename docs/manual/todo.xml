@@ -13,16 +13,21 @@
 		    Allow some way to get and set the namespace for node attributes.
 		</para>
 	    </listitem>
-	    <listitem>
-		<para>
-		    Add a new xml::xpath class for doing xpath.select(query).
-		</para>
-	    </listitem>
 
 	    <listitem>
 		<para>
 		    Add more standard container like member functions to xml::document, xml::node
 		    and xml::attributes.
+		</para>
+	    </listitem>
+	</itemizedlist>
+    </section>
+    <!--===================================================================-->
+    <section><title>Version 0.6.0</title>
+	<itemizedlist>
+	    <listitem>
+		<para>
+		    Add a new xml::xpath class for doing xpath.select(query).
 		</para>
 	    </listitem>
 	</itemizedlist>

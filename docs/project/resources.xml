@@ -5,13 +5,15 @@
     xmlns:l="http://pmade.org/xmlns/project-linking" >
 
     <section title="Mailing Lists">
-	<item title="Announcements" link="http://pmade.org/mailman/listinfo/xmlwrapp-announce">
-	    Very quiet, mostly release announcements. [<l:ulink href="http://pmade.org/pipermail/xmlwrapp-announce/">archive</l:ulink>]
-	</item>
+	<mlists>
+	    <list title="Announcements" name="xmlwrapp-announce">
+		Very quiet, mostly release announcements.
+	    </list>
 
-	<item title="Users and Developers" link="http://pmade.org/mailman/listinfo/xmlwrapp-users">
-	    Questions, comments, stories? This is the place. [<l:ulink href="http://pmade.org/pipermail/xmlwrapp-users/">archive</l:ulink>]
-	</item>
+	    <list title="Users and Developers" name="xmlwrapp-users">
+		Questions, comments, stories? This is the place.
+	    </list>
+	</mlists>
     </section>
 
     <section title="Documentation">
@@ -37,19 +39,19 @@
     </section>
 
     <section title="Examples">
-	<item title="Tree Parsing" link="http://cvs.pmade.org/view/xmlwrapp/examples/01-tree_parsing/example.cxx?rev=HEAD&amp;content-type=text/vnd.viewcvs-markup">
+	<item title="Tree Parsing" link="CVS/xmlwrapp/examples/01-tree_parsing/example.cxx">
 	    This example shows how to use the tree parsing API.
 	</item>
 
-	<item title="Event Parsing" link="http://cvs.pmade.org/view/xmlwrapp/examples/02-event_parsing/example.cxx?rev=HEAD&amp;content-type=text/vnd.viewcvs-markup">
+	<item title="Event Parsing" link="CVS/xmlwrapp/examples/02-event_parsing/example.cxx">
 	    Another example, this time using the event parsing API.
 	</item>
 
-	<item title="Generating XML" link="http://cvs.pmade.org/view/xmlwrapp/examples/03-xml_generation/example.cxx?rev=HEAD&amp;content-type=text/vnd.viewcvs-markup">
+	<item title="Generating XML" link="CVS/xmlwrapp/examples/03-xml_generation/example.cxx">
 	    An example showing how to use the node API to build and safe a XML tree.
 	</item>
 
-	<item title="Extensible Stylesheet Language Transformations" link="http://cvs.pmade.org/view/xmlwrapp/examples/04-xslt/example.cxx?rev=HEAD&amp;content-type=text/vnd.viewcvs-markup">
+	<item title="Extensible Stylesheet Language Transformations" link="CVS/xmlwrapp/examples/04-xslt/example.cxx">
 	    This example shows how to use xsltwrapp to load and apply XSLT stylesheets.
 	</item>
     </section>

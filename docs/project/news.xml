@@ -1,5 +1,15 @@
 <?xml version="1.0"?>
-<news xmlns="http://pmade.org/xmlns/project-news" xmlns:l="http://pmade.org/xmlns/project-linking">
+<news xmlns="http://pmade.org/xmlns/project-news" xmlns:l="http://pmade.org/xmlns/project-linking" xmlns:f="http://pmade.org/xmlns/project-formating">
+    <entry title="Back From Drive Failure" year="2003" month="08" day="08">
+	<para>
+	    <f:bold color="red">
+		This site had a major drive failure with data loss. Please
+		<l:ulink href="/disk-failure.html">read this notice</l:ulink> for
+		more information and instructions for users.
+	    </f:bold>
+	</para>
+    </entry>
+
     <entry title="Version 0.4.2 Released" year="2003" month="06" day="20">
 	<para>
 	    Version 0.4.2, a maintenance release, is available.
