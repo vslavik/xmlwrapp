@@ -6,6 +6,13 @@
 	<itemizedlist>
 	    <listitem>
 		<para>
+		    Fixed a null pointer dereference problem in xml::attributes, Bug ID 20. Thanks
+		    goes to John K. Hohm for finding this and providing a working patch.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
 		    Major clean ups in the test harness. Test code should be a lot easier to write
 		    now.
 		</para>
