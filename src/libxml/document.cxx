@@ -283,15 +283,23 @@ void xml::document::save_to_string (std::string &s) const {
     if (xml_string_length) s.assign(helper.get(), xml_string_length);
 }
 //####################################################################
-bool xml::document::save_to_file (const char *filename) const {
+bool xml::document::save_to_file (const char *filename, int compression_level) const {
+    std::swap(pimpl_->doc_->compression, compression_level);
+
 #if defined(XMLWRAPP_WITH_XSLT)
     if (pimpl_->from_xslt_ != 0) {
-	return xsltSaveResultToFilename(filename, pimpl_->doc_, static_cast<xsltStylesheetPtr>(pimpl_->from_xslt_), 0) >= 0;
+	bool rc = xsltSaveResultToFilename(filename, pimpl_->doc_, static_cast<xsltStylesheetPtr>(pimpl_->from_xslt_), 0) >= 0;
+	std::swap(pimpl_->doc_->compression, compression_level);
+
+	return rc;
     }
 #endif
 
     const char *enc = pimpl_->encoding_.empty() ? 0 : pimpl_->encoding_.c_str();
-    return xmlSaveFormatFileEnc(filename, pimpl_->doc_, enc, 1) > 0;
+    bool rc = xmlSaveFormatFileEnc(filename, pimpl_->doc_, enc, 1) > 0;
+    std::swap(pimpl_->doc_->compression, compression_level);
+
+    return rc;
 }
 //####################################################################
 void xml::document::set_doc_data (void *data) {

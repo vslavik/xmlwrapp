@@ -384,12 +384,13 @@ public:
      * the given filename.
      *
      * @param filename The name of the file to place the XML text data into.
+     * @param compression_level 0 is no compression, 1-9 allowed, where 1 is for better speed, and 9 is for smaller size
      * @return True if the data was saved successfully.
      * @return False otherwise.
      * @author Peter Jones
     **/
     //####################################################################
-    bool save_to_file (const char *filename) const;
+    bool save_to_file (const char *filename, int compression_level=0) const;
 
     //####################################################################
     /** 

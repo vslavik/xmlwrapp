@@ -30,6 +30,13 @@
 
 	    <listitem>
 		<para>
+		    Added the ability to compress XML files saved with the
+		    <constant>xml::document::save_to_file</constant> member function (Bug ID 19).
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
 		    Major clean ups in the test harness. Test code should be a lot easier to write
 		    now.
 		</para>
