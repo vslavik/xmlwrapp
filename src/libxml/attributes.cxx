@@ -161,7 +161,7 @@ xml::attributes::const_iterator xml::attributes::find (const char *name) const {
 
     xmlAttributePtr dtd_prop = find_default_prop(pimpl_->xmlnode_, name);
 
-    if (dtd_prop != 0 && dtd_attr->defaultValue != 0) {
+    if (dtd_prop != 0 && dtd_prop->defaultValue != 0) {
 	return const_iterator(name, reinterpret_cast<const char*>(dtd_prop->defaultValue), true);
     }
 
