@@ -5,13 +5,15 @@
     xmlns:l="http://pmade.org/xmlns/project-linking" >
 
     <section title="Mailing Lists">
-	<item title="Announcements" link="http://pmade.org/mailman/listinfo/xmlwrapp-announce">
-	    Very quiet, mostly release announcements. [<l:ulink href="http://pmade.org/pipermail/xmlwrapp-announce/">archive</l:ulink>]
-	</item>
+	<mlists>
+	    <list title="Announcements" name="xmlwrapp-announce">
+		Very quiet, mostly release announcements.
+	    </list>
 
-	<item title="Users and Developers" link="http://pmade.org/mailman/listinfo/xmlwrapp-users">
-	    Questions, comments, stories? This is the place. [<l:ulink href="http://pmade.org/pipermail/xmlwrapp-users/">archive</l:ulink>]
-	</item>
+	    <list title="Users and Developers" name="xmlwrapp-users">
+		Questions, comments, stories? This is the place.
+	    </list>
+	</mlists>
     </section>
 
     <section title="Documentation">
