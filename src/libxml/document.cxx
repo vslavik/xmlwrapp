@@ -306,7 +306,7 @@ void xml::document::set_doc_data_from_xslt (void *data, void *ss) {
     pimpl_->from_xslt_ = ss;
 }
 //####################################################################
-void* xml::document::get_doc_data (void) {
+void* xml::document::get_doc_data (void) const {
     return pimpl_->doc_;
 }
 //####################################################################

@@ -3,7 +3,7 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
-Project: "example event parser"=".\example_event_parser.dsp" - Package Owner=<4>
+Project: "example event parser"=.\example_event_parser.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -18,7 +18,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "example tree parser"=".\example_tree_parser.dsp" - Package Owner=<4>
+Project: "example tree parser"=.\example_tree_parser.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -33,7 +33,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "example xml generation"=".\example_xml_generation.dsp" - Package Owner=<4>
+Project: "example xml generation"=.\example_xml_generation.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -48,7 +48,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "xmlwrapp"=".\xmlwrapp.dsp" - Package Owner=<4>
+Project: "xmlwrapp"=.\xmlwrapp.dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -56,6 +56,21 @@ Package=<5>
 
 Package=<4>
 {{{
+}}}
+
+###############################################################################
+
+Project: "xpath_test1"=.\xpath_test1\xpath_test1.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name xmlwrapp
+    End Project Dependency
 }}}
 
 ###############################################################################

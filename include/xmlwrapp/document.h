@@ -46,6 +46,7 @@
 
 // forward declaration
 namespace xslt { class stylesheet; }
+namespace xpath { class xpath_helper; }
 
 namespace xml {
 
@@ -408,11 +409,12 @@ private:
     doc_impl *pimpl_;
     void set_doc_data (void *data);
     void set_doc_data_from_xslt (void *data, void *ss);
-    void* get_doc_data (void);
+    void* get_doc_data (void) const;
     void* release_doc_data (void);
 
     friend class tree_parser;
     friend class xslt::stylesheet;
+  friend class xpath::xpath_helper;
 }; // end xml::document class
 
 } // end xml namespace

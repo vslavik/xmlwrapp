@@ -45,6 +45,10 @@
 #include <iosfwd>
 #include <string>
 
+namespace xpath {
+  class xpath_helper;
+}
+
 namespace xml {
 
 // forward declarations
@@ -652,12 +656,13 @@ public:
 private:
     node_impl *pimpl_;
     void set_node_data (void *data);
-    void* get_node_data (void);
+    void* get_node_data (void) const;
     void* release_node_data (void);
     friend class tree_parser;
     friend class node_iterator;
     friend struct doc_impl;
     friend struct node_cmp;
+    friend class xpath::xpath_helper;
 
     void sort_fo (cbfo_node_compare &fo);
 }; // end xml::node class

@@ -93,6 +93,10 @@ SOURCE=..\..\src\libxml\attributes.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\src\libxml\context.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\src\libxml\document.cxx
 # End Source File
 # Begin Source File
@@ -102,6 +106,10 @@ SOURCE=..\..\src\libxml\dtd_impl.cxx
 # Begin Source File
 
 SOURCE=..\..\src\libxml\event_parser.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\libxml\expression.cxx
 # End Source File
 # Begin Source File
 
@@ -118,6 +126,18 @@ SOURCE=..\..\src\libxml\node_iterator.cxx
 # Begin Source File
 
 SOURCE=..\..\src\libxml\node_iterator.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\libxml\node_ref.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\libxml\node_set_iterator.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\libxml\result.cxx
 # End Source File
 # Begin Source File
 
