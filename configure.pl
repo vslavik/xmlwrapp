@@ -48,7 +48,7 @@ use Cwd qw(cwd chdir);
 #
 ################################################################################
 use constant DATE		=> 'Tue Jan 15 08:56:06 2002';
-use constant ID			=> '$Id: configure.pl,v 1.1.1.1.2.1 2003-08-18 04:23:09 sbeasley Exp $';
+use constant ID			=> '$Id: configure.pl,v 1.1.1.1.2.2 2003-08-20 04:46:44 pjones Exp $';
 ################################################################################
 #
 # Global Variables
@@ -280,12 +280,15 @@ sub load_flags_from_xml_config {
     my $main_include_dir = undef;
     my $xslt_include_dir = undef;
 
+    # add a few standard directories just in case
+    push(@include_dirs, '/usr/include');
+
     foreach my $dir (@include_dirs) {
-	if (-d "$dir${dirsep}libxml") {
+	if (-d "$dir${dirsep}libxml" and not defined $main_include_dir) {
 	    $main_include_dir = $dir;
 	}
 
-	if (-e "$dir${dirsep}libxslt${dirsep}transform.h") {
+	if (-e "$dir${dirsep}libxslt${dirsep}transform.h" and not defined $xslt_include_dir) {
 	    $xslt_include_dir = $dir;
 	}
 

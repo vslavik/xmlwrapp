@@ -10,6 +10,13 @@
 	</para>
     </entry>
 
+    <entry title="Version 0.4.3 Released" year="2003" month="08" day="19">
+	<para>
+	    This release fixes a build problem on Linux and includes an
+	    updated TODO list.
+	</para>
+    </entry>
+
     <entry title="Version 0.4.2 Released" year="2003" month="06" day="20">
 	<para>
 	    Version 0.4.2, a maintenance release, is available.
