@@ -207,6 +207,36 @@ xml::node::node (const char *name, const char *content) {
     ap.release();
 }
 //####################################################################
+xml::node::node (cdata cdata_info) {
+    std::auto_ptr<node_impl> ap(pimpl_ = new node_impl);
+
+    if ( (pimpl_->xmlnode_ = xmlNewCDataBlock(0, reinterpret_cast<const xmlChar*>(cdata_info.t), std::strlen(cdata_info.t))) == 0) {
+	throw std::bad_alloc();
+    }
+
+    ap.release();
+}
+//####################################################################
+xml::node::node (comment comment_info) {
+    std::auto_ptr<node_impl> ap(pimpl_ = new node_impl);
+
+    if ( (pimpl_->xmlnode_ =  xmlNewComment(reinterpret_cast<const xmlChar*>(comment_info.t))) == 0) {
+	throw std::bad_alloc();
+    }
+
+    ap.release();
+}
+//####################################################################
+xml::node::node (pi pi_info) {
+    std::auto_ptr<node_impl> ap(pimpl_ = new node_impl);
+
+    if ( (pimpl_->xmlnode_ = xmlNewPI(reinterpret_cast<const xmlChar*>(pi_info.n), reinterpret_cast<const xmlChar*>(pi_info.c))) == 0) {
+	throw std::bad_alloc();
+    }
+
+    ap.release();
+}
+//####################################################################
 xml::node::node (const node &other) {
     std::auto_ptr<node_impl> ap(pimpl_ = new node_impl);
 

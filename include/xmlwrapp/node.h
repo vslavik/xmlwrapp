@@ -91,6 +91,42 @@ public:
 	type_dtd_namespace	///< ?
     };
 
+    /**
+     * Helper struct for creating a xml::node of type_cdata.
+     *
+     * @code
+     * xml::node mynode(xml::node::cdata("This is a CDATA section"));
+     * @endcode
+     */
+    struct cdata {
+	explicit cdata (const char *text) : t(text) { }
+	const char *t;
+    };
+
+    /**
+     * Helper struct for creating a xml::node of type_comment.
+     *
+     * @code
+     * xml::node mynode(xml::node::comment("This is an XML comment"));
+     * @endcode
+     */
+    struct comment {
+	explicit comment (const char *text) : t(text) { }
+	const char *t;
+    };
+
+    /**
+     * Helper struct for creating a xml::node of type_pi.
+     *
+     * @code
+     * xml::node mynode(xml::node::pi("xslt", "stylesheet=\"test.xsl\""));
+     * @endcode
+     */
+    struct pi {
+	explicit pi (const char *name, const char *content=0) : n(name), c(content) { }
+	const char *n, *c;
+    };
+
     //####################################################################
     /** 
      * Construct a new blank xml::node.
@@ -121,6 +157,55 @@ public:
     **/
     //####################################################################
     node (const char *name, const char *content);
+
+    //####################################################################
+    /** 
+     * Construct a new xml::node that is of type_cdata. The cdata_info
+     * parameter should contain the contents of the CDATA section.
+     *
+     * @note Sample Use Example:
+     * @code 
+     * xml::node mynode(xml::node::cdata("This is a CDATA section"));
+     * @endcode
+     *
+     * @param cdata_info A cdata struct that tells xml::node what the content will be.
+     * @author Peter Jones
+    **/
+    //####################################################################
+    explicit node (cdata cdata_info);
+
+    //####################################################################
+    /** 
+     * Construct a new xml::node that is of type_comment. The comment_info
+     * parameter should contain the contents of the XML comment.
+     *
+     * @note Sample Use Example:
+     * @code
+     * xml::node mynode(xml::node::comment("This is an XML comment"));
+     * @endcode
+     *
+     * @param comment_info A comment struct that tells xml::node what the comment will be.
+     * @author Peter Jones
+    **/
+    //####################################################################
+    explicit node (comment comment_info);
+
+    //####################################################################
+    /** 
+     * Construct a new xml::node that is of type_pi. The pi_info parameter
+     * should contain the name of the XML processing instruction (PI), and
+     * optionally, the contents of the XML PI.
+     *
+     * @note Sample Use Example:
+     * @code
+     * xml::node mynode(xml::node::pi("xslt", "stylesheet=\"test.xsl\""));
+     * @endcode
+     *
+     * @param pi_info A pi struct that tells xml::node what the name and contents of the XML PI are.
+     * @author Peter Jones
+    **/
+    //####################################################################
+    explicit node (pi pi_info);
 
     //####################################################################
     /** 
