@@ -1,5 +1,25 @@
 <appendix id="changelog"><title>Revision History</title>
     <!--################################################################-->
+    <section id="ck-043"><title>Version 0.4.3</title>
+	<subtitle>August 19, 2003</subtitle>
+
+	<itemizedlist>
+	    <listitem>
+		<para>
+		    Fixed a build problem on Linux (bug 10). This happens when libxslt was installed
+		    in /usr. configure.pl could not find libxslt because xslt-config does not list
+		    /usr/include.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Updated the TODO list (<xref linkend="todo"/>).
+		</para>
+	    </listitem>
+	</itemizedlist>
+    </section>
+    <!--################################################################-->
     <section id="ck-042"><title>Version 0.4.2</title>
 	<subtitle>June 20, 2003</subtitle>
 
