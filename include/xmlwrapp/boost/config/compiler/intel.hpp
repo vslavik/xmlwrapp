@@ -10,19 +10,19 @@
 #include "xmlwrapp/boost/config/compiler/common_edg.hpp"
 
 #ifdef __ICL
-#  define BOOST_COMPILER "Intel C++ version " BOOST_STRINGIZE(__ICL)
-#  define BOOST_INTEL_CXX_VERSION __ICL
+#  define XMLWRAPP_BOOST_COMPILER "Intel C++ version " XMLWRAPP_BOOST_STRINGIZE(__ICL)
+#  define XMLWRAPP_BOOST_INTEL_CXX_VERSION __ICL
 #else
-#  define BOOST_COMPILER "Intel C++ version " BOOST_STRINGIZE(__ICC)
-#  define BOOST_INTEL_CXX_VERSION __ICC
+#  define XMLWRAPP_BOOST_COMPILER "Intel C++ version " XMLWRAPP_BOOST_STRINGIZE(__ICC)
+#  define XMLWRAPP_BOOST_INTEL_CXX_VERSION __ICC
 #endif
 
-#if (BOOST_INTEL_CXX_VERSION <= 500) && defined(_MSC_VER)
-#  define BOOST_NO_EXPLICIT_FUNCTION_TEMPLATE_ARGUMENTS
-#  define BOOST_NO_TEMPLATE_TEMPLATES
+#if (XMLWRAPP_BOOST_INTEL_CXX_VERSION <= 500) && defined(_MSC_VER)
+#  define XMLWRAPP_BOOST_NO_EXPLICIT_FUNCTION_TEMPLATE_ARGUMENTS
+#  define XMLWRAPP_BOOST_NO_TEMPLATE_TEMPLATES
 #endif
 
-#if (BOOST_INTEL_CXX_VERSION <= 600) || !defined(BOOST_STRICT_CONFIG)
+#if (XMLWRAPP_BOOST_INTEL_CXX_VERSION <= 600) || !defined(XMLWRAPP_BOOST_STRICT_CONFIG)
 
 #  if defined(_MSC_VER) && (_MSC_VER <= 1300) // added check for <= VC 7 (Peter Dimov)
 
@@ -35,50 +35,50 @@
       // changes at all.  (reported by Kirk Klobe)
       // That can't be right, since it supports template template
       // arguments (reported by Dave Abrahams)
-#     ifndef BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP
-#        define BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP
+#     ifndef XMLWRAPP_BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP
+#        define XMLWRAPP_BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP
 #     endif
-#     define BOOST_NO_SWPRINTF
+#     define XMLWRAPP_BOOST_NO_SWPRINTF
 #  endif
 
 // Void returns, 64 bit integrals don't work when emulating VC 6 (Peter Dimov)
 
 #  if defined(_MSC_VER) && (_MSC_VER <= 1200)
-#     define BOOST_NO_VOID_RETURNS
-#     define BOOST_NO_INTEGRAL_INT64_T
+#     define XMLWRAPP_BOOST_NO_VOID_RETURNS
+#     define XMLWRAPP_BOOST_NO_INTEGRAL_INT64_T
 #  endif
 
 #endif
 
 #if _MSC_VER+0 >= 1000
 #  ifndef _NATIVE_WCHAR_T_DEFINED
-#     define BOOST_NO_INTRINSIC_WCHAR_T
+#     define XMLWRAPP_BOOST_NO_INTRINSIC_WCHAR_T
 #  endif
 #  if _MSC_VER >= 1200
-#     define BOOST_HAS_MS_INT64
+#     define XMLWRAPP_BOOST_HAS_MS_INT64
 #  endif
-#  define BOOST_NO_SWPRINTF
+#  define XMLWRAPP_BOOST_NO_SWPRINTF
 #elif defined(_WIN32)
-#  define BOOST_DISABLE_WIN32
+#  define XMLWRAPP_BOOST_DISABLE_WIN32
 #endif
 
 // I checked version 6.0 build 020312Z, it implements the NRVO.
 // Correct this as you find out which version of the compiler
 // implemented the NRVO first.  (Daniel Frey)
-#if (BOOST_INTEL_CXX_VERSION >= 600)
-#  define BOOST_HAS_NRVO
+#if (XMLWRAPP_BOOST_INTEL_CXX_VERSION >= 600)
+#  define XMLWRAPP_BOOST_HAS_NRVO
 #endif
 
 //
 // versions check:
 // we don't support Intel prior to version 5.0:
-#if BOOST_INTEL_CXX_VERSION < 500
+#if XMLWRAPP_BOOST_INTEL_CXX_VERSION < 500
 #  error "Compiler not supported or configured - please reconfigure"
 #endif
 //
 // last known and checked version:
-#if (BOOST_INTEL_CXX_VERSION > 700)
-#  if defined(BOOST_ASSERT_CONFIG)
+#if (XMLWRAPP_BOOST_INTEL_CXX_VERSION > 700)
+#  if defined(XMLWRAPP_BOOST_ASSERT_CONFIG)
 #     error "Unknown compiler version - please run the configure tests and report the results"
 #  elif defined(_MSC_VER)
 #     pragma message("Unknown compiler version - please run the configure tests and report the results")

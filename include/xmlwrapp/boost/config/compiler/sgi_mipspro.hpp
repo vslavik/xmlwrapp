@@ -7,7 +7,7 @@
 
 //  SGI C++ compiler setup:
 
-#define BOOST_COMPILER "SGI Irix compiler version " BOOST_STRINGIZE(_COMPILER_VERSION)
+#define XMLWRAPP_BOOST_COMPILER "SGI Irix compiler version " XMLWRAPP_BOOST_STRINGIZE(_COMPILER_VERSION)
 
 #include "xmlwrapp/boost/config/compiler/common_edg.hpp"
 
@@ -16,7 +16,7 @@
 // Turn this on unconditionally here, it will get turned off again later
 // if no threading API is detected.
 //
-#define BOOST_HAS_THREADS
+#define XMLWRAPP_BOOST_HAS_THREADS
 //
 // version check:
 // probably nothing to do here?

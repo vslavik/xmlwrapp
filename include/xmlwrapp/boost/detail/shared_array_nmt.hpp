@@ -1,5 +1,5 @@
-#ifndef BOOST_DETAIL_SHARED_ARRAY_NMT_HPP_INCLUDED
-#define BOOST_DETAIL_SHARED_ARRAY_NMT_HPP_INCLUDED
+#ifndef XMLWRAPP_BOOST_DETAIL_SHARED_ARRAY_NMT_HPP_INCLUDED
+#define XMLWRAPP_BOOST_DETAIL_SHARED_ARRAY_NMT_HPP_INCLUDED
 
 //
 //  detail/shared_array_nmt.hpp - shared_array.hpp without member templates
@@ -25,7 +25,7 @@
 #include <functional>       // for std::less
 #include <new>              // for std::bad_alloc
 
-namespace boost
+namespace xmlwrapp_boost
 {
 
 template<class T> class shared_array
@@ -40,7 +40,7 @@ public:
       
     explicit shared_array(T * p = 0): px(p)
     {
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef XMLWRAPP_BOOST_NO_EXCEPTIONS
 
         try  // prevent leak if new throws
         {
@@ -48,7 +48,7 @@ public:
         }
         catch(...)
         {
-            boost::checked_array_delete(p);
+            xmlwrapp_boost::checked_array_delete(p);
             throw;
         }
 
@@ -58,8 +58,8 @@ public:
 
         if(pn == 0)
         {
-            boost::checked_array_delete(p);
-            boost::throw_exception(std::bad_alloc());
+            xmlwrapp_boost::checked_array_delete(p);
+            xmlwrapp_boost::throw_exception(std::bad_alloc());
         }
 
 #endif
@@ -69,7 +69,7 @@ public:
     {
         if(--*pn == 0)
         {
-            boost::checked_array_delete(px);
+            xmlwrapp_boost::checked_array_delete(px);
             delete pn;
         }
     }
@@ -88,7 +88,7 @@ public:
 
     void reset(T * p = 0)
     {
-        BOOST_ASSERT(p == 0 || p != px);
+        XMLWRAPP_BOOST_ASSERT(p == 0 || p != px);
         shared_array(p).swap(*this);
     }
 
@@ -99,8 +99,8 @@ public:
 
     T & operator[](std::ptrdiff_t i) const  // never throws
     {
-        BOOST_ASSERT(px != 0);
-        BOOST_ASSERT(i >= 0);
+        XMLWRAPP_BOOST_ASSERT(px != 0);
+        XMLWRAPP_BOOST_ASSERT(i >= 0);
         return px[i];
     }
 
@@ -147,6 +147,6 @@ template<class T> void swap(shared_array<T> & a, shared_array<T> & b)
     a.swap(b);
 }
 
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#endif  // #ifndef BOOST_DETAIL_SHARED_ARRAY_NMT_HPP_INCLUDED
+#endif  // #ifndef XMLWRAPP_BOOST_DETAIL_SHARED_ARRAY_NMT_HPP_INCLUDED

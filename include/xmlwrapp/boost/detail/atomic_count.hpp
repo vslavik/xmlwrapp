@@ -1,5 +1,5 @@
-#ifndef BOOST_DETAIL_ATOMIC_COUNT_HPP_INCLUDED
-#define BOOST_DETAIL_ATOMIC_COUNT_HPP_INCLUDED
+#ifndef XMLWRAPP_BOOST_DETAIL_ATOMIC_COUNT_HPP_INCLUDED
+#define XMLWRAPP_BOOST_DETAIL_ATOMIC_COUNT_HPP_INCLUDED
 
 #if _MSC_VER >= 1020
 #pragma once
@@ -15,7 +15,7 @@
 //  This software is provided "as is" without express or implied
 //  warranty, and with no claim as to its suitability for any purpose.
 //
-//  typedef <implementation-defined> boost::detail::atomic_count;
+//  typedef <implementation-defined> xmlwrapp_boost::detail::atomic_count;
 //
 //  atomic_count a(n);
 //
@@ -77,9 +77,9 @@
 
 #include <xmlwrapp/boost/config.hpp>
 
-#ifndef BOOST_HAS_THREADS
+#ifndef XMLWRAPP_BOOST_HAS_THREADS
 
-namespace boost
+namespace xmlwrapp_boost
 {
 
 namespace detail
@@ -91,22 +91,22 @@ typedef long atomic_count;
 
 }
 
-#elif defined(BOOST_USE_ASM_ATOMIC_H)
+#elif defined(XMLWRAPP_BOOST_USE_ASM_ATOMIC_H)
 #  include <xmlwrapp/boost/detail/atomic_count_linux.hpp>
-#elif defined(BOOST_AC_USE_PTHREADS)
+#elif defined(XMLWRAPP_BOOST_AC_USE_PTHREADS)
 #  include <xmlwrapp/boost/detail/atomic_count_pthreads.hpp>
 #elif defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
 #  include <xmlwrapp/boost/detail/atomic_count_win32.hpp>
 #elif defined(__GLIBCPP__)
 #  include <xmlwrapp/boost/detail/atomic_count_gcc.hpp>
-#elif defined(BOOST_HAS_PTHREADS)
-#  define BOOST_AC_USE_PTHREADS
+#elif defined(XMLWRAPP_BOOST_HAS_PTHREADS)
+#  define XMLWRAPP_BOOST_AC_USE_PTHREADS
 #  include <xmlwrapp/boost/detail/atomic_count_pthreads.hpp>
 #else
 
-// Use #define BOOST_DISABLE_THREADS to avoid the error
+// Use #define XMLWRAPP_BOOST_DISABLE_THREADS to avoid the error
 #error Unrecognized threading platform
 
 #endif
 
-#endif // #ifndef BOOST_DETAIL_ATOMIC_COUNT_HPP_INCLUDED
+#endif // #ifndef XMLWRAPP_BOOST_DETAIL_ATOMIC_COUNT_HPP_INCLUDED

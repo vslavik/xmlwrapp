@@ -1,5 +1,5 @@
-#ifndef BOOST_DETAIL_LIGHTWEIGHT_MUTEX_HPP_INCLUDED
-#define BOOST_DETAIL_LIGHTWEIGHT_MUTEX_HPP_INCLUDED
+#ifndef XMLWRAPP_BOOST_DETAIL_LIGHTWEIGHT_MUTEX_HPP_INCLUDED
+#define XMLWRAPP_BOOST_DETAIL_LIGHTWEIGHT_MUTEX_HPP_INCLUDED
 
 #if _MSC_VER >= 1020
 #pragma once
@@ -15,16 +15,16 @@
 //  This software is provided "as is" without express or implied
 //  warranty, and with no claim as to its suitability for any purpose.
 //
-//  typedef <unspecified> boost::detail::lightweight_mutex;
+//  typedef <unspecified> xmlwrapp_boost::detail::lightweight_mutex;
 //
-//  boost::detail::lightweight_mutex meets a subset of the Mutex concept
+//  xmlwrapp_boost::detail::lightweight_mutex meets a subset of the Mutex concept
 //  requirements: http://www.boost.org/libs/thread/doc/mutex_concept.html#Mutex
 //
 //  * Used by the smart pointer library
 //  * Performance oriented
 //  * Header-only implementation
 //  * Small memory footprint
-//  * Not a general purpose mutex, use boost::mutex, CRITICAL_SECTION or
+//  * Not a general purpose mutex, use xmlwrapp_boost::mutex, CRITICAL_SECTION or
 //    pthread_mutex instead.
 //  * Never spin in a tight lock/do-something/unlock loop, since
 //    lightweight_mutex does not guarantee fairness.
@@ -33,8 +33,8 @@
 //  The current implementation can use a pthread_mutex, a CRITICAL_SECTION,
 //  or a platform-specific spinlock.
 //
-//  You can force a particular implementation by defining BOOST_LWM_USE_PTHREADS,
-//  BOOST_LWM_USE_CRITICAL_SECTION, or BOOST_LWM_USE_SPINLOCK.
+//  You can force a particular implementation by defining XMLWRAPP_BOOST_LWM_USE_PTHREADS,
+//  XMLWRAPP_BOOST_LWM_USE_CRITICAL_SECTION, or XMLWRAPP_BOOST_LWM_USE_SPINLOCK.
 //
 //  If neither macro has been defined, the default is to use a spinlock on Win32,
 //  and a pthread_mutex otherwise.
@@ -64,26 +64,26 @@
 //  shared_ptr_timing_test.cpp will compile succesfully with a stub do-nothing
 //  pthreads library, since it doesn't create any threads.
 
-#ifndef BOOST_HAS_THREADS
+#ifndef XMLWRAPP_BOOST_HAS_THREADS
 #  include <xmlwrapp/boost/detail/lwm_nop.hpp>
-#elif defined(BOOST_LWM_USE_SPINLOCK) && defined(BOOST_USE_ASM_ATOMIC_H)
+#elif defined(XMLWRAPP_BOOST_LWM_USE_SPINLOCK) && defined(XMLWRAPP_BOOST_USE_ASM_ATOMIC_H)
 #  include <xmlwrapp/boost/detail/lwm_linux.hpp>
-#elif defined(BOOST_LWM_USE_CRITICAL_SECTION)
+#elif defined(XMLWRAPP_BOOST_LWM_USE_CRITICAL_SECTION)
 #  include <xmlwrapp/boost/detail/lwm_win32_cs.hpp>
-#elif defined(BOOST_LWM_USE_PTHREADS)
+#elif defined(XMLWRAPP_BOOST_LWM_USE_PTHREADS)
 #  include <xmlwrapp/boost/detail/lwm_pthreads.hpp>
 #elif defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
 #  include <xmlwrapp/boost/detail/lwm_win32.hpp>
-#elif defined(BOOST_LWM_USE_SPINLOCK) && defined(__sgi)
+#elif defined(XMLWRAPP_BOOST_LWM_USE_SPINLOCK) && defined(__sgi)
 #  include <xmlwrapp/boost/detail/lwm_irix.hpp>
-#elif defined(BOOST_LWM_USE_SPINLOCK) && defined(__GLIBCPP__)
+#elif defined(XMLWRAPP_BOOST_LWM_USE_SPINLOCK) && defined(__GLIBCPP__)
 #  include <xmlwrapp/boost/detail/lwm_gcc.hpp>
-#elif defined(BOOST_HAS_PTHREADS)
-#  define BOOST_LWM_USE_PTHREADS
+#elif defined(XMLWRAPP_BOOST_HAS_PTHREADS)
+#  define XMLWRAPP_BOOST_LWM_USE_PTHREADS
 #  include <xmlwrapp/boost/detail/lwm_pthreads.hpp>
 #else
-// Use #define BOOST_DISABLE_THREADS to avoid the error
+// Use #define XMLWRAPP_BOOST_DISABLE_THREADS to avoid the error
 #  error Unrecognized threading platform
 #endif
 
-#endif // #ifndef BOOST_DETAIL_LIGHTWEIGHT_MUTEX_HPP_INCLUDED
+#endif // #ifndef XMLWRAPP_BOOST_DETAIL_LIGHTWEIGHT_MUTEX_HPP_INCLUDED

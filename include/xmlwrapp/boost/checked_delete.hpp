@@ -1,5 +1,5 @@
-#ifndef BOOST_CHECKED_DELETE_HPP_INCLUDED
-#define BOOST_CHECKED_DELETE_HPP_INCLUDED
+#ifndef XMLWRAPP_BOOST_CHECKED_DELETE_HPP_INCLUDED
+#define XMLWRAPP_BOOST_CHECKED_DELETE_HPP_INCLUDED
 
 #if _MSC_VER >= 1020
 #pragma once
@@ -19,7 +19,7 @@
 //  See http://www.boost.org/libs/utility/checked_delete.html for documentation.
 //
 
-namespace boost
+namespace xmlwrapp_boost
 {
 
 // verify that types are complete for increased safety
@@ -43,7 +43,7 @@ template<class T> struct checked_deleter
 
     void operator()(T * x) const
     {
-        boost::checked_delete(x);
+        xmlwrapp_boost::checked_delete(x);
     }
 };
 
@@ -54,10 +54,10 @@ template<class T> struct checked_array_deleter
 
     void operator()(T * x) const
     {
-        boost::checked_array_delete(x);
+        xmlwrapp_boost::checked_array_delete(x);
     }
 };
 
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#endif  // #ifndef BOOST_CHECKED_DELETE_HPP_INCLUDED
+#endif  // #ifndef XMLWRAPP_BOOST_CHECKED_DELETE_HPP_INCLUDED

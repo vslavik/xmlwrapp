@@ -7,29 +7,29 @@
 
 //  cygwin specific config options:
 
-#define BOOST_PLATFORM "Cygwin"
-#define BOOST_NO_CWCTYPE
-#define BOOST_NO_CWCHAR
-#define BOOST_NO_SWPRINTF
-#define BOOST_HAS_DIRENT_H
+#define XMLWRAPP_BOOST_PLATFORM "Cygwin"
+#define XMLWRAPP_BOOST_NO_CWCTYPE
+#define XMLWRAPP_BOOST_NO_CWCHAR
+#define XMLWRAPP_BOOST_NO_SWPRINTF
+#define XMLWRAPP_BOOST_HAS_DIRENT_H
 
 //
 // Threading API:
 // See if we have POSIX threads, if we do use them, otherwise
 // revert to native Win threads.
-#define BOOST_HAS_UNISTD_H
+#define XMLWRAPP_BOOST_HAS_UNISTD_H
 #include <unistd.h>
-#if defined(_POSIX_THREADS) && (_POSIX_THREADS+0 >= 0) && !defined(BOOST_HAS_WINTHREADS)
-#  define BOOST_HAS_PTHREADS
-#  define BOOST_HAS_SCHED_YIELD
-#  define BOOST_HAS_GETTIMEOFDAY
-#  define BOOST_HAS_PTHREAD_MUTEXATTR_SETTYPE
-#  define BOOST_HAS_SIGACTION
+#if defined(_POSIX_THREADS) && (_POSIX_THREADS+0 >= 0) && !defined(XMLWRAPP_BOOST_HAS_WINTHREADS)
+#  define XMLWRAPP_BOOST_HAS_PTHREADS
+#  define XMLWRAPP_BOOST_HAS_SCHED_YIELD
+#  define XMLWRAPP_BOOST_HAS_GETTIMEOFDAY
+#  define XMLWRAPP_BOOST_HAS_PTHREAD_MUTEXATTR_SETTYPE
+#  define XMLWRAPP_BOOST_HAS_SIGACTION
 #else
-#  if !defined(BOOST_HAS_WINTHREADS)
-#     define BOOST_HAS_WINTHREADS
+#  if !defined(XMLWRAPP_BOOST_HAS_WINTHREADS)
+#     define XMLWRAPP_BOOST_HAS_WINTHREADS
 #  endif
-#  define BOOST_HAS_FTIME
+#  define XMLWRAPP_BOOST_HAS_FTIME
 #endif
 
 // boilerplate code:

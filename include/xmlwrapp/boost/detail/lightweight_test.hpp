@@ -1,5 +1,5 @@
-#ifndef BOOST_DETAIL_LIGHTWEIGHT_TEST_HPP_INCLUDED
-#define BOOST_DETAIL_LIGHTWEIGHT_TEST_HPP_INCLUDED
+#ifndef XMLWRAPP_BOOST_DETAIL_LIGHTWEIGHT_TEST_HPP_INCLUDED
+#define XMLWRAPP_BOOST_DETAIL_LIGHTWEIGHT_TEST_HPP_INCLUDED
 
 #if _MSC_VER >= 1020
 #pragma once
@@ -15,16 +15,16 @@
 //  This software is provided "as is" without express or implied
 //  warranty, and with no claim as to its suitability for any purpose.
 //
-//  BOOST_TEST(expression)
-//  BOOST_ERROR(message)
+//  XMLWRAPP_BOOST_TEST(expression)
+//  XMLWRAPP_BOOST_ERROR(message)
 //
-//  int boost::report_errors()
+//  int xmlwrapp_boost::report_errors()
 //
 
 #include <xmlwrapp/boost/current_function.hpp>
 #include <iostream>
 
-namespace boost
+namespace xmlwrapp_boost
 {
 
 namespace detail
@@ -66,9 +66,9 @@ inline int report_errors()
     }
 }
 
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#define BOOST_TEST(expr) ((expr)? (void)0: ::boost::detail::test_failed_impl(#expr, __FILE__, __LINE__, BOOST_CURRENT_FUNCTION))
-#define BOOST_ERROR(msg) ::boost::detail::error_impl(msg, __FILE__, __LINE__, BOOST_CURRENT_FUNCTION)
+#define XMLWRAPP_BOOST_TEST(expr) ((expr)? (void)0: ::xmlwrapp_boost::detail::test_failed_impl(#expr, __FILE__, __LINE__, XMLWRAPP_BOOST_CURRENT_FUNCTION))
+#define XMLWRAPP_BOOST_ERROR(msg) ::xmlwrapp_boost::detail::error_impl(msg, __FILE__, __LINE__, XMLWRAPP_BOOST_CURRENT_FUNCTION)
 
-#endif // #ifndef BOOST_DETAIL_LIGHTWEIGHT_TEST_HPP_INCLUDED
+#endif // #ifndef XMLWRAPP_BOOST_DETAIL_LIGHTWEIGHT_TEST_HPP_INCLUDED

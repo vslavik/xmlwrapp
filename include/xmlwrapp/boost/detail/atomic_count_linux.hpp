@@ -1,5 +1,5 @@
-#ifndef BOOST_DETAIL_ATOMIC_COUNT_LINUX_HPP_INCLUDED
-#define BOOST_DETAIL_ATOMIC_COUNT_LINUX_HPP_INCLUDED
+#ifndef XMLWRAPP_BOOST_DETAIL_ATOMIC_COUNT_LINUX_HPP_INCLUDED
+#define XMLWRAPP_BOOST_DETAIL_ATOMIC_COUNT_LINUX_HPP_INCLUDED
 
 //
 //  boost/detail/atomic_count_linux.hpp
@@ -19,12 +19,12 @@
 //
 //  This file is only provided because the performance of this implementation
 //  is significantly higher than the pthreads version. Use at your own risk
-//  (by defining BOOST_USE_ASM_ATOMIC_H.)
+//  (by defining XMLWRAPP_BOOST_USE_ASM_ATOMIC_H.)
 //
 
 #include <asm/atomic.h>
 
-namespace boost
+namespace xmlwrapp_boost
 {
 
 namespace detail
@@ -65,6 +65,6 @@ private:
 
 } // namespace detail
 
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#endif // #ifndef BOOST_DETAIL_ATOMIC_COUNT_LINUX_HPP_INCLUDED
+#endif // #ifndef XMLWRAPP_BOOST_DETAIL_ATOMIC_COUNT_LINUX_HPP_INCLUDED

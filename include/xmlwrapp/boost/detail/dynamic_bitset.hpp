@@ -8,17 +8,17 @@
 
 // With optimizations by Gennaro Prota.
 
-#ifndef BOOST_DETAIL_DYNAMIC_BITSET_HPP
-#define BOOST_DETAIL_DYNAMIC_BITSET_HPP
+#ifndef XMLWRAPP_BOOST_DETAIL_DYNAMIC_BITSET_HPP
+#define XMLWRAPP_BOOST_DETAIL_DYNAMIC_BITSET_HPP
 
 #include "xmlwrapp/boost/config.hpp"
 #include "xmlwrapp/boost/detail/iterator.hpp"
 
-#if !(defined(BOOST_NO_MEMBER_TEMPLATE_FRIENDS) || defined(__BORLANDC__))
-#define BOOST_DYN_BITSET_USE_FRIENDS
+#if !(defined(XMLWRAPP_BOOST_NO_MEMBER_TEMPLATE_FRIENDS) || defined(__BORLANDC__))
+#define XMLWRAPP_BOOST_DYN_BITSET_USE_FRIENDS
 #endif
 
-namespace boost {
+namespace xmlwrapp_boost {
 
   namespace detail {
 
@@ -46,7 +46,7 @@ namespace boost {
 
     template <typename Block, typename Allocator>
     class dynamic_bitset_base :
-#ifdef BOOST_DYN_BITSET_USE_FRIENDS
+#ifdef XMLWRAPP_BOOST_DYN_BITSET_USE_FRIENDS
         protected
 #else
         public
@@ -54,7 +54,7 @@ namespace boost {
         dynamic_bitset_alloc_base<Allocator>
     {
       typedef std::size_t size_type;
-#ifndef BOOST_DYN_BITSET_USE_FRIENDS
+#ifndef XMLWRAPP_BOOST_DYN_BITSET_USE_FRIENDS
     public:
 #endif
       enum { bits_per_block = CHAR_BIT * sizeof(Block) };
@@ -76,7 +76,7 @@ namespace boost {
         if (m_bits)
           this->m_alloc.deallocate(m_bits, m_num_blocks);
       }
-#ifdef BOOST_DYN_BITSET_USE_FRIENDS
+#ifdef XMLWRAPP_BOOST_DYN_BITSET_USE_FRIENDS
     protected:
 #endif
       Block* m_bits;
@@ -107,7 +107,7 @@ namespace boost {
 #endif
         typedef byte_t element_type;
         static const byte_t table[];
-        BOOST_STATIC_CONSTANT (unsigned int, max_bit = 8); // must be a power of two
+        XMLWRAPP_BOOST_STATIC_CONSTANT (unsigned int, max_bit = 8); // must be a power of two
 
     };
     //typedef count<true> table_t;
@@ -170,7 +170,7 @@ namespace boost {
 
   } // namespace detail
 
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#endif // BOOST_DETAIL_DYNAMIC_BITSET_HPP
+#endif // XMLWRAPP_BOOST_DETAIL_DYNAMIC_BITSET_HPP
 

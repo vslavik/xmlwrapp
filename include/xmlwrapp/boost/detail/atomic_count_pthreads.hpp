@@ -1,5 +1,5 @@
-#ifndef BOOST_DETAIL_ATOMIC_COUNT_PTHREADS_HPP_INCLUDED
-#define BOOST_DETAIL_ATOMIC_COUNT_PTHREADS_HPP_INCLUDED
+#ifndef XMLWRAPP_BOOST_DETAIL_ATOMIC_COUNT_PTHREADS_HPP_INCLUDED
+#define XMLWRAPP_BOOST_DETAIL_ATOMIC_COUNT_PTHREADS_HPP_INCLUDED
 
 //
 //  boost/detail/atomic_count_pthreads.hpp
@@ -19,10 +19,10 @@
 //    inefficiencies. Example: a class with two atomic_count members
 //    can get away with a single mutex.
 //
-//  Users can detect this situation by checking BOOST_AC_USE_PTHREADS.
+//  Users can detect this situation by checking XMLWRAPP_BOOST_AC_USE_PTHREADS.
 //
 
-namespace boost
+namespace xmlwrapp_boost
 {
 
 namespace detail
@@ -92,6 +92,6 @@ private:
 
 } // namespace detail
 
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#endif // #ifndef BOOST_DETAIL_ATOMIC_COUNT_PTHREADS_HPP_INCLUDED
+#endif // #ifndef XMLWRAPP_BOOST_DETAIL_ATOMIC_COUNT_PTHREADS_HPP_INCLUDED

@@ -25,7 +25,7 @@
 /*
  * Revision history:
  * 21 Sep 2001:
- *    Only include <cwchar> if BOOST_NO_CWCHAR is defined. (Darin Adler)
+ *    Only include <cwchar> if XMLWRAPP_BOOST_NO_CWCHAR is defined. (Darin Adler)
  * 10 Aug 2001:
  *    Added MIPS (big endian) to the big endian family. (Jens Maurer)
  * 13 Apr 2001:
@@ -36,23 +36,23 @@
  *      Modified by Jens Maurer for gcc 2.95 on x86.
  */
 
-#ifndef BOOST_SGI_CPP_LIMITS
-#define BOOST_SGI_CPP_LIMITS
+#ifndef XMLWRAPP_BOOST_SGI_CPP_LIMITS
+#define XMLWRAPP_BOOST_SGI_CPP_LIMITS
 
 #include <climits>
 #include <cfloat>
 #include <xmlwrapp/boost/config.hpp>
 
-#ifndef BOOST_NO_CWCHAR
+#ifndef XMLWRAPP_BOOST_NO_CWCHAR
 #include <cwchar> // for WCHAR_MIN and WCHAR_MAX
 #endif
 
 // The macros are not named appropriately.  We don't care about integer
 // bit layout, but about floating-point NaN (etc.) bit patterns.
 #if defined(__sparc) || defined(__sparc__) || defined(__powerpc__) || defined(__ppc__) || defined(__hppa) || defined(_MIPSEB) || defined(_POWER)
-#define BOOST_BIG_ENDIAN
+#define XMLWRAPP_BOOST_BIG_ENDIAN
 #elif defined(__i386__) || defined(__alpha__) || defined(__ia64) || defined(__ia64__)
-#define BOOST_LITTLE_ENDIAN
+#define XMLWRAPP_BOOST_LITTLE_ENDIAN
 #else
 #error The file boost/detail/limits.hpp needs to be set up for your CPU type.
 #endif
@@ -76,7 +76,7 @@ enum float_denorm_style {
 // The C++ standard (section 18.2.1) requires that some of the members of
 // numeric_limits be static const data members that are given constant-
 // initializers within the class declaration.  On compilers where the
-// BOOST_NO_INCLASS_MEMBER_INITIALIZATION macro is defined, it is impossible to write
+// XMLWRAPP_BOOST_NO_INCLASS_MEMBER_INITIALIZATION macro is defined, it is impossible to write
 // a standard-conforming numeric_limits class.
 //
 // There are two possible workarounds: either initialize the data
@@ -86,13 +86,13 @@ enum float_denorm_style {
 // latter means they have the wrong type and that it is impossible to
 // take their addresses.  We choose the former workaround.
 
-#ifdef BOOST_NO_INCLASS_MEMBER_INITIALIZATION
-# define BOOST_STL_DECLARE_LIMITS_MEMBER(__mem_type, __mem_name, __mem_value) \
+#ifdef XMLWRAPP_BOOST_NO_INCLASS_MEMBER_INITIALIZATION
+# define XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(__mem_type, __mem_name, __mem_value) \
   enum { __mem_name = __mem_value }
-#else /* BOOST_NO_INCLASS_MEMBER_INITIALIZATION */
-# define BOOST_STL_DECLARE_LIMITS_MEMBER(__mem_type, __mem_name, __mem_value) \
+#else /* XMLWRAPP_BOOST_NO_INCLASS_MEMBER_INITIALIZATION */
+# define XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(__mem_type, __mem_name, __mem_value) \
   static const __mem_type __mem_name = __mem_value
-#endif /* BOOST_NO_INCLASS_MEMBER_INITIALIZATION */
+#endif /* XMLWRAPP_BOOST_NO_INCLASS_MEMBER_INITIALIZATION */
 
 // Deal with min/max for MinGW
 #ifdef min
@@ -107,48 +107,48 @@ enum float_denorm_style {
 template <class __number>
 class _Numeric_limits_base {
 public:
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_specialized, false);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_specialized, false);
 
   static __number min() throw() { return __number(); }
   static __number max() throw() { return __number(); }
 
-  BOOST_STL_DECLARE_LIMITS_MEMBER(int, digits,   0);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(int, digits10, 0);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(int, digits,   0);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(int, digits10, 0);
 
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_signed,  false);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_integer, false);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_exact,   false);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_signed,  false);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_integer, false);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_exact,   false);
 
-  BOOST_STL_DECLARE_LIMITS_MEMBER(int, radix, 0);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(int, radix, 0);
 
   static __number epsilon() throw()     { return __number(); }
   static __number round_error() throw() { return __number(); }
 
-  BOOST_STL_DECLARE_LIMITS_MEMBER(int, min_exponent,   0);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(int, min_exponent10, 0);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(int, max_exponent,   0);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(int, max_exponent10, 0);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(int, min_exponent,   0);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(int, min_exponent10, 0);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(int, max_exponent,   0);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(int, max_exponent10, 0);
 
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, has_infinity,      false);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, has_quiet_NaN,     false);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, has_signaling_NaN, false);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(float_denorm_style,
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, has_infinity,      false);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, has_quiet_NaN,     false);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, has_signaling_NaN, false);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(float_denorm_style,
                               has_denorm,
                               denorm_absent);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, has_denorm_loss,   false);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, has_denorm_loss,   false);
 
   static __number infinity() throw()      { return __number(); }
   static __number quiet_NaN() throw()     { return __number(); }
   static __number signaling_NaN() throw() { return __number(); }
   static __number denorm_min() throw()    { return __number(); }
 
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_iec559,  false);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_bounded, false);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_modulo,  false);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_iec559,  false);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_bounded, false);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_modulo,  false);
 
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, traps,            false);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, tinyness_before,  false);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(float_round_style,
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, traps,            false);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, tinyness_before,  false);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(float_round_style,
                               round_style,
                               round_toward_zero);
 };
@@ -162,29 +162,29 @@ template <class _Int,
 class _Integer_limits : public _Numeric_limits_base<_Int> 
 {
 public:
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_specialized, true);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_specialized, true);
 
   static _Int min() throw() { return __imin; }
   static _Int max() throw() { return __imax; }
 
-  BOOST_STL_DECLARE_LIMITS_MEMBER(int,
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(int,
                               digits,
                               (__idigits < 0) ? (int)(sizeof(_Int) * CHAR_BIT)
                                                    - (__imin == 0 ? 0 : 1) 
                                               : __idigits);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(int, digits10, (digits * 301) / 1000); 
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(int, digits10, (digits * 301) / 1000); 
                                 // log 2 = 0.301029995664...
 
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_signed,  __imin != 0);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_integer, true);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_exact,   true);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(int,  radix,      2);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_signed,  __imin != 0);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_integer, true);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_exact,   true);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(int,  radix,      2);
 
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_bounded, true);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_modulo, true);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_bounded, true);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_modulo, true);
 };
 
-#if defined(BOOST_BIG_ENDIAN)
+#if defined(XMLWRAPP_BOOST_BIG_ENDIAN)
 
  template<class Number, unsigned int Word>
  struct float_helper{
@@ -222,27 +222,27 @@ template <class __number,
 class _Floating_limits : public _Numeric_limits_base<__number>
 {
 public:
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_specialized, true);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_specialized, true);
 
-  BOOST_STL_DECLARE_LIMITS_MEMBER(int, digits,   __Digits);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(int, digits10, __Digits10);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(int, digits,   __Digits);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(int, digits10, __Digits10);
 
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_signed, true);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_signed, true);
 
-  BOOST_STL_DECLARE_LIMITS_MEMBER(int, radix, 2);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(int, radix, 2);
 
-  BOOST_STL_DECLARE_LIMITS_MEMBER(int, min_exponent,   __MinExp);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(int, max_exponent,   __MaxExp);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(int, min_exponent10, __MinExp10);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(int, max_exponent10, __MaxExp10);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(int, min_exponent,   __MinExp);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(int, max_exponent,   __MaxExp);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(int, min_exponent10, __MinExp10);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(int, max_exponent10, __MaxExp10);
 
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, has_infinity,      true);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, has_quiet_NaN,     true);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, has_signaling_NaN, true);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(float_denorm_style,
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, has_infinity,      true);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, has_quiet_NaN,     true);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, has_signaling_NaN, true);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(float_denorm_style,
                               has_denorm,
                               denorm_indeterminate);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, has_denorm_loss,   false);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, has_denorm_loss,   false);
 
  
   static __number infinity() throw() {
@@ -255,12 +255,12 @@ public:
     return float_helper<__number,__SNaNWord>::get_word();
   }
 
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_iec559,       __IsIEC559);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_bounded,      true);
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, traps,           false /* was: true */ );
-  BOOST_STL_DECLARE_LIMITS_MEMBER(bool, tinyness_before, false);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_iec559,       __IsIEC559);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, is_bounded,      true);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, traps,           false /* was: true */ );
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(bool, tinyness_before, false);
 
-  BOOST_STL_DECLARE_LIMITS_MEMBER(float_round_style, round_style, __RoundStyle);
+  XMLWRAPP_BOOST_STL_DECLARE_LIMITS_MEMBER(float_round_style, round_style, __RoundStyle);
 };
 
 // Class numeric_limits
@@ -292,7 +292,7 @@ class numeric_limits<unsigned char>
   : public _Integer_limits<unsigned char, 0, UCHAR_MAX>
 {};
 
-#ifndef BOOST_NO_INTRINSIC_WCHAR_T
+#ifndef XMLWRAPP_BOOST_NO_INTRINSIC_WCHAR_T
 template<>
 class numeric_limits<wchar_t>
 #if !defined(WCHAR_MAX) || !defined(WCHAR_MIN)
@@ -375,7 +375,7 @@ template<> class numeric_limits<float>
                             FLT_MAX_EXP,    // Maximum exponent
                             FLT_MIN_10_EXP, // Minimum base 10 exponent
                             FLT_MAX_10_EXP, // Maximum base 10 exponent
-#if defined(BOOST_BIG_ENDIAN)
+#if defined(XMLWRAPP_BOOST_BIG_ENDIAN)
                             0x7f80 << (sizeof(int)*CHAR_BIT-16),    // Last word of +infinity
                             0x7f81 << (sizeof(int)*CHAR_BIT-16),    // Last word of quiet NaN
                             0x7fc1 << (sizeof(int)*CHAR_BIT-16),    // Last word of signaling NaN
@@ -403,7 +403,7 @@ template<> class numeric_limits<double>
                             DBL_MAX_EXP,    // Maximum exponent
                             DBL_MIN_10_EXP, // Minimum base 10 exponent
                             DBL_MAX_10_EXP, // Maximum base 10 exponent
-#if defined(BOOST_BIG_ENDIAN)
+#if defined(XMLWRAPP_BOOST_BIG_ENDIAN)
                             0x7ff0 << (sizeof(int)*CHAR_BIT-16),    // Last word of +infinity
                             0x7ff1 << (sizeof(int)*CHAR_BIT-16),    // Last word of quiet NaN
                             0x7ff9 << (sizeof(int)*CHAR_BIT-16),    // Last word of signaling NaN
@@ -431,7 +431,7 @@ template<> class numeric_limits<long double>
                             LDBL_MAX_EXP,   // Maximum exponent
                             LDBL_MIN_10_EXP,// Minimum base 10 exponent
                             LDBL_MAX_10_EXP,// Maximum base 10 exponent
-#if defined(BOOST_BIG_ENDIAN)
+#if defined(XMLWRAPP_BOOST_BIG_ENDIAN)
                             0x7ff0 << (sizeof(int)*CHAR_BIT-16),    // Last word of +infinity
                             0x7ff1 << (sizeof(int)*CHAR_BIT-16),    // Last word of quiet NaN
                             0x7ff9 << (sizeof(int)*CHAR_BIT-16),    // Last word of signaling NaN
@@ -453,7 +453,7 @@ public:
 
 } // namespace std
 
-#endif /* BOOST_SGI_CPP_LIMITS */
+#endif /* XMLWRAPP_BOOST_SGI_CPP_LIMITS */
 
 // Local Variables:
 // mode:C++

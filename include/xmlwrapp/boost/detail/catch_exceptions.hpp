@@ -14,8 +14,8 @@
 //   22 Jan 01 Remove test_tools dependencies to reduce coupling.
 //    5 Nov 00 Initial boost version (Beman Dawes)
 
-#ifndef BOOST_CATCH_EXCEPTIONS_HPP
-#define BOOST_CATCH_EXCEPTIONS_HPP
+#ifndef XMLWRAPP_BOOST_CATCH_EXCEPTIONS_HPP
+#define XMLWRAPP_BOOST_CATCH_EXCEPTIONS_HPP
 
 //  header dependencies are deliberately restricted to the standard library
 //  to reduce coupling to other boost libraries.
@@ -32,15 +32,15 @@
 # endif
 
 # if defined(__BORLANDC__) && (__BORLANDC__ <= 0x0551)
-#   define BOOST_BUILT_IN_EXCEPTIONS_MISSING_WHAT 
+#   define XMLWRAPP_BOOST_BUILT_IN_EXCEPTIONS_MISSING_WHAT 
 # endif
 
 #if defined(MPW_CPLUS) && (MPW_CPLUS <= 0x890)
-#   define BOOST_BUILT_IN_EXCEPTIONS_MISSING_WHAT 
+#   define XMLWRAPP_BOOST_BUILT_IN_EXCEPTIONS_MISSING_WHAT 
     namespace std { class bad_typeid { }; }
 # endif
 
-namespace boost
+namespace xmlwrapp_boost
 {
 
   namespace detail
@@ -60,13 +60,13 @@ namespace boost
     int result = 0;               // quiet compiler warnings
     bool exception_thrown = true; // avoid setting result for each excptn type
 
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef XMLWRAPP_BOOST_NO_EXCEPTIONS
     try
     {
 #endif
       result = function_object();
       exception_thrown = false;
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef XMLWRAPP_BOOST_NO_EXCEPTIONS
     }
 
     //  As a result of hard experience with strangely interleaved output
@@ -86,7 +86,7 @@ namespace boost
     catch ( const std::bad_alloc & ex )
       { detail::report_exception( out, "std::bad_alloc:", ex.what() ); }
 
-# ifndef BOOST_BUILT_IN_EXCEPTIONS_MISSING_WHAT
+# ifndef XMLWRAPP_BOOST_BUILT_IN_EXCEPTIONS_MISSING_WHAT
     catch ( const std::bad_cast & ex )
       { detail::report_exception( out, "std::bad_cast:", ex.what() ); }
     catch ( const std::bad_typeid & ex )
@@ -123,9 +123,9 @@ namespace boost
 
     catch ( ... )
       { detail::report_exception( out, "unknown exception", "" ); }
-#endif // BOOST_NO_EXCEPTIONS
+#endif // XMLWRAPP_BOOST_NO_EXCEPTIONS
 
-    if ( exception_thrown ) result = boost::exit_exception_failure;
+    if ( exception_thrown ) result = xmlwrapp_boost::exit_exception_failure;
 
     if ( result != 0 && result != exit_success )
     {
@@ -135,7 +135,7 @@ namespace boost
         << "**********  errors detected; see stdout for details  ***********"
         << std::endl;
     }
-#if !defined(BOOST_NO_CPP_MAIN_SUCCESS_MESSAGE)
+#if !defined(XMLWRAPP_BOOST_NO_CPP_MAIN_SUCCESS_MESSAGE)
     else { out << std::flush << "no errors detected" << std::endl; }
 #endif
     return result;
@@ -143,5 +143,5 @@ namespace boost
 
 } // boost
 
-#endif  // BOOST_CATCH_EXCEPTIONS_HPP
+#endif  // XMLWRAPP_BOOST_CATCH_EXCEPTIONS_HPP
 

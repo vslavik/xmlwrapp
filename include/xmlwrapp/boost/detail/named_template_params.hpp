@@ -9,8 +9,8 @@
 // 04 Oct 2001   David Abrahams
 //      Changed name of "bind" to "select" to avoid problems with MSVC.
 
-#ifndef BOOST_DETAIL_NAMED_TEMPLATE_PARAMS_HPP
-#define BOOST_DETAIL_NAMED_TEMPLATE_PARAMS_HPP
+#ifndef XMLWRAPP_BOOST_DETAIL_NAMED_TEMPLATE_PARAMS_HPP
+#define XMLWRAPP_BOOST_DETAIL_NAMED_TEMPLATE_PARAMS_HPP
 
 #include <xmlwrapp/boost/type_traits/conversion_traits.hpp>
 #include <xmlwrapp/boost/type_traits/composite_traits.hpp> // for is_reference
@@ -18,7 +18,7 @@
 #include <xmlwrapp/boost/type_traits/ice.hpp>
 #endif
 
-namespace boost {
+namespace xmlwrapp_boost {
   namespace detail {
     
     struct default_argument { };
@@ -134,9 +134,9 @@ namespace boost {
     // named "type" that produces the default for TYPE.  See
     // boost/iterator_adaptors.hpp for an example usage.  Also,
     // applications of this macro must be placed in namespace
-    // boost::detail.
+    // xmlwrapp_boost::detail.
 
-#define BOOST_NAMED_TEMPLATE_PARAM(TYPE) \
+#define XMLWRAPP_BOOST_NAMED_TEMPLATE_PARAM(TYPE) \
     struct get_##TYPE##_from_named { \
       template <class Base, class NamedParams, class Traits> \
       struct select { \
@@ -173,6 +173,6 @@ namespace boost {
 
     
   } // namespace detail
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#endif // BOOST_DETAIL_NAMED_TEMPLATE_PARAMS_HPP
+#endif // XMLWRAPP_BOOST_DETAIL_NAMED_TEMPLATE_PARAMS_HPP

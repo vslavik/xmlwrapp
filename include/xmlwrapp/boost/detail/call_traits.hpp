@@ -16,21 +16,21 @@
       (issue raised by Steve Cleary).
 */
 
-#ifndef BOOST_DETAIL_CALL_TRAITS_HPP
-#define BOOST_DETAIL_CALL_TRAITS_HPP
+#ifndef XMLWRAPP_BOOST_DETAIL_CALL_TRAITS_HPP
+#define XMLWRAPP_BOOST_DETAIL_CALL_TRAITS_HPP
 
-#ifndef BOOST_CONFIG_HPP
+#ifndef XMLWRAPP_BOOST_CONFIG_HPP
 #include <xmlwrapp/boost/config.hpp>
 #endif
 
-#ifndef BOOST_ARITHMETIC_TYPE_TRAITS_HPP
+#ifndef XMLWRAPP_BOOST_ARITHMETIC_TYPE_TRAITS_HPP
 #include <xmlwrapp/boost/type_traits/arithmetic_traits.hpp>
 #endif
-#ifndef BOOST_COMPOSITE_TYPE_TRAITS_HPP
+#ifndef XMLWRAPP_BOOST_COMPOSITE_TYPE_TRAITS_HPP
 #include <xmlwrapp/boost/type_traits/composite_traits.hpp>
 #endif
 
-namespace boost{
+namespace xmlwrapp_boost{
 
 namespace detail{
 
@@ -81,8 +81,8 @@ public:
    // of ct_imp to handle the logic. (JM)
    typedef typename detail::ct_imp<
       T,
-      ::boost::is_pointer<T>::value,
-      ::boost::is_arithmetic<T>::value
+      ::xmlwrapp_boost::is_pointer<T>::value,
+      ::xmlwrapp_boost::is_arithmetic<T>::value
    >::param_type param_type;
 };
 
@@ -155,4 +155,4 @@ public:
 
 }
 
-#endif // BOOST_DETAIL_CALL_TRAITS_HPP
+#endif // XMLWRAPP_BOOST_DETAIL_CALL_TRAITS_HPP

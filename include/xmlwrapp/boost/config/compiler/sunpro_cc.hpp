@@ -8,8 +8,8 @@
 //  Sun C++ compiler setup:
 
 #    if __SUNPRO_CC <= 0x500
-#      define BOOST_NO_MEMBER_TEMPLATES
-#      define BOOST_NO_FUNCTION_TEMPLATE_ORDERING
+#      define XMLWRAPP_BOOST_NO_MEMBER_TEMPLATES
+#      define XMLWRAPP_BOOST_NO_FUNCTION_TEMPLATE_ORDERING
 #    endif
 
 #    if (__SUNPRO_CC <= 0x520)
@@ -20,17 +20,17 @@
        // inline initialization it often gets the value
        // wrong, especially where the value is computed
        // from other constants (J Maddock 6th May 2001)
-#      define BOOST_NO_INCLASS_MEMBER_INITIALIZATION
+#      define XMLWRAPP_BOOST_NO_INCLASS_MEMBER_INITIALIZATION
 
        // Although sunpro 5.2 supports the syntax for
        // partial specialization, it often seems to
        // bind to the wrong specialization.  Better
        // to disable it until suppport becomes more stable
        // (J Maddock 6th May 2001).
-#      define BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
+#      define XMLWRAPP_BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
 #    endif
 
-#    if (__SUNPRO_CC <= 0x530) || !defined(BOOST_STRICT_CONFIG)
+#    if (__SUNPRO_CC <= 0x530) || !defined(XMLWRAPP_BOOST_STRICT_CONFIG)
        // SunPro 5.3 has better support for partial specialization,
        // but breaks when compiling std::less<shared_ptr<T> >
        // (Jens Maurer 4 Nov 2001).
@@ -39,17 +39,17 @@
        // Heintzelman; partial specialization re-enabled
        // (Peter Dimov 17 Jan 2002)
 
-//#      define BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
+//#      define XMLWRAPP_BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
 
        // integral constant expressions with 64 bit numbers fail
-#      define BOOST_NO_INTEGRAL_INT64_T
+#      define XMLWRAPP_BOOST_NO_INTEGRAL_INT64_T
 #    endif
 
-#    if (__SUNPRO_CC <= 0x540) || !defined(BOOST_STRICT_CONFIG)
-#      define BOOST_NO_TEMPLATE_TEMPLATES
+#    if (__SUNPRO_CC <= 0x540) || !defined(XMLWRAPP_BOOST_STRICT_CONFIG)
+#      define XMLWRAPP_BOOST_NO_TEMPLATE_TEMPLATES
 #    endif
 
-#define BOOST_COMPILER "Sun compiler version " BOOST_STRINGIZE(__SUNPRO_CC)
+#define XMLWRAPP_BOOST_COMPILER "Sun compiler version " XMLWRAPP_BOOST_STRINGIZE(__SUNPRO_CC)
 
 //
 // versions check:
@@ -60,7 +60,7 @@
 //
 // last known and checked version is 0x530:
 #if (__SUNPRO_CC > 0x530)
-#  if defined(BOOST_ASSERT_CONFIG)
+#  if defined(XMLWRAPP_BOOST_ASSERT_CONFIG)
 #     error "Unknown compiler version - please run the configure tests and report the results"
 #  endif
 #endif

@@ -25,9 +25,9 @@
 // Revision History
 // 04 Mar 2001 - More attempted fixes for Intel C++ (David Abrahams)
 // 03 Mar 2001 - Put all implementation into namespace
-//               boost::detail::iterator_traits_. Some progress made on fixes
+//               xmlwrapp_boost::detail::iterator_traits_. Some progress made on fixes
 //               for Intel compiler. (David Abrahams)
-// 02 Mar 2001 - Changed BOOST_MSVC to BOOST_MSVC_STD_ITERATOR in a few
+// 02 Mar 2001 - Changed XMLWRAPP_BOOST_MSVC to XMLWRAPP_BOOST_MSVC_STD_ITERATOR in a few
 //               places. (Jeremy Siek)
 // 19 Feb 2001 - Improved workarounds for stock MSVC6; use yes_type and
 //               no_type from type_traits.hpp; stopped trying to remove_cv
@@ -36,7 +36,7 @@
 // 13 Feb 2001 - Make it work with nearly all standard-conforming iterators
 //               under raw VC6. The one category remaining which will fail is
 //               that of iterators derived from std::iterator but not
-//               boost::iterator and which redefine difference_type.
+//               xmlwrapp_boost::iterator and which redefine difference_type.
 // 11 Feb 2001 - Clean away code which can never be used (David Abrahams)
 // 09 Feb 2001 - Always have a definition for each traits member, even if it
 //               can't be properly deduced. These will be incomplete types in
@@ -74,32 +74,32 @@
 # if defined(__SGI_STL_PORT)
 
 #  if (__SGI_STL_PORT <= 0x410) && !defined(__STL_CLASS_PARTIAL_SPECIALIZATION) && defined(__STL_DEBUG)
-#   define BOOST_BAD_CONTAINER_ITERATOR_CATEGORY_TYPEDEF
+#   define XMLWRAPP_BOOST_BAD_CONTAINER_ITERATOR_CATEGORY_TYPEDEF
 #  endif
 
-#  define BOOST_BAD_OUTPUT_ITERATOR_SPECIALIZATION
+#  define XMLWRAPP_BOOST_BAD_OUTPUT_ITERATOR_SPECIALIZATION
 
 # endif // STLPort <= 4.1b4 && no partial specialization
 
-namespace boost { namespace detail {
+namespace xmlwrapp_boost { namespace detail {
 
-BOOST_MPL_HAS_XXX_TRAIT_DEF(value_type)
-BOOST_MPL_HAS_XXX_TRAIT_DEF(reference)
-BOOST_MPL_HAS_XXX_TRAIT_DEF(pointer)
-BOOST_MPL_HAS_XXX_TRAIT_DEF(difference_type)
-BOOST_MPL_HAS_XXX_TRAIT_DEF(iterator_category)
+XMLWRAPP_BOOST_MPL_HAS_XXX_TRAIT_DEF(value_type)
+XMLWRAPP_BOOST_MPL_HAS_XXX_TRAIT_DEF(reference)
+XMLWRAPP_BOOST_MPL_HAS_XXX_TRAIT_DEF(pointer)
+XMLWRAPP_BOOST_MPL_HAS_XXX_TRAIT_DEF(difference_type)
+XMLWRAPP_BOOST_MPL_HAS_XXX_TRAIT_DEF(iterator_category)
 
-# if !defined(BOOST_NO_STD_ITERATOR_TRAITS)             \
-  && !defined(BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION) \
-  && !defined(BOOST_MSVC_STD_ITERATOR)
+# if !defined(XMLWRAPP_BOOST_NO_STD_ITERATOR_TRAITS)             \
+  && !defined(XMLWRAPP_BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION) \
+  && !defined(XMLWRAPP_BOOST_MSVC_STD_ITERATOR)
 // Define a new template so it can be specialized
 template <class Iterator>
 struct iterator_traits
     : std::iterator_traits<Iterator>
 {};
 using std::distance;
-# elif  !defined(BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION) \
-     && !defined(BOOST_MSVC_STD_ITERATOR)
+# elif  !defined(XMLWRAPP_BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION) \
+     && !defined(XMLWRAPP_BOOST_MSVC_STD_ITERATOR)
 
 // Rogue Wave Standard Library fools itself into thinking partial
 // specialization is missing on some platforms (e.g. Sun), so fails to
@@ -148,7 +148,7 @@ struct iterator_traits<T const*>
 // This one detects ordinary mutable iterators - the result of
 // operator* is convertible to the value_type.
 template <class T>
-type_traits::yes_type is_mutable_iterator_helper(T const*, BOOST_DEDUCED_TYPENAME T::value_type*);
+type_traits::yes_type is_mutable_iterator_helper(T const*, XMLWRAPP_BOOST_DEDUCED_TYPENAME T::value_type*);
 
 // This one detects output iterators such as ostream_iterator which
 // return references to themselves.
@@ -162,14 +162,14 @@ struct is_mutable_iterator_impl
 {
     static T t;
     
-    BOOST_STATIC_CONSTANT(bool, value = sizeof(
+    XMLWRAPP_BOOST_STATIC_CONSTANT(bool, value = sizeof(
                detail::is_mutable_iterator_helper((T*)0, &*t))
            == sizeof(type_traits::yes_type)
         );
 };
 
-BOOST_TT_AUX_BOOL_TRAIT_DEF1(
-    is_mutable_iterator,T,::boost::detail::is_mutable_iterator_impl<T>::value)
+XMLWRAPP_BOOST_TT_AUX_BOOL_TRAIT_DEF1(
+    is_mutable_iterator,T,::xmlwrapp_boost::detail::is_mutable_iterator_impl<T>::value)
 
 
 // is_full_iterator_traits --
@@ -189,12 +189,12 @@ struct is_full_iterator_traits_impl
     };
 };
 
-BOOST_TT_AUX_BOOL_TRAIT_DEF1(
-    is_full_iterator_traits,T,::boost::detail::is_full_iterator_traits_impl<T>::value)
+XMLWRAPP_BOOST_TT_AUX_BOOL_TRAIT_DEF1(
+    is_full_iterator_traits,T,::xmlwrapp_boost::detail::is_full_iterator_traits_impl<T>::value)
 
 
-#  ifdef BOOST_BAD_CONTAINER_ITERATOR_CATEGORY_TYPEDEF
-BOOST_MPL_HAS_XXX_TRAIT_DEF(_Iterator_category)
+#  ifdef XMLWRAPP_BOOST_BAD_CONTAINER_ITERATOR_CATEGORY_TYPEDEF
+XMLWRAPP_BOOST_MPL_HAS_XXX_TRAIT_DEF(_Iterator_category)
     
 // is_stlport_40_debug_iterator --
 //
@@ -213,8 +213,8 @@ struct is_stlport_40_debug_iterator_impl
     };
 };
 
-BOOST_TT_AUX_BOOL_TRAIT_DEF1(
-    is_stlport_40_debug_iterator,T,::boost::detail::is_stlport_40_debug_iterator_impl<T>::value)
+XMLWRAPP_BOOST_TT_AUX_BOOL_TRAIT_DEF1(
+    is_stlport_40_debug_iterator,T,::xmlwrapp_boost::detail::is_stlport_40_debug_iterator_impl<T>::value)
 
 template <class T>
 struct stlport_40_debug_iterator_traits
@@ -225,11 +225,11 @@ struct stlport_40_debug_iterator_traits
     typedef typename T::difference_type difference_type;
     typedef typename T::_Iterator_category iterator_category;
 };
-# endif // BOOST_BAD_CONTAINER_ITERATOR_CATEGORY_TYPEDEF 
+# endif // XMLWRAPP_BOOST_BAD_CONTAINER_ITERATOR_CATEGORY_TYPEDEF 
 
 template <class T> struct pointer_iterator_traits;
 
-# ifndef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
+# ifndef XMLWRAPP_BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
 template <class T>
 struct pointer_iterator_traits<T*>
 {
@@ -241,7 +241,7 @@ struct pointer_iterator_traits<T*>
 };
 # else 
 template <class Ptr>
-struct must_manually_specialize_boost_detail_iterator_traits;
+struct must_manually_specialize_xmlwrapp_boost_detail_iterator_traits;
 
 template <class T>
 struct pointer_iterator_traits
@@ -251,8 +251,8 @@ struct pointer_iterator_traits
     typedef std::ptrdiff_t difference_type;
 
     // Makes MSVC6 happy under some circumstances
-    typedef must_manually_specialize_boost_detail_iterator_traits<T> value_type;
-    typedef must_manually_specialize_boost_detail_iterator_traits<T> reference;
+    typedef must_manually_specialize_xmlwrapp_boost_detail_iterator_traits<T> value_type;
+    typedef must_manually_specialize_xmlwrapp_boost_detail_iterator_traits<T> reference;
 };
 
 // Use this as a base class in manual iterator_traits specializations
@@ -268,7 +268,7 @@ struct ptr_iter_traits
     typedef std::random_access_iterator_tag iterator_category;
     typedef std::ptrdiff_t difference_type;
 };
-# endif // BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
+# endif // XMLWRAPP_BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
 
 // We'll sort iterator types into one of these classifications, from which we
 // can determine the difference_type, pointer, reference, and value_type
@@ -300,7 +300,7 @@ struct msvc_stdlib_const_traits
     typedef const value_type& reference;
 };
 
-# ifdef BOOST_BAD_OUTPUT_ITERATOR_SPECIALIZATION
+# ifdef XMLWRAPP_BOOST_BAD_OUTPUT_ITERATOR_SPECIALIZATION
 template <class Iterator>
 struct is_bad_output_iterator
     : is_base_and_derived<
@@ -337,7 +337,7 @@ struct non_pointer_iterator_traits
         is_full_iterator_traits<Iterator>
         // Use a standard iterator_traits implementation
         , standard_iterator_traits<Iterator>
-# ifdef BOOST_BAD_CONTAINER_ITERATOR_CATEGORY_TYPEDEF
+# ifdef XMLWRAPP_BOOST_BAD_CONTAINER_ITERATOR_CATEGORY_TYPEDEF
         // Check for STLPort 4.0 broken _Iterator_category type
         , mpl::if_<
              is_stlport_40_debug_iterator<Iterator>
@@ -345,7 +345,7 @@ struct non_pointer_iterator_traits
 # endif
         // Otherwise, assume it's a Dinkum iterator
         , msvc_stdlib_iterator_traits<Iterator>
-# ifdef BOOST_BAD_CONTAINER_ITERATOR_CATEGORY_TYPEDEF
+# ifdef XMLWRAPP_BOOST_BAD_CONTAINER_ITERATOR_CATEGORY_TYPEDEF
         >::type
 # endif 
     >::type
@@ -368,7 +368,7 @@ struct iterator_traits
     // Explicit forwarding from base class needed to keep MSVC6 happy
     // under some circumstances.
  private:
-# ifdef BOOST_BAD_OUTPUT_ITERATOR_SPECIALIZATION
+# ifdef XMLWRAPP_BOOST_BAD_OUTPUT_ITERATOR_SPECIALIZATION
     typedef 
     typename mpl::if_<
         is_bad_output_iterator<Iterator>
@@ -410,23 +410,23 @@ namespace iterator_traits_
           return i2 - i1;
       }
   };
-} // namespace boost::detail::iterator_traits_
+} // namespace xmlwrapp_boost_boost::detail::iterator_traits_
 
 template <class Iterator>
 inline typename iterator_traits<Iterator>::difference_type
 distance(Iterator first, Iterator last)
 {
     typedef typename iterator_traits<Iterator>::difference_type diff_t;
-    typedef typename ::boost::detail::iterator_traits<Iterator>::iterator_category iterator_category;
+    typedef typename ::xmlwrapp_boost::detail::iterator_traits<Iterator>::iterator_category iterator_category;
     
     return iterator_traits_::distance_select<Iterator,diff_t>::execute(
         first, last, (iterator_category*)0);
 }
 # endif // workarounds
 
-}} // namespace boost::detail
+}} // namespace xmlwrapp_boost_boost::detail
 
-# undef BOOST_BAD_CONTAINER_ITERATOR_CATEGORY_TYPEDEF
-# undef BOOST_BAD_OUTPUT_ITERATOR_SPECIALIZATION
+# undef XMLWRAPP_BOOST_BAD_CONTAINER_ITERATOR_CATEGORY_TYPEDEF
+# undef XMLWRAPP_BOOST_BAD_OUTPUT_ITERATOR_SPECIALIZATION
 
 #endif // ITERATOR_DWA122600_HPP_

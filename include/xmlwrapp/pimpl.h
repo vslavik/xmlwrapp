@@ -113,7 +113,7 @@ namespace xmlwrapp {
 //! A smart pointer (ptr = shared_ptr or scoped_ptr) to T.
 //! @see http://boost.org/libs/smart_ptr/smart_ptr.htm
 //! @author Shane Beasley
-#define XMLWRAPP_PIMPL(ptr, T) ::boost::ptr<T>
+#define XMLWRAPP_PIMPL(ptr, T) ::xmlwrapp_boost::ptr<T>
 //####################################################################
 //! The private implementation type for T.
 //! @author Shane Beasley

@@ -1,5 +1,5 @@
-#ifndef BOOST_THROW_EXCEPTION_HPP_INCLUDED
-#define BOOST_THROW_EXCEPTION_HPP_INCLUDED
+#ifndef XMLWRAPP_BOOST_THROW_EXCEPTION_HPP_INCLUDED
+#define XMLWRAPP_BOOST_THROW_EXCEPTION_HPP_INCLUDED
 
 #if _MSC_VER >= 1020
 #pragma once
@@ -20,14 +20,14 @@
 
 #include <xmlwrapp/boost/config.hpp>
 
-#ifdef BOOST_NO_EXCEPTIONS
+#ifdef XMLWRAPP_BOOST_NO_EXCEPTIONS
 # include <exception>
 #endif
 
-namespace boost
+namespace xmlwrapp_boost
 {
 
-#ifdef BOOST_NO_EXCEPTIONS
+#ifdef XMLWRAPP_BOOST_NO_EXCEPTIONS
 
 void throw_exception(std::exception const & e); // user defined
 
@@ -40,6 +40,6 @@ template<class E> void throw_exception(E const & e)
 
 #endif
 
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#endif // #ifndef BOOST_THROW_EXCEPTION_HPP_INCLUDED
+#endif // #ifndef XMLWRAPP_BOOST_THROW_EXCEPTION_HPP_INCLUDED

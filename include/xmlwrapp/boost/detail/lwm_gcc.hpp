@@ -1,5 +1,5 @@
-#ifndef BOOST_DETAIL_LWM_GCC_HPP_INCLUDED
-#define BOOST_DETAIL_LWM_GCC_HPP_INCLUDED
+#ifndef XMLWRAPP_BOOST_DETAIL_LWM_GCC_HPP_INCLUDED
+#define XMLWRAPP_BOOST_DETAIL_LWM_GCC_HPP_INCLUDED
 
 //
 //  boost/detail/lwm_gcc.hpp
@@ -20,7 +20,7 @@
 #include <bits/atomicity.h>
 #include <sched.h>
 
-namespace boost
+namespace xmlwrapp_boost
 {
 
 namespace detail
@@ -73,6 +73,6 @@ public:
 
 } // namespace detail
 
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#endif // #ifndef BOOST_DETAIL_LWM_GCC_HPP_INCLUDED
+#endif // #ifndef XMLWRAPP_BOOST_DETAIL_LWM_GCC_HPP_INCLUDED

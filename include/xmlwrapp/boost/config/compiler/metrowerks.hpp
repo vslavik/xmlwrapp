@@ -9,50 +9,50 @@
 
 // locale support is disabled when linking with the dynamic runtime
 #   ifdef _MSL_NO_LOCALE
-#     define BOOST_NO_STD_LOCALE
+#     define XMLWRAPP_BOOST_NO_STD_LOCALE
 #   endif 
 
 #   if __MWERKS__ <= 0x2301  // 5.3
-#     define BOOST_NO_FUNCTION_TEMPLATE_ORDERING
-#     define BOOST_NO_POINTER_TO_MEMBER_CONST
-#     define BOOST_NO_DEPENDENT_TYPES_IN_TEMPLATE_VALUE_PARAMETERS
-#     define BOOST_NO_MEMBER_TEMPLATE_KEYWORD
+#     define XMLWRAPP_BOOST_NO_FUNCTION_TEMPLATE_ORDERING
+#     define XMLWRAPP_BOOST_NO_POINTER_TO_MEMBER_CONST
+#     define XMLWRAPP_BOOST_NO_DEPENDENT_TYPES_IN_TEMPLATE_VALUE_PARAMETERS
+#     define XMLWRAPP_BOOST_NO_MEMBER_TEMPLATE_KEYWORD
 #   endif
 
 #   if __MWERKS__ <= 0x2401  // 6.2
-//#     define BOOST_NO_FUNCTION_TEMPLATE_ORDERING
+//#     define XMLWRAPP_BOOST_NO_FUNCTION_TEMPLATE_ORDERING
 #   endif
 
 #   if(__MWERKS__ <= 0x2407)  // 7.x
-#     define BOOST_NO_MEMBER_FUNCTION_SPECIALIZATIONS
-#     define BOOST_NO_UNREACHABLE_RETURN_DETECTION
+#     define XMLWRAPP_BOOST_NO_MEMBER_FUNCTION_SPECIALIZATIONS
+#     define XMLWRAPP_BOOST_NO_UNREACHABLE_RETURN_DETECTION
 #   endif
 
 #   if(__MWERKS__ <= 0x3003)  // 8.x
-#     define BOOST_NO_MEMBER_TEMPLATE_FRIENDS
+#     define XMLWRAPP_BOOST_NO_MEMBER_TEMPLATE_FRIENDS
 #    endif
 
 #if !__option(wchar_type)
-#   define BOOST_NO_INTRINSIC_WCHAR_T
+#   define XMLWRAPP_BOOST_NO_INTRINSIC_WCHAR_T
 #endif
 
 #if !__option(exceptions)
-#   define BOOST_NO_EXCEPTIONS
+#   define XMLWRAPP_BOOST_NO_EXCEPTIONS
 #endif
 
 #   if __MWERKS__ == 0x3000
-#     define BOOST_COMPILER_VERSION 8.0
+#     define XMLWRAPP_BOOST_COMPILER_VERSION 8.0
 #   elif __MWERKS__ == 0x3001
-#     define BOOST_COMPILER_VERSION 8.1
+#     define XMLWRAPP_BOOST_COMPILER_VERSION 8.1
 #   elif __MWERKS__ == 0x3002
-#     define BOOST_COMPILER_VERSION 8.2
+#     define XMLWRAPP_BOOST_COMPILER_VERSION 8.2
 #   elif __MWERKS__ == 0x3003
-#     define BOOST_COMPILER_VERSION 8.3
+#     define XMLWRAPP_BOOST_COMPILER_VERSION 8.3
 #   else
-#     define BOOST_COMPILER_VERSION __MWERKS__
+#     define XMLWRAPP_BOOST_COMPILER_VERSION __MWERKS__
 #   endif 
 
-#define BOOST_COMPILER "Metrowerks CodeWarrior C++ version " BOOST_STRINGIZE(BOOST_COMPILER_VERSION)
+#define XMLWRAPP_BOOST_COMPILER "Metrowerks CodeWarrior C++ version " XMLWRAPP_BOOST_STRINGIZE(XMLWRAPP_BOOST_COMPILER_VERSION)
 
 //
 // versions check:
@@ -63,7 +63,7 @@
 //
 // last known and checked version:
 #if (__MWERKS__ > 0x3003)
-#  if defined(BOOST_ASSERT_CONFIG)
+#  if defined(XMLWRAPP_BOOST_ASSERT_CONFIG)
 #     error "Unknown compiler version - please run the configure tests and report the results"
 #  endif
 #endif

@@ -9,20 +9,20 @@
 
 #include "xmlwrapp/boost/config/compiler/common_edg.hpp"
 
-#if (__COMO_VERSION__ <= 4245) || !defined(BOOST_STRICT_CONFIG)
+#if (__COMO_VERSION__ <= 4245) || !defined(XMLWRAPP_BOOST_STRICT_CONFIG)
 #  if defined(_MSC_VER) && _MSC_VER <= 1300
-#     define BOOST_NO_STDC_NAMESPACE
-#     define BOOST_NO_SWPRINTF
+#     define XMLWRAPP_BOOST_NO_STDC_NAMESPACE
+#     define XMLWRAPP_BOOST_NO_SWPRINTF
 #     if _MSC_VER > 100
          // only set this in non-strict mode:
-#        define BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP
+#        define XMLWRAPP_BOOST_NO_ARGUMENT_DEPENDENT_LOOKUP
 #     endif
 #  endif
 
 // Void returns don't work when emulating VC 6 (Peter Dimov)
 
 #  if defined(_MSC_VER) && (_MSC_VER == 1200)
-#     define BOOST_NO_VOID_RETURNS
+#     define XMLWRAPP_BOOST_NO_VOID_RETURNS
 #  endif
 
 
@@ -30,11 +30,11 @@
 
 //
 // enable __int64 support in VC emulation mode
-// we should also set BOOST_HAS_LONG_LONG when that is
+// we should also set XMLWRAPP_BOOST_HAS_LONG_LONG when that is
 // supported, but there is no way we can detect it:
 //
 #  if defined(_MSC_VER) && (_MSC_VER >= 1200)
-#     define BOOST_HAS_MS_INT64
+#     define XMLWRAPP_BOOST_HAS_MS_INT64
 #  endif
 
 //
@@ -42,10 +42,10 @@
 // (what does this do to Como on top of Borland?):
 //
 #if defined(_WIN32) && (_MSC_VER+0 < 1000)
-#  define BOOST_DISABLE_WIN32
+#  define XMLWRAPP_BOOST_DISABLE_WIN32
 #endif
 
-#define BOOST_COMPILER "Comeau compiler version " BOOST_STRINGIZE(__COMO_VERSION__)
+#define XMLWRAPP_BOOST_COMPILER "Comeau compiler version " XMLWRAPP_BOOST_STRINGIZE(__COMO_VERSION__)
 
 //
 // versions check:
@@ -56,7 +56,7 @@
 //
 // last known and checked version is 4245:
 #if (__COMO_VERSION__ > 4245)
-#  if defined(BOOST_ASSERT_CONFIG)
+#  if defined(XMLWRAPP_BOOST_ASSERT_CONFIG)
 #     error "Unknown compiler version - please run the configure tests and report the results"
 #  endif
 #endif

@@ -7,7 +7,7 @@
 
 //  Dec Alpha True64 C++ compiler setup:
 
-#define BOOST_COMPILER "Dec Alpha True64 " BOOST_STRINGIZE(__DECCXX_VER)
+#define XMLWRAPP_BOOST_COMPILER "Dec Alpha True64 " XMLWRAPP_BOOST_STRINGIZE(__DECCXX_VER)
 
 #include "xmlwrapp/boost/config/compiler/common_edg.hpp"
 

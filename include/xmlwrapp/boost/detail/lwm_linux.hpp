@@ -1,5 +1,5 @@
-#ifndef BOOST_DETAIL_LWM_LINUX_HPP_INCLUDED
-#define BOOST_DETAIL_LWM_LINUX_HPP_INCLUDED
+#ifndef XMLWRAPP_BOOST_DETAIL_LWM_LINUX_HPP_INCLUDED
+#define XMLWRAPP_BOOST_DETAIL_LWM_LINUX_HPP_INCLUDED
 
 #if _MSC_VER >= 1020
 #pragma once
@@ -23,13 +23,13 @@
 //
 //  This file is only provided because the performance of this implementation
 //  is about 3.5 times higher than the pthreads version. Use at your own risk
-//  (by defining BOOST_USE_ASM_ATOMIC_H.)
+//  (by defining XMLWRAPP_BOOST_USE_ASM_ATOMIC_H.)
 //
 
 #include <asm/atomic.h>
 #include <sched.h>
 
-namespace boost
+namespace xmlwrapp_boost
 {
 
 namespace detail
@@ -84,6 +84,6 @@ public:
 
 } // namespace detail
 
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#endif // #ifndef BOOST_DETAIL_LWM_LINUX_HPP_INCLUDED
+#endif // #ifndef XMLWRAPP_BOOST_DETAIL_LWM_LINUX_HPP_INCLUDED

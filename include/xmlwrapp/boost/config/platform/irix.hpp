@@ -7,18 +7,18 @@
 
 //  SGI Irix specific config options:
 
-#define BOOST_PLATFORM "SGI Irix"
+#define XMLWRAPP_BOOST_PLATFORM "SGI Irix"
 
-#define BOOST_NO_SWPRINTF 
+#define XMLWRAPP_BOOST_NO_SWPRINTF 
 //
 // these are not auto detected by POSIX feature tests:
 //
-#define BOOST_HAS_GETTIMEOFDAY
-#define BOOST_HAS_PTHREAD_MUTEXATTR_SETTYPE
+#define XMLWRAPP_BOOST_HAS_GETTIMEOFDAY
+#define XMLWRAPP_BOOST_HAS_PTHREAD_MUTEXATTR_SETTYPE
 
 
 // boilerplate code:
-#define BOOST_HAS_UNISTD_H
+#define XMLWRAPP_BOOST_HAS_UNISTD_H
 #include <xmlwrapp/boost/config/posix_features.hpp>
 
 

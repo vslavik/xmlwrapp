@@ -1,5 +1,5 @@
-#ifndef BOOST_DETAIL_SHARED_PTR_NMT_HPP_INCLUDED
-#define BOOST_DETAIL_SHARED_PTR_NMT_HPP_INCLUDED
+#ifndef XMLWRAPP_BOOST_DETAIL_SHARED_PTR_NMT_HPP_INCLUDED
+#define XMLWRAPP_BOOST_DETAIL_SHARED_PTR_NMT_HPP_INCLUDED
 
 //
 //  detail/shared_ptr_nmt.hpp - shared_ptr.hpp without member templates
@@ -20,7 +20,7 @@
 #include <xmlwrapp/boost/throw_exception.hpp>
 #include <xmlwrapp/boost/detail/atomic_count.hpp>
 
-#ifndef BOOST_NO_AUTO_PTR
+#ifndef XMLWRAPP_BOOST_NO_AUTO_PTR
 # include <memory>          // for std::auto_ptr
 #endif
 
@@ -28,7 +28,7 @@
 #include <functional>       // for std::less
 #include <new>              // for std::bad_alloc
 
-namespace boost
+namespace xmlwrapp_boost
 {
 
 template<class T> class shared_ptr
@@ -44,7 +44,7 @@ public:
 
     explicit shared_ptr(T * p = 0): px(p)
     {
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef XMLWRAPP_BOOST_NO_EXCEPTIONS
 
         try  // prevent leak if new throws
         {
@@ -52,7 +52,7 @@ public:
         }
         catch(...)
         {
-            boost::checked_delete(p);
+            xmlwrapp_boost::checked_delete(p);
             throw;
         }
 
@@ -62,8 +62,8 @@ public:
 
         if(pn == 0)
         {
-            boost::checked_delete(p);
-            boost::throw_exception(std::bad_alloc());
+            xmlwrapp_boost::checked_delete(p);
+            xmlwrapp_boost::throw_exception(std::bad_alloc());
         }
 
 #endif
@@ -73,7 +73,7 @@ public:
     {
         if(--*pn == 0)
         {
-            boost::checked_delete(px);
+            xmlwrapp_boost::checked_delete(px);
             delete pn;
         }
     }
@@ -90,7 +90,7 @@ public:
         return *this;
     }
 
-#ifndef BOOST_NO_AUTO_PTR
+#ifndef XMLWRAPP_BOOST_NO_AUTO_PTR
 
     explicit shared_ptr(std::auto_ptr<T> & r)
     { 
@@ -108,19 +108,19 @@ public:
 
     void reset(T * p = 0)
     {
-        BOOST_ASSERT(p == 0 || p != px);
+        XMLWRAPP_BOOST_ASSERT(p == 0 || p != px);
         shared_ptr(p).swap(*this);
     }
 
     T & operator*() const  // never throws
     {
-        BOOST_ASSERT(px != 0);
+        XMLWRAPP_BOOST_ASSERT(px != 0);
         return *px;
     }
 
     T * operator->() const  // never throws
     {
-        BOOST_ASSERT(px != 0);
+        XMLWRAPP_BOOST_ASSERT(px != 0);
         return px;
     }
 
@@ -171,13 +171,13 @@ template<class T> void swap(shared_ptr<T> & a, shared_ptr<T> & b)
     a.swap(b);
 }
 
-// get_pointer() enables boost::mem_fn to recognize shared_ptr
+// get_pointer() enables xmlwrapp_boost::mem_fn to recognize shared_ptr
 
 template<class T> inline T * get_pointer(shared_ptr<T> const & p)
 {
     return p.get();
 }
 
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#endif  // #ifndef BOOST_DETAIL_SHARED_PTR_NMT_HPP_INCLUDED
+#endif  // #ifndef XMLWRAPP_BOOST_DETAIL_SHARED_PTR_NMT_HPP_INCLUDED

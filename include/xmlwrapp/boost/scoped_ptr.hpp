@@ -1,5 +1,5 @@
-#ifndef BOOST_SCOPED_PTR_HPP_INCLUDED
-#define BOOST_SCOPED_PTR_HPP_INCLUDED
+#ifndef XMLWRAPP_BOOST_SCOPED_PTR_HPP_INCLUDED
+#define XMLWRAPP_BOOST_SCOPED_PTR_HPP_INCLUDED
 
 //  (C) Copyright Greg Colvin and Beman Dawes 1998, 1999.
 //  Copyright (c) 2001, 2002 Peter Dimov
@@ -15,16 +15,16 @@
 #include <xmlwrapp/boost/assert.hpp>
 #include <xmlwrapp/boost/checked_delete.hpp>
 
-#ifndef BOOST_NO_AUTO_PTR
+#ifndef XMLWRAPP_BOOST_NO_AUTO_PTR
 # include <memory>          // for std::auto_ptr
 #endif
 
-namespace boost
+namespace xmlwrapp_boost
 {
 
 // Debug hooks
 
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
 
 void sp_scalar_constructor_hook(void * p);
 void sp_scalar_destructor_hook(void * p);
@@ -53,17 +53,17 @@ public:
 
     explicit scoped_ptr(T * p = 0): ptr(p) // never throws
     {
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
-        boost::sp_scalar_constructor_hook(ptr);
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
+        xmlwrapp_boost::sp_scalar_constructor_hook(ptr);
 #endif
     }
 
-#ifndef BOOST_NO_AUTO_PTR
+#ifndef XMLWRAPP_BOOST_NO_AUTO_PTR
 
     explicit scoped_ptr(std::auto_ptr<T> p): ptr(p.release()) // never throws
     {
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
-        boost::sp_scalar_constructor_hook(ptr);
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
+        xmlwrapp_boost::sp_scalar_constructor_hook(ptr);
 #endif
     }
 
@@ -71,27 +71,27 @@ public:
 
     ~scoped_ptr() // never throws
     {
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
-        boost::sp_scalar_destructor_hook(ptr);
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
+        xmlwrapp_boost::sp_scalar_destructor_hook(ptr);
 #endif
-        boost::checked_delete(ptr);
+        xmlwrapp_boost::checked_delete(ptr);
     }
 
     void reset(T * p = 0) // never throws
     {
-        BOOST_ASSERT(p == 0 || p != ptr); // catch self-reset errors
+        XMLWRAPP_BOOST_ASSERT(p == 0 || p != ptr); // catch self-reset errors
         this_type(p).swap(*this);
     }
 
     T & operator*() const // never throws
     {
-        BOOST_ASSERT(ptr != 0);
+        XMLWRAPP_BOOST_ASSERT(ptr != 0);
         return *ptr;
     }
 
     T * operator->() const // never throws
     {
-        BOOST_ASSERT(ptr != 0);
+        XMLWRAPP_BOOST_ASSERT(ptr != 0);
         return ptr;
     }
 
@@ -134,6 +134,6 @@ template<class T> inline T * get_pointer(scoped_ptr<T> const & p)
     return p.get();
 }
 
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#endif // #ifndef BOOST_SCOPED_PTR_HPP_INCLUDED
+#endif // #ifndef XMLWRAPP_BOOST_SCOPED_PTR_HPP_INCLUDED

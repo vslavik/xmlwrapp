@@ -9,23 +9,23 @@
 
 #   if __GNUC__ == 2 && __GNUC_MINOR__ == 91
        // egcs 1.1 won't parse shared_ptr.hpp without this:
-#      define BOOST_NO_AUTO_PTR
+#      define XMLWRAPP_BOOST_NO_AUTO_PTR
 #   endif
 #   if __GNUC__ == 2 && __GNUC_MINOR__ < 95
       //
       // Prior to gcc 2.95 member templates only partly
-      // work - define BOOST_MSVC6_MEMBER_TEMPLATES
+      // work - define XMLWRAPP_BOOST_MSVC6_MEMBER_TEMPLATES
       // instead since inline member templates mostly work.
       //
-#     define BOOST_NO_MEMBER_TEMPLATES
+#     define XMLWRAPP_BOOST_NO_MEMBER_TEMPLATES
 #     if __GNUC_MINOR__ >= 9
-#       define BOOST_MSVC6_MEMBER_TEMPLATES
+#       define XMLWRAPP_BOOST_MSVC6_MEMBER_TEMPLATES
 #     endif
 #   endif
 
 #   if __GNUC__ == 2 && __GNUC_MINOR__ <= 97
-#     define BOOST_NO_MEMBER_TEMPLATE_FRIENDS
-#     define BOOST_NO_OPERATORS_IN_NAMESPACE
+#     define XMLWRAPP_BOOST_NO_MEMBER_TEMPLATE_FRIENDS
+#     define XMLWRAPP_BOOST_NO_OPERATORS_IN_NAMESPACE
 #   endif
 
 //
@@ -34,22 +34,22 @@
 // later if no threading API is detected.
 //
 #if !defined(__MINGW32__) || defined(_MT)
-# define BOOST_HAS_THREADS
+# define XMLWRAPP_BOOST_HAS_THREADS
 #endif 
 
 //
 // gcc has "long long"
 //
-#define BOOST_HAS_LONG_LONG
+#define XMLWRAPP_BOOST_HAS_LONG_LONG
 
 //
 // gcc implements the named return value optimization since version 3.1
 //
 #if __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ >= 1 )
-#define BOOST_HAS_NRVO
+#define XMLWRAPP_BOOST_HAS_NRVO
 #endif
 
-#define BOOST_COMPILER "GNU C++ version " __VERSION__
+#define XMLWRAPP_BOOST_COMPILER "GNU C++ version " __VERSION__
 
 //
 // versions check:
@@ -60,7 +60,7 @@
 //
 // last known and checked version is 3.3:
 #if (__GNUC__ > 3) || ((__GNUC__ == 3) && (__GNUC_MINOR__ > 3))
-#  if defined(BOOST_ASSERT_CONFIG)
+#  if defined(XMLWRAPP_BOOST_ASSERT_CONFIG)
 #     error "Unknown compiler version - please run the configure tests and report the results"
 #  else
 #     warning "Unknown compiler version - please run the configure tests and report the results"

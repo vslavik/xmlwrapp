@@ -1,5 +1,5 @@
-#ifndef BOOST_DETAIL_LWM_WIN32_CS_HPP_INCLUDED
-#define BOOST_DETAIL_LWM_WIN32_CS_HPP_INCLUDED
+#ifndef XMLWRAPP_BOOST_DETAIL_LWM_WIN32_CS_HPP_INCLUDED
+#define XMLWRAPP_BOOST_DETAIL_LWM_WIN32_CS_HPP_INCLUDED
 
 #if _MSC_VER >= 1020
 #pragma once
@@ -16,17 +16,17 @@
 //  warranty, and with no claim as to its suitability for any purpose.
 //
 
-#ifdef BOOST_USE_WINDOWS_H
+#ifdef XMLWRAPP_BOOST_USE_WINDOWS_H
 #  include <windows.h>
 #endif
 
-namespace boost
+namespace xmlwrapp_boost
 {
 
 namespace detail
 {
 
-#ifndef BOOST_USE_WINDOWS_H
+#ifndef XMLWRAPP_BOOST_USE_WINDOWS_H
 
 struct CRITICAL_SECTION
 {
@@ -47,7 +47,7 @@ extern "C" __declspec(dllimport) void __stdcall EnterCriticalSection(CRITICAL_SE
 extern "C" __declspec(dllimport) void __stdcall LeaveCriticalSection(CRITICAL_SECTION *);
 extern "C" __declspec(dllimport) void __stdcall DeleteCriticalSection(CRITICAL_SECTION *);
 
-#endif // #ifndef BOOST_USE_WINDOWS_H
+#endif // #ifndef XMLWRAPP_BOOST_USE_WINDOWS_H
 
 class lightweight_mutex
 {
@@ -98,6 +98,6 @@ public:
 
 } // namespace detail
 
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#endif // #ifndef BOOST_DETAIL_LWM_WIN32_CS_HPP_INCLUDED
+#endif // #ifndef XMLWRAPP_BOOST_DETAIL_LWM_WIN32_CS_HPP_INCLUDED

@@ -15,14 +15,14 @@
 #endif
 
 #ifndef MSIPL_NL_TYPES
-#define BOOST_NO_STD_MESSAGES
+#define XMLWRAPP_BOOST_NO_STD_MESSAGES
 #endif
 
 #ifndef MSIPL_WCHART
-#define BOOST_NO_STD_WSTRING
+#define XMLWRAPP_BOOST_NO_STD_WSTRING
 #endif
 
-#define BOOST_STDLIB "Modena C++ standard library"
+#define XMLWRAPP_BOOST_STDLIB "Modena C++ standard library"
 
 
 

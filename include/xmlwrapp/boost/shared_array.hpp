@@ -1,5 +1,5 @@
-#ifndef BOOST_SHARED_ARRAY_HPP_INCLUDED
-#define BOOST_SHARED_ARRAY_HPP_INCLUDED
+#ifndef XMLWRAPP_BOOST_SHARED_ARRAY_HPP_INCLUDED
+#define XMLWRAPP_BOOST_SHARED_ARRAY_HPP_INCLUDED
 
 //
 //  shared_array.hpp
@@ -17,7 +17,7 @@
 
 #include <xmlwrapp/boost/config.hpp>   // for broken compiler workarounds
 
-#if defined(BOOST_NO_MEMBER_TEMPLATES) && !defined(BOOST_MSVC6_MEMBER_TEMPLATES)
+#if defined(XMLWRAPP_BOOST_NO_MEMBER_TEMPLATES) && !defined(XMLWRAPP_BOOST_MSVC6_MEMBER_TEMPLATES)
 #include <xmlwrapp/boost/detail/shared_array_nmt.hpp>
 #else
 
@@ -30,7 +30,7 @@
 #include <algorithm>          // for std::swap
 #include <functional>         // for std::less
 
-namespace boost
+namespace xmlwrapp_boost
 {
 
 //
@@ -71,7 +71,7 @@ public:
 
     void reset(T * p = 0)
     {
-        BOOST_ASSERT(p == 0 || p != px);
+        XMLWRAPP_BOOST_ASSERT(p == 0 || p != px);
         this_type(p).swap(*this);
     }
 
@@ -82,8 +82,8 @@ public:
 
     T & operator[] (std::ptrdiff_t i) const // never throws
     {
-        BOOST_ASSERT(px != 0);
-        BOOST_ASSERT(i >= 0);
+        XMLWRAPP_BOOST_ASSERT(px != 0);
+        XMLWRAPP_BOOST_ASSERT(i >= 0);
         return px[i];
     }
     
@@ -149,8 +149,8 @@ template<class T> void swap(shared_array<T> & a, shared_array<T> & b) // never t
     a.swap(b);
 }
 
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#endif  // #if defined(BOOST_NO_MEMBER_TEMPLATES) && !defined(BOOST_MSVC6_MEMBER_TEMPLATES)
+#endif  // #if defined(XMLWRAPP_BOOST_NO_MEMBER_TEMPLATES) && !defined(XMLWRAPP_BOOST_MSVC6_MEMBER_TEMPLATES)
 
-#endif  // #ifndef BOOST_SHARED_ARRAY_HPP_INCLUDED
+#endif  // #ifndef XMLWRAPP_BOOST_SHARED_ARRAY_HPP_INCLUDED

@@ -1,5 +1,5 @@
-#ifndef BOOST_DETAIL_QUICK_ALLOCATOR_HPP_INCLUDED
-#define BOOST_DETAIL_QUICK_ALLOCATOR_HPP_INCLUDED
+#ifndef XMLWRAPP_BOOST_DETAIL_QUICK_ALLOCATOR_HPP_INCLUDED
+#define XMLWRAPP_BOOST_DETAIL_QUICK_ALLOCATOR_HPP_INCLUDED
 
 #if _MSC_VER >= 1020
 #pragma once
@@ -26,7 +26,7 @@
 #include <new>              // ::operator new, ::operator delete
 #include <cstddef>          // std::size_t
 
-namespace boost
+namespace xmlwrapp_boost
 {
 
 namespace detail
@@ -34,7 +34,7 @@ namespace detail
 
 template<unsigned size, unsigned align_> union freeblock
 {
-    typedef typename boost::type_with_alignment<align_>::type aligner_type;
+    typedef typename xmlwrapp_boost::type_with_alignment<align_>::type aligner_type;
     aligner_type aligner;
     char bytes[size];
     freeblock * next;
@@ -59,9 +59,9 @@ template<unsigned size, unsigned align_> struct allocator_impl
     // varying the page size. g++ 2.96 on Red Hat Linux 7.2,
     // for example, passionately dislikes 496. 512 seems OK.
 
-#if defined(BOOST_QA_PAGE_SIZE)
+#if defined(XMLWRAPP_BOOST_QA_PAGE_SIZE)
 
-    enum { items_per_page = BOOST_QA_PAGE_SIZE / size };
+    enum { items_per_page = XMLWRAPP_BOOST_QA_PAGE_SIZE / size };
 
 #else
 
@@ -69,7 +69,7 @@ template<unsigned size, unsigned align_> struct allocator_impl
 
 #endif
 
-#ifdef BOOST_HAS_THREADS
+#ifdef XMLWRAPP_BOOST_HAS_THREADS
     static lightweight_mutex mutex;
 #endif
 
@@ -79,7 +79,7 @@ template<unsigned size, unsigned align_> struct allocator_impl
 
     static inline void * alloc()
     {
-#ifdef BOOST_HAS_THREADS
+#ifdef XMLWRAPP_BOOST_HAS_THREADS
         lightweight_mutex::scoped_lock lock(mutex);
 #endif
         if(block * x = free)
@@ -109,7 +109,7 @@ template<unsigned size, unsigned align_> struct allocator_impl
         }
         else
         {
-#ifdef BOOST_HAS_THREADS
+#ifdef XMLWRAPP_BOOST_HAS_THREADS
             lightweight_mutex::scoped_lock lock(mutex);
 #endif
             if(block * x = free)
@@ -134,7 +134,7 @@ template<unsigned size, unsigned align_> struct allocator_impl
     {
         if(pv != 0) // 18.4.1.1/13
         {
-#ifdef BOOST_HAS_THREADS
+#ifdef XMLWRAPP_BOOST_HAS_THREADS
             lightweight_mutex::scoped_lock lock(mutex);
 #endif
             block * pb = static_cast<block *>(pv);
@@ -151,7 +151,7 @@ template<unsigned size, unsigned align_> struct allocator_impl
         }
         else if(pv != 0) // 18.4.1.1/13
         {
-#ifdef BOOST_HAS_THREADS
+#ifdef XMLWRAPP_BOOST_HAS_THREADS
             lightweight_mutex::scoped_lock lock(mutex);
 #endif
             block * pb = static_cast<block *>(pv);
@@ -161,7 +161,7 @@ template<unsigned size, unsigned align_> struct allocator_impl
     }
 };
 
-#ifdef BOOST_HAS_THREADS
+#ifdef XMLWRAPP_BOOST_HAS_THREADS
 template<unsigned size, unsigned align_>
   lightweight_mutex allocator_impl<size, align_>::mutex;
 #endif
@@ -176,12 +176,12 @@ template<unsigned size, unsigned align_>
   unsigned allocator_impl<size, align_>::last = allocator_impl<size, align_>::items_per_page;
 
 template<class T>
-struct quick_allocator: public allocator_impl< sizeof(T), boost::alignment_of<T>::value >
+struct quick_allocator: public allocator_impl< sizeof(T), xmlwrapp_boost::alignment_of<T>::value >
 {
 };
 
 } // namespace detail
 
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#endif  // #ifndef BOOST_DETAIL_QUICK_ALLOCATOR_HPP_INCLUDED
+#endif  // #ifndef XMLWRAPP_BOOST_DETAIL_QUICK_ALLOCATOR_HPP_INCLUDED

@@ -17,17 +17,17 @@
 // figure out a consistent version number:
 //
 #ifndef _RWSTD_VER
-#  define BOOST_RWSTD_VER 0x010000
+#  define XMLWRAPP_BOOST_RWSTD_VER 0x010000
 #elif _RWSTD_VER < 0x010000
-#  define BOOST_RWSTD_VER (_RWSTD_VER << 8)
+#  define XMLWRAPP_BOOST_RWSTD_VER (_RWSTD_VER << 8)
 #else
-#  define BOOST_RWSTD_VER _RWSTD_VER
+#  define XMLWRAPP_BOOST_RWSTD_VER _RWSTD_VER
 #endif
 
 #ifndef _RWSTD_VER
-#  define BOOST_STDLIB "Rogue Wave standard library version (Unknown version)"
+#  define XMLWRAPP_BOOST_STDLIB "Rogue Wave standard library version (Unknown version)"
 #else
-#  define BOOST_STDLIB "Rogue Wave standard library version " BOOST_STRINGIZE(_RWSTD_VER)
+#  define XMLWRAPP_BOOST_STDLIB "Rogue Wave standard library version " XMLWRAPP_BOOST_STRINGIZE(_RWSTD_VER)
 #endif
 
 //
@@ -35,51 +35,51 @@
 // does not have compile time constants, even though specializations of that
 // template do:
 //
-#if BOOST_RWSTD_VER < 0x020200
-#  define BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
+#if XMLWRAPP_BOOST_RWSTD_VER < 0x020200
+#  define XMLWRAPP_BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
 #endif
 
-#if BOOST_RWSTD_VER <= 0x020101
-#  define BOOST_NO_LONG_LONG_NUMERIC_LIMITS
+#if XMLWRAPP_BOOST_RWSTD_VER <= 0x020101
+#  define XMLWRAPP_BOOST_NO_LONG_LONG_NUMERIC_LIMITS
 # endif
 
 //
 // Borland version of numeric_limits lacks __int64 specialisation:
 //
 #ifdef __BORLANDC__
-#  define BOOST_NO_MS_INT64_NUMERIC_LIMITS
+#  define XMLWRAPP_BOOST_NO_MS_INT64_NUMERIC_LIMITS
 #endif
 
 //
 // No std::iterator if it can't figure out default template args:
 //
-#if defined(_RWSTD_NO_SIMPLE_DEFAULT_TEMPLATES) || defined(RWSTD_NO_SIMPLE_DEFAULT_TEMPLATES) || (BOOST_RWSTD_VER < 0x020000)
-#  define BOOST_NO_STD_ITERATOR
+#if defined(_RWSTD_NO_SIMPLE_DEFAULT_TEMPLATES) || defined(RWSTD_NO_SIMPLE_DEFAULT_TEMPLATES) || (XMLWRAPP_BOOST_RWSTD_VER < 0x020000)
+#  define XMLWRAPP_BOOST_NO_STD_ITERATOR
 #endif
 
 //
 // No iterator traits without partial specialization:
 //
 #if defined(_RWSTD_NO_CLASS_PARTIAL_SPEC) || defined(RWSTD_NO_CLASS_PARTIAL_SPEC)
-#  define BOOST_NO_STD_ITERATOR_TRAITS
+#  define XMLWRAPP_BOOST_NO_STD_ITERATOR_TRAITS
 #endif
 
 //
 // Prior to version 2.0, std::auto_ptr was buggy, and there were no
 // new-style iostreams, and no conformant std::allocator:
 //
-#if (BOOST_RWSTD_VER < 0x020000)
-#  define BOOST_NO_AUTO_PTR
-#  define BOOST_NO_STRINGSTREAM
-#  define BOOST_NO_STD_ALLOCATOR
-#  define BOOST_NO_STD_LOCALE
+#if (XMLWRAPP_BOOST_RWSTD_VER < 0x020000)
+#  define XMLWRAPP_BOOST_NO_AUTO_PTR
+#  define XMLWRAPP_BOOST_NO_STRINGSTREAM
+#  define XMLWRAPP_BOOST_NO_STD_ALLOCATOR
+#  define XMLWRAPP_BOOST_NO_STD_LOCALE
 #endif
 
 //
 // No template iterator constructors without member template support:
 //
 #if defined(RWSTD_NO_MEMBER_TEMPLATES) || defined(_RWSTD_NO_MEMBER_TEMPLATES)
-#  define BOOST_NO_TEMPLATED_ITERATOR_CONSTRUCTORS
+#  define XMLWRAPP_BOOST_NO_TEMPLATED_ITERATOR_CONSTRUCTORS
 #endif
 
 //
@@ -88,31 +88,31 @@
 // on HP aCC systems even though the allocator is in fact broken):
 //
 #if !defined(_RWSTD_ALLOCATOR) || (defined(__HP_aCC) && __HP_aCC <= 33100)
-#  define BOOST_NO_STD_ALLOCATOR
+#  define XMLWRAPP_BOOST_NO_STD_ALLOCATOR
 #endif
 
 //
 // If we have a std::locale, we still may not have std::use_facet:
 //
-#if defined(_RWSTD_NO_TEMPLATE_ON_RETURN_TYPE) && !defined(BOOST_NO_STD_LOCALE)
-#  define BOOST_NO_STD_USE_FACET
-#  define BOOST_HAS_TWO_ARG_USE_FACET
+#if defined(_RWSTD_NO_TEMPLATE_ON_RETURN_TYPE) && !defined(XMLWRAPP_BOOST_NO_STD_LOCALE)
+#  define XMLWRAPP_BOOST_NO_STD_USE_FACET
+#  define XMLWRAPP_BOOST_HAS_TWO_ARG_USE_FACET
 #endif
 
 //
 // There's no std::distance prior to version 2, or without
 // partial specialization support:
 //
-#if (BOOST_RWSTD_VER < 0x020000) || defined(_RWSTD_NO_CLASS_PARTIAL_SPEC)
-    #define BOOST_NO_STD_DISTANCE
+#if (XMLWRAPP_BOOST_RWSTD_VER < 0x020000) || defined(_RWSTD_NO_CLASS_PARTIAL_SPEC)
+    #define XMLWRAPP_BOOST_NO_STD_DISTANCE
 #endif
 
 //
 // Some versions of the rogue wave library don't have assignable
 // OutputIterators:
 //
-#if BOOST_RWSTD_VER < 0x020100
-#  define BOOST_NO_STD_OUTPUT_ITERATOR_ASSIGN
+#if XMLWRAPP_BOOST_RWSTD_VER < 0x020100
+#  define XMLWRAPP_BOOST_NO_STD_OUTPUT_ITERATOR_ASSIGN
 #endif
 
 

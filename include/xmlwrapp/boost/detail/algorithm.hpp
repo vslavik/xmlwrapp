@@ -30,8 +30,8 @@
  * purpose.  It is provided "as is" without express or implied warranty.
  */
 
-#ifndef BOOST_ALGORITHM_HPP
-# define BOOST_ALGORITHM_HPP
+#ifndef XMLWRAPP_BOOST_ALGORITHM_HPP
+# define XMLWRAPP_BOOST_ALGORITHM_HPP
 # include <xmlwrapp/boost/detail/iterator.hpp>
 // Algorithms on sequences
 //
@@ -43,7 +43,7 @@
 #include <algorithm>
 #include <vector>
 
-namespace boost {
+namespace xmlwrapp_boost {
 
   template <typename Iter1, typename Iter2>
   Iter1 begin(const std::pair<Iter1, Iter2>& p) { return p.first; }
@@ -52,7 +52,7 @@ namespace boost {
   Iter2 end(const std::pair<Iter1, Iter2>& p) { return p.second; }
 
   template <typename Iter1, typename Iter2>
-  typename boost::detail::iterator_traits<Iter1>::difference_type
+  typename xmlwrapp_boost::detail::iterator_traits<Iter1>::difference_type
   size(const std::pair<Iter1, Iter2>& p) {
     return std::distance(p.first, p.second);
   }
@@ -244,6 +244,6 @@ namespace boost {
     return is_sorted(begin(c), end(c), comp);
   }
 
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#endif // BOOST_ALGORITHM_HPP
+#endif // XMLWRAPP_BOOST_ALGORITHM_HPP

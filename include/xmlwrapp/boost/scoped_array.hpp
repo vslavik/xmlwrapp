@@ -1,5 +1,5 @@
-#ifndef BOOST_SCOPED_ARRAY_HPP_INCLUDED
-#define BOOST_SCOPED_ARRAY_HPP_INCLUDED
+#ifndef XMLWRAPP_BOOST_SCOPED_ARRAY_HPP_INCLUDED
+#define XMLWRAPP_BOOST_SCOPED_ARRAY_HPP_INCLUDED
 
 //  (C) Copyright Greg Colvin and Beman Dawes 1998, 1999.
 //  Copyright (c) 2001, 2002 Peter Dimov
@@ -17,12 +17,12 @@
 #include <xmlwrapp/boost/config.hpp>   // in case ptrdiff_t not in std
 #include <cstddef>            // for std::ptrdiff_t
 
-namespace boost
+namespace xmlwrapp_boost
 {
 
 // Debug hooks
 
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
 
 void sp_array_constructor_hook(void * p);
 void sp_array_destructor_hook(void * p);
@@ -50,29 +50,29 @@ public:
 
     explicit scoped_array(T * p = 0) : ptr(p) // never throws
     {
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
-        boost::sp_array_constructor_hook(ptr);
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
+        xmlwrapp_boost::sp_array_constructor_hook(ptr);
 #endif
     }
 
     ~scoped_array() // never throws
     {
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
-        boost::sp_array_destructor_hook(ptr);
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
+        xmlwrapp_boost::sp_array_destructor_hook(ptr);
 #endif
-        boost::checked_array_delete(ptr);
+        xmlwrapp_boost::checked_array_delete(ptr);
     }
 
     void reset(T * p = 0) // never throws
     {
-        BOOST_ASSERT(p == 0 || p != ptr); // catch self-reset errors
+        XMLWRAPP_BOOST_ASSERT(p == 0 || p != ptr); // catch self-reset errors
         this_type(p).swap(*this);
     }
 
     T & operator[](std::ptrdiff_t i) const // never throws
     {
-        BOOST_ASSERT(ptr != 0);
-        BOOST_ASSERT(i >= 0);
+        XMLWRAPP_BOOST_ASSERT(ptr != 0);
+        XMLWRAPP_BOOST_ASSERT(i >= 0);
         return ptr[i];
     }
 
@@ -109,6 +109,6 @@ template<class T> inline void swap(scoped_array<T> & a, scoped_array<T> & b) // 
     a.swap(b);
 }
 
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#endif  // #ifndef BOOST_SCOPED_ARRAY_HPP_INCLUDED
+#endif  // #ifndef XMLWRAPP_BOOST_SCOPED_ARRAY_HPP_INCLUDED

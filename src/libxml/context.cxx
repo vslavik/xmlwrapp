@@ -132,7 +132,7 @@ typename xpath::context_T<Access>::result_type
 xpath::context_T<Access>::get (const std::string &name) {
   xmlXPathObjectPtr obj = xmlXPathVariableLookup(as_rep(pimpl_),
 						 reinterpret_cast<const xmlChar *>(name.c_str()));
-  return obj ? result_type(as_impl<result_type::impl>(obj)) : result_type();
+  return obj ? result_type(as_impl<typename result_type::impl>(obj)) : result_type();
 }
 
 template class xpath::context_T<xmlwrapp::access::read_write>;

@@ -15,31 +15,31 @@
 #endif
 
 #if __MSL_CPP__ >= 0x6000  // Pro 6
-#  define BOOST_HAS_HASH
-#  define BOOST_STD_EXTENSION_NAMESPACE Metrowerks
+#  define XMLWRAPP_BOOST_HAS_HASH
+#  define XMLWRAPP_BOOST_STD_EXTENSION_NAMESPACE Metrowerks
 #endif
-#define BOOST_HAS_SLIST
+#define XMLWRAPP_BOOST_HAS_SLIST
 
 #if __MSL_CPP__ < 0x6209
-#  define BOOST_NO_STD_MESSAGES
+#  define XMLWRAPP_BOOST_NO_STD_MESSAGES
 #endif
 
 // check C lib version for <stdint.h>
 #include <cstddef>
 
 #if defined(__MSL__) && (__MSL__ >= 0x5000)
-#  define BOOST_HAS_STDINT_H
-#  define BOOST_HAS_UNISTD_H
+#  define XMLWRAPP_BOOST_HAS_STDINT_H
+#  define XMLWRAPP_BOOST_HAS_UNISTD_H
    // boilerplate code:
 #  include <xmlwrapp/boost/config/posix_features.hpp>
 #endif
 
 #if _MWMT
-#  define BOOST_HAS_THREADS
+#  define XMLWRAPP_BOOST_HAS_THREADS
 #endif
 
 
-#define BOOST_STDLIB "Metrowerks Standard Library version " BOOST_STRINGIZE(__MSL_CPP__)
+#define XMLWRAPP_BOOST_STDLIB "Metrowerks Standard Library version " XMLWRAPP_BOOST_STRINGIZE(__MSL_CPP__)
 
 
 

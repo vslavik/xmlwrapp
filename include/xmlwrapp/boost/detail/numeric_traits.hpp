@@ -33,7 +33,7 @@
 //      are supplied.
 //
 //      6. Handling of numbers whose range of representation is at least as
-//      great as boost::intmax_t can cause some differences to be
+//      great as xmlwrapp_boost::intmax_t can cause some differences to be
 //      unrepresentable in difference_type:
 //
 //        Number    difference_type
@@ -49,7 +49,7 @@
 // See http://www.boost.org for most recent version including documentation.
 
 // Revision History
-// 11 Feb 2001 - Use BOOST_STATIC_CONSTANT (David Abrahams)
+// 11 Feb 2001 - Use XMLWRAPP_BOOST_STATIC_CONSTANT (David Abrahams)
 // 11 Feb 2001 - Rolled back ineffective Borland-specific code
 //               (David Abrahams)
 // 10 Feb 2001 - Rolled in supposed Borland fixes from John Maddock, but
@@ -62,8 +62,8 @@
 //               not supplied by numeric_limits<>. (David Abrahams)
 // 21 Jan 2001 - Created (David Abrahams)
 
-#ifndef BOOST_NUMERIC_TRAITS_HPP_DWA20001901
-# define BOOST_NUMERIC_TRAITS_HPP_DWA20001901
+#ifndef XMLWRAPP_BOOST_NUMERIC_TRAITS_HPP_DWA20001901
+# define XMLWRAPP_BOOST_NUMERIC_TRAITS_HPP_DWA20001901
 
 # include <xmlwrapp/boost/config.hpp>
 # include <xmlwrapp/boost/cstdint.hpp>
@@ -72,7 +72,7 @@
 # include <xmlwrapp/boost/detail/select_type.hpp>
 # include <xmlwrapp/boost/limits.hpp>
 
-namespace boost { namespace detail {
+namespace xmlwrapp_boost { namespace detail {
 
   // Template class is_signed -- determine whether a numeric type is signed
   // Requires that T is constructable from the literals -1 and 0.  Compile-time
@@ -81,14 +81,14 @@ namespace boost { namespace detail {
   template <class Number>
   struct is_signed
   {
-#if defined(BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS) || defined(BOOST_MSVC) && BOOST_MSVC <= 1300
-    BOOST_STATIC_CONSTANT(bool, value = (Number(-1) < Number(0)));
+#if defined(XMLWRAPP_BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS) || defined(XMLWRAPP_BOOST_MSVC) && XMLWRAPP_BOOST_MSVC <= 1300
+    XMLWRAPP_BOOST_STATIC_CONSTANT(bool, value = (Number(-1) < Number(0)));
 #else
-    BOOST_STATIC_CONSTANT(bool, value = std::numeric_limits<Number>::is_signed);
+    XMLWRAPP_BOOST_STATIC_CONSTANT(bool, value = std::numeric_limits<Number>::is_signed);
 #endif
   };
 
-# ifndef BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
+# ifndef XMLWRAPP_BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
   // digit_traits - compute the number of digits in a built-in integer
   // type. Needed for implementations on which numeric_limits is not specialized
   // for intmax_t (e.g. VC6).
@@ -99,7 +99,7 @@ namespace boost { namespace detail {
   {
       template <class T> struct traits
       {
-          BOOST_STATIC_CONSTANT(int, digits = std::numeric_limits<T>::digits);
+          XMLWRAPP_BOOST_STATIC_CONSTANT(int, digits = std::numeric_limits<T>::digits);
       };
   };
 
@@ -108,7 +108,7 @@ namespace boost { namespace detail {
   {
       template <class T> struct traits
       {
-          BOOST_STATIC_CONSTANT(int, digits = (
+          XMLWRAPP_BOOST_STATIC_CONSTANT(int, digits = (
               sizeof(T) * std::numeric_limits<unsigned char>::digits
               - (is_signed<T>::value ? 1 : 0))
               );
@@ -121,35 +121,35 @@ namespace boost { namespace detail {
       typedef digit_traits_select<
                 ::std::numeric_limits<T>::is_specialized> selector;
       typedef typename selector::template traits<T> traits;
-      BOOST_STATIC_CONSTANT(int, digits = traits::digits);
+      XMLWRAPP_BOOST_STATIC_CONSTANT(int, digits = traits::digits);
   };
 #endif
 
   // Template class integer_traits<Integer> -- traits of various integer types
-  // This should probably be rolled into boost::integer_traits one day, but I
+  // This should probably be rolled into xmlwrapp_boost::integer_traits one day, but I
   // need it to work without <limits>
   template <class Integer>
   struct integer_traits
   {
-# ifndef BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
+# ifndef XMLWRAPP_BOOST_NO_LIMITS_COMPILE_TIME_CONSTANTS
    private:
       typedef Integer integer_type;
       typedef std::numeric_limits<integer_type> x;
-#   if defined(BOOST_MSVC) && BOOST_MSVC <= 1300
+#   if defined(XMLWRAPP_BOOST_MSVC) && XMLWRAPP_BOOST_MSVC <= 1300
       // for some reason, MSVC asserts when it shouldn't unless we make these
       // local definitions
-      BOOST_STATIC_CONSTANT(bool, is_integer = x::is_integer);
-      BOOST_STATIC_CONSTANT(bool, is_specialized = x::is_specialized);
+      XMLWRAPP_BOOST_STATIC_CONSTANT(bool, is_integer = x::is_integer);
+      XMLWRAPP_BOOST_STATIC_CONSTANT(bool, is_specialized = x::is_specialized);
       
-      BOOST_STATIC_ASSERT(is_integer);
-      BOOST_STATIC_ASSERT(is_specialized);
+      XMLWRAPP_BOOST_STATIC_ASSERT(is_integer);
+      XMLWRAPP_BOOST_STATIC_ASSERT(is_specialized);
 #   endif
    public:
       typedef typename
       if_true<(int(x::is_signed)
               && (!int(x::is_bounded)
                  // digits is the number of no-sign bits
-                  || (int(x::digits) + 1 >= digit_traits<boost::intmax_t>::digits)))>::template then<
+                  || (int(x::digits) + 1 >= digit_traits<xmlwrapp_boost::intmax_t>::digits)))>::template then<
         Integer,
           
       typename if_true<(int(x::digits) + 1 < digit_traits<signed int>::digits)>::template then<
@@ -162,7 +162,7 @@ namespace boost { namespace detail {
         intmax_t
       >::type>::type>::type difference_type;
 #else
-      BOOST_STATIC_ASSERT(boost::is_integral<Integer>::value);
+      XMLWRAPP_BOOST_STATIC_ASSERT(xmlwrapp_boost::is_integral<Integer>::value);
 
       typedef typename
       if_true<(sizeof(Integer) >= sizeof(intmax_t))>::template then<
@@ -195,4 +195,4 @@ namespace boost { namespace detail {
   }
 }}
 
-#endif // BOOST_NUMERIC_TRAITS_HPP_DWA20001901
+#endif // XMLWRAPP_BOOST_NUMERIC_TRAITS_HPP_DWA20001901

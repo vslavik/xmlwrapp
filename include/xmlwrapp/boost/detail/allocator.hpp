@@ -13,12 +13,12 @@
  *
  */
 
-#ifndef BOOST_DETAIL_ALLOCATOR_HPP
-#define BOOST_DETAIL_ALLOCATOR_HPP
+#ifndef XMLWRAPP_BOOST_DETAIL_ALLOCATOR_HPP
+#define XMLWRAPP_BOOST_DETAIL_ALLOCATOR_HPP
 
 #include <xmlwrapp/boost/config.hpp>
 #include <cstdlib>
-#if defined(BOOST_NO_STDC_NAMESPACE)
+#if defined(XMLWRAPP_BOOST_NO_STDC_NAMESPACE)
 namespace std{
 using ::ptrdiff_t;
 using ::size_t;
@@ -26,22 +26,22 @@ using ::size_t;
 #endif
 
 // see if we have SGI alloc class:
-#if defined(BOOST_NO_STD_ALLOCATOR) && (defined(__SGI_STL_PORT) || defined(_STLPORT_VERSION) || defined(__GLIBCPP__) || defined(__STL_CONFIG_H))
-#  define BOOST_HAVE_SGI_ALLOCATOR
+#if defined(XMLWRAPP_BOOST_NO_STD_ALLOCATOR) && (defined(__SGI_STL_PORT) || defined(_STLPORT_VERSION) || defined(__GLIBCPP__) || defined(__STL_CONFIG_H))
+#  define XMLWRAPP_BOOST_HAVE_SGI_ALLOCATOR
 #  include <memory>
 #  if defined(__SGI_STL_PORT) || defined(_STLPORT_VERSION)
-namespace boost{ namespace detail{
+namespace xmlwrapp_boost{ namespace detail{
    typedef std::__sgi_alloc alloc_type;
 }}
 #  else
-namespace boost{ namespace detail{
+namespace xmlwrapp_boost{ namespace detail{
    typedef std::alloc alloc_type;
 }}
 #  endif
 #endif
 
 
-namespace boost{ namespace detail{
+namespace xmlwrapp_boost{ namespace detail{
 
 template <class T>
 void allocator_construct(T* p, const T& t)
@@ -56,13 +56,13 @@ void allocator_destroy(T* p)
 
 } }
 
-#if !defined(BOOST_NO_STD_ALLOCATOR)
+#if !defined(XMLWRAPP_BOOST_NO_STD_ALLOCATOR)
 
 #include <memory>
 
-#define BOOST_DEFAULT_ALLOCATOR(T) std::allocator< T >
+#define XMLWRAPP_BOOST_DEFAULT_ALLOCATOR(T) std::allocator< T >
 
-namespace boost{ namespace detail{
+namespace xmlwrapp_boost{ namespace detail{
 
 template <class T, class A>
 struct rebind_allocator
@@ -72,16 +72,16 @@ struct rebind_allocator
 };
 
 } // namespace detail
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#elif !defined(BOOST_NO_MEMBER_TEMPLATES)
+#elif !defined(XMLWRAPP_BOOST_NO_MEMBER_TEMPLATES)
 
 // no std::allocator, but the compiler supports the necessary syntax,
 // write our own allocator instead:
 
-#define BOOST_DEFAULT_ALLOCATOR(T) ::boost::detail::allocator< T >
+#define XMLWRAPP_BOOST_DEFAULT_ALLOCATOR(T) ::xmlwrapp_boost::detail::allocator< T >
 
-namespace boost{ namespace detail{
+namespace xmlwrapp_boost{ namespace detail{
 
 template <class T>
 class allocator
@@ -121,7 +121,7 @@ public:
 
    pointer allocate(size_type n, const void* = 0) 
    {
-      #ifdef BOOST_HAVE_SGI_ALLOCATOR
+      #ifdef XMLWRAPP_BOOST_HAVE_SGI_ALLOCATOR
       return n != 0 ?
          reinterpret_cast<pointer>(alloc_type::allocate(n * sizeof(value_type)))
          : 0;
@@ -134,7 +134,7 @@ public:
 
    void deallocate(pointer p, size_type n) 
    {
-      #ifdef BOOST_HAVE_SGI_ALLOCATOR
+      #ifdef XMLWRAPP_BOOST_HAVE_SGI_ALLOCATOR
       assert( (p == 0) == (n == 0) );
       if (p != 0)
          alloc_type::deallocate((void*)p, n);
@@ -163,7 +163,7 @@ struct rebind_allocator
 };
 
 } // namespace detail
-} // namespace boost
+} // namespace xmlwrapp_boost
 
 #else
 
@@ -171,9 +171,9 @@ struct rebind_allocator
 // each allocator class must derive from a base class
 // that allocates blocks of bytes:
 
-#define BOOST_DEFAULT_ALLOCATOR(T) ::boost::detail::allocator_adapter<T, ::boost::detail::simple_alloc>
+#define XMLWRAPP_BOOST_DEFAULT_ALLOCATOR(T) ::xmlwrapp_boost::detail::allocator_adapter<T, ::xmlwrapp_boost::detail::simple_alloc>
 
-namespace boost{ namespace detail{
+namespace xmlwrapp_boost{ namespace detail{
 
 class simple_alloc
 {
@@ -192,7 +192,7 @@ public:
 
    pointer allocate(size_type n, const void* = 0) 
    {
-      #ifdef BOOST_HAVE_SGI_ALLOCATOR
+      #ifdef XMLWRAPP_BOOST_HAVE_SGI_ALLOCATOR
       return n != 0 ?
          reinterpret_cast<pointer>(alloc_type::allocate(n))
          : 0;
@@ -205,7 +205,7 @@ public:
 
    void deallocate(pointer p, size_type n) 
    {
-      #ifdef BOOST_HAVE_SGI_ALLOCATOR
+      #ifdef XMLWRAPP_BOOST_HAVE_SGI_ALLOCATOR
       assert( (p == 0) == (n == 0) );
       if (p != 0)
          alloc_type::deallocate((void*)p, n);
@@ -276,7 +276,7 @@ struct rebind_allocator
 };
 
 } // namespace detail
-} // namespace boost
+} // namespace xmlwrapp_boost
 
 #endif
 

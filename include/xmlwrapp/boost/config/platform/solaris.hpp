@@ -7,12 +7,12 @@
 
 //  sun specific config options:
 
-#define BOOST_PLATFORM "sun"
+#define XMLWRAPP_BOOST_PLATFORM "sun"
 
-#define BOOST_HAS_GETTIMEOFDAY
+#define XMLWRAPP_BOOST_HAS_GETTIMEOFDAY
 
 // boilerplate code:
-#define BOOST_HAS_UNISTD_H
+#define XMLWRAPP_BOOST_HAS_UNISTD_H
 #include <xmlwrapp/boost/config/posix_features.hpp>
 
 

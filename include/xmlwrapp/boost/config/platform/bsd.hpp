@@ -12,11 +12,11 @@
 #endif
 
 #ifdef __FreeBSD__
-#define BOOST_PLATFORM "FreeBSD " BOOST_STRINGIZE(__FreeBSD__)
+#define XMLWRAPP_BOOST_PLATFORM "FreeBSD " XMLWRAPP_BOOST_STRINGIZE(__FreeBSD__)
 #elif defined(__NetBSD__)
-#define BOOST_PLATFORM "NetBSD " BOOST_STRINGIZE(__NetBSD__)
+#define XMLWRAPP_BOOST_PLATFORM "NetBSD " XMLWRAPP_BOOST_STRINGIZE(__NetBSD__)
 #elif defined(__OpenBSD__)
-#define BOOST_PLATFORM "OpenBSD " BOOST_STRINGIZE(__OpenBSD__)
+#define XMLWRAPP_BOOST_PLATFORM "OpenBSD " XMLWRAPP_BOOST_STRINGIZE(__OpenBSD__)
 #endif
 
 //
@@ -25,7 +25,7 @@
 // advertise the fact in <unistd.h>:
 //
 #if defined(__FreeBSD__) && (__FreeBSD__ >= 3)
-#  define BOOST_HAS_NL_TYPES_H
+#  define XMLWRAPP_BOOST_HAS_NL_TYPES_H
 #endif
 
 //
@@ -33,30 +33,30 @@
 // and not in <unistd.h>
 //
 #if defined(__FreeBSD__) && (__FreeBSD__ <= 3)
-#  define BOOST_HAS_PTHREADS
+#  define XMLWRAPP_BOOST_HAS_PTHREADS
 #endif
 
 //
 // No wide character support in the BSD header files:
 //
-#define BOOST_NO_CWCHAR
+#define XMLWRAPP_BOOST_NO_CWCHAR
 
 //
 // The BSD <ctype.h> has macros only, no functions:
 //
-#define BOOST_NO_CTYPE_FUNCTIONS
+#define XMLWRAPP_BOOST_NO_CTYPE_FUNCTIONS
 
 //
 // thread API's not auto detected:
 //
-#define BOOST_HAS_SCHED_YIELD
-#define BOOST_HAS_NANOSLEEP
-#define BOOST_HAS_GETTIMEOFDAY
-#define BOOST_HAS_PTHREAD_MUTEXATTR_SETTYPE
-#define BOOST_HAS_SIGACTION
+#define XMLWRAPP_BOOST_HAS_SCHED_YIELD
+#define XMLWRAPP_BOOST_HAS_NANOSLEEP
+#define XMLWRAPP_BOOST_HAS_GETTIMEOFDAY
+#define XMLWRAPP_BOOST_HAS_PTHREAD_MUTEXATTR_SETTYPE
+#define XMLWRAPP_BOOST_HAS_SIGACTION
 
 // boilerplate code:
-#define BOOST_HAS_UNISTD_H
+#define XMLWRAPP_BOOST_HAS_UNISTD_H
 #include <xmlwrapp/boost/config/posix_features.hpp>
 
 

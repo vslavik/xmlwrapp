@@ -18,7 +18,7 @@
 // std::streambuf<wchar_t> is non-standard:
 //
 #if __LIBCOMO_VERSION__ <= 22
-#  define BOOST_NO_STD_WSTREAMBUF
+#  define XMLWRAPP_BOOST_NO_STD_WSTREAMBUF
 #endif
 
 //
@@ -27,7 +27,7 @@
 // has intrinsic compiler support with SGI's compilers.
 // Whatever map SGI style type traits to boost equivalents:
 //
-#define BOOST_HAS_SGI_TYPE_TRAITS
+#define XMLWRAPP_BOOST_HAS_SGI_TYPE_TRAITS
 
-#define BOOST_STDLIB "Commeau standard library" BOOST_STRINGIZE(__LIBCOMO_VERSION__)
+#define XMLWRAPP_BOOST_STDLIB "Commeau standard library" XMLWRAPP_BOOST_STRINGIZE(__LIBCOMO_VERSION__)
 

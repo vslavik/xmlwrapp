@@ -22,23 +22,23 @@
 */
 
 
-#ifndef BOOST_OB_COMPRESSED_PAIR_HPP
-#define BOOST_OB_COMPRESSED_PAIR_HPP
+#ifndef XMLWRAPP_BOOST_OB_COMPRESSED_PAIR_HPP
+#define XMLWRAPP_BOOST_OB_COMPRESSED_PAIR_HPP
 
 #include <algorithm>
-#ifndef BOOST_OBJECT_TYPE_TRAITS_HPP
+#ifndef XMLWRAPP_BOOST_OBJECT_TYPE_TRAITS_HPP
 #include <xmlwrapp/boost/type_traits/object_traits.hpp>
 #endif
-#ifndef BOOST_SAME_TRAITS_HPP
+#ifndef XMLWRAPP_BOOST_SAME_TRAITS_HPP
 #include <xmlwrapp/boost/type_traits/same_traits.hpp>
 #endif
-#ifndef BOOST_CALL_TRAITS_HPP
+#ifndef XMLWRAPP_BOOST_CALL_TRAITS_HPP
 #include <xmlwrapp/boost/call_traits.hpp>
 #endif
 
-namespace boost
+namespace xmlwrapp_boost
 {
-#ifdef BOOST_MSVC6_MEMBER_TEMPLATES
+#ifdef XMLWRAPP_BOOST_MSVC6_MEMBER_TEMPLATES
 //
 // use member templates to emulate
 // partial specialisation.  Note that due to
@@ -113,7 +113,7 @@ public:
    {
       init_one<best_conversion_traits<A, T1, T2>::value>::init(val, &_first, &_second);
    }
-   compressed_pair_0(const ::boost::compressed_pair<T1,T2>& x)
+   compressed_pair_0(const ::xmlwrapp_boost::compressed_pair<T1,T2>& x)
       : _first(x.first()), _second(x.second()) {}
 
 #if 0
@@ -165,10 +165,10 @@ public:
       init_one<best_conversion_traits<A, T1, T2>::value>::init(val, &_first, static_cast<T2*>(this));
    }
 
-   compressed_pair_1(const ::boost::compressed_pair<T1,T2>& x)
+   compressed_pair_1(const ::xmlwrapp_boost::compressed_pair<T1,T2>& x)
       : T2(x.second()), _first(x.first()) {}
 
-#if defined(BOOST_MSVC) && BOOST_MSVC <= 1300
+#if defined(XMLWRAPP_BOOST_MSVC) && XMLWRAPP_BOOST_MSVC <= 1300
   // Total weirdness. If the assignment to _first is moved after
   // the call to the inherited operator=, then this breaks graph/test/graph.cpp
   // by way of iterator_adaptor.
@@ -216,7 +216,7 @@ public:
    {
       init_one<best_conversion_traits<A, T1, T2>::value>::init(val, static_cast<T1*>(this), &_second);
    }
-   compressed_pair_2(const ::boost::compressed_pair<T1,T2>& x)
+   compressed_pair_2(const ::xmlwrapp_boost::compressed_pair<T1,T2>& x)
       : T1(x.first()), _second(x.second()) {}
 
 #if 0
@@ -263,7 +263,7 @@ public:
    {
       init_one<best_conversion_traits<A, T1, T2>::value>::init(val, static_cast<T1*>(this), static_cast<T2*>(this));
    }
-   compressed_pair_3(const ::boost::compressed_pair<T1,T2>& x)
+   compressed_pair_3(const ::xmlwrapp_boost::compressed_pair<T1,T2>& x)
       : T1(x.first()), T2(x.second()) {}
 
    first_reference       first()       { return *this; }
@@ -296,7 +296,7 @@ public:
             compressed_pair_4(first_param_type x, second_param_type) : T1(x) {}
    // only one single argument constructor since T1 == T2
    explicit compressed_pair_4(first_param_type x) : T1(x) {}
-   compressed_pair_4(const ::boost::compressed_pair<T1,T2>& x)
+   compressed_pair_4(const ::xmlwrapp_boost::compressed_pair<T1,T2>& x)
       : T1(x.first()){}
 
    first_reference       first()       { return *this; }
@@ -332,7 +332,7 @@ public:
             compressed_pair_5(first_param_type x, second_param_type y) : _first(x), _second(y) {}
    // only one single argument constructor since T1 == T2
    explicit compressed_pair_5(first_param_type x) : _first(x), _second(x) {}
-   compressed_pair_5(const ::boost::compressed_pair<T1,T2>& c) 
+   compressed_pair_5(const ::xmlwrapp_boost::compressed_pair<T1,T2>& c) 
       : _first(c.first()), _second(c.second()) {}
 
    first_reference       first()       { return _first; }
@@ -503,7 +503,7 @@ inline void swap(compressed_pair<T1, T2>& x, compressed_pair<T1, T2>& y)
 
 } // boost
 
-#endif // BOOST_OB_COMPRESSED_PAIR_HPP
+#endif // XMLWRAPP_BOOST_OB_COMPRESSED_PAIR_HPP
 
 
 

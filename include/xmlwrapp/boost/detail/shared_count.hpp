@@ -1,5 +1,5 @@
-#ifndef BOOST_DETAIL_SHARED_COUNT_HPP_INCLUDED
-#define BOOST_DETAIL_SHARED_COUNT_HPP_INCLUDED
+#ifndef XMLWRAPP_BOOST_DETAIL_SHARED_COUNT_HPP_INCLUDED
+#define XMLWRAPP_BOOST_DETAIL_SHARED_COUNT_HPP_INCLUDED
 
 #if _MSC_VER >= 1020
 #pragma once
@@ -18,15 +18,15 @@
 
 #include <xmlwrapp/boost/config.hpp>
 
-#if defined(BOOST_SP_USE_STD_ALLOCATOR) && defined(BOOST_SP_USE_QUICK_ALLOCATOR)
-# error BOOST_SP_USE_STD_ALLOCATOR and BOOST_SP_USE_QUICK_ALLOCATOR are incompatible.
+#if defined(XMLWRAPP_BOOST_SP_USE_STD_ALLOCATOR) && defined(XMLWRAPP_BOOST_SP_USE_QUICK_ALLOCATOR)
+# error XMLWRAPP_BOOST_SP_USE_STD_ALLOCATOR and XMLWRAPP_BOOST_SP_USE_QUICK_ALLOCATOR are incompatible.
 #endif
 
 #include <xmlwrapp/boost/checked_delete.hpp>
 #include <xmlwrapp/boost/throw_exception.hpp>
 #include <xmlwrapp/boost/detail/lightweight_mutex.hpp>
 
-#if defined(BOOST_SP_USE_QUICK_ALLOCATOR)
+#if defined(XMLWRAPP_BOOST_SP_USE_QUICK_ALLOCATOR)
 #include <xmlwrapp/boost/detail/quick_allocator.hpp>
 #endif
 
@@ -42,12 +42,12 @@
 # pragma warn -8027     // Functions containing try are not expanded inline
 #endif
 
-namespace boost
+namespace xmlwrapp_boost
 {
 
 // Debug hooks
 
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
 
 void sp_scalar_constructor_hook(void * px, std::size_t size, void * pn);
 void sp_array_constructor_hook(void * px);
@@ -74,7 +74,7 @@ public:
 
     virtual char const * what() const throw()
     {
-        return "boost::bad_weak_ptr";
+        return "xmlwrapp_boost::bad_weak_ptr";
     }
 };
 
@@ -117,10 +117,10 @@ public:
 
     void add_ref()
     {
-#if defined(BOOST_HAS_THREADS)
+#if defined(XMLWRAPP_BOOST_HAS_THREADS)
         mutex_type::scoped_lock lock(mtx_);
 #endif
-        if(use_count_ == 0 && weak_count_ != 0) boost::throw_exception(boost::bad_weak_ptr());
+        if(use_count_ == 0 && weak_count_ != 0) xmlwrapp_boost::throw_exception(xmlwrapp_boost::bad_weak_ptr());
         ++use_count_;
         ++weak_count_;
     }
@@ -128,7 +128,7 @@ public:
     void release() // nothrow
     {
         {
-#if defined(BOOST_HAS_THREADS)
+#if defined(XMLWRAPP_BOOST_HAS_THREADS)
             mutex_type::scoped_lock lock(mtx_);
 #endif
             long new_use_count = --use_count_;
@@ -146,7 +146,7 @@ public:
 
     void weak_add_ref() // nothrow
     {
-#if defined(BOOST_HAS_THREADS)
+#if defined(XMLWRAPP_BOOST_HAS_THREADS)
         mutex_type::scoped_lock lock(mtx_);
 #endif
         ++weak_count_;
@@ -157,7 +157,7 @@ public:
         long new_weak_count;
 
         {
-#if defined(BOOST_HAS_THREADS)
+#if defined(XMLWRAPP_BOOST_HAS_THREADS)
             mutex_type::scoped_lock lock(mtx_);
 #endif
             new_weak_count = --weak_count_;
@@ -171,7 +171,7 @@ public:
 
     long use_count() const // nothrow
     {
-#if defined(BOOST_HAS_THREADS)
+#if defined(XMLWRAPP_BOOST_HAS_THREADS)
         mutex_type::scoped_lock lock(mtx_);
 #endif
         return use_count_;
@@ -187,21 +187,21 @@ private:
     long use_count_;
     long weak_count_;
 
-#if defined(BOOST_HAS_THREADS)
+#if defined(XMLWRAPP_BOOST_HAS_THREADS)
     mutable mutex_type mtx_;
 #endif
 };
 
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
 
 template<class T> void cbi_call_constructor_hook(sp_counted_base * pn, T * px, checked_deleter<T> const &, int)
 {
-    boost::sp_scalar_constructor_hook(px, sizeof(T), pn);
+    xmlwrapp_boost::sp_scalar_constructor_hook(px, sizeof(T), pn);
 }
 
 template<class T> void cbi_call_constructor_hook(sp_counted_base *, T * px, checked_array_deleter<T> const &, int)
 {
-    boost::sp_array_constructor_hook(px);
+    xmlwrapp_boost::sp_array_constructor_hook(px);
 }
 
 template<class P, class D> void cbi_call_constructor_hook(sp_counted_base *, P const &, D const &, long)
@@ -210,12 +210,12 @@ template<class P, class D> void cbi_call_constructor_hook(sp_counted_base *, P c
 
 template<class T> void cbi_call_destructor_hook(sp_counted_base * pn, T * px, checked_deleter<T> const &, int)
 {
-    boost::sp_scalar_destructor_hook(px, sizeof(T), pn);
+    xmlwrapp_boost::sp_scalar_destructor_hook(px, sizeof(T), pn);
 }
 
 template<class T> void cbi_call_destructor_hook(sp_counted_base *, T * px, checked_array_deleter<T> const &, int)
 {
-    boost::sp_array_destructor_hook(px);
+    xmlwrapp_boost::sp_array_destructor_hook(px);
 }
 
 template<class P, class D> void cbi_call_destructor_hook(sp_counted_base *, P const &, D const &, long)
@@ -249,14 +249,14 @@ public:
 
     sp_counted_base_impl(P p, D d): ptr(p), del(d)
     {
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
         detail::cbi_call_constructor_hook(this, p, d, 0);
 #endif
     }
 
     virtual void dispose() // nothrow
     {
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
         detail::cbi_call_destructor_hook(this, ptr, del, 0);
 #endif
         del(ptr);
@@ -267,7 +267,7 @@ public:
         return ti == typeid(D)? &del: 0;
     }
 
-#if defined(BOOST_SP_USE_STD_ALLOCATOR)
+#if defined(XMLWRAPP_BOOST_SP_USE_STD_ALLOCATOR)
 
     void * operator new(std::size_t)
     {
@@ -281,7 +281,7 @@ public:
 
 #endif
 
-#if defined(BOOST_SP_USE_QUICK_ALLOCATOR)
+#if defined(XMLWRAPP_BOOST_SP_USE_QUICK_ALLOCATOR)
 
     void * operator new(std::size_t)
     {
@@ -296,7 +296,7 @@ public:
 #endif
 };
 
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
 
 int const shared_count_id = 0x2C35F101;
 int const   weak_count_id = 0x298C38A4;
@@ -311,7 +311,7 @@ private:
 
     sp_counted_base * pi_;
 
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
     int id_;
 #endif
 
@@ -320,18 +320,18 @@ private:
 public:
 
     shared_count(): pi_(0) // nothrow
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
         , id_(shared_count_id)
 #endif
     {
     }
 
     template<class P, class D> shared_count(P p, D d): pi_(0)
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
         , id_(shared_count_id)
 #endif
     {
-#ifndef BOOST_NO_EXCEPTIONS
+#ifndef XMLWRAPP_BOOST_NO_EXCEPTIONS
 
         try
         {
@@ -350,19 +350,19 @@ public:
         if(pi_ == 0)
         {
             d(p); // delete p
-            boost::throw_exception(std::bad_alloc());
+            xmlwrapp_boost::throw_exception(std::bad_alloc());
         }
 
 #endif
     }
 
-#ifndef BOOST_NO_AUTO_PTR
+#ifndef XMLWRAPP_BOOST_NO_AUTO_PTR
 
     // auto_ptr<Y> is special cased to provide the strong guarantee
 
     template<class Y>
     explicit shared_count(std::auto_ptr<Y> & r): pi_(new sp_counted_base_impl< Y *, checked_deleter<Y> >(r.get(), checked_deleter<Y>()))
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
         , id_(shared_count_id)
 #endif
     {
@@ -374,13 +374,13 @@ public:
     ~shared_count() // nothrow
     {
         if(pi_ != 0) pi_->release();
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
         id_ = 0;
 #endif
     }
 
     shared_count(shared_count const & r): pi_(r.pi_) // nothrow
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
         , id_(shared_count_id)
 #endif
     {
@@ -443,7 +443,7 @@ private:
 
     sp_counted_base * pi_;
 
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
     int id_;
 #endif
 
@@ -452,14 +452,14 @@ private:
 public:
 
     weak_count(): pi_(0) // nothrow
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
         , id_(weak_count_id)
 #endif
     {
     }
 
     weak_count(shared_count const & r): pi_(r.pi_) // nothrow
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
         , id_(shared_count_id)
 #endif
     {
@@ -467,7 +467,7 @@ public:
     }
 
     weak_count(weak_count const & r): pi_(r.pi_) // nothrow
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
         , id_(shared_count_id)
 #endif
     {
@@ -477,7 +477,7 @@ public:
     ~weak_count() // nothrow
     {
         if(pi_ != 0) pi_->weak_release();
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
         id_ = 0;
 #endif
     }
@@ -526,7 +526,7 @@ public:
 };
 
 inline shared_count::shared_count(weak_count const & r): pi_(r.pi_)
-#if defined(BOOST_SP_ENABLE_DEBUG_HOOKS)
+#if defined(XMLWRAPP_BOOST_SP_ENABLE_DEBUG_HOOKS)
         , id_(shared_count_id)
 #endif
 {
@@ -536,17 +536,17 @@ inline shared_count::shared_count(weak_count const & r): pi_(r.pi_)
     }
     else
     {
-        boost::throw_exception(boost::bad_weak_ptr());
+        xmlwrapp_boost::throw_exception(xmlwrapp_boost::bad_weak_ptr());
     }
 }
 
 } // namespace detail
 
-} // namespace boost
+} // namespace xmlwrapp_boost
 
 #ifdef __BORLANDC__
 # pragma warn .8027     // Functions containing try are not expanded inline
 # pragma warn .8026     // Functions with excep. spec. are not expanded inline
 #endif
 
-#endif  // #ifndef BOOST_DETAIL_SHARED_COUNT_HPP_INCLUDED
+#endif  // #ifndef XMLWRAPP_BOOST_DETAIL_SHARED_COUNT_HPP_INCLUDED

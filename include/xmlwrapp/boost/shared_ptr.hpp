@@ -1,5 +1,5 @@
-#ifndef BOOST_SHARED_PTR_HPP_INCLUDED
-#define BOOST_SHARED_PTR_HPP_INCLUDED
+#ifndef XMLWRAPP_BOOST_SHARED_PTR_HPP_INCLUDED
+#define XMLWRAPP_BOOST_SHARED_PTR_HPP_INCLUDED
 
 //
 //  shared_ptr.hpp
@@ -17,7 +17,7 @@
 
 #include <xmlwrapp/boost/config.hpp>   // for broken compiler workarounds
 
-#if defined(BOOST_NO_MEMBER_TEMPLATES) && !defined(BOOST_MSVC6_MEMBER_TEMPLATES)
+#if defined(XMLWRAPP_BOOST_NO_MEMBER_TEMPLATES) && !defined(XMLWRAPP_BOOST_MSVC6_MEMBER_TEMPLATES)
 #include <xmlwrapp/boost/detail/shared_ptr_nmt.hpp>
 #else
 
@@ -33,12 +33,12 @@
 #include <typeinfo>             // for std::bad_cast
 #include <iosfwd>               // for std::basic_ostream
 
-#ifdef BOOST_MSVC  // moved here to work around VC++ compiler crash
+#ifdef XMLWRAPP_BOOST_MSVC  // moved here to work around VC++ compiler crash
 # pragma warning(push)
 # pragma warning(disable:4284) // odd return type for operator->
 #endif
 
-namespace boost
+namespace xmlwrapp_boost
 {
 
 template<class T> class weak_ptr;
@@ -61,7 +61,7 @@ template<> struct shared_ptr_traits<void>
     typedef void reference;
 };
 
-#if !defined(BOOST_NO_CV_VOID_SPECIALIZATIONS)
+#if !defined(XMLWRAPP_BOOST_NO_CV_VOID_SPECIALIZATIONS)
 
 template<> struct shared_ptr_traits<void const>
 {
@@ -72,7 +72,7 @@ template<> struct shared_ptr_traits<void const>
 
 // enable_shared_from_this support
 
-template<class T, class Y> void sp_enable_shared_from_this(boost::enable_shared_from_this<T> * pe, Y * px, shared_count const & pn)
+template<class T, class Y> void sp_enable_shared_from_this(xmlwrapp_boost::enable_shared_from_this<T> * pe, Y * px, shared_count const & pn)
 {
     if(pe != 0) pe->_internal_weak_this._internal_assign(px, pn);
 }
@@ -172,11 +172,11 @@ public:
     {
         if(px == 0)
         {
-            boost::throw_exception(std::bad_cast());
+            xmlwrapp_boost::throw_exception(std::bad_cast());
         }
     }
 
-#ifndef BOOST_NO_AUTO_PTR
+#ifndef XMLWRAPP_BOOST_NO_AUTO_PTR
 
     template<class Y>
     explicit shared_ptr(std::auto_ptr<Y> & r): px(r.get()), pn()
@@ -188,7 +188,7 @@ public:
 
 #endif
 
-#if !defined(BOOST_MSVC) || (BOOST_MSVC > 1200)
+#if !defined(XMLWRAPP_BOOST_MSVC) || (XMLWRAPP_BOOST_MSVC > 1200)
 
     template<class Y>
     shared_ptr & operator=(shared_ptr<Y> const & r) // never throws
@@ -200,7 +200,7 @@ public:
 
 #endif
 
-#ifndef BOOST_NO_AUTO_PTR
+#ifndef XMLWRAPP_BOOST_NO_AUTO_PTR
 
     template<class Y>
     shared_ptr & operator=(std::auto_ptr<Y> & r)
@@ -218,7 +218,7 @@ public:
 
     template<class Y> void reset(Y * p) // Y must be complete
     {
-        BOOST_ASSERT(p == 0 || p != px); // catch self-reset errors
+        XMLWRAPP_BOOST_ASSERT(p == 0 || p != px); // catch self-reset errors
         this_type(p).swap(*this);
     }
 
@@ -229,13 +229,13 @@ public:
 
     reference operator* () const // never throws
     {
-        BOOST_ASSERT(px != 0);
+        XMLWRAPP_BOOST_ASSERT(px != 0);
         return *px;
     }
 
     T * operator-> () const // never throws
     {
-        BOOST_ASSERT(px != 0);
+        XMLWRAPP_BOOST_ASSERT(px != 0);
         return px;
     }
     
@@ -289,7 +289,7 @@ public:
 // Tasteless as this may seem, making all members public allows member templates
 // to work in the absence of member template friends. (Matthew Langston)
 
-#ifndef BOOST_NO_MEMBER_TEMPLATE_FRIENDS
+#ifndef XMLWRAPP_BOOST_NO_MEMBER_TEMPLATE_FRIENDS
 
 private:
 
@@ -364,11 +364,11 @@ template<class T, class U> shared_ptr<T> shared_polymorphic_cast(shared_ptr<U> c
 
 template<class T, class U> shared_ptr<T> shared_polymorphic_downcast(shared_ptr<U> const & r)
 {
-    BOOST_ASSERT(dynamic_cast<T *>(r.get()) == r.get());
+    XMLWRAPP_BOOST_ASSERT(dynamic_cast<T *>(r.get()) == r.get());
     return shared_static_cast<T>(r);
 }
 
-// get_pointer() enables boost::mem_fn to recognize shared_ptr
+// get_pointer() enables xmlwrapp_boost::mem_fn to recognize shared_ptr
 
 template<class T> inline T * get_pointer(shared_ptr<T> const & p)
 {
@@ -387,7 +387,7 @@ template<class Y> std::ostream & operator<< (std::ostream & os, shared_ptr<Y> co
 
 #else
 
-# if BOOST_WORKAROUND(BOOST_MSVC, <= 1200 && __SGI_STL_PORT)
+# if XMLWRAPP_BOOST_WORKAROUND(XMLWRAPP_BOOST_MSVC, <= 1200 && __SGI_STL_PORT)
 // MSVC6 has problems finding std::basic_ostream through the using declaration in namespace _STL
 using std::basic_ostream;
 template<class E, class T, class Y> basic_ostream<E, T> & operator<< (basic_ostream<E, T> & os, shared_ptr<Y> const & p)
@@ -422,12 +422,12 @@ template<class D, class T> D * get_deleter(shared_ptr<T> const & p)
 
 #endif
 
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#ifdef BOOST_MSVC
+#ifdef XMLWRAPP_BOOST_MSVC
 # pragma warning(pop)
 #endif    
 
-#endif  // #if defined(BOOST_NO_MEMBER_TEMPLATES) && !defined(BOOST_MSVC6_MEMBER_TEMPLATES)
+#endif  // #if defined(XMLWRAPP_BOOST_NO_MEMBER_TEMPLATES) && !defined(XMLWRAPP_BOOST_MSVC6_MEMBER_TEMPLATES)
 
-#endif  // #ifndef BOOST_SHARED_PTR_HPP_INCLUDED
+#endif  // #ifndef XMLWRAPP_BOOST_SHARED_PTR_HPP_INCLUDED

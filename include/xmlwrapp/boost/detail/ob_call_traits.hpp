@@ -17,23 +17,23 @@
       & Ulrich Eisenecker.
 */
 
-#ifndef BOOST_OB_CALL_TRAITS_HPP
-#define BOOST_OB_CALL_TRAITS_HPP
+#ifndef XMLWRAPP_BOOST_OB_CALL_TRAITS_HPP
+#define XMLWRAPP_BOOST_OB_CALL_TRAITS_HPP
 
-#ifndef BOOST_CONFIG_HPP
+#ifndef XMLWRAPP_BOOST_CONFIG_HPP
 #include <xmlwrapp/boost/config.hpp>
 #endif
 
-#ifndef BOOST_ARITHMETIC_TYPE_TRAITS_HPP
+#ifndef XMLWRAPP_BOOST_ARITHMETIC_TYPE_TRAITS_HPP
 #include <xmlwrapp/boost/type_traits/arithmetic_traits.hpp>
 #endif
-#ifndef BOOST_COMPOSITE_TYPE_TRAITS_HPP
+#ifndef XMLWRAPP_BOOST_COMPOSITE_TYPE_TRAITS_HPP
 #include <xmlwrapp/boost/type_traits/composite_traits.hpp>
 #endif
 
-namespace boost{
+namespace xmlwrapp_boost{
 
-#ifdef BOOST_MSVC6_MEMBER_TEMPLATES
+#ifdef XMLWRAPP_BOOST_MSVC6_MEMBER_TEMPLATES
 //
 // use member templates to emulate
 // partial specialisation:
@@ -134,9 +134,9 @@ struct call_traits
 {
 private:
     typedef detail::call_traits_chooser<
-         ::boost::is_pointer<T>::value,
-         ::boost::is_arithmetic<T>::value, 
-         ::boost::is_reference<T>::value
+         ::xmlwrapp_boost::is_pointer<T>::value,
+         ::xmlwrapp_boost::is_arithmetic<T>::value, 
+         ::xmlwrapp_boost::is_reference<T>::value
       > chooser;
    typedef typename chooser::template rebind<T> bound_type;
    typedef typename bound_type::type call_traits_type;
@@ -166,4 +166,4 @@ struct call_traits
 
 }
 
-#endif // BOOST_OB_CALL_TRAITS_HPP
+#endif // XMLWRAPP_BOOST_OB_CALL_TRAITS_HPP

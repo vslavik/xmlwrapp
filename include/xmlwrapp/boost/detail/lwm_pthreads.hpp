@@ -1,5 +1,5 @@
-#ifndef BOOST_DETAIL_LWM_PTHREADS_HPP_INCLUDED
-#define BOOST_DETAIL_LWM_PTHREADS_HPP_INCLUDED
+#ifndef XMLWRAPP_BOOST_DETAIL_LWM_PTHREADS_HPP_INCLUDED
+#define XMLWRAPP_BOOST_DETAIL_LWM_PTHREADS_HPP_INCLUDED
 
 #if _MSC_VER >= 1020
 #pragma once
@@ -18,7 +18,7 @@
 
 #include <pthread.h>
 
-namespace boost
+namespace xmlwrapp_boost
 {
 
 namespace detail
@@ -80,6 +80,6 @@ public:
 
 } // namespace detail
 
-} // namespace boost
+} // namespace xmlwrapp_boost
 
-#endif // #ifndef BOOST_DETAIL_LWM_PTHREADS_HPP_INCLUDED
+#endif // #ifndef XMLWRAPP_BOOST_DETAIL_LWM_PTHREADS_HPP_INCLUDED
