@@ -1,5 +1,13 @@
 <?xml version="1.0"?>
 <news xmlns="http://pmade.org/xmlns/project-news" xmlns:l="http://pmade.org/xmlns/project-linking" xmlns:f="http://pmade.org/xmlns/project-formating">
+    <entry title="Version 0.4.4 Released" year="2003" month="10" day="29">
+	<para>
+	    The release of libxml2 version 2.6.0 broke a small part of
+	    xmlwrapp. This version supports libxml2 2.6.0, and older
+	    versions.
+	</para>
+    </entry>
+
     <entry title="Back From Drive Failure" year="2003" month="08" day="08">
 	<para>
 	    <f:bold color="red">

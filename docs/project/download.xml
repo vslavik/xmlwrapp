@@ -21,6 +21,7 @@
 		<compiler name="GCC 3.1.1"		status="Supported"/>
 		<compiler name="GCC 3.2.1"		status="Supported"/>
 		<compiler name="GCC 3.3"		status="Supported"/>
+		<compiler name="GCC 3.3.2"		status="Supported"/>
 	    </os>
 
 	    <os name="Linux (RedHat, Debian)" hardware="IA32" version="N/A">
@@ -29,6 +30,7 @@
 		<compiler name="GCC 3.1.1"		status="Supported"/>
 		<compiler name="GCC 3.2.1"		status="Supported"/>
 		<compiler name="GCC 3.3"		status="Supported"/>
+		<compiler name="GCC 3.3.2"		status="Supported"/>
 	    </os>
 
 	    <os name="Solaris" hardware="SPARC" version="2.7">
@@ -46,6 +48,8 @@
 		<compiler name="GCC 3.2.1 w/ -m64"	status="Supported"	    notes="64bit library generated"/>
 		<compiler name="GCC 3.3"		status="Supported"/>
 		<compiler name="GCC 3.3 w/ -m64"	status="Supported"	    notes="64bit library generated"/>
+		<compiler name="GCC 3.3.2"		status="Supported"/>
+		<compiler name="GCC 3.3.2 w/ -m64"	status="Supported"	    notes="64bit library generated"/>
 	    </os>
 
 	    <os name="MacOS X" hardware="PowerPC" version="10.1">

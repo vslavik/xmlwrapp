@@ -217,7 +217,7 @@ int main (void) {
 		<screen>
 <![CDATA[
 #include <xmlwrapp/init.h>
-#include <xmlwarpp/event_parser.h>
+#include <xmlwrapp/event_parser.h>
 #include <string>
 
 class MyEventParser : public xml::event_parser {

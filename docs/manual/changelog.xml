@@ -1,5 +1,24 @@
 <appendix id="changelog"><title>Revision History</title>
     <!--################################################################-->
+    <section id="ck-044"><title>Version 0.4.4</title>
+	<subtitle>October 29, 2003</subtitle>
+
+	<itemizedlist>
+	    <listitem>
+		<para>
+		    Small changes so that xmlwrapp can work with libxml2 version 2.6.0. Thanks goes
+		    to Craig Wiesen and Jonathan Wakely for finding this. (Bug ID 18).
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Fixed a typo in the manual. Thanks goes to Bill Luoma. (Bug ID 16).
+		</para>
+	    </listitem>
+	</itemizedlist>
+    </section>
+    <!--################################################################-->
     <section id="ck-043"><title>Version 0.4.3</title>
 	<subtitle>August 19, 2003</subtitle>
 
