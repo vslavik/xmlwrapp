@@ -46,7 +46,7 @@ void show_user (xpath::const_object::reference user_node) {
   if (!sub_names.empty()) {
     std::cout << "Subordinates: ";
 
-    for (int i = 0; i < sub_names.size(); ++i) {
+    for (xpath::const_object::size_type i = 0; i < sub_names.size(); ++i) {
       if (i > 0) std::cout << ", ";
       std::cout << sub_names[i]->get_content();
     }
