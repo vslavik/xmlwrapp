@@ -48,7 +48,7 @@ use Cwd qw(cwd chdir);
 #
 ################################################################################
 use constant DATE		=> 'Tue Jan 15 08:56:06 2002';
-use constant ID			=> '$Id: configure.pl,v 1.2 2003-08-20 04:51:29 pjones Exp $';
+use constant ID			=> '$Id: configure.pl,v 1.3 2003-11-10 23:16:48 pjones Exp $';
 ################################################################################
 #
 # Global Variables
@@ -89,10 +89,10 @@ my @external_incs;
 $|++;
 
 if (not defined $ENV{'CXX'}) {
-    print STDERR "**** your CXX environment variable is not set. xmlwrapp needs this ****\n";
-    print STDERR "**** variable to find your C++ compiler. Please set it to the path ****\n";
-    print STDERR "**** to your compiler and re-run configure.pl. Thanks.             ****\n";
-    exit 1;
+    print STDERR "**** your CXX environment variable is not set. xmlwrapp needs this    ****\n";
+    print STDERR "**** variable to find your C++ compiler. For now, I will just use c++ ****\n";
+
+    $ENV{CXX} = 'c++';
 }
 
 GetOptions(
@@ -168,12 +168,10 @@ generate_config_script();
 generate_config_header();
 
 # start generating makefiles
-print "Creating $libname Makefiles ";
 generate_top_makefile();
 generate_test_makefiles();
 generate_example_makefiles();
 generate_src_makefiles();
-print " done \n";
 
 if (!$clo{'contrib'}) {
     print "+---------------------------------------------------------------+\n";
@@ -381,9 +379,9 @@ sub generate_top_makefile {
 
     close SPEC;
 
+    print "Creating Makefile ...\n";
     system("$^X $mkmf $mkmf_flags --install $install_spec $extra_flags --wrapper src $extra_dirs");
     unlink($install_spec);
-    print ".";
 }
 ################################################################################
 sub generate_src_makefiles {
@@ -397,8 +395,8 @@ sub generate_src_makefiles {
     my $src_dirs = "$src_sub_dir";
     $src_dirs .= " $xslt_sub_dir" if $xsltwrapp_okay == 1;
 
+    print "Creating src/Makefile ...\n";
     system("$^X $mkmf $mkmf_flags --wrapper $src_dirs");
-    print ".";
     chdir($cwd);
 
     ##
@@ -411,8 +409,8 @@ sub generate_src_makefiles {
     my $extra_flags = "--shared-lib $libname --major $xmlwrapp_mjr" unless $clo{'disable-shared'};
     foreach my $dir (@external_incs) { $extra_flags .= " --include $dir"; }
 
+    print "Creating src/$src_sub_dir/Makefile ...\n";
     system("$^X $mkmf $mkmf_flags --static-lib $libname $extra_flags *.cxx");
-    print ".";
     chdir($cwd);
 
     ##
@@ -425,8 +423,8 @@ sub generate_src_makefiles {
     my $extra_flags = "--shared-lib $xslt_libname --major $xsltwrapp_mjr" unless $clo{'disable-shared'};
     foreach my $dir (@external_incs) { $extra_flags .= " --include $dir"; }
 
+    print "Creating src/$xslt_sub_dir/Makefile ...\n";
     system("$^X $mkmf $mkmf_flags --static-lib $xslt_libname $extra_flags *.cxx");
-    print ".";
     chdir($cwd);
 }
 ################################################################################
@@ -439,8 +437,8 @@ sub generate_test_makefiles {
     }
 
     my $with_test = join(',', @test_dirs);
+    print "Creating tests/Makefile ...\n";
     system("$^X $mkmf $mkmf_flags --with-test '$with_test' --wrapper @test_dirs");
-    print ".";
     chdir($cwd);
 
     # static link with xmlwrapp so that it does not need to be installed
@@ -465,8 +463,8 @@ sub generate_test_makefiles {
 	    exit 1;
 	}
 
+	print "Creating tests/$test/Makefile ...\n";
 	system("$^X $mkmf $mkmf_flags --many-exec $extra_flags *.cxx");
-	print ".";
 	chdir($cwd);
     }
 }
@@ -487,8 +485,8 @@ sub generate_example_makefiles {
 	push(@example_dirs, $_);
     }
 
+    print "Creating examples/Makefile ...\n";
     system("$^X $mkmf $mkmf_flags --wrapper @example_dirs");
-    print ".";
     chdir($cwd);
 
     # static link with xmlwrapp so that it does not need to be installed
@@ -511,8 +509,8 @@ sub generate_example_makefiles {
 	    exit 1;
 	}
 
+	print "Creating examples/$example/Makefile ...\n";
 	system("$^X $mkmf $mkmf_flags --one-exec example $extra_flags *.cxx");
-	print ".";
 	chdir($cwd);
     }
 }
