@@ -93,6 +93,10 @@ SOURCE=..\..\src\libxml\attributes.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\src\libxml\const_node_interface.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\src\libxml\context.cxx
 # End Source File
 # Begin Source File
@@ -129,7 +133,7 @@ SOURCE=..\..\src\libxml\node_iterator.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\libxml\node_ref.cxx
+SOURCE=..\..\src\libxml\node_reference.cxx
 # End Source File
 # Begin Source File
 
@@ -146,6 +150,10 @@ SOURCE=..\..\src\libxml\tree_parser.cxx
 # Begin Source File
 
 SOURCE=..\..\src\libxml\utility.cxx
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\src\libxml\xpath_cast.cxx
 # End Source File
 # End Group
 # Begin Group "Header Files"
