@@ -44,6 +44,7 @@
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/SAX.h>
+#include <libxml/xmlversion.h>
 
 // standard includes
 #include <stdexcept>
@@ -52,11 +53,21 @@
 #include <memory>
 
 //####################################################################
+/*
+ * This is a hack to fix a problem with a change in the libxml2 API for
+ * versions starting at 2.6.0
+ */
+#if LIBXML_VERSION >= 20600
+#   define initxmlDefaultSAXHandler xmlSAX2InitDefaultSAXHandler
+#   include <libxml/SAX2.h>
+#endif
+//####################################################################
 namespace {
     const char const_default_error[] = "unknown XML parsing error";
 
     extern "C" void cb_tree_error (void *v, const char *message, ...);
     extern "C" void cb_tree_warning (void *v, const char *, ...);
+    extern "C" void cb_tree_ignore (void*, const xmlChar*, int);
 }
 //####################################################################
 struct xml::tree_impl {
@@ -68,7 +79,7 @@ struct xml::tree_impl {
 	sax_.error	= cb_tree_error;
 	sax_.fatalError	= cb_tree_error;
 
-	if (xmlKeepBlanksDefaultValue == 0) sax_.ignorableWhitespace = 0;
+	if (xmlKeepBlanksDefaultValue == 0) sax_.ignorableWhitespace =  cb_tree_ignore;
     }
 
     document doc_;
@@ -177,6 +188,10 @@ namespace {
 	    p->warnings_ = true;
 
 	} catch (...) { }
+    }
+    //####################################################################
+    extern "C" void cb_tree_ignore (void*, const xmlChar*, int) {
+	return;
     }
     //####################################################################
 }

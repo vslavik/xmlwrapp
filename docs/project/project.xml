@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project xmlns="http://pmade.org/xmlns/project-main" name="xmlwrapp">
     <variables>
-	<variable name="download-source"    value="xmlwrapp-0.4.2.tar.gz"/>
+	<variable name="download-source"    value="xmlwrapp-0.5.0.tar.gz"/>
 	<variable name="logo-image"	    value="xmlwrapp-logo.jpg"/>
 	<variable name="email-address"	    value="software@pmade.org"/>
 	<variable name="website"	    value="http://pmade.org/software/xmlwrapp/"/>

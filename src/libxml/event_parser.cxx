@@ -47,6 +47,7 @@
 
 // libxml includes
 #include <libxml/parser.h>
+#include <libxml/xmlversion.h>
 
 // standard includes
 #include <new>
@@ -54,6 +55,15 @@
 #include <iostream>
 #include <fstream>
 
+//####################################################################
+/*
+ * This is a hack to fix a problem with a change in the libxml2 API for
+ * versions starting at 2.6.0
+ */
+#if LIBXML_VERSION >= 20600
+#   define initxmlDefaultSAXHandler xmlSAX2InitDefaultSAXHandler
+#   include <libxml/SAX2.h>
+#endif
 //####################################################################
 namespace {
     const std::size_t const_buffer_size = 4096;
@@ -67,6 +77,7 @@ namespace {
     extern "C" void cb_cdata (void *parser, const xmlChar *text, int length);
     extern "C" void cb_warning (void *parser, const char *message, ...);
     extern "C" void cb_error (void *parser, const char *message, ...);
+    extern "C" void cb_ignore (void*, const xmlChar*, int);
 } // end anonymous namespace
 //####################################################################
 struct xml::epimpl {
@@ -172,7 +183,7 @@ xml::epimpl::epimpl (event_parser &parent)
     sax_handler_.error			= cb_error;
     sax_handler_.fatalError		= cb_error;
 
-    if (xmlKeepBlanksDefaultValue == 0) sax_handler_.ignorableWhitespace = 0;
+    if (xmlKeepBlanksDefaultValue == 0) sax_handler_.ignorableWhitespace = cb_ignore;
     else sax_handler_.ignorableWhitespace = cb_text;
 
     if ( (parser_context_ = xmlCreatePushParserCtxt(&sax_handler_, this, 0, 0, 0)) == 0) {
@@ -325,5 +336,9 @@ namespace {
 	va_end(ap);
 
 	static_cast<xml::epimpl*>(parser)->event_error(complete_message);
+    }
+    //####################################################################
+    extern "C" void cb_ignore (void*, const xmlChar*, int) {
+	return;
     }
 } // end anonymous namespace

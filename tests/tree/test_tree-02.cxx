@@ -52,12 +52,12 @@ int main (int argc, char *argv[]) {
 
     } catch (std::exception &e) {
 	std::cout << "exception\n";
-	return 1;
+	return 0;
     } catch (...) {
 	std::cout << "...\n";
 	return 1;
     }
 
     std::cout << "good\n";
-    return 0;
+    return 1;
 }

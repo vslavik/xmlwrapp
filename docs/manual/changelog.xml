@@ -1,5 +1,97 @@
 <appendix id="changelog"><title>Revision History</title>
     <!--################################################################-->
+    <section id="ck-050"><title>Version 0.5.0</title>
+	<subtitle>March 18, 2004</subtitle>
+
+	<itemizedlist>
+	    <listitem>
+		<para>
+		    Fixed a null pointer dereference problem in xml::attributes, Bug ID 20. Thanks
+		    goes to John K. Hohm for finding this and providing a working patch.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Added three new constructors to the <classname>xml::node</classname> class for
+		    creating CDATA sections, XML comments, and XML processing instructions. This is
+		    done using three new helper structs, <classname>xml::node::cdata</classname>,
+		    <classname>xml::node::comment</classname>, and
+		    <classname>xml::node::pi</classname>.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Added new member functions to the <classname>xml::node</classname> class. They
+		    are: <constant>size</constant> and <constant>empty</constant>.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Added new member functions to the <classname>xml::document</classname> class.
+		    They are: <constant>size</constant>, <constant>push_back</constant>,
+		    <constant>insert</constant>, <constant>replace</constant>, and
+		    <constant>erase</constant>.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Added the ability to compress XML files saved with the
+		    <constant>xml::document::save_to_file</constant> member function (Bug ID 19).
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Major clean ups in the test harness. Test code should be a lot easier to write
+		    now.
+		</para>
+	    </listitem>
+	</itemizedlist>
+    </section>
+    <!--################################################################-->
+    <section id="ck-044"><title>Version 0.4.4</title>
+	<subtitle>October 29, 2003</subtitle>
+
+	<itemizedlist>
+	    <listitem>
+		<para>
+		    Small changes so that xmlwrapp can work with libxml2 version 2.6.0. Thanks goes
+		    to Craig Wiesen and Jonathan Wakely for finding this. (Bug ID 18).
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Fixed a typo in the manual. Thanks goes to Bill Luoma. (Bug ID 16).
+		</para>
+	    </listitem>
+	</itemizedlist>
+    </section>
+    <!--################################################################-->
+    <section id="ck-043"><title>Version 0.4.3</title>
+	<subtitle>August 19, 2003</subtitle>
+
+	<itemizedlist>
+	    <listitem>
+		<para>
+		    Fixed a build problem on Linux (bug 10). This happens when libxslt was installed
+		    in /usr. configure.pl could not find libxslt because xslt-config does not list
+		    /usr/include.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Updated the TODO list (<xref linkend="todo"/>).
+		</para>
+	    </listitem>
+	</itemizedlist>
+    </section>
+    <!--################################################################-->
     <section id="ck-042"><title>Version 0.4.2</title>
 	<subtitle>June 20, 2003</subtitle>
 

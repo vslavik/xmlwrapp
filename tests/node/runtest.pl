@@ -40,159 +40,46 @@ runtests();
 
 ###########################################################################
 sub runtests {
-    my $actual_result;
-    my $good_result;
-
     ###########################################################################
-    $test->start("test_node-01");
-    $actual_result = `./test_node-01 2>&1`;
-
-    if ($? != 0) {
-	$test->fail("test process returned $?");
-    } else {
-	$good_result = slurp_file("data/01.xml");
-
-	if ($actual_result ne $good_result) {
-	    $test->fail('output did not match expected value');
-	} else {
-	    $test->pass();
-	}
-    }
+    $test->regression("constructor (01)", "./test_node-01", "data/01.xml");
     ###########################################################################
     foreach my $i (qw(02a 02b 02c 02d)) {
-	$test->start("test_node-$i");
-	$actual_result = `./test_node-$i data/02.xml 2>&1`;
-
-	if ($? != 0) {
-	    $test->fail("test process returned $?");
-	} else {
-	    $good_result = slurp_file("data/$i.out");
-
-	    if ($actual_result ne $good_result) {
-		$test->fail('output did not match expected value');
-	    } else {
-		$test->pass();
-	    }
-	}
+	$test->regression("find ($i)", "./test_node-$i data/02.xml", "data/$i.out");
     }
     ###########################################################################
     foreach my $i (qw(03a 03b)) {
-	$test->start("test_node-$i");
-	$actual_result = `./test_node-$i data/03.xml 2>&1`;
-
-	if ($? != 0) {
-	    $test->fail("test process returned $?");
-	} else {
-	    $good_result = slurp_file("data/$i.out");
-
-	    if ($actual_result ne $good_result) {
-		$test->fail('output did not match expected value');
-	    } else {
-		$test->pass();
-	    }
-	}
+	$test->regression("replace ($i)", "./test_node-$i data/03.xml", "data/$i.out");
     }
     ###########################################################################
     foreach my $i (qw(04a 04b)) {
-	$test->start("test_node-$i");
-	$actual_result = `./test_node-$i data/04.xml 2>&1`;
-
-	if ($? != 0) {
-	    $test->fail("test process returned $?");
-	} else {
-	    $good_result = slurp_file("data/$i.out");
-
-	    if ($actual_result ne $good_result) {
-		$test->fail('output did not match expected value');
-	    } else {
-		$test->pass();
-	    }
-	}
+	$test->regression("erase ($i)", "./test_node-$i data/04.xml", "data/$i.out");
     }
     ###########################################################################
     foreach my $i (qw(05a 05b 05c 05d)) {
-	$test->start("test_node-$i");
-	$actual_result = `./test_node-$i data/05.xml 2>&1`;
-
-	if ($? != 0) {
-	    $test->fail("test process returned $?");
-	} else {
-	    $good_result = slurp_file("data/$i.out");
-
-	    if ($actual_result ne $good_result) {
-		$test->fail('output did not match expected value');
-	    } else {
-		$test->pass();
-	    }
-	}
+	$test->regression("insert ($i)", "./test_node-$i data/05.xml", "data/$i.out");
     }
     ###########################################################################
     foreach my $i (qw(06a 06b 06c)) {
-	$test->start("test_node-$i");
-	$actual_result = `./test_node-06 data/$i.xml 2>&1`;
-
-	if ($? != 0) {
-	    $test->fail("test process returned $?");
-	} else {
-	    $good_result = slurp_file("data/$i.out");
-
-	    if ($actual_result ne $good_result) {
-		$test->fail('output did not match expected value');
-	    } else {
-		$test->pass();
-	    }
-	}
+	$test->regression("get_type ($i)", "./test_node-06 data/$i.xml", "data/$i.out");
     }
     ###########################################################################
-    foreach my $i (qw(a b)) {
-	$test->start("xml::node::sort ($i)");
-	$actual_result = `./test_node-07 data/07$i.xml child order 2>&1`;
-
-	if ($? != 0) {
-	    $test->fail("test process returned $?");
-	} else {
-	    $good_result = slurp_file("data/07$i.out");
-
-	    if ($actual_result ne $good_result) {
-		$test->fail('output did not match expected value');
-	    } else {
-		$test->pass();
-	    }
-	}
+    foreach my $i (qw(07a 07b)) {
+	$test->regression("sort ($i)", "./test_node-07 data/$i.xml child order", "data/$i.out");
     }
     ###########################################################################
-    foreach my $i (qw(a)) {
-	$test->start("xml::node::sort_fo ($i)");
-	$actual_result = `./test_node-08 data/08$i.xml 2>&1`;
-
-	if ($? != 0) {
-	    $test->fail("test process returned $?");
-	} else {
-	    $good_result = slurp_file("data/08$i.out");
-
-	    if ($actual_result ne $good_result) {
-		$test->fail('output did not match expected value');
-	    } else {
-		$test->pass();
-	    }
-	}
+    foreach my $i (qw(08a)) {
+	$test->regression("sort_fo ($i)", "./test_node-08 data/$i.xml", "data/$i.out");
     }
     ###########################################################################
-}
-###########################################################################
-sub slurp_file {
-    my $filename = shift;
-    my $out;
-
-
-    if (not open(SF, $filename)) {
-	print STDERR "\n\n$0: failed to open $filename: $!\n";
-	exit 1;
-    }
-
-    my $save = $/; $/=undef; $out = <SF>; $/=$save;
-    close SF;
-
-    return $out;
+    $test->regression("cdata (09)", "./test_node-09", "data/09.out");
+    ###########################################################################
+    $test->regression("commet (10)", "./test_node-10", "data/10.out");
+    ###########################################################################
+    $test->regression("pi (11)", "./test_node-11", "data/11.out");
+    ###########################################################################
+    $test->regression("size (12)", "./test_node-12", "data/12.out");
+    ###########################################################################
+    $test->regression("empty (13)", "./test_node-13", "data/13.out");
+    ###########################################################################
 }
 ###########################################################################

@@ -68,84 +68,17 @@ runtests();
 unlink("good.xml", "bad.xml");
 
 sub runtests {
-    my $test_num = shift || '1';
-
     ###########################################################################
-    $test->start("test_tree-01 (good file)[$test_num]");
-    $actual_result = `./test_tree-01 good.xml 2>&1`;
-
-    if ($? != 0) {
-	$test->fail("test process returned $?");
-    } else {
-	if ($actual_result ne $good_result) {
-	    $test->fail("output did not match expected value, [$good_result]\n[$actual_result]");
-	} else {
-	    $test->pass();
-	}
-    }
+    $test->regression("parse good file (01)", "./test_tree-01 good.xml", $good_result);
     ###########################################################################
-    $test->start("test_tree-02  (bad file)[$test_num]");
-    $actual_result = `./test_tree-02 bad.xml 2>&1`;
-
-    if ($? == 0) {
-	$test->fail("test program should have exited with !0");
-    } else {
-	if ($actual_result ne "exception\n") {
-	    $test->fail("test program should have printed exception");
-	} else {
-	    $test->pass();
-	}
-    }
+    $test->regression("parse bad file (02)", "./test_tree-02 bad.xml", "exception\n");
     ###########################################################################
-    $test->start("test_tree-03  (bad file)[$test_num]");
-    $actual_result = `./test_tree-03 bad.xml 2>&1`;
-
-    if ($? == 0) {
-	$test->fail("test program should have exited with !0");
-    } else {
-	if ($actual_result ne "failed\n") {
-	    $test->fail("test program should have printed failed");
-	} else {
-	    $test->pass();
-	}
-    }
+    $test->regression("parse bad file (03)", "./test_tree-03 bad.xml", "failed\n");
     ###########################################################################
-    $test->start("test_tree-04 (good file)[$test_num]");
-    $actual_result = `./test_tree-04 '$good_xml' 2>&1`;
-
-    if ($? != 0) {
-	$test->fail("test program should have exited with 0");
-    } else {
-	if ($actual_result ne $good_result) {
-	    $test->fail("test did not produce the correct output");
-	} else {
-	    $test->pass();
-	}
-    }
+    $test->regression("constructor (const char*) good xml (04)", "./test_tree-04 '$good_xml'", $good_result);
     ###########################################################################
-    $test->start("test_tree-05  (bad file)[$test_num]");
-    $actual_result = `./test_tree-05 '$bad_xml' 2>&1`;
-
-    if ($? == 0) {
-	$test->fail("test program should have exited with !0");
-    } else {
-	if ($actual_result ne "exception\n") {
-	    $test->fail("test program should have printed exception");
-	} else {
-	    $test->pass();
-	}
-    }
+    $test->regression("constructor (const char*) bad xml (05)", "./test_tree-05 '$bad_xml'", "exception\n");
     ###########################################################################
-    $test->start("test_tree-06  (bad file)[$test_num]");
-    $actual_result = `./test_tree-06 '$bad_xml' 2>&1`;
-
-    if ($? == 0) {
-	$test->fail("test program should have exited with !0");
-    } else {
-	if ($actual_result ne "failed\n") {
-	    $test->fail("test program should have printed failed");
-	} else {
-	    $test->pass();
-	}
-    }###########################################################################
+    $test->regression("constructor (const char*) bad xml (06)", "./test_tree-06 '$bad_xml'", "failed\n");
+    ###########################################################################
 }

@@ -45,13 +45,13 @@ sub runtests {
 
     ###########################################################################
     foreach (qw(01a 01b 01c)) {
-	$test->start("iteration test_attr-$_");
+	$test->start("iteration ($_)");
 	$actual_result = `./test_attr-01 data/$_.xml 2>&1`;
 
 	if ($? != 0) {
 	    $test->fail("test process returned $?");
 	} else {
-	    $good_result = slurp_file("data/$_.out");
+	    $good_result = $test->slurp_file("data/$_.out");
 
 	    my $hash_a = make_hash($actual_result);
 	    my $hash_b = make_hash($good_result);
@@ -64,107 +64,35 @@ sub runtests {
 	}
     }
     ###########################################################################
-    $test->start("insert(name, value) test_attr-02");
-    $actual_result = `./test_attr-02 data/02.xml 2>&1`;
-
-    if ($? != 0) {
-	$test->fail("test process returned $?");
-    } else {
-	$good_result = slurp_file("data/02.out");
-
-	if ($actual_result ne $good_result) {
-	    $test->fail('output did not match expected value');
-	} else {
-	    $test->pass();
-	}
-    }
+    $test->regression("insert(name, value) (02)", "./test_attr-02 data/02.xml", "data/02.out");
     ###########################################################################
     foreach my $pair ((['one', 0], ['two', 0], ['three', 0], ['missing', 1], ['also_missing', 1])) {
-	$test->start("find(name) test_attr-03 ($pair->[0])");
-	$actual_result = `./test_attr-03 data/03.xml $pair->[0] 2>&1`;
-
-	if ($pair->[1] == 0 and $? != 0) {
-	    $test->fail("test process returned $?");
-	} else {
-	    $test->pass();
-	}
+	$test->run_test_exit_status("find(name) (03)", "./test_attr-03 data/03.xml $pair->[0]", $pair->[1]);
     }
     ###########################################################################
     foreach my $pair ((['a', 'attr_one'], ['b', 'attr_two'], ['c', 'attr_three'], ['d', 'attr_four'])) {
-	$test->start("remove(iterator) test_attr-04 ($pair->[1])");
-	$actual_result = `./test_attr-04 data/04.xml $pair->[1] 2>&1`;
-
-	if ($? != 0) {
-	    $test->fail("test process returned $?");
-	} else {
-	    $good_result = slurp_file("data/04$pair->[0].out");
-
-	    if ($actual_result ne $good_result) {
-		$test->fail('output did not match expected value');
-	    } else {
-		$test->pass();
-	    }
-	}
+	$test->regression("remove(iterator) (04$pair->[0])", "./test_attr-04 data/04.xml $pair->[1]", "data/04$pair->[0].out");
     }
     ###########################################################################
     foreach my $pair ((['a', 'attr_one'], ['b', 'attr_two'], ['c', 'attr_three'], ['d', 'attr_four'])) {
-	$test->start("remove(const char*) test_attr-05 ($pair->[1])");
-	$actual_result = `./test_attr-05 data/05.xml $pair->[1] 2>&1`;
-
-	if ($? != 0) {
-	    $test->fail("test process returned $?");
-	} else {
-	    $good_result = slurp_file("data/05$pair->[0].out");
-
-	    if ($actual_result ne $good_result) {
-		$test->fail('output did not match expected value');
-	    } else {
-		$test->pass();
-	    }
-	}
+	$test->regression("remove(const char*) (05$pair->[0])", "./test_attr-05 data/05.xml $pair->[1]", "data/05$pair->[0].out");
     }
     ###########################################################################
     foreach (qw(a b)) {
-	$test->start("empty() test_attr-06$_");
-	$actual_result = `./test_attr-06 data/06$_.xml 2>&1`;
-
-	if ($? != 0) {
-	    $test->fail("test process returned $?");
-	} else {
-	    $good_result = slurp_file("data/06$_.out");
-
-	    if ($actual_result ne $good_result) {
-		$test->fail('output did not match expected value');
-	    } else {
-		$test->pass();
-	    }
-	}
+	$test->regression("empty (06$_)", "./test_attr-06 data/06$_.xml", "data/06$_.out");
     }
     ###########################################################################
     foreach (qw(a b c d)) {
-	$test->start("size() test_attr-07$_");
-	$actual_result = `./test_attr-07 data/07$_.xml 2>&1`;
-
-	if ($? != 0) {
-	    $test->fail("test process returned $?");
-	} else {
-	    $good_result = slurp_file("data/07$_.out");
-
-	    if ($actual_result ne $good_result) {
-		$test->fail('output did not match expected value');
-	    } else {
-		$test->pass();
-	    }
-	}
+	$test->regression("size (07$_)", "./test_attr-07 data/07$_.xml", "data/07$_.out");
     }
     ###########################################################################
-    $test->start("copy constructor test_attr-08");
+    $test->start("copy constructor (08)");
     $actual_result = `./test_attr-08 data/08.xml 2>&1`;
 
     if ($? != 0) {
 	$test->fail("test process returned $?");
     } else {
-	$good_result = slurp_file("data/08.out");
+	$good_result = $test->slurp_file("data/08.out");
 
 	my $hash_a = make_hash($actual_result);
 	my $hash_b = make_hash($good_result);
@@ -177,38 +105,11 @@ sub runtests {
     }
     ###########################################################################
     foreach ((['a', 'one'], ['b', 'two'], ['c', 'three'])) {
-	$test->start("dtd attr test_attr-09$_->[0]");
-	$actual_result = `./test_attr-09 data/09.xml $_->[1] 2>&1`;
-
-	if ($? != 0) {
-	    $test->fail("test process returned $?");
-	} else {
-	    $good_result = slurp_file("data/09$_->[0].out");
-
-	    if ($actual_result ne $good_result) {
-		$test->fail('output did not match expected value');
-	    } else {
-		$test->pass();
-	    }
-	}
+	$test->regression("dtd attr (09$_->[0])", "./test_attr-09 data/09.xml $_->[1]", "data/09$_->[0].out");
     }
     ###########################################################################
-}
-###########################################################################
-sub slurp_file {
-    my $filename = shift;
-    my $out;
-
-
-    if (not open(SF, $filename)) {
-	print STDERR "\n\n$0: failed to open $filename: $!\n";
-	exit 1;
-    }
-
-    my $save = $/; $/=undef; $out = <SF>; $/=$save;
-    close SF;
-
-    return $out;
+    $test->regression("dtd implied (10)", "./test_attr-10 data/10.xml optional", "data/10.out");
+    ###########################################################################
 }
 ###########################################################################
 sub make_hash {

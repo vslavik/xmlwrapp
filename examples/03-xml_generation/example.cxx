@@ -39,6 +39,7 @@
  *  <abook>
  *	<person id="01" name="Peter Jones">
  *	    <email>pjones@pmade.org</email>
+ *	    <!-- Fake Phone Number -->
  *	    <phone type="home">555-1212</phone>
  *	</person>
  *  </abook>
@@ -72,8 +73,11 @@ int main (void) {
     // add a node and set the content for that new node
     it->push_back(xml::node("email", "pjones@pmade.org"));
 
+    // add an XML comment
+    it->push_back(xml::node(xml::node::comment(" Fake Phone Number ")));
+
     // build a node one member function at a time
-    it = it->insert(it->end(), xml::node("phone"));
+    it = it->insert(xml::node("phone"));
     it->get_attributes().insert("type", "home");
     it->set_content("555-1212");
 

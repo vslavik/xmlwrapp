@@ -313,7 +313,7 @@ namespace xml {
 		dtd_attr = xmlGetDtdAttrDesc(xmlnode->doc->extSubset, xmlnode->name, reinterpret_cast<const xmlChar*>(name));
 	    }
 
-	    if (dtd_attr != 0) {
+	    if (dtd_attr != 0 && dtd_attr->defaultValue != 0) {
 		return dtd_attr;
 	    }
 	}
