@@ -39,87 +39,20 @@ my $test = harness->new("xslt::stylesheet");
 runtests();
 
 ###########################################################################
-sub runtests {
-    my $actual_result;
-    my $good_result;
-
+sub runtests 
+{
     ###########################################################################
     foreach (['a', 1], ['b', 0], ['c', 1]) {
-	$test->start("constructor $_->[0]");
-	$actual_result = `./test_xslt-01 data/01$_->[0].xsl 2>&1`;
-
-	if ($_->[1] == 0 and $? != 0) {
-	    $test->fail("expected exit status of 0 but got $?");
-	} elsif ($_->[1] != 0 and $? == 0) {
-	    $test->fail("expected exit other than 0 but got $?");
-	} else {
-	    $test->pass();
-	}
+	$test->run_test_exit_status("constructor (01$_->[0])", "./test_xslt-01 data/01$_->[0].xsl", $_->[1]);
     }
     ###########################################################################
-    $test->start("apply (2)");
-    $actual_result = `./test_xslt-02 data/02a.xsl data/02a.xml 2>&1`;
-    $good_result = slurp_file("data/02a.out");
-
-    if ($? != 0) {
-	$test->fail("expected exit status of 0 but got $?");
-    } elsif ($actual_result ne $good_result) {
-	$test->fail("output did not match expected result");
-    } else {
-	$test->pass();
-    }
+    $test->regression("apply (02)", "./test_xslt-02 data/02a.xsl data/02a.xml", "data/02a.out");
     ###########################################################################
-    $test->start("apply (3)");
-    $actual_result = `./test_xslt-03 data/03a.xsl data/03a.xml "'bar'" 2>&1`;
-    $good_result = slurp_file("data/03a.out");
-
-    if ($? != 0) {
-	$test->fail("expected exit status of 0 but got $?");
-    } elsif ($actual_result ne $good_result) {
-	$test->fail("output did not match expected result");
-    } else {
-	$test->pass();
-    }
+    $test->regression("apply (03)", "./test_xslt-03 data/03a.xsl data/03a.xml \"'bar'\"", "data/03a.out");
     ###########################################################################
-    $test->start("apply (4)");
-    $actual_result = `./test_xslt-04 data/04a.xsl data/04a.xml 2>&1`;
-    $good_result = slurp_file("data/04a.out");
-
-    if ($? != 0) {
-	$test->fail("expected exit status of 0 but got $?");
-    } elsif ($actual_result ne $good_result) {
-	$test->fail("output did not match expected result");
-    } else {
-	$test->pass();
-    }
+    $test->regression("apply (04)", "./test_xslt-04 data/04a.xsl data/04a.xml", "data/04a.out");
     ###########################################################################
-    $test->start("apply (5)");
-    $actual_result = `./test_xslt-05 data/05a.xsl data/05a.xml "'bar'" 2>&1`;
-    $good_result = slurp_file("data/05a.out");
-
-    if ($? != 0) {
-	$test->fail("expected exit status of 0 but got $?");
-    } elsif ($actual_result ne $good_result) {
-	$test->fail("output did not match expected result");
-    } else {
-	$test->pass();
-    }
+    $test->regression("apply (05)", "./test_xslt-05 data/05a.xsl data/05a.xml \"'bar'\"", "data/05a.out");
     ###########################################################################
-}
-###########################################################################
-sub slurp_file {
-    my $filename = shift;
-    my $out;
-
-
-    if (not open(SF, $filename)) {
-	print STDERR "\n\n$0: failed to open $filename: $!\n";
-	exit 1;
-    }
-
-    my $save = $/; $/=undef; $out = <SF>; $/=$save;
-    close SF;
-
-    return $out;
 }
 ###########################################################################
