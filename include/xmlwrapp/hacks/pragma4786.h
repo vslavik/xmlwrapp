@@ -1,0 +1,8 @@
+#ifndef XMLWRAPP_HACKS_PRAGMA4786_H_20040725T152132
+#define XMLWRAPP_HACKS_PRAGMA4786_H_20040725T152132
+
+#if _MSC_VER / 100 == 12
+#  pragma warning(disable : 4786)
+#endif
+
+#endif

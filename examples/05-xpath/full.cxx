@@ -29,6 +29,8 @@ int main () {
   catch (const std::exception &e) {
     std::cout << "EXCEPTION: " << e.what() << '\n';
   }
+
+  return 0;
 }
 
 void show_user (xpath::const_object::reference user_node) {

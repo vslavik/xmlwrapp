@@ -41,6 +41,7 @@
 #include <string>
 #include <iosfwd>
 #include <map>
+#include "xmlwrapp/hacks/nsstd.h"
 
 namespace xml {
     struct epimpl; // forward declaration of private implementation

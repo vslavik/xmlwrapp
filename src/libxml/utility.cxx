@@ -30,17 +30,13 @@
  * SUCH DAMAGE.
  */
 
+#include "xmlwrapp/hacks/nsstd.h"
+#include "xmlwrapp/hacks/vsnprintf.h"
 #include "utility.h"
 #include <cstdarg>
 #include <cstdlib>
 #include <cstring>
 #include <string>
-
-// hack to pull in vsnprintf for MSVC6
-#if defined(_MSC_VER) && _MSC_VER <= 1200
-#  undef vsnprintf
-#  define vsnprintf _vsnprintf
-#endif
 
 namespace xml {
 

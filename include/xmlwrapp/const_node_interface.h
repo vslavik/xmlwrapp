@@ -42,6 +42,7 @@
 #include <iterator>
 #include <string>
 #include <cstddef>
+#include "xmlwrapp/hacks/nsstd.h"
 
 namespace xpath {
   class xpath_helper;

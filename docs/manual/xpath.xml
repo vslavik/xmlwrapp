@@ -1,0 +1,115 @@
+<chapter id="xpath">
+  <title>XPath Support</title>
+  <!--=================================================================================-->
+  <para>
+    Starting with version 0.6.0, xmlwrapp supports
+    <ulink url="http://www.w3.org/TR/xpath">XPath, the XML Path Language</ulink>,
+    which allows you to perform queries against an XML document much as you might
+    perform queries against a relational database.
+    An XPath query can result in a collection of nodes called a "node set,"
+    a boolean, a number, or a string.
+  </para>
+  <!--=================================================================================-->
+  <section id="xpath-query">
+    <title><function>xpath::query</function></title>
+
+    <para>
+      The simplest way to perform an XPath query is with the <function>xpath::query</function>.
+      It evaluates an XPath expression against a given document or node. For instance,
+      say that <filename>file.xml</filename> consists of the following:
+    </para>
+
+    <programlisting><![CDATA[
+<?xml version="1.0" ?>
+<users>
+  <user>
+    <name>John</name>
+    <id>123</id>
+  </user>
+
+  <user>
+    <name>Bob</name>
+    <id>456</id>
+  </user>
+</users>
+]]></programlisting>
+
+    <para>
+      You can use the following snippet to output the name of the user whose ID is 123:
+    </para>
+
+    <programlisting><![CDATA[
+xpath::tree_parser tree("file.xml");
+std::cout << xpath::query(tree.get_document(),
+                          "/users/user[id = 123]/name").to_string() << '\n';
+]]></programlisting>
+  </section>
+  <!--=================================================================================-->
+  <section id="xpath-context">
+    <title><classname>xpath::context</classname></title>
+
+    <para>
+      Every XPath query is evaluated against an <classname>xpath::context</classname> object.
+      The <function>xpath::query</function> example in the last section is effectively the
+      same thing as this:
+    </para>
+
+<programlisting><![CDATA[
+xpath::tree_parser tree("file.xml");
+xpath::context ctxt(tree.get_document());
+std::cout << ctxt["/users/user[id = 123]/name"].to_string() << '\n';
+]]></programlisting>
+
+    <para>
+      If you intend to perform multiple queries in a single context, you might want to
+      create a single <classname>xpath::context</classname> object instead of using
+      <classname>xpath::query</classname>, which generates a temporary context each time
+      it is called. Furthermore, you will need to create one if you want to set user-defined
+      variables for use in your query:
+    </para>
+
+<programlisting><![CDATA[
+xpath::tree_parser tree("file.xml");
+xpath::context ctxt(tree.get_document());
+ctxt.set('foo', 123);
+std::cout << ctxt["/users/user[id = $foo]/name"].to_string() << '\n';
+]]></programlisting>
+  </section>
+  <!--=================================================================================-->
+  <section id="xpath-expression">
+    <title><classname>xpath::expression</classname></title>
+
+    <para>
+      Every XPath query string is compiled into an <classname>xpath::expression</classname> object
+      before being evaluated. In other words, the first example presented in the last two sections
+      is effectively the same thing as this:
+    </para>
+
+<programlisting><![CDATA[
+xpath::tree_parser tree("file.xml");
+xpath::context ctxt(tree.get_document());
+xpath::expression expr("/users/user[id = 123]/name");
+std::cout << ctxt[expr].to_string() << '\n';
+]]></programlisting>
+
+    <para>
+      As with <classname>xpath::context</classname>,
+      if you intend to evaluate the same XPath expression multiple times,
+      you might want to create and reuse an <classname>xpath::expression</classname> object
+      instead of reusing an XPath query string, which will be compiled into an
+      <classname>xpath::expression</classname> each time it is evaluated.
+    </para>
+  </section>
+  <!--=================================================================================-->
+  <section id="xpath-object">
+    <title><classname>xpath::object</classname></title>
+
+    <para>
+      The result of an XPath query is an <classname>xpath::object</classname>.
+    </para>
+  </section>
+  <!--=================================================================================-->
+</chapter>
+<!--
+    vim:ft=docbk:tw=130
+-->

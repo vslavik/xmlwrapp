@@ -37,6 +37,8 @@
 #ifndef _xmlwrapp_tree_parser_h_
 #define _xmlwrapp_tree_parser_h_
 
+#include "xmlwrapp/hacks/nsstd.h"
+
 // standard includes
 #include <cstddef>
 #include <string>

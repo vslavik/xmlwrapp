@@ -96,6 +96,7 @@
     <xi:include href="node.xml"/>
     <xi:include href="attributes.xml"/>
     <xi:include href="xslt.xml"/>
+    <xi:include href="xpath.xml"/>
     <xi:include href="whatnext.xml"/>
     <xi:include href="tips.xml"/>
     <xi:include href="license.xml"/>

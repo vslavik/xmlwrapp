@@ -3,6 +3,21 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
+Project: "example XPath"=".\example XPath\example XPath.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name xmlwrapp
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "example event parser"=.\example_event_parser.dsp - Package Owner=<4>
 
 Package=<5>

@@ -38,6 +38,7 @@
 #include "utility.h"
 #include <libxml/tree.h>
 #include <stdexcept>
+#include <memory>
 
 //####################################################################
 xml::detail::const_node_interface::const_node_interface (void) {

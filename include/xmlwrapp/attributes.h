@@ -41,6 +41,7 @@
 #include <cstddef>
 #include <iosfwd>
 #include <string>
+#include "xmlwrapp/hacks/nsstd.h"
 
 namespace xml {
    

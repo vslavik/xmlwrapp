@@ -37,6 +37,7 @@
 // xmlwrapp includes
 #include "dtd_impl.h"
 #include "utility.h"
+#include "xmlwrapp/hacks/nsstd.h"
 
 // standard includes
 #include <string>
