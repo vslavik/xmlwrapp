@@ -48,7 +48,7 @@ use Cwd qw(cwd chdir);
 #
 ################################################################################
 use constant DATE		=> 'Tue Jan 15 08:56:06 2002';
-use constant ID			=> '$Id: configure.pl,v 1.1.1.1 2003-08-04 04:57:07 pjones Exp $';
+use constant ID			=> '$Id: configure.pl,v 1.1.1.1.2.1 2003-08-18 04:23:09 sbeasley Exp $';
 ################################################################################
 #
 # Global Variables
@@ -63,7 +63,7 @@ my $dirsep = "/";
 my $mkmf	= "${cwd}${dirsep}tools${dirsep}mkmf";
 my $cxxflags	= "${cwd}${dirsep}tools${dirsep}cxxflags";
 my $genconfig	= "${cwd}${dirsep}tools${dirsep}genconfig";
-my $master_inc	= "${cwd}${dirsep}include";
+my $master_inc	= "${cwd}${dirsep}include ${cwd}${dirsep}include${dirsep}xmlwrapp";
 
 my $mkmf_flags;
 my $libname	= "xmlwrapp";
@@ -150,7 +150,7 @@ if ($clo{'contrib'}) {
 }
 
 # setup defaults for mkmf
-$mkmf_flags = "--include $master_inc --cxxflags $cxxflags --quiet ";
+$mkmf_flags = (join ' ', map { "--include $_" } split /\s+/, $master_inc) . " --cxxflags $cxxflags --quiet ";
 if ($clo{'developer'}) {$mkmf_flags .= " --developer";}
 
 # look for libxml2
