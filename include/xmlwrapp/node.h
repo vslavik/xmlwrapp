@@ -765,6 +765,7 @@ private:
     void* release_node_data (void);
     friend class tree_parser;
     friend class node_iterator;
+    friend class document;
     friend struct doc_impl;
     friend struct node_cmp;
 

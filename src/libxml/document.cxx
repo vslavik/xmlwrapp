@@ -39,6 +39,7 @@
 #include "xmlwrapp/node.h"
 #include "utility.h"
 #include "dtd_impl.h"
+#include "node_manip.h"
 
 // configure.pl generated file
 #ifndef WIN32
@@ -48,8 +49,10 @@
 // standard includes
 #include <new>
 #include <memory>
-#include <algorithm>
+#include <iterator>
 #include <iostream>
+#include <algorithm>
+#include <stdexcept>
 
 // libxml includes
 #include <libxml/tree.h>
@@ -243,6 +246,10 @@ bool xml::document::validate (const char *dtdname) {
     return true;
 }
 //####################################################################
+xml::document::size_type xml::document::size (void) const {
+    return std::distance(begin(), end());
+}
+//####################################################################
 xml::node::iterator xml::document::begin (void) {
     return node::iterator(pimpl_->doc_->children);
 }
@@ -257,6 +264,39 @@ xml::node::iterator xml::document::end (void) {
 //####################################################################
 xml::node::const_iterator xml::document::end (void) const {
     return node::const_iterator(0);
+}
+//####################################################################
+void xml::document::push_back (const node &child) {
+    if (child.get_type() == node::type_element) throw std::runtime_error("xml::document::push_back can't take element type nodes");
+    xmlwrapp::node_insert(reinterpret_cast<xmlNodePtr>(pimpl_->doc_), 0, static_cast<xmlNodePtr>(const_cast<node&>(child).get_node_data()));
+}
+//####################################################################
+xml::node::iterator xml::document::insert (const node &n) {
+    if (n.get_type() == node::type_element) throw std::runtime_error("xml::document::insert can't take element type nodes");
+    return node::iterator(xmlwrapp::node_insert(reinterpret_cast<xmlNodePtr>(pimpl_->doc_), 0, static_cast<xmlNodePtr>(const_cast<node&>(n).get_node_data())));
+}
+//####################################################################
+xml::node::iterator xml::document::insert (node::iterator position, const node &n) {
+    if (n.get_type() == node::type_element) throw std::runtime_error("xml::document::insert can't take element type nodes");
+    return node::iterator(xmlwrapp::node_insert(reinterpret_cast<xmlNodePtr>(pimpl_->doc_), static_cast<xmlNodePtr>(position.get_raw_node()), static_cast<xmlNodePtr>(const_cast<node&>(n).get_node_data())));
+}
+//####################################################################
+xml::node::iterator xml::document::replace (node::iterator old_node, const node &new_node) {
+    if (old_node->get_type() == node::type_element || new_node.get_type() == node::type_element) {
+	throw std::runtime_error("xml::document::replace can't replace element type nodes");
+    }
+
+    return node::iterator(xmlwrapp::node_replace(static_cast<xmlNodePtr>(old_node.get_raw_node()), static_cast<xmlNodePtr>(const_cast<node&>(new_node).get_node_data())));
+}
+//####################################################################
+xml::node::iterator xml::document::erase (node::iterator to_erase) {
+    if (to_erase->get_type() == node::type_element) throw std::runtime_error("xml::document::erase can't erase element type nodes");
+    return node::iterator(xmlwrapp::node_erase(static_cast<xmlNodePtr>(to_erase.get_raw_node())));
+}
+//####################################################################
+xml::node::iterator xml::document::erase (node::iterator first, node::iterator last) {
+    while (first != last) first = erase(first);
+    return first;
 }
 //####################################################################
 void xml::document::save_to_string (std::string &s) const {

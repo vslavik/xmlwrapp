@@ -39,6 +39,7 @@
 #include "xmlwrapp/attributes.h"
 #include "utility.h"
 #include "ait_impl.h"
+#include "node_manip.h"
 
 // standard includes
 #include <new>
@@ -343,12 +344,7 @@ bool xml::node::is_text (void) const {
 }
 //####################################################################
 void xml::node::push_back (const node &child) {
-    xmlNodePtr node_to_add = xmlCopyNode(child.pimpl_->xmlnode_, 1);
-    if (!node_to_add) return;
-
-    if (!xmlAddChild(pimpl_->xmlnode_, node_to_add)) {
-	xmlFreeNode(node_to_add);
-    }
+    xmlwrapp::node_insert(pimpl_->xmlnode_, 0, child.pimpl_->xmlnode_);
 }
 //####################################################################
 xml::node::size_type xml::node::size (void) const {
@@ -418,55 +414,19 @@ xml::node::const_iterator xml::node::find (const char *name, const_iterator star
 }
 //####################################################################
 xml::node::iterator xml::node::insert (const node &n) {
-    push_back(n);
-    return iterator(pimpl_->xmlnode_->last);
+    return iterator(xmlwrapp::node_insert(pimpl_->xmlnode_, 0, n.pimpl_->xmlnode_));
 }
 //####################################################################
 xml::node::iterator xml::node::insert (iterator position, const node &n) {
-    xmlNodePtr before_xml_node = static_cast<xmlNodePtr>(position.get_raw_node());
-
-    if (before_xml_node == 0) { // xml::node::end() given?
-	push_back(n);
-	return iterator(pimpl_->xmlnode_->last);
-    }
-
-    xmlNodePtr new_xml_node =  xmlCopyNode(n.pimpl_->xmlnode_, 1);
-    if (!new_xml_node) throw std::bad_alloc();
-
-    if (xmlAddPrevSibling(before_xml_node, new_xml_node) == 0) {
-	xmlFreeNode(new_xml_node);
-	throw std::runtime_error("failed to insert xml::node. xmlAddPrevSibling failed");
-    }
-
-    return iterator(new_xml_node);
+    return iterator(xmlwrapp::node_insert(pimpl_->xmlnode_, static_cast<xmlNodePtr>(position.get_raw_node()), n.pimpl_->xmlnode_));
 }
 //####################################################################
 xml::node::iterator xml::node::replace (iterator old_node, const node &new_node) {
-    xmlNodePtr old_xml_node = static_cast<xmlNodePtr>(old_node.get_raw_node());
-    xmlNodePtr new_xml_node =  xmlCopyNode(new_node.pimpl_->xmlnode_, 1);
-    if (!new_xml_node) throw std::bad_alloc();
-
-    // hack to see if xmlReplaceNode was successful
-    new_xml_node->doc = reinterpret_cast<xmlDocPtr>(old_xml_node);
-    xmlReplaceNode(old_xml_node, new_xml_node);
-
-    if (new_xml_node->doc == reinterpret_cast<xmlDocPtr>(old_xml_node)) {
-	xmlFreeNode(new_xml_node);
-	throw std::runtime_error("failed to replace xml::node. xmlReplaceNode() failed");
-    }
-
-    xmlFreeNode(old_xml_node);
-    return iterator(new_xml_node);
+    return iterator(xmlwrapp::node_replace(static_cast<xmlNodePtr>(old_node.get_raw_node()), new_node.pimpl_->xmlnode_));
 }
 //####################################################################
 xml::node::iterator xml::node::erase (iterator to_erase) {
-    xmlNodePtr old_xml_node = static_cast<xmlNodePtr>(to_erase.get_raw_node());
-    ++to_erase;
-
-    xmlUnlinkNode(old_xml_node);
-    xmlFreeNode(old_xml_node);
-
-    return to_erase;
+    return iterator(xmlwrapp::node_erase(static_cast<xmlNodePtr>(to_erase.get_raw_node())));
 }
 //####################################################################
 xml::node::iterator xml::node::erase (iterator first, iterator last) {

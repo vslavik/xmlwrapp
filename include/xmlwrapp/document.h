@@ -43,6 +43,7 @@
 // standard includes
 #include <iosfwd>
 #include <string>
+#include <cstddef>
 
 // forward declaration
 namespace xslt { class stylesheet; }
@@ -59,6 +60,9 @@ struct doc_impl;
 **/
 class document {
 public:
+    /// size type
+    typedef std::size_t size_type;
+
     //####################################################################
     /** 
      * Create a new XML document with the default settings. The new document
@@ -321,6 +325,19 @@ public:
 
     //####################################################################
     /** 
+     * Returns the number of child nodes of this document. This will always
+     * be at least one, since all xmlwrapp documents must have a root node.
+     * This member function is useful to find out how many document children
+     * there are, including processing instructions, comments, etc.
+     *
+     * @return The number of children nodes that this document has.
+     * @author Peter Jones
+    **/
+    //####################################################################
+    size_type size (void) const;
+
+    //####################################################################
+    /** 
      * Get an iterator to the first child node of this document. If what you
      * really wanted was the root node (the first element) you should use
      * the get_root_node() member function instead.
@@ -366,6 +383,113 @@ public:
     **/
     //####################################################################
     node::const_iterator end (void) const;
+
+    //####################################################################
+    /** 
+     * Add a child xml::node to this document. You should not add a element
+     * type node, since there can only be one root node. This member
+     * function is only useful for adding processing instructions, comments,
+     * etc.. If you do try to add a node of type element, an exception will
+     * be thrown.
+     *
+     * @param child The child xml::node to add.
+     * @author Peter Jones
+    **/
+    //####################################################################
+    void push_back (const node &child);
+
+    //####################################################################
+    /** 
+     * Insert a new child node. The new node will be inserted at the end of
+     * the child list. This is similar to the xml::node::push_back member
+     * function except that an iterator to the inserted node is returned.
+     *
+     * The rules from the push_back member function apply here. Don't add a
+     * node of type element.
+     *
+     * @param n The node to insert as a child of this document.
+     * @return An iterator that points to the newly inserted node.
+     * @see xml::document::push_back
+     * @author Peter Jones
+    **/
+    //####################################################################
+    node::iterator insert (const node &n);
+
+    //####################################################################
+    /** 
+     * Insert a new child node. The new node will be inserted before the
+     * node pointed to by the given iterator.
+     *
+     * The rules from the push_back member function apply here. Don't add a
+     * node of type element.
+     *
+     * @param position An iterator that points to the location where the new node should be inserted (before it).
+     * @param n The node to insert as a child of this document.
+     * @return An iterator that points to the newly inserted node.
+     * @see xml::document::push_back
+     * @author Peter Jones
+    **/
+    //####################################################################
+    node::iterator insert (node::iterator position, const node &n);
+
+    //####################################################################
+    /** 
+     * Replace the node pointed to by the given iterator with another node.
+     * The old node will be removed, including all its children, and
+     * replaced with the new node. This will invalidate any iterators that
+     * point to the node to be replaced, or any pointers or references to
+     * that node.
+     *
+     * Do not replace this root node with this member function. The same
+     * rules that apply to push_back apply here. If you try to replace a
+     * node of type element, an exception will be thrown.
+     *
+     * @param old_node An iterator that points to the node that should be removed.
+     * @param new_node The node to put in old_node's place.
+     * @return An iterator that points to the new node.
+     * @see xml::document::push_back
+     * @author Peter Jones
+    **/
+    //####################################################################
+    node::iterator replace (node::iterator old_node, const node &new_node);
+
+    //####################################################################
+    /** 
+     * Erase the node that is pointed to by the given iterator. The node
+     * and all its children will be removed from this node. This will
+     * invalidate any iterators that point to the node to be erased, or any
+     * pointers or references to that node.
+     *
+     * Do not remove the root node using this member function. The same
+     * rules that apply to push_back apply here. If you try to erase the
+     * root node, an exception will be thrown.
+     *
+     * @param to_erase An iterator that points to the node to be erased.
+     * @return An iterator that points to the node after the one being erased.
+     * @see xml::document::push_back
+     * @author Peter Jones
+    **/
+    //####################################################################
+    node::iterator erase (node::iterator to_erase);
+
+    //####################################################################
+    /** 
+     * Erase all nodes in the given range, from frist to last. This will
+     * invalidate any iterators that point to the nodes to be erased, or any
+     * pointers or references to those nodes.
+     *
+     * Do not remove the root node using this member function. The same
+     * rules that apply to push_back apply here. If you try to erase the
+     * root node, an exception will be thrown.
+     * 
+     * @param first The first node in the range to be removed.
+     * @param last An iterator that points one past the last node to erase. Think xml::node::end().
+     * @return An iterator that points to the node after the last one being erased.
+     * @see xml::document::push_back
+     * @author Peter Jones
+    **/
+    //####################################################################
+    node::iterator erase (node::iterator first, node::iterator last);
 
     //####################################################################
     /** 

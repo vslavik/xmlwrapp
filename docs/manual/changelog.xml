@@ -30,6 +30,15 @@
 
 	    <listitem>
 		<para>
+		    Added new member functions to the <classname>xml::document</classname> class.
+		    They are: <constant>size</constant>, <constant>push_back</constant>,
+		    <constant>insert</constant>, <constant>replace</constant>, and
+		    <constant>erase</constant>.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
 		    Added the ability to compress XML files saved with the
 		    <constant>xml::document::save_to_file</constant> member function (Bug ID 19).
 		</para>
