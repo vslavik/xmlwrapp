@@ -64,21 +64,6 @@ xpath::result_T<Access>::result_T (const read_write::result &rhs)
   : pimpl_(rhs.pimpl()) {
 }
 
-
-template <XMLWRAPP_ACCESS_SPECIFIER Access>
-xpath::result_T<Access>::result_T (restricted_context &ctxt, const char *query)
-  : pimpl_(factory::create(as_rep(ctxt.pimpl_), query),
-	   &factory::destroy) {
-}
-
-template <XMLWRAPP_ACCESS_SPECIFIER Access>
-xpath::result_T<Access>::result_T (detail::reference<rw_context> ctxt,
-				   const char *query)
-  : pimpl_(factory::create(as_rep(ctxt.ref().pimpl_), query),
-	   &factory::destroy) {
-}
-
-
 template <XMLWRAPP_ACCESS_SPECIFIER Access>
 xpath::result_T<Access>::result_T (restricted_context &ctxt,
 				   const expression &query)

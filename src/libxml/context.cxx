@@ -103,14 +103,6 @@ xpath::context_T<Access>::swap (context_T &rhs) {
   pimpl_.swap(rhs.pimpl_);
 }
 
-namespace xpath {
-  template <XMLWRAPP_ACCESS_SPECIFIER Access>
-  result_T<Access>
-  context_T<Access>::operator[] (const char *query) {
-    return result_type(*this, query);
-  }
-}
-
 template <XMLWRAPP_ACCESS_SPECIFIER Access>
 typename xpath::context_T<Access>::result_type
 xpath::context_T<Access>::operator[] (const expression &query) {

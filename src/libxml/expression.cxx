@@ -43,6 +43,10 @@ xpath::expression::expression (const char *expr)
   : pimpl_(factory::create(expr), &factory::destroy) {
 }
 
+xpath::expression::expression (const std::string &expr)
+  : pimpl_(factory::create(expr.c_str()), &factory::destroy) {
+}
+
 void xpath::expression::swap (expression &rhs) {
   pimpl_.swap(rhs.pimpl_);
 }

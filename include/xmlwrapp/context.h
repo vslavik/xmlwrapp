@@ -25,6 +25,7 @@
 #define XPATH_CONTEXT_H_20030714T1820
 
 #include "access.h"
+#include "expression.h" // included to allow implicit conversion
 #include "pimpl.h"
 #include "xpath_types.h"
 
@@ -97,10 +98,6 @@ namespace xpath {
     //####################################################################
     //! Perform an XPath query.
     //! @author Shane Beasley
-    result_type operator[] (const char *query);
-    //####################################################################
-    //! Perform an XPath query.
-    //! @author Shane Beasley
     result_type operator[] (const expression &query);
 
   private:
@@ -108,6 +105,21 @@ namespace xpath {
     XMLWRAPP_PIMPL(shared_ptr, impl) pimpl_;
     XMLWRAPP_FRIEND_T(result_T);
   };
+
+  //####################################################################
+  //! Perform an XPath query.
+  //! @author Shane Beasley
+  template <typename T>
+  read_write::result query (T &src, const expression &query) {
+    return read_write::context(src)[query];
+  }
+  //####################################################################
+  //! Perform an XPath query.
+  //! @author Shane Beasley
+  template <typename T>
+  read_only::result query (const T &src, const expression &query) {
+    return read_only::context(src)[query];
+  }
 }
 
 #endif

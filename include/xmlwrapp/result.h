@@ -30,6 +30,7 @@
  **/
 
 #include "access.h"
+#include "expression.h" // included to allow implicit conversion
 #include "node_set_iterator.h"
 #include "pimpl.h"
 #include "reference.h"
@@ -57,8 +58,7 @@ namespace xpath {
       string_result    = 4  //!< result is a string
     };
     //####################################################################
-    //! context_T with required access rights.
-    //! Prevents read-write result_T from operating on read-only context_T.
+    //! \link access.h Const-correct\endlink context_T.
     typedef context_T<Access>             restricted_context;
     //####################################################################
     //! context_T with read-write access rights.
@@ -79,14 +79,6 @@ namespace xpath {
     //! Allow copy/conversion to read-write or read-only from read-write.
     //! @author Shane Beasley
     result_T (const result_T<XMLWRAPP_RW_ACCESS> &);
-    //####################################################################
-    //! Perform an XPath query.
-    //! @author Shane Beasley
-    result_T (restricted_context &ctxt, const char *query);
-    //####################################################################
-    //! Perform an XPath query.
-    //! @author Shane Beasley
-    result_T (detail::reference<rw_context> ctxt, const char *query);
     //####################################################################
     //! Perform an XPath query.
     //! @author Shane Beasley

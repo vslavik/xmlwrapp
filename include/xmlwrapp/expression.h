@@ -31,6 +31,7 @@
 
 #include "xpath_types.h"
 #include "pimpl.h"
+#include <string>
 
 namespace xpath {
   //####################################################################
@@ -46,6 +47,10 @@ namespace xpath {
     //! Compile an XPath expression.
     //! @author Shane Beasley
     expression (const char *);
+    //####################################################################
+    //! Compile an XPath expression.
+    //! @author Shane Beasley
+    expression (const std::string &);
     //####################################################################
     //! Swap with another expression.
     //! @author Shane Beasley
