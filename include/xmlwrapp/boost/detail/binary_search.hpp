@@ -26,8 +26,8 @@
 // representations about the suitability of this software for any
 // purpose.  It is provided "as is" without express or implied warranty.
 // 
-#ifndef BINARY_SEARCH_DWA_122600_H_
-# define BINARY_SEARCH_DWA_122600_H_
+#ifndef XMLWRAPP_BINARY_SEARCH_DWA_122600_H_
+# define XMLWRAPP_BINARY_SEARCH_DWA_122600_H_
 
 # include <xmlwrapp/boost/detail/iterator.hpp>
 # include <utility>
@@ -214,4 +214,4 @@ bool binary_search(ForwardIter first, ForwardIter last,
 
 }} // namespace xmlwrapp_boost_boost::detail
 
-#endif // BINARY_SEARCH_DWA_122600_H_
+#endif // XMLWRAPP_BINARY_SEARCH_DWA_122600_H_

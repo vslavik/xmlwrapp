@@ -11,8 +11,8 @@
 //            specialization to unspecialized template (David Abrahams)
 // 06 Feb 01  Created (David Abrahams)
 
-#ifndef SELECT_TYPE_DWA20010206_HPP
-# define SELECT_TYPE_DWA20010206_HPP
+#ifndef XMLWRAPP_SELECT_TYPE_DWA20010206_HPP
+# define XMLWRAPP_SELECT_TYPE_DWA20010206_HPP
 
 namespace xmlwrapp_boost { namespace detail {
 
@@ -34,4 +34,4 @@ namespace xmlwrapp_boost { namespace detail {
       struct then { typedef F type; };
   };
 }}
-#endif // SELECT_TYPE_DWA20010206_HPP
+#endif // XMLWRAPP_SELECT_TYPE_DWA20010206_HPP

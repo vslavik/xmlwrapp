@@ -3,8 +3,8 @@
 // copyright notice appears in all copies. This software is provided
 // "as is" without express or implied warranty, and with no claim as
 // to its suitability for any purpose.
-#ifndef WORKAROUND_DWA2002126_HPP
-# define WORKAROUND_DWA2002126_HPP
+#ifndef XMLWRAPP_WORKAROUND_DWA2002126_HPP
+# define XMLWRAPP_WORKAROUND_DWA2002126_HPP
 
 // Compiler/library version workaround macro
 //
@@ -66,4 +66,4 @@
 
 # endif 
 
-#endif // WORKAROUND_DWA2002126_HPP
+#endif // XMLWRAPP_WORKAROUND_DWA2002126_HPP

@@ -86,52 +86,52 @@ xmlNodePtr xml::node_iterator::get_raw_node (void) {
  */
 
 //####################################################################
-xml::node::iterator::iterator (void) {
+xml::detail::const_node_interface::iterator::iterator (void) {
     pimpl_ = new nipimpl;
 }
 //####################################################################
-xml::node::iterator::iterator (void *data) {
+xml::detail::const_node_interface::iterator::iterator (void *data) {
     pimpl_ = new nipimpl(static_cast<xmlNodePtr>(data));
 }
 //####################################################################
-xml::node::iterator::iterator (const iterator &other) {
+xml::detail::const_node_interface::iterator::iterator (const iterator &other) {
     pimpl_ = new nipimpl(*(other.pimpl_));
 }
 //####################################################################
-xml::node::iterator& xml::node::iterator::operator= (const iterator &other) {
+xml::node::iterator& xml::detail::const_node_interface::iterator::operator= (const iterator &other) {
     iterator tmp(other);
     swap(tmp);
     return *this;
 }
 //####################################################################
-void xml::node::iterator::swap (iterator &other) {
+void xml::detail::const_node_interface::iterator::swap (iterator &other) {
     std::swap(pimpl_, other.pimpl_);
 }
 //####################################################################
-xml::node::iterator::~iterator (void) {
+xml::detail::const_node_interface::iterator::~iterator (void) {
     delete pimpl_;
 }
 //####################################################################
-xml::node::iterator::reference xml::node::iterator::operator* (void) const {
+xml::detail::const_node_interface::iterator::reference xml::detail::const_node_interface::iterator::operator* (void) const {
     return *(pimpl_->it.get());
 }
 //####################################################################
-xml::node::iterator::pointer xml::node::iterator::operator-> (void) const {
+xml::detail::const_node_interface::iterator::pointer xml::detail::const_node_interface::iterator::operator-> (void) const {
     return pimpl_->it.get();
 }
 //####################################################################
-xml::node::iterator& xml::node::iterator::operator++ (void) {
+xml::node::iterator& xml::detail::const_node_interface::iterator::operator++ (void) {
     ++(pimpl_->it);
     return *this;
 }
 //####################################################################
-xml::node::iterator xml::node::iterator::operator++ (int) {
+xml::node::iterator xml::detail::const_node_interface::iterator::operator++ (int) {
     iterator tmp(*this);
     ++(*this);
     return tmp;
 }
 //####################################################################
-void* xml::node::iterator::get_raw_node (void) {
+void* xml::detail::const_node_interface::iterator::get_raw_node (void) {
     return pimpl_->it.get_raw_node();
 }
 //####################################################################
@@ -195,14 +195,15 @@ void* xml::node::const_iterator::get_raw_node (void) {
 }
 //####################################################################
 namespace xml {
-    bool operator== (const node_iterator &lhs, const node_iterator &rhs) {
-	return lhs.node_ == rhs.node_;
-    }
+  bool operator== (const node_iterator &lhs, const node_iterator &rhs) {
+    return lhs.node_ == rhs.node_;
+  }
 
-    bool operator!= (const node_iterator &lhs, const node_iterator &rhs) {
-	return !(lhs == rhs);
-    }
+  bool operator!= (const node_iterator &lhs, const node_iterator &rhs) {
+    return !(lhs == rhs);
+  }
 
+  namespace detail {
     bool operator== (const node::iterator &lhs, const node::iterator &rhs) {
 	return lhs.pimpl_->it == rhs.pimpl_->it;
     }
@@ -218,5 +219,6 @@ namespace xml {
     bool operator!= (const node::const_iterator &lhs, const node::const_iterator &rhs) {
 	return !(lhs == rhs);
     }
+  }
 }
 //####################################################################

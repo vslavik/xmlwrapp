@@ -30,7 +30,7 @@
  **/
 
 #include "access.h"
-#include "node_ref.h"
+#include "node_reference.h"
 #include "pimpl.h"
 #include "xpath_fwd.h"
 #include <iterator>
@@ -45,8 +45,8 @@ namespace xpath {
     //! Inform algorithms that this is a random-access iterator.
     typedef std::random_access_iterator_tag                   iterator_category;
     //####################################################################
-    //! Properly restricted node_ref.
-    typedef XMLWRAPP_RESTRICT(Access, node_ref)               value_type;
+    //! Properly restricted xml::node_reference_T.
+    typedef xml::node_reference_T<Access>                     value_type;
     //####################################################################
     //! Type used to represent distance between two iterators.
     typedef std::ptrdiff_t                                    difference_type;

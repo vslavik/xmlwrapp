@@ -48,8 +48,8 @@
 // 06 Feb 2001 - Removed useless #includes of standard library headers
 //               (David Abrahams)
 
-#ifndef ITERATOR_DWA122600_HPP_
-# define ITERATOR_DWA122600_HPP_
+#ifndef XMLWRAPP_ITERATOR_DWA122600_HPP_
+# define XMLWRAPP_ITERATOR_DWA122600_HPP_
 
 # include <xmlwrapp/boost/config.hpp>
 # include <xmlwrapp/boost/type_traits/remove_const.hpp>
@@ -429,4 +429,4 @@ distance(Iterator first, Iterator last)
 # undef XMLWRAPP_BOOST_BAD_CONTAINER_ITERATOR_CATEGORY_TYPEDEF
 # undef XMLWRAPP_BOOST_BAD_OUTPUT_ITERATOR_SPECIALIZATION
 
-#endif // ITERATOR_DWA122600_HPP_
+#endif // XMLWRAPP_ITERATOR_DWA122600_HPP_

@@ -45,7 +45,7 @@ xpath::node_set_iterator_T<Access>::node_set_iterator_T
 template <XMLWRAPP_ACCESS_SPECIFIER Access>
 typename xpath::node_set_iterator_T<Access>::reference
 xpath::node_set_iterator_T<Access>::operator* () const {
-  node_ref ref;
+  reference ref;
   xpath_helper::set(ref, *as_rep(pimpl_));
   return ref;
 }
@@ -59,7 +59,7 @@ xpath::node_set_iterator_T<Access>::operator[] (size_type i) const {
 template <XMLWRAPP_ACCESS_SPECIFIER Access>
 typename xpath::node_set_iterator_T<Access>::pointer
 xpath::node_set_iterator_T<Access>::operator-> () const {
-  node_ref ref;
+  reference ref;
   xpath_helper::set(ref, *as_rep(pimpl_));
   return ref;
 }

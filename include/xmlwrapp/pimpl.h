@@ -29,7 +29,7 @@
  * @see http://www.gotw.ca/gotw/024.htm
  **/
 
-#include "boost/smart_ptr.hpp"
+#include <xmlwrapp/boost/smart_ptr.hpp>
 
 namespace xmlwrapp {
   //####################################################################

@@ -30,11 +30,8 @@
  **/
 
 #include "xpath_fwd.h"
+#include "node.h"
 #include <string>
-
-namespace xml {
-  class node;
-}
 
 namespace xpath {
   //####################################################################
@@ -69,7 +66,7 @@ namespace xpath {
   //####################################################################
   //! Convert a node to a number.
   //! @author Shane Beasley
-  double to_number (const xml::node &node);
+  double to_number (const xml::node::const_reference &node);
   //####################################################################
   //! Convert an XPath query result to a number.
   //! @author Shane Beasley
@@ -86,7 +83,7 @@ namespace xpath {
   //####################################################################
   //! Convert a node to a string.
   //! @author Shane Beasley
-  std::string to_string (const xml::node &node);
+  std::string to_string (const xml::node::const_reference &node);
   //####################################################################
   //! Convert an XPath query result to a string.
   //! @author Shane Beasley

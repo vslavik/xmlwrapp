@@ -62,8 +62,8 @@
 //               not supplied by numeric_limits<>. (David Abrahams)
 // 21 Jan 2001 - Created (David Abrahams)
 
-#ifndef XMLWRAPP_BOOST_NUMERIC_TRAITS_HPP_DWA20001901
-# define XMLWRAPP_BOOST_NUMERIC_TRAITS_HPP_DWA20001901
+#ifndef XMLWRAPP_XMLWRAPP_BOOST_NUMERIC_TRAITS_HPP_DWA20001901
+# define XMLWRAPP_XMLWRAPP_BOOST_NUMERIC_TRAITS_HPP_DWA20001901
 
 # include <xmlwrapp/boost/config.hpp>
 # include <xmlwrapp/boost/cstdint.hpp>
@@ -195,4 +195,4 @@ namespace xmlwrapp_boost { namespace detail {
   }
 }}
 
-#endif // XMLWRAPP_BOOST_NUMERIC_TRAITS_HPP_DWA20001901
+#endif // XMLWRAPP_XMLWRAPP_BOOST_NUMERIC_TRAITS_HPP_DWA20001901

@@ -26,8 +26,9 @@
 
 #include "access.h"
 #include "expression.h" // included to allow implicit conversion
+#include "node_reference.h"
 #include "pimpl.h"
-#include "xpath_fwd.h"
+#include "const_node_interface.h"
 
 //####################################################################
 /** @file
@@ -52,15 +53,15 @@ namespace xpath {
     //! Result of an XPath query.
     typedef object_T<Access> result_type;
     //####################################################################
-    //! xml::node with required access rights.
+    //! Reference to an xml::node with required access rights.
     //! Prevents read-write context_T from operating on read-only node.
     //! @see xmlwrapp::access::restrict
-    typedef XMLWRAPP_RESTRICT(Access, xml::node) node;
+    typedef xml::node_reference<Access> node_ref;
     //####################################################################
-    //! xml::document with required access rights.
+    //! Reference to an xml::document with required access rights.
     //! Prevents read-write context_T from operating on read-only document.
     //! @see xmlwrapp::access::restrict
-    typedef XMLWRAPP_RESTRICT(Access, xml::document) document;
+    typedef XMLWRAPP_RESTRICT(Access, xml::document) &document_ref;
 
     //####################################################################
     //! Create an empty context.
@@ -69,11 +70,11 @@ namespace xpath {
     //####################################################################
     //! Create a context with respect to the given document.
     //! @author Shane Beasley
-    explicit context_T (document &);
+    explicit context_T (document_ref doc);
     //####################################################################
     //! Create a context with respect to the given node.
     //! @author Shane Beasley
-    explicit context_T (node &);
+    explicit context_T (node_ref node);
     //####################################################################
     //! Create a context with respect to the same document (and node)
     //! as another context.
@@ -86,11 +87,11 @@ namespace xpath {
     //####################################################################
     //! Perform future XPath queries in this context on the given document.
     //! @author Shane Beasley
-    void set_document (document &);
+    void set_document (document_ref doc);
     //####################################################################
     //! Perform future XPath queries in this context at the given node.
     //! @author Shane Beasley
-    void set_node (node &);
+    void set_node (node_ref node);
     //####################################################################
     //! Swap with another context.
     //! @author Shane Beasley
@@ -121,19 +122,18 @@ namespace xpath {
   //####################################################################
   //! Perform an XPath query.
   //! @author Shane Beasley
-  template <typename T>
-  read_write::object
-  query (T &src, const expression &query) {
-    return read_write::context(src)[query];
-  }
+  template <XMLWRAPP_ACCESS_SPECIFIER Access>
+  object_T<Access>
+  query (const xml::node_reference_T<Access> &node, const expression &query);
+
   //####################################################################
   //! Perform an XPath query.
   //! @author Shane Beasley
-  template <typename T>
-  read_only::object
-  query (const T &src, const expression &query) {
-    return read_only::context(src)[query];
-  }
+  read_write::object query (xml::document &doc, const expression &query);
+  //####################################################################
+  //! Perform an XPath query.
+  //! @author Shane Beasley
+  read_only::object query (const xml::document &doc, const expression &query);
 }
 
 #endif

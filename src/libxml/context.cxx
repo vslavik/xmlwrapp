@@ -62,13 +62,13 @@ xpath::context_T<Access>::context_T ()
 }
 
 template <XMLWRAPP_ACCESS_SPECIFIER Access>
-xpath::context_T<Access>::context_T (document &doc)
+xpath::context_T<Access>::context_T (document_ref doc)
   : pimpl_(factory::create(xpath_helper::get(doc)),
 	   &factory::destroy) {
 }
 
 template <XMLWRAPP_ACCESS_SPECIFIER Access>
-xpath::context_T<Access>::context_T (node &node)
+xpath::context_T<Access>::context_T (node_ref node)
   : pimpl_(factory::create(xpath_helper::get(node)),
 	   &factory::destroy) {
 }
@@ -80,14 +80,14 @@ xpath::context_T<Access>::context_T (const context_T &rhs)
 
 template <XMLWRAPP_ACCESS_SPECIFIER Access>
 void
-xpath::context_T<Access>::set_document (document &doc) {
+xpath::context_T<Access>::set_document (document_ref doc) {
   as_rep(pimpl_)->doc  = xpath_helper::get(doc);
   as_rep(pimpl_)->node = 0;
 }
 
 template <XMLWRAPP_ACCESS_SPECIFIER Access>
 void
-xpath::context_T<Access>::set_node (node &node) {
+xpath::context_T<Access>::set_node (node_ref node) {
   as_rep(pimpl_)->doc = (as_rep(pimpl_)->node = xpath_helper::get(node))->doc;
 }
 
@@ -132,8 +132,36 @@ typename xpath::context_T<Access>::result_type
 xpath::context_T<Access>::get (const std::string &name) {
   xmlXPathObjectPtr obj = xmlXPathVariableLookup(as_rep(pimpl_),
 						 reinterpret_cast<const xmlChar *>(name.c_str()));
-  return obj ? result_type(as_impl<typename result_type::impl>(obj)) : result_type();
+  typedef typename result_type::impl impl;
+  return obj ? result_type(as_impl<impl>(obj)) : result_type();
 }
 
+template <XMLWRAPP_ACCESS_SPECIFIER Access>
+xpath::object_T<Access>
+xpath::query (const xml::node_reference_T<Access> &node, const expression &query) {
+  return context_T<Access>(node)[query];
+}
+
+xpath::read_write::object
+xpath::query (xml::document &doc, const expression &query) {
+  return read_write::context(doc)[query];
+}
+
+xpath::read_only::object
+xpath::query (const xml::document &doc, const expression &query) {
+  return read_only::context(doc)[query];
+}
+
+// explicit instantiations
 template class xpath::context_T<xmlwrapp::access::read_write>;
 template class xpath::context_T<xmlwrapp::access::read_only>;
+
+template
+xpath::object_T<XMLWRAPP_RO_ACCESS>
+xpath::query<XMLWRAPP_RO_ACCESS> (const xml::node_reference_T<XMLWRAPP_RO_ACCESS> &,
+				  const expression &);
+
+template
+xpath::object_T<XMLWRAPP_RW_ACCESS>
+xpath::query<XMLWRAPP_RW_ACCESS> (const xml::node_reference_T<XMLWRAPP_RW_ACCESS> &,
+				  const expression &);

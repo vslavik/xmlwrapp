@@ -35,11 +35,11 @@ namespace xpath {
       return static_cast<xmlDocPtr>(doc.get_doc_data());
     }
 
-    static xmlNodePtr get (const xml::node &n) {
+    static xmlNodePtr get (const xml::detail::const_node_interface &n) {
       return static_cast<xmlNodePtr>(n.get_node_data());
     }
 
-    static void set (xml::node &n, xmlNodePtr p) {
+    static void set (xml::detail::const_node_interface &n, xmlNodePtr p) {
       n.set_node_data(p);
     }
   };

@@ -39,5 +39,6 @@
 #include <xmlwrapp/document.h>
 #include <xmlwrapp/tree_parser.h>
 #include <xmlwrapp/event_parser.h>
+#include <xmlwrapp/node_reference.h>
 
 #endif

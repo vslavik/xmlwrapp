@@ -48,6 +48,7 @@ namespace xml {
 class node;
 class ait_impl;
 struct node_impl;
+namespace detail { class const_node_interface; }
 
 /**
  * The xml::attributes class is used to access all the attributes of one
@@ -374,6 +375,7 @@ private:
     void* get_data (void);
     friend struct node_impl;
     friend class node;
+    friend class detail::const_node_interface;
 }; // end xml::attributes class
     
 } // end xml namespace

@@ -32,13 +32,14 @@
 
 /** @file
  * This file contains the implementation of the xml::node class.
-**/
+ **/
 
-// xmlwrapp includes
-#include "xmlwrapp/node.h"
-#include "xmlwrapp/attributes.h"
-#include "utility.h"
+#include <xmlwrapp/node.h>
+
 #include "ait_impl.h"
+#include "node_impl.h"
+#include "utility.h"
+#include <xmlwrapp/attributes.h>
 
 // standard includes
 #include <new>
@@ -54,469 +55,221 @@
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 
-//####################################################################
-struct xml::node_impl {
-    //####################################################################
-    node_impl (void) : xmlnode_(0), owner_(true), attrs_(0)
-    { }
-    //####################################################################
-    ~node_impl (void)
-    { release(); }
-    //####################################################################
-    void release (void) {
-	if (xmlnode_ && owner_) {
-	    xmlFreeNode(xmlnode_);
-	}
-    }
-    //####################################################################
-
-    xmlNodePtr xmlnode_;
-    bool owner_;
-    attributes attrs_;
-    std::string tmp_string;
-};
-//####################################################################
-struct xml::node_cmp : public std::binary_function<xmlNodePtr, xmlNodePtr, bool> {
-    //####################################################################
-    node_cmp (cbfo_node_compare &cb) : cb_(cb) { }
-    //####################################################################
-    bool operator() (xmlNodePtr lhs, xmlNodePtr rhs) {
-	xml::node l_node, r_node;
-	l_node.set_node_data(lhs);
-	r_node.set_node_data(rhs);
-
-	return cb_(l_node, r_node);
-    }
-    //####################################################################
-
-    cbfo_node_compare &cb_;
-};
-//####################################################################
 namespace {
-    // help turn a node into a document
-    class node2doc {
-    public:
-	node2doc (xmlNodePtr xmlnode_) : xmlnode__(xmlnode_), prev_(0), next_(0) {
-	    xmldoc_ = xmlNewDoc(0);
-	    if (!xmldoc_) throw std::bad_alloc();
+  // sort compare function to sort based on attribute
+  struct compare_attr : public std::binary_function<xmlNodePtr, xmlNodePtr, bool> {
+    compare_attr (const char *attr_name) : name_(attr_name) { }
 
-	    xmldoc_->children	= xmlnode__;
-	    xmldoc_->last	= xmlnode__;
+    bool operator() (xmlNodePtr lhs, xmlNodePtr rhs) {
+      xmlAttrPtr attr_l, attr_r;
+      xmlAttributePtr dtd_l(0), dtd_r(0);
 
-	    std::swap(prev_, xmlnode__->prev);
-	    std::swap(next_, xmlnode__->next);
-	}
+      attr_l = xml::find_prop(lhs, name_);
+      if (attr_l == 0 && (dtd_l = xml::find_default_prop(lhs, name_)) == 0) return true;
 
-	~node2doc (void) {
-	    xmldoc_->children	= 0;
-	    xmldoc_->last	= 0;
+      attr_r = xml::find_prop(rhs, name_);
+      if (attr_r == 0 && (dtd_r = xml::find_default_prop(rhs, name_)) == 0) return false;
 
-	    xmlFreeDoc(xmldoc_);
-
-	    std::swap(prev_, xmlnode__->prev);
-	    std::swap(next_, xmlnode__->next);
-	}
-
-	xmlDocPtr get_doc (void)
-	{ return xmldoc_; }
-    private:
-	xmlDocPtr xmldoc_;
-	xmlNodePtr xmlnode__;
-	xmlNodePtr prev_;
-	xmlNodePtr next_;
-    };
-
-    // sort compare function to sort based on attribute
-    struct compare_attr : public std::binary_function<xmlNodePtr, xmlNodePtr, bool> {
-	compare_attr (const char *attr_name) : name_(attr_name) { }
-
-	bool operator() (xmlNodePtr lhs, xmlNodePtr rhs) {
-	    xmlAttrPtr attr_l, attr_r;
-	    xmlAttributePtr dtd_l(0), dtd_r(0);
-
-	    attr_l = xml::find_prop(lhs, name_);
-	    if (attr_l == 0 && (dtd_l = xml::find_default_prop(lhs, name_)) == 0) return true;
-
-	    attr_r = xml::find_prop(rhs, name_);
-	    if (attr_r == 0 && (dtd_r = xml::find_default_prop(rhs, name_)) == 0) return false;
-
-	    xmlChar *value_l, *value_r;
+      xmlChar *value_l, *value_r;
 	    
-	    if (dtd_l) value_l = const_cast<xmlChar*>(dtd_l->defaultValue);
-	    else value_l = xmlNodeListGetString(lhs->doc, attr_l->children, 1);
+      if (dtd_l) value_l = const_cast<xmlChar*>(dtd_l->defaultValue);
+      else value_l = xmlNodeListGetString(lhs->doc, attr_l->children, 1);
 
-	    if (dtd_r) value_r = const_cast<xmlChar*>(dtd_r->defaultValue);
-	    else value_r = xmlNodeListGetString(rhs->doc, attr_r->children, 1);
+      if (dtd_r) value_r = const_cast<xmlChar*>(dtd_r->defaultValue);
+      else value_r = xmlNodeListGetString(rhs->doc, attr_r->children, 1);
 
-	    int rc = xmlStrcmp(value_l, value_r);
+      int rc = xmlStrcmp(value_l, value_r);
 
-	    if (!dtd_l) xmlFree(value_l);
-	    if (!dtd_r) xmlFree(value_r);
+      if (!dtd_l) xmlFree(value_l);
+      if (!dtd_r) xmlFree(value_r);
 
-	    return rc < 0;
-	}
-
-	const char *name_;
-    };
-
-
-    // add a node as a child
-    struct insert_node : public std::unary_function<xmlNodePtr, void> {
-	insert_node (xmlNodePtr parent) : parent_(parent) { }
-	void operator() (xmlNodePtr child) { xmlAddChild(parent_, child); }
-
-	xmlNodePtr parent_;
-    };
-
-    // a node finder
-    xmlNodePtr find_node(const char *name, xmlNodePtr first);
-}
-//####################################################################
-xml::node::node (void) {
-    std::auto_ptr<node_impl> ap(pimpl_ = new node_impl);
-
-    pimpl_->xmlnode_ = xmlNewNode(0, reinterpret_cast<const xmlChar*>("blank"));
-    if (!pimpl_->xmlnode_) throw std::bad_alloc();
-
-    ap.release();
-}
-//####################################################################
-xml::node::node (const char *name) {
-    std::auto_ptr<node_impl> ap(pimpl_ = new node_impl);
-
-    pimpl_->xmlnode_ = xmlNewNode(0, reinterpret_cast<const xmlChar*>(name));
-    if (!pimpl_->xmlnode_) throw std::bad_alloc();
-
-    ap.release();
-}
-//####################################################################
-xml::node::node (const char *name, const char *content) {
-    std::auto_ptr<node_impl> ap(pimpl_ = new node_impl);
-
-    pimpl_->xmlnode_ = xmlNewNode(0, reinterpret_cast<const xmlChar*>(name));
-    if (!pimpl_->xmlnode_) throw std::bad_alloc();
-
-    xmlNodePtr content_node = xmlNewText(reinterpret_cast<const xmlChar*>(content));
-    if (!content_node) throw std::bad_alloc();
-
-    if (!xmlAddChild(pimpl_->xmlnode_, content_node)) {
-	xmlFreeNode(content_node);
-	throw std::bad_alloc();
+      return rc < 0;
     }
 
-    ap.release();
-}
-//####################################################################
-xml::node::node (const node &other) {
-    std::auto_ptr<node_impl> ap(pimpl_ = new node_impl);
+    const char *name_;
+  };
 
-    pimpl_->xmlnode_ = xmlCopyNode(other.pimpl_->xmlnode_, 1);
-    if (!pimpl_->xmlnode_) throw std::bad_alloc();
 
-    ap.release();
+  // add a node as a child
+  struct insert_node : public std::unary_function<xmlNodePtr, void> {
+    insert_node (xmlNodePtr parent) : parent_(parent) { }
+    void operator() (xmlNodePtr child) { xmlAddChild(parent_, child); }
+
+    xmlNodePtr parent_;
+  };
 }
 //####################################################################
-xml::node& xml::node::operator= (const node &other) {
-    node tmp_node(other);
-    swap(tmp_node);
-    return *this;
-}
-//####################################################################
-void xml::node::swap (node &other) {
-    std::swap(pimpl_, other.pimpl_);
-}
-//####################################################################
-xml::node::~node (void) {
-    delete pimpl_;
-}
-//####################################################################
-void xml::node::set_node_data (void *data) {
-    pimpl_->release();
-    pimpl_->xmlnode_ = static_cast<xmlNodePtr>(data);
-    pimpl_->owner_ = false;
-}
-//####################################################################
-void* xml::node::get_node_data (void) const {
-    return pimpl_->xmlnode_;
-}
-//####################################################################
-void* xml::node::release_node_data (void) {
-    pimpl_->owner_ = false;
-    return pimpl_->xmlnode_;
-}
+xml::node::node () { }
+xml::node::node (const char *name) : base_type(name) { }
+xml::node::node (const char *name, const char *content) : base_type(name, content) { }
+xml::node::node (const node &rhs) : base_type(rhs) { }
+xml::node &xml::node::operator= (const node &rhs) { base_type::operator=(rhs); return *this; }
+xml::node::~node (void) { }
+void xml::node::swap (node &other) { do_swap(other); }
 //####################################################################
 void xml::node::set_name (const char *name) {
-    xmlNodeSetName(pimpl_->xmlnode_, reinterpret_cast<const xmlChar*>(name));
-}
-//####################################################################
-const char* xml::node::get_name (void) const {
-    return reinterpret_cast<const char*>(pimpl_->xmlnode_->name);
+  xmlNodeSetName(pimpl_->xmlnode_, reinterpret_cast<const xmlChar*>(name));
 }
 //####################################################################
 void xml::node::set_content (const char *content) {
-    xmlNodeSetContent(pimpl_->xmlnode_, reinterpret_cast<const xmlChar*>(content));
-}
-//####################################################################
-const char* xml::node::get_content (void) const {
-    xmlchar_helper content(xmlNodeGetContent(pimpl_->xmlnode_));
-    if (!content.get()) return 0;
-
-    pimpl_->tmp_string = content.get();
-    return pimpl_->tmp_string.c_str();
-}
-//####################################################################
-xml::node::node_type xml::node::get_type (void) const {
-    switch (pimpl_->xmlnode_->type) {
-	case XML_ELEMENT_NODE:		    return type_element;
-	case XML_TEXT_NODE:		    return type_text;
-	case XML_CDATA_SECTION_NODE:	    return type_cdata;
-	case XML_ENTITY_REF_NODE:	    return type_entity_ref;
-	case XML_ENTITY_NODE:		    return type_entity;
-	case XML_PI_NODE:		    return type_pi;
-	case XML_COMMENT_NODE:		    return type_comment;
-	case XML_DOCUMENT_NODE:		    return type_document;
-	case XML_DOCUMENT_TYPE_NODE:	    return type_document_type;
-	case XML_DOCUMENT_FRAG_NODE:	    return type_document_frag;
-	case XML_NOTATION_NODE:		    return type_notation;
-	case XML_DTD_NODE:		    return type_dtd;
-	case XML_ELEMENT_DECL:		    return type_dtd_element;
-	case XML_ATTRIBUTE_DECL:	    return type_dtd_attribute;
-	case XML_ENTITY_DECL:		    return type_dtd_entity;
-	case XML_NAMESPACE_DECL:	    return type_dtd_namespace;
-	case XML_XINCLUDE_START:	    return type_xinclude;
-	case XML_XINCLUDE_END:		    return type_xinclude;
-	default:			    return type_element;
-    }
+  xmlNodeSetContent(pimpl_->xmlnode_, reinterpret_cast<const xmlChar*>(content));
 }
 //####################################################################
 xml::attributes& xml::node::get_attributes (void) {
-    if (pimpl_->xmlnode_->type != XML_ELEMENT_NODE) {
-	throw std::runtime_error("get_attributes called on non-element node");
-    }
+  if (pimpl_->xmlnode_->type != XML_ELEMENT_NODE) {
+    throw std::runtime_error("get_attributes called on non-element node");
+  }
 
-    pimpl_->attrs_.set_data(pimpl_->xmlnode_);
-    return pimpl_->attrs_;
-}
-//####################################################################
-const xml::attributes& xml::node::get_attributes (void) const {
-    if (pimpl_->xmlnode_->type != XML_ELEMENT_NODE) {
-	throw std::runtime_error("get_attributes called on non-element node");
-    }
-
-    pimpl_->attrs_.set_data(pimpl_->xmlnode_);
-    return pimpl_->attrs_;
-}
-//####################################################################
-bool xml::node::is_text (void) const {
-    return xmlNodeIsText(pimpl_->xmlnode_) != 0;
+  pimpl_->attrs_.set_data(pimpl_->xmlnode_);
+  return pimpl_->attrs_;
 }
 //####################################################################
 void xml::node::push_back (const node &child) {
-    xmlNodePtr node_to_add = xmlCopyNode(child.pimpl_->xmlnode_, 1);
-    if (!node_to_add) return;
+  xmlNodePtr node_to_add = xmlCopyNode(child.pimpl_->xmlnode_, 1);
+  if (!node_to_add) return;
 
-    if (!xmlAddChild(pimpl_->xmlnode_, node_to_add)) {
-	xmlFreeNode(node_to_add);
-    }
+  if (!xmlAddChild(pimpl_->xmlnode_, node_to_add)) {
+    xmlFreeNode(node_to_add);
+  }
 }
 //####################################################################
 xml::node::iterator xml::node::begin (void) {
-    return iterator(pimpl_->xmlnode_->children);
-}
-//####################################################################
-xml::node::const_iterator xml::node::begin (void) const {
-    return const_iterator(pimpl_->xmlnode_->children);
+  return iterator(pimpl_->xmlnode_->children);
 }
 //####################################################################
 xml::node::iterator xml::node::end (void) {
-    return iterator();
-}
-//####################################################################
-xml::node::const_iterator xml::node::end (void) const {
-    return const_iterator();
+  return iterator();
 }
 //####################################################################
 xml::node::iterator xml::node::self (void) {
-    return iterator(pimpl_->xmlnode_);
-}
-//####################################################################
-xml::node::const_iterator xml::node::self (void) const {
-    return const_iterator(pimpl_->xmlnode_);
+  return iterator(pimpl_->xmlnode_);
 }
 //####################################################################
 xml::node::iterator xml::node::parent (void) {
-    if (pimpl_->xmlnode_->parent) return iterator(pimpl_->xmlnode_->parent);
-    return iterator();
-}
-//####################################################################
-xml::node::const_iterator xml::node::parent (void) const {
-    if (pimpl_->xmlnode_->parent) return const_iterator(pimpl_->xmlnode_->parent);
-    return const_iterator();
+  if (pimpl_->xmlnode_->parent) return iterator(pimpl_->xmlnode_->parent);
+  return iterator();
 }
 //####################################################################
 xml::node::iterator xml::node::find (const char *name) {
-    xmlNodePtr found = find_node(name, pimpl_->xmlnode_->children);
-    if (found) return iterator(found);
-    return end();
-}
-//####################################################################
-xml::node::const_iterator xml::node::find (const char *name) const {
-    xmlNodePtr found = find_node(name, pimpl_->xmlnode_->children);
-    if (found) return const_iterator(found);
-    return end();
+  xmlNodePtr found = find_node(name, pimpl_->xmlnode_->children);
+  if (found) return iterator(found);
+  return end();
 }
 //####################################################################
 xml::node::iterator xml::node::find (const char *name, iterator start) {
-    xmlNodePtr n = static_cast<xmlNodePtr>(start.get_raw_node());
-    if ( (n = find_node(name, n))) return iterator(n);
-    return end();
-}
-//####################################################################
-xml::node::const_iterator xml::node::find (const char *name, const_iterator start) const {
-    xmlNodePtr n = static_cast<xmlNodePtr>(start.get_raw_node());
-    if ( (n = find_node(name, n))) return const_iterator(n);
-    return end();
+  xmlNodePtr n = static_cast<xmlNodePtr>(start.get_raw_node());
+  if ( (n = find_node(name, n))) return iterator(n);
+  return end();
 }
 //####################################################################
 xml::node::iterator xml::node::insert (const node &n) {
-    push_back(n);
-    return iterator(pimpl_->xmlnode_->last);
+  push_back(n);
+  return iterator(pimpl_->xmlnode_->last);
 }
 //####################################################################
 xml::node::iterator xml::node::insert (iterator position, const node &n) {
-    xmlNodePtr before_xml_node = static_cast<xmlNodePtr>(position.get_raw_node());
+  xmlNodePtr before_xml_node = static_cast<xmlNodePtr>(position.get_raw_node());
 
-    if (before_xml_node == 0) { // xml::node::end() given?
-	push_back(n);
-	return iterator(pimpl_->xmlnode_->last);
-    }
+  if (before_xml_node == 0) { // xml::node::end() given?
+    push_back(n);
+    return iterator(pimpl_->xmlnode_->last);
+  }
 
-    xmlNodePtr new_xml_node =  xmlCopyNode(n.pimpl_->xmlnode_, 1);
-    if (!new_xml_node) throw std::bad_alloc();
+  xmlNodePtr new_xml_node =  xmlCopyNode(n.pimpl_->xmlnode_, 1);
+  if (!new_xml_node) throw std::bad_alloc();
 
-    if (xmlAddPrevSibling(before_xml_node, new_xml_node) == 0) {
-	xmlFreeNode(new_xml_node);
-	throw std::runtime_error("failed to insert xml::node. xmlAddPrevSibling failed");
-    }
+  if (xmlAddPrevSibling(before_xml_node, new_xml_node) == 0) {
+    xmlFreeNode(new_xml_node);
+    throw std::runtime_error("failed to insert xml::node. xmlAddPrevSibling failed");
+  }
 
-    return iterator(new_xml_node);
+  return iterator(new_xml_node);
 }
 //####################################################################
 xml::node::iterator xml::node::replace (iterator old_node, const node &new_node) {
-    xmlNodePtr old_xml_node = static_cast<xmlNodePtr>(old_node.get_raw_node());
-    xmlNodePtr new_xml_node =  xmlCopyNode(new_node.pimpl_->xmlnode_, 1);
-    if (!new_xml_node) throw std::bad_alloc();
+  xmlNodePtr old_xml_node = static_cast<xmlNodePtr>(old_node.get_raw_node());
+  xmlNodePtr new_xml_node =  xmlCopyNode(new_node.pimpl_->xmlnode_, 1);
+  if (!new_xml_node) throw std::bad_alloc();
 
-    // hack to see if xmlReplaceNode was successful
-    new_xml_node->doc = reinterpret_cast<xmlDocPtr>(old_xml_node);
-    xmlReplaceNode(old_xml_node, new_xml_node);
+  // hack to see if xmlReplaceNode was successful
+  new_xml_node->doc = reinterpret_cast<xmlDocPtr>(old_xml_node);
+  xmlReplaceNode(old_xml_node, new_xml_node);
 
-    if (new_xml_node->doc == reinterpret_cast<xmlDocPtr>(old_xml_node)) {
-	xmlFreeNode(new_xml_node);
-	throw std::runtime_error("failed to replace xml::node. xmlReplaceNode() failed");
-    }
+  if (new_xml_node->doc == reinterpret_cast<xmlDocPtr>(old_xml_node)) {
+    xmlFreeNode(new_xml_node);
+    throw std::runtime_error("failed to replace xml::node. xmlReplaceNode() failed");
+  }
 
-    xmlFreeNode(old_xml_node);
-    return iterator(new_xml_node);
+  xmlFreeNode(old_xml_node);
+  return iterator(new_xml_node);
 }
 //####################################################################
 xml::node::iterator xml::node::erase (iterator to_erase) {
-    xmlNodePtr old_xml_node = static_cast<xmlNodePtr>(to_erase.get_raw_node());
-    ++to_erase;
+  xmlNodePtr old_xml_node = static_cast<xmlNodePtr>(to_erase.get_raw_node());
+  ++to_erase;
 
-    xmlUnlinkNode(old_xml_node);
-    xmlFreeNode(old_xml_node);
+  xmlUnlinkNode(old_xml_node);
+  xmlFreeNode(old_xml_node);
 
-    return to_erase;
+  return to_erase;
 }
 //####################################################################
 xml::node::iterator xml::node::erase (iterator first, iterator last) {
-    while (first != last) first = erase(first);
-    return first;
+  while (first != last) first = erase(first);
+  return first;
 }
 //####################################################################
 xml::node::size_type xml::node::erase (const char *name) {
-    size_type removed_count(0);
-    iterator to_remove(begin()), the_end(end());
+  size_type removed_count(0);
+  iterator to_remove(begin()), the_end(end());
 
-    while ( (to_remove = find(name, to_remove)) != the_end) {
-	++removed_count;
-	to_remove = erase(to_remove);
-    }
+  while ( (to_remove = find(name, to_remove)) != the_end) {
+    ++removed_count;
+    to_remove = erase(to_remove);
+  }
 
-    return removed_count;
+  return removed_count;
 }
 //####################################################################
 void xml::node::sort (const char *node_name, const char *attr_name) {
-    xmlNodePtr i(pimpl_->xmlnode_->children), next(0);
-    std::vector<xmlNodePtr> node_list;
+  xmlNodePtr i(pimpl_->xmlnode_->children), next(0);
+  std::vector<xmlNodePtr> node_list;
 
-    while (i!=0) {
-	next = i->next;
+  while (i!=0) {
+    next = i->next;
 
-	if (i->type == XML_ELEMENT_NODE && xmlStrcmp(i->name, reinterpret_cast<const xmlChar*>(node_name)) == 0) {
-	    xmlUnlinkNode(i);
-	    node_list.push_back(i);
-	}
-
-	i = next;
+    if (i->type == XML_ELEMENT_NODE && xmlStrcmp(i->name, reinterpret_cast<const xmlChar*>(node_name)) == 0) {
+      xmlUnlinkNode(i);
+      node_list.push_back(i);
     }
 
-    if (node_list.empty()) return;
+    i = next;
+  }
+
+  if (node_list.empty()) return;
     
-    std::sort(node_list.begin(), node_list.end(), compare_attr(attr_name));
-    std::for_each(node_list.begin(), node_list.end(), insert_node(pimpl_->xmlnode_));
+  std::sort(node_list.begin(), node_list.end(), compare_attr(attr_name));
+  std::for_each(node_list.begin(), node_list.end(), insert_node(pimpl_->xmlnode_));
 }
 //####################################################################
 void xml::node::sort_fo (cbfo_node_compare &cb) {
-    xmlNodePtr i(pimpl_->xmlnode_->children), next(0);
-    std::vector<xmlNodePtr> node_list;
+  xmlNodePtr i(pimpl_->xmlnode_->children), next(0);
+  std::vector<xmlNodePtr> node_list;
 
-    while (i!=0) {
-	next = i->next;
+  while (i!=0) {
+    next = i->next;
 
-	if (i->type == XML_ELEMENT_NODE) {
-	    xmlUnlinkNode(i);
-	    node_list.push_back(i);
-	}
-
-	i = next;
+    if (i->type == XML_ELEMENT_NODE) {
+      xmlUnlinkNode(i);
+      node_list.push_back(i);
     }
 
-    if (node_list.empty()) return;
+    i = next;
+  }
+
+  if (node_list.empty()) return;
     
-    std::sort(node_list.begin(), node_list.end(), node_cmp(cb));
-    std::for_each(node_list.begin(), node_list.end(), insert_node(pimpl_->xmlnode_));
-}
-//####################################################################
-void xml::node::node_to_string (std::string &xml) const {
-    node2doc n2d(pimpl_->xmlnode_);
-    xmlDocPtr doc = n2d.get_doc();
-
-    xmlChar *xml_string;
-    int xml_string_length;
-
-    xmlDocDumpFormatMemory(doc, &xml_string, &xml_string_length, 1);
-
-    xmlchar_helper helper(xml_string);
-    if (xml_string_length) xml.assign(helper.get(), xml_string_length);
-}
-//####################################################################
-namespace {
-    xmlNodePtr find_node(const char *name, xmlNodePtr first) {
-	while (first != 0) {
-	    if (first->type == XML_ELEMENT_NODE && xmlStrcmp(first->name, reinterpret_cast<const xmlChar*>(name)) == 0) return first;
-	    first = first->next;
-	}
-
-	return 0;
-    }
-}
-//####################################################################
-std::ostream& xml::operator<< (std::ostream &stream, const xml::node &n) {
-    std::string xmldata;
-    n.node_to_string(xmldata);
-    stream << xmldata;
-    return stream;
+  std::sort(node_list.begin(), node_list.end(), node_cmp(cb));
+  std::for_each(node_list.begin(), node_list.end(), insert_node(pimpl_->xmlnode_));
 }
 //####################################################################
