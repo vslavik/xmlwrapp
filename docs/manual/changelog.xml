@@ -1,5 +1,18 @@
 <appendix id="changelog"><title>Revision History</title>
     <!--################################################################-->
+    <section id="ck-050"><title>Version 0.5.0</title>
+	<subtitle>??</subtitle>
+
+	<itemizedlist>
+	    <listitem>
+		<para>
+		    Major clean ups in the test harness. Test code should be a lot easier to write
+		    now.
+		</para>
+	    </listitem>
+	</itemizedlist>
+    </section>
+    <!--################################################################-->
     <section id="ck-044"><title>Version 0.4.4</title>
 	<subtitle>October 29, 2003</subtitle>
 
