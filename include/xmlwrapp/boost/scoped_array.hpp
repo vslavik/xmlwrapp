@@ -12,9 +12,9 @@
 //  http://www.boost.org/libs/smart_ptr/scoped_array.htm
 //
 
-#include <boost/assert.hpp>
-#include <boost/checked_delete.hpp>
-#include <boost/config.hpp>   // in case ptrdiff_t not in std
+#include <xmlwrapp/boost/assert.hpp>
+#include <xmlwrapp/boost/checked_delete.hpp>
+#include <xmlwrapp/boost/config.hpp>   // in case ptrdiff_t not in std
 #include <cstddef>            // for std::ptrdiff_t
 
 namespace boost

@@ -47,7 +47,7 @@
   typename ::xmlwrapp::access::restrict<Access, T>::type
 #else
 #  define XMLWRAPP_RESTRICT(Access, T) \
-  typename ::xmlwrapp::access::input_policy<Acess>::template as_input<T>::type
+  typename ::xmlwrapp::access::input_policy<Access>::template as_input<T>::type
 #endif
 //####################################################################
 //! Gives friendship to both <code>T<#XMLWRAPP_RO_ACCESS></code> and
@@ -97,7 +97,10 @@ namespace xmlwrapp {
       read_write = false
     };
     //####################################################################
-    template <XMLWRAPP_ACCESS_SPECIFIER Access> struct input_policy;
+    // MSVC++6 needs a definition for this... Why?
+    template <XMLWRAPP_ACCESS_SPECIFIER Access> struct input_policy {
+      template <typename T> struct as_input { struct type; };
+    };
     //####################################################################
     //! Define how read-only references accept input.
     //! @see as_input

@@ -20,7 +20,7 @@
 #  endif
 // boilerplate code:
 #  ifndef TARGET_CARBON
-#     include <boost/config/posix_features.hpp>
+#     include <xmlwrapp/boost/config/posix_features.hpp>
 #  endif
 #  ifndef BOOST_HAS_STDINT_H
 #     define BOOST_HAS_STDINT_H

@@ -33,7 +33,7 @@
 #endif
 
 // boilerplate code:
-#include <boost/config/posix_features.hpp>
+#include <xmlwrapp/boost/config/posix_features.hpp>
  
 
 

@@ -12,8 +12,8 @@
 //  http://www.boost.org/libs/smart_ptr/scoped_ptr.htm
 //
 
-#include <boost/assert.hpp>
-#include <boost/checked_delete.hpp>
+#include <xmlwrapp/boost/assert.hpp>
+#include <xmlwrapp/boost/checked_delete.hpp>
 
 #ifndef BOOST_NO_AUTO_PTR
 # include <memory>          // for std::auto_ptr

@@ -20,7 +20,7 @@
 
 // boilerplate code:
 #define BOOST_HAS_UNISTD_H
-#include <boost/config/posix_features.hpp>
+#include <xmlwrapp/boost/config/posix_features.hpp>
 
 // HPUX has an incomplete pthreads implementation, so it doesn't
 // define _POSIX_THREADS, but it might be enough to implement

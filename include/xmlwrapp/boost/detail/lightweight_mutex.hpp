@@ -52,7 +52,7 @@
 //        inside for more info.
 
 
-#include <boost/config.hpp>
+#include <xmlwrapp/boost/config.hpp>
 
 //  Note to implementors: if you write a platform-specific spinlock
 //  for a platform that supports pthreads, be sure to test its performance
@@ -65,22 +65,22 @@
 //  pthreads library, since it doesn't create any threads.
 
 #ifndef BOOST_HAS_THREADS
-#  include <boost/detail/lwm_nop.hpp>
+#  include <xmlwrapp/boost/detail/lwm_nop.hpp>
 #elif defined(BOOST_LWM_USE_SPINLOCK) && defined(BOOST_USE_ASM_ATOMIC_H)
-#  include <boost/detail/lwm_linux.hpp>
+#  include <xmlwrapp/boost/detail/lwm_linux.hpp>
 #elif defined(BOOST_LWM_USE_CRITICAL_SECTION)
-#  include <boost/detail/lwm_win32_cs.hpp>
+#  include <xmlwrapp/boost/detail/lwm_win32_cs.hpp>
 #elif defined(BOOST_LWM_USE_PTHREADS)
-#  include <boost/detail/lwm_pthreads.hpp>
+#  include <xmlwrapp/boost/detail/lwm_pthreads.hpp>
 #elif defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
-#  include <boost/detail/lwm_win32.hpp>
+#  include <xmlwrapp/boost/detail/lwm_win32.hpp>
 #elif defined(BOOST_LWM_USE_SPINLOCK) && defined(__sgi)
-#  include <boost/detail/lwm_irix.hpp>
+#  include <xmlwrapp/boost/detail/lwm_irix.hpp>
 #elif defined(BOOST_LWM_USE_SPINLOCK) && defined(__GLIBCPP__)
-#  include <boost/detail/lwm_gcc.hpp>
+#  include <xmlwrapp/boost/detail/lwm_gcc.hpp>
 #elif defined(BOOST_HAS_PTHREADS)
 #  define BOOST_LWM_USE_PTHREADS
-#  include <boost/detail/lwm_pthreads.hpp>
+#  include <xmlwrapp/boost/detail/lwm_pthreads.hpp>
 #else
 // Use #define BOOST_DISABLE_THREADS to avoid the error
 #  error Unrecognized threading platform

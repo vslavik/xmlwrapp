@@ -19,6 +19,6 @@
 
 // boilerplate code:
 #define BOOST_HAS_UNISTD_H
-#include <boost/config/posix_features.hpp>
+#include <xmlwrapp/boost/config/posix_features.hpp>
 
 

@@ -141,9 +141,9 @@ namespace xmlwrapp {
 //! representation (Rep).
 //! @note Call this macro only from global scope!
 //! @author Shane Beasley
-#define XMLWRAPP_ASSOCIATE(Impl, Rep)                       \
-namespace xmlwrapp { namespace impl_cast {                  \
-    template <> struct get_rep<Impl> { typedef Rep type; }; \
+#define XMLWRAPP_ASSOCIATE(Impl, Rep)                         \
+namespace xmlwrapp { namespace impl_cast {                    \
+    template <> struct get_rep< Impl > { typedef Rep type; }; \
 } }
 
 #endif

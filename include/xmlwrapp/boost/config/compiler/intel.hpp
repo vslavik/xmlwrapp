@@ -7,7 +7,7 @@
 
 //  Intel compiler setup:
 
-#include "boost/config/compiler/common_edg.hpp"
+#include "xmlwrapp/boost/config/compiler/common_edg.hpp"
 
 #ifdef __ICL
 #  define BOOST_COMPILER "Intel C++ version " BOOST_STRINGIZE(__ICL)

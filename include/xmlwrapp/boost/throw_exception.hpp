@@ -18,7 +18,7 @@
 //  http://www.boost.org/libs/utility/throw_exception.html
 //
 
-#include <boost/config.hpp>
+#include <xmlwrapp/boost/config.hpp>
 
 #ifdef BOOST_NO_EXCEPTIONS
 # include <exception>

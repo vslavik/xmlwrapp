@@ -31,7 +31,7 @@
 #  define BOOST_HAS_STDINT_H
 #  define BOOST_HAS_UNISTD_H
    // boilerplate code:
-#  include <boost/config/posix_features.hpp>
+#  include <xmlwrapp/boost/config/posix_features.hpp>
 #endif
 
 #if _MWMT

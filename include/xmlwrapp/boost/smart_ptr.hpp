@@ -14,7 +14,7 @@
 //  http://www.boost.org/libs/smart_ptr/smart_ptr.htm
 //
 
-#include <boost/scoped_ptr.hpp> 
-#include <boost/scoped_array.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/shared_array.hpp>
+#include <xmlwrapp/boost/scoped_ptr.hpp> 
+#include <xmlwrapp/boost/scoped_array.hpp>
+#include <xmlwrapp/boost/shared_ptr.hpp>
+#include <xmlwrapp/boost/shared_array.hpp>
