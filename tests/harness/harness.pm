@@ -32,7 +32,7 @@ package harness;
 ###########################################################################
 #
 # Test harness code. For generating screen output and XML output.
-# $Id: harness.pm,v 1.2 2003/08/18 03:48:15 pjones Exp $
+# $Id: harness.pm,v 1.3 2003/08/18 04:16:23 pjones Exp $
 #
 # To use:
 #
@@ -220,6 +220,25 @@ sub regression
 	$self->pass();
     } else {
 	$self->fail("regression failed\nEXPECTED: $good\nRECEIVED: $result")
+    }
+}
+###########################################################################
+sub run_test_exit_status
+{
+    my $self		    = shift;
+    my $name		    = shift; # the name of the test
+    my $run_program	    = shift; # the name of the program to run
+    my $expect_exit_status  = shift; # what the exit status should be
+
+    $self->start($name);
+    my $null = `$run_program 2>&1`;
+
+    if ($? != 0) { $? >>= 8; }
+
+    if ($? == $expect_exit_status) {
+	$self->pass();
+    } else {
+	$self->fail("bad run of $run_program, expected exit with $expect_exit_status but got $?");
     }
 }
 ###########################################################################
