@@ -46,6 +46,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <iterator>
 #include <algorithm>
 #include <stdexcept>
 #include <functional>
@@ -348,6 +349,14 @@ void xml::node::push_back (const node &child) {
     if (!xmlAddChild(pimpl_->xmlnode_, node_to_add)) {
 	xmlFreeNode(node_to_add);
     }
+}
+//####################################################################
+xml::node::size_type xml::node::size (void) const {
+    return std::distance(begin(), end());
+}
+//####################################################################
+bool xml::node::empty (void) const {
+    return pimpl_->xmlnode_->children == 0;
 }
 //####################################################################
 xml::node::iterator xml::node::begin (void) {

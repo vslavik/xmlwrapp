@@ -436,6 +436,30 @@ public:
 
     //####################################################################
     /** 
+     * Returns the number of childer this nodes has. If you just want to
+     * know how if this node has children or not, you should use
+     * xml::node::empty() instead.
+     *
+     * @return The number of children this node has.
+     * @author Peter Jones
+    **/
+    //####################################################################
+    size_type size (void) const;
+
+    //####################################################################
+    /** 
+     * Find out if this node has any children. This is the same as
+     * xml::node::size() == 0 except it is much faster.
+     *
+     * @return True if this node DOES NOT have any children.
+     * @return False if this node does have children.
+     * @author Peter Jones
+    **/
+    //####################################################################
+    bool empty (void) const;
+
+    //####################################################################
+    /** 
      * Get an iterator that points to the beginning of this node's children.
      *
      * @return An iterator that points to the beginning of the children.
