@@ -53,5 +53,6 @@
     <section title="resources"	file="resources.xml"/>
     <section title="download"	file="download.xml"/>
     <section title="license"	link="download/documentation/manual/sep-html/license.html"/>
-    <section title="cvs"	link="http://cvs.pmade.org/view/xmlwrapp/"/>
+    <section title="bugs"	product="xmlwrapp"/>
+    <section title="cvs"	module="xmlwrapp"/>
 </project>
