@@ -160,7 +160,10 @@ xml::attributes::const_iterator xml::attributes::find (const char *name) const {
     if (prop != 0) return const_iterator(pimpl_->xmlnode_, prop);
 
     xmlAttributePtr dtd_prop = find_default_prop(pimpl_->xmlnode_, name);
-    if (dtd_prop != 0) return const_iterator(name, reinterpret_cast<const char*>(dtd_prop->defaultValue), true);
+
+    if (dtd_prop != 0 && dtd_attr->defaultValue != 0) {
+	return const_iterator(name, reinterpret_cast<const char*>(dtd_prop->defaultValue), true);
+    }
 
     return const_iterator();
 }
@@ -191,9 +194,5 @@ xml::attributes::size_type xml::attributes::size (void) const {
     while (prop != 0) { ++count; prop = prop->next; }
 
     return count;
-}
-//####################################################################
-namespace {
-    //####################################################################
 }
 //####################################################################
