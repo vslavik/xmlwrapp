@@ -38,7 +38,7 @@ xpath::node_set_iterator_T<Access>::node_set_iterator_T (impl *impl)
 
 template <XMLWRAPP_ACCESS_SPECIFIER Access>
 xpath::node_set_iterator_T<Access>::node_set_iterator_T
-(const read_write::node_set_iterator &rhs)
+(const node_set_iterator &rhs)
   : pimpl_(rhs.pimpl()) {
 }
 

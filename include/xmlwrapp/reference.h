@@ -36,9 +36,7 @@ namespace xmlwrapp {
     //! A reference to T, restricted as per the given access specifier.
     //! 
     //! Useful when the preprocessor or a template parameter might create
-    //! an ambiguity:
-    //!
-    //! \include reference.cxx
+    //! an ambiguity.
     template <typename T>
     class reference {
     public:

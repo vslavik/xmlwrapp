@@ -51,18 +51,6 @@ namespace xml {
   struct node_cmp;
 
   //####################################################################
-  /** 
-   * Write a node and all of its children to the given stream.
-   *
-   * @param stream The stream to write the node as XML.
-   * @param n The node to write to the stream.
-   * @return The stream.
-   * @author Peter Jones
-   **/
-  //####################################################################
-  std::ostream& operator<< (std::ostream &stream,
-			    const xml::detail::const_node_interface &n);
-  //####################################################################
   //! An XML node.
   //! Provides functions for read-write access to node properties
   //! and uses detail::const_node_interface to provide read-only access.

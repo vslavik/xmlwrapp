@@ -101,7 +101,7 @@ xpath::object_T<Access>::object_T (const std::string &val)
 }
 
 template <XMLWRAPP_ACCESS_SPECIFIER Access>
-xpath::object_T<Access>::object_T (const read_write::object &rhs)
+xpath::object_T<Access>::object_T (const object &rhs)
   : pimpl_(rhs.pimpl()) {
 }
 

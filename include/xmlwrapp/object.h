@@ -45,6 +45,8 @@ namespace xpath {
   //####################################################################
   //! XPath polymorphic object.
   //! Can be any one of boolean, floating-point number, string, or node set.
+  //! @see xpath::object
+  //! @see xpath::const_object
   template <XMLWRAPP_ACCESS_SPECIFIER Access>
   class object_T {
   public:
@@ -71,6 +73,9 @@ namespace xpath {
     //####################################################################
     //! node_set_iterator_T allowing the same access as this object_T has.
     typedef node_set_iterator_T<Access>   iterator;
+    //####################################################################
+    //! node_set_iterator_T allowing read-only access.
+    typedef node_set_iterator_T<XMLWRAPP_RO_ACCESS>   const_iterator;
     //####################################################################
     //! Pointer returned by iterator.
     typedef typename iterator::pointer    pointer;

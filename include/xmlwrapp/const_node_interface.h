@@ -62,8 +62,14 @@ namespace xml {
   class node_iterator;
 
   template <XMLWRAPP_ACCESS_SPECIFIER Access> class node_reference_T;
-  typedef node_reference_T<XMLWRAPP_READ_WRITE> node_reference;
-  typedef node_reference_T<XMLWRAPP_READ_ONLY>  const_node_reference;
+  /**
+   * Reference to an #xml::node.
+   * @name Reference types
+   * @{
+   **/
+  typedef node_reference_T<XMLWRAPP_READ_WRITE> node_reference, node_ref;
+  typedef node_reference_T<XMLWRAPP_READ_ONLY>  const_node_reference, const_node_ref;
+  /** @} */
 
   namespace detail {
     //####################################################################
@@ -358,6 +364,20 @@ namespace xml {
       void do_swap (const_node_interface &rhs);
     };
   }
+
+  //####################################################################
+  /** 
+   * Write a node and all of its children to the given stream.
+   *
+   * @relates xml::detail::const_node_interface
+   * @param stream The stream to write the node as XML.
+   * @param n The node to write to the stream.
+   * @return The stream.
+   * @author Peter Jones
+   **/
+  //####################################################################
+  std::ostream& operator<< (std::ostream &stream,
+			    const xml::detail::const_node_interface &n);
 }
 
 #endif

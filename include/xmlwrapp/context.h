@@ -26,9 +26,11 @@
 
 #include "access.h"
 #include "expression.h" // included to allow implicit conversion
+#include "noncopyable.h"
 #include "node_reference.h"
 #include "pimpl.h"
 #include "const_node_interface.h"
+#include <string>
 
 //####################################################################
 /** @file
@@ -42,12 +44,15 @@ namespace xml {
 
 namespace xpath {
   //####################################################################
-  //! XPath evaluation context.
+  //! Representation of the context of execution of an XPath expression.
   //! XPath expressions are evaluated in a context, which includes the
   //! document/node from which they are issued, plus any state information
   //! the XPath engine would like to keep around during evaluation.
+  //! @see xmlwrapp::access::specifier
+  //! @see xpath::context
+  //! @see xpath::const_context
   template <XMLWRAPP_ACCESS_SPECIFIER Access>
-  class context_T {
+  class context_T : xmlwrapp::detail::noncopyable {
   public:
     //####################################################################
     //! Result of an XPath query.
@@ -69,21 +74,14 @@ namespace xpath {
     context_T ();
     //####################################################################
     //! Create a context with respect to the given document.
+    //! Future queries will be evaluated against the root of that document.
     //! @author Shane Beasley
     explicit context_T (document_ref doc);
     //####################################################################
     //! Create a context with respect to the given node.
+    //! Future queries will be evaluated against that node.
     //! @author Shane Beasley
     explicit context_T (node_ref node);
-    //####################################################################
-    //! Create a context with respect to the same document (and node)
-    //! as another context.
-    //! @author Shane Beasley
-    context_T (const context_T &);
-    //####################################################################
-    //! Alter the context to use the document (and node) of another context.
-    //! @author Shane Beasley
-    context_T &operator= (const context_T &);
     //####################################################################
     //! Perform future XPath queries in this context on the given document.
     //! @author Shane Beasley
@@ -112,6 +110,10 @@ namespace xpath {
     //! Get a variable.
     //! @author Shane Beasley
     result_type get (const std::string &name);
+    //####################################################################
+    //! Associate a namespace prefix with the corresponding URI.
+    //! @author Terris Linenbach
+    void add_namespace (const std::string &prefix, const std::string &uri);
 
   private:
     typedef XMLWRAPP_IMPL_T(context_T) impl;
@@ -129,11 +131,11 @@ namespace xpath {
   //####################################################################
   //! Perform an XPath query.
   //! @author Shane Beasley
-  read_write::object query (xml::document &doc, const expression &query);
+  object query (xml::document &doc, const expression &query);
   //####################################################################
   //! Perform an XPath query.
   //! @author Shane Beasley
-  read_only::object query (const xml::document &doc, const expression &query);
+  const_object query (const xml::document &doc, const expression &query);
 }
 
 #endif

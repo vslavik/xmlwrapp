@@ -29,26 +29,16 @@
 #define XMLWRAPP_NODE_REFERENCE_H_20030830T011402
 
 #include "node.h"
+#include "noncopyable.h"
 
 namespace xml {
   namespace detail {
     //####################################################################
-    // MSVC++6 requires that this template be defined, even though only
-    // specializations may be used.
     template <XMLWRAPP_ACCESS_SPECIFIER Access> struct node_ref_traits {
-      //####################################################################
-      // MSVC++6 requires that this type be defined, even though only
-      // specializations may be used.
-      typedef class uninstantiable {
-      private:
-	uninstantiable ();
-	uninstantiable (const uninstantiable &);
-	uninstantiable &operator= (const uninstantiable &);
-	~uninstantiable ();
-	friend class no_friends; // g++ warns "all private, no friends"
-      } type;
+      // MSVC++6 requires that this type be defined, even though it will
+      // never be used.
+      typedef xmlwrapp::detail::uninstantiable type;
     };
-
     //####################################################################
     //! Specify the interface to be used for read-only access to a node.
     template <> struct node_ref_traits<XMLWRAPP_READ_ONLY> {
@@ -63,7 +53,12 @@ namespace xml {
 
   //####################################################################
   //! A reference with the specified access (read-write or read-only)
-  //! to an XML node.
+  //! to an XML node. Such a reference behaves like an #xml::node with
+  //! reference semantics, i.e. copying a reference produces a second
+  //! reference to the same object, whereas copying an object produces
+  //! a second distinct object.
+  //! @see \link http://www.parashift.com/c++-faq-lite/value-vs-ref-semantics.html
+  //! http://www.parashift.com/c++-faq-lite/value-vs-ref-semantics.html\endlink
   template <XMLWRAPP_ACCESS_SPECIFIER Access>
   class node_reference_T : public detail::node_ref_traits<Access>::type {
   public:

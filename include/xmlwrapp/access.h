@@ -30,6 +30,9 @@
 
 #include "config.h"
 
+/** @internal */
+/* @{ */
+
 //####################################################################
 /* @see xmlwrapp::access::specifier */
 #define XMLWRAPP_ACCESS_SPECIFIER ::xmlwrapp::access::specifier
@@ -62,6 +65,8 @@
   friend class T<XMLWRAPP_RW_ACCESS>
 #endif
 
+/* @} */
+
 namespace xmlwrapp {
   //####################################################################
   /**
@@ -79,9 +84,8 @@ namespace xmlwrapp {
   namespace access {
     //####################################################################
     //! Specifiers for access policies.
-    //! Typically passed as an argument through a template parameter of type
-    //! #XMLWRAPP_ACCESS_SPECIFIER to define the type of access required
-    //! by the template.
+    //! Typically, this type is used as a template parameter, and one of
+    //! its values is used to specify the type of access required.
     enum specifier {
       //####################################################################
       //! Specifies a read-only access policy for reference types.
@@ -96,14 +100,17 @@ namespace xmlwrapp {
       //! (Non-const T * and T & are read-write reference types.)
       read_write = false
     };
+#ifndef DOXYGEN_HIDE_INTERNAL
     //####################################################################
-    // MSVC++6 needs a definition for this... Why?
-    template <XMLWRAPP_ACCESS_SPECIFIER Access> struct input_policy {
-      template <typename T> struct as_input { struct type; };
+    template <XMLWRAPP_ACCESS_SPECIFIER> struct input_policy {
+      // MSVC++6 needs this definition, but it's never used.
+      template <typename> struct as_input { struct type; };
     };
     //####################################################################
-    //! Define how read-only references accept input.
-    //! @see as_input
+    /**
+     * Define how read-only references accept input.
+     * @see as_input
+     **/
     template <> struct input_policy<read_only> {
       //####################################################################
       //! Define how read-only references accept input of type T.
@@ -115,8 +122,10 @@ namespace xmlwrapp {
       };
     };
     //####################################################################
-    //! Define how read-write references accept input.
-    //! @see as_input
+    /**
+     * Define how read-write references accept input.
+     * @see as_input
+     **/
     template <> struct input_policy<read_write> {
       //####################################################################
       //! Define how read-write references accept input of type T.
@@ -128,15 +137,18 @@ namespace xmlwrapp {
       };
     };
     //####################################################################
-    //! Define how references with the given access policy accept input
-    //! of type T.
-    //! @see input_policy<read_only>::as_input
-    //! @see input_policy<read_write>::as_input
-    //! @author Shane Beasley
+    /**
+     * Define how references with the given access policy accept input
+     * of type T.
+     * @see input_policy<read_only>::as_input
+     * @see input_policy<read_write>::as_input
+     * @author Shane Beasley
+     **/
     template <XMLWRAPP_ACCESS_SPECIFIER Access, typename T>
     struct restrict {
       typedef typename input_policy<Access>::template as_input<T>::type type;
     };
+#endif
   }
 }
 

@@ -216,10 +216,12 @@ xml::detail::const_node_interface::const_node_interface (node_impl *impl)
   : pimpl_(new node_impl(impl->xmlnode_)) {
 }
 //####################################################################
-std::ostream& xml::operator<< (std::ostream &stream,
-			       const xml::detail::const_node_interface &n) {
-  std::string xmldata;
-  n.node_to_string(xmldata);
-  stream << xmldata;
-  return stream;
+namespace xml {
+  std::ostream& operator<< (std::ostream &stream,
+			    const xml::detail::const_node_interface &n) {
+    std::string xmldata;
+    n.node_to_string(xmldata);
+    stream << xmldata;
+    return stream;
+  }
 }

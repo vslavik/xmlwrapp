@@ -75,11 +75,6 @@ xpath::context_T<Access>::context_T (node_ref node)
 }
 
 template <XMLWRAPP_ACCESS_SPECIFIER Access>
-xpath::context_T<Access>::context_T (const context_T &rhs)
-  : pimpl_(factory::clone(rhs.pimpl_.get()), &factory::destroy) {
-}
-
-template <XMLWRAPP_ACCESS_SPECIFIER Access>
 void
 xpath::context_T<Access>::set_document (document_ref doc) {
   as_rep(pimpl_)->doc  = xpath_helper::get(doc);
@@ -90,14 +85,6 @@ template <XMLWRAPP_ACCESS_SPECIFIER Access>
 void
 xpath::context_T<Access>::set_node (node_ref node) {
   as_rep(pimpl_)->doc = (as_rep(pimpl_)->node = xpath_helper::get(node))->doc;
-}
-
-template <XMLWRAPP_ACCESS_SPECIFIER Access>
-xpath::context_T<Access> &
-xpath::context_T<Access>::operator= (const context_T &rhs) {
-  as_rep(pimpl_)->doc = as_rep(rhs.pimpl_)->doc;
-  as_rep(pimpl_)->node = as_rep(rhs.pimpl_)->node;
-  return *this;
 }
 
 template <XMLWRAPP_ACCESS_SPECIFIER Access>
@@ -138,6 +125,14 @@ xpath::context_T<Access>::get (const std::string &name) {
 }
 
 template <XMLWRAPP_ACCESS_SPECIFIER Access>
+void
+xpath::context_T<Access>::add_namespace (const std::string &prefix, const std::string &uri) {
+  xmlXPathRegisterNs(as_rep(pimpl_),
+		     reinterpret_cast<const xmlChar *>(prefix.c_str()),
+		     reinterpret_cast<const xmlChar *>(uri.c_str()));
+}
+
+template <XMLWRAPP_ACCESS_SPECIFIER Access>
 xpath::object_T<Access>
 xpath::query (const xml::node_reference_T<Access> &node, const expression &query) {
   return context_T<Access>(node)[query];
@@ -160,12 +155,12 @@ xpath::query<XMLWRAPP_RW_ACCESS> (const xml::node_reference_T<XMLWRAPP_RW_ACCESS
 
 // functions which use the instantiations
 
-xpath::read_write::object
+xpath::object
 xpath::query (xml::document &doc, const expression &query) {
-  return read_write::context(doc)[query];
+  return context(doc)[query];
 }
 
-xpath::read_only::object
+xpath::const_object
 xpath::query (const xml::document &doc, const expression &query) {
-  return read_only::context(doc)[query];
+  return const_context(doc)[query];
 }

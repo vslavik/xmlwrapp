@@ -23,7 +23,7 @@ PROJECT_NAME           = xmlwrapp
 # This could be handy for archiving the generated documentation or 
 # if some version control system is used.
 
-PROJECT_NUMBER         = $Revision: 1.1.1.1.2.3 $
+PROJECT_NUMBER         = $Revision: 1.1.1.1.2.4 $
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) 
 # base path where the generated documentation will be put. 
@@ -947,13 +947,15 @@ PREDEFINED             = DOXYGEN_HIDE_INTERNAL
 # The macro definition that is found in the sources will be used. 
 # Use the PREDEFINED tag if you want to use a different macro definition.
 
-EXPAND_AS_DEFINED      = XMLWRAPP_RESTRICT \
+EXPAND_AS_DEFINED      = XMLWRAPP_ACCESS_SPECIFIER \
+                         XMLWRAPP_RESTRICT \
                          XMLWRAPP_PIMPL \
                          XMLWRAPP_IMPL \
                          XMLWRAPP_IMPL_T \
-                         XMLWRAPP_FRIEND_T \
-                         XMLWRAPP_RO_ACCESS \
-                         XMLWRAPP_RW_ACCESS
+                         XMLWRAPP_FRIEND_T
+
+#                         XMLWRAPP_RO_ACCESS \
+#                         XMLWRAPP_RW_ACCESS
 
 # If the SKIP_FUNCTION_MACROS tag is set to YES (the default) then 
 # doxygen's preprocessor will remove all function-like macros that are alone 

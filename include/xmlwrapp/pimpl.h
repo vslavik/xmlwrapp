@@ -31,6 +31,8 @@
 
 #include <xmlwrapp/boost/smart_ptr.hpp>
 
+#ifndef DOXYGEN_HIDE_INTERNAL
+
 namespace xmlwrapp {
   //####################################################################
   //! Code related to the Pimpl idiom.
@@ -119,11 +121,12 @@ namespace xmlwrapp {
 //! @author Shane Beasley
 #define XMLWRAPP_IMPL(T) ::xmlwrapp::pimpl::impl<T>
 //####################################################################
-//! The private implementation type for
-//! T<\link #XMLWRAPP_RW_ACCESS XMLWRAPP_RW_ACCESS\endlink>.
+//! The private implementation type for #XMLWRAPP_RW_ACCESS.
 //! @author Shane Beasley
 #define XMLWRAPP_IMPL_T(T) \
   ::xmlwrapp::pimpl::impl< T<XMLWRAPP_RW_ACCESS> >
 //####################################################################
+
+#endif
 
 #endif

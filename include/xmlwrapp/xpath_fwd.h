@@ -56,44 +56,23 @@ namespace xpath {
   //! @brief
   namespace pimpl  = xmlwrapp::pimpl;
   //@}
-
   //####################################################################
-  //! Instantiations of templates using read-write access policy.
-  namespace read_write {
-    //! @name Read-write XPath objects
-    //! @see xmlwrapp::access::read_write
-    //@{
+  //! @name Read-write XPath objects
+  //! Classes for making read-write queries on an XML document.
+  //! @see xmlwrapp::access
+  //@{
     typedef context_T<XMLWRAPP_RW_ACCESS>           context;
     typedef node_set_iterator_T<XMLWRAPP_RW_ACCESS> node_set_iterator;
-    typedef object_T<XMLWRAPP_RW_ACCESS>            object, result;
-    //@}
-  }
-  //####################################################################
-  //! Instantiations of templates using read-only access policy.
-  namespace read_only {
-    //! @name Read-only XPath objects
-    //! @see xmlwrapp::access::read_only
-    //@{
-    typedef context_T<XMLWRAPP_RO_ACCESS>           context;
-    typedef node_set_iterator_T<XMLWRAPP_RO_ACCESS> node_set_iterator;
-    typedef object_T<XMLWRAPP_RO_ACCESS>            object, result;
-    //@}
-  }
-
-  //! @name Read-write XPath objects
-  //! @see xmlwrapp::access::read_write
-  //@{
-  typedef read_write::context           context;
-  typedef read_write::object            object;
-  typedef read_write::node_set_iterator node_set_iterator;
+    typedef object_T<XMLWRAPP_RW_ACCESS>            object;
   //@}
-
+  //####################################################################
   //! @name Read-only XPath objects
-  //! @see xmlwrapp::access::read_only
+  //! Classes for making read-only queries on an XML document.
+  //! @see xmlwrapp::access
   //@{
-  typedef read_only::context            const_context;
-  typedef read_only::object             const_object;
-  typedef read_only::node_set_iterator  const_node_set_iterator;
+    typedef context_T<XMLWRAPP_RO_ACCESS>           const_context;
+    typedef node_set_iterator_T<XMLWRAPP_RO_ACCESS> const_node_set_iterator;
+    typedef object_T<XMLWRAPP_RO_ACCESS>            const_object;
   //@}
 }
 

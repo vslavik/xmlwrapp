@@ -38,6 +38,8 @@
 namespace xpath {
   //####################################################################
   //! Random-access iterator over a node set.
+  //! @see xpath::node_set_iterator
+  //! @see xpath::const_node_set_iterator
   template <XMLWRAPP_ACCESS_SPECIFIER Access>
   class node_set_iterator_T {
   public:
@@ -67,7 +69,7 @@ namespace xpath {
     //####################################################################
     //! Copy a read-write iterator.
     //! @author Shane Beasley
-    node_set_iterator_T (const read_write::node_set_iterator &);
+    node_set_iterator_T (const node_set_iterator &);
     //####################################################################
     //! Get a proxy for an xml::node.
     //! @author Shane Beasley
@@ -132,6 +134,7 @@ namespace xpath {
   //####################################################################
   //####################################################################
   //! @name Arithmetic operators
+  //! @relates xpath::node_set_iterator_T
   //! @author Shane Beasley
   //@{
   //####################################################################
@@ -168,6 +171,7 @@ namespace xpath {
   //####################################################################
   //@}
   //! @name Comparison operators
+  //! @relates xpath::node_set_iterator_T
   //! @author Shane Beasley
   //@{
   //####################################################################

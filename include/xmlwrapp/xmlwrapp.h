@@ -41,4 +41,7 @@
 #include <xmlwrapp/event_parser.h>
 #include <xmlwrapp/node_reference.h>
 
+//! Basic classes related to the handling of XML documents.
+namespace xml { }
+
 #endif
