@@ -56,7 +56,7 @@ namespace xpath {
     //! Reference to an xml::node with required access rights.
     //! Prevents read-write context_T from operating on read-only node.
     //! @see xmlwrapp::access::restrict
-    typedef xml::node_reference<Access> node_ref;
+    typedef xml::node_reference_T<Access> node_ref;
     //####################################################################
     //! Reference to an xml::document with required access rights.
     //! Prevents read-write context_T from operating on read-only document.

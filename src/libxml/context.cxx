@@ -21,6 +21,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include <xmlwrapp/context.h>
 #include "context_rep.h"
 #include "object_rep.h"
 #include "xpath_helper.h"
@@ -142,17 +143,8 @@ xpath::query (const xml::node_reference_T<Access> &node, const expression &query
   return context_T<Access>(node)[query];
 }
 
-xpath::read_write::object
-xpath::query (xml::document &doc, const expression &query) {
-  return read_write::context(doc)[query];
-}
-
-xpath::read_only::object
-xpath::query (const xml::document &doc, const expression &query) {
-  return read_only::context(doc)[query];
-}
-
 // explicit instantiations
+
 template class xpath::context_T<xmlwrapp::access::read_write>;
 template class xpath::context_T<xmlwrapp::access::read_only>;
 
@@ -165,3 +157,15 @@ template
 xpath::object_T<XMLWRAPP_RW_ACCESS>
 xpath::query<XMLWRAPP_RW_ACCESS> (const xml::node_reference_T<XMLWRAPP_RW_ACCESS> &,
 				  const expression &);
+
+// functions which use the instantiations
+
+xpath::read_write::object
+xpath::query (xml::document &doc, const expression &query) {
+  return read_write::context(doc)[query];
+}
+
+xpath::read_only::object
+xpath::query (const xml::document &doc, const expression &query) {
+  return read_only::context(doc)[query];
+}
