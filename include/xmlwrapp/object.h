@@ -21,12 +21,12 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef XPATH_RESULT_H_20030714T1820
-#define XPATH_RESULT_H_20030714T1820
+#ifndef XPATH_OBJECT_H_20030714T1820
+#define XPATH_OBJECT_H_20030714T1820
 
 //####################################################################
 /** @file
- * Definition of xpath::result_T
+ * Definition of xpath::object_T
  **/
 
 #include "access.h"
@@ -34,7 +34,7 @@
 #include "node_set_iterator.h"
 #include "pimpl.h"
 #include "reference.h"
-#include "xpath_types.h"
+#include "xpath_fwd.h"
 #include <string>
 
 namespace xml {
@@ -43,76 +43,99 @@ namespace xml {
 
 namespace xpath {
   //####################################################################
-  //! Result of an XPath query.
+  //! XPath polymorphic object.
   //! Can be any one of boolean, floating-point number, string, or node set.
   template <XMLWRAPP_ACCESS_SPECIFIER Access>
-  class result_T {
+  class object_T {
   public:
     //####################################################################
-    //! Enumeration of the types of results representable by result_T.
-    enum result_type {
-      undefined_result = 0, //!< unknown type
-      node_set_result  = 1, //!< result is a node set
-      boolean_result   = 2, //!< result is a boolean
-      number_result    = 3, //!< result is a floating-point number
-      string_result    = 4  //!< result is a string
+    //! Type of object represented by a object_T.
+    enum object_type {
+      undefined_type = 0, //!< unknown type
+      node_set_type  = 1, //!< node set
+      boolean_type   = 2, //!< boolean
+      number_type    = 3, //!< floating-point number
+      string_type    = 4  //!< string
     };
     //####################################################################
-    //! \link access.h Const-correct\endlink context_T.
+    //! \link xmlwrapp::access Const-correct\endlink instantiation of context_T.
     typedef context_T<Access>             restricted_context;
     //####################################################################
     //! context_T with read-write access rights.
-    //! Allows read-only result_T to operate on read-write context_T.
+    //! Allows read-only object_T to operate on read-write context_T.
     //! @see #XMLWRAPP_RW_ACCESS
     typedef context_T<XMLWRAPP_RW_ACCESS> rw_context;
     //####################################################################
     //! Type used to describe offsets from zero for indices.
     typedef unsigned int                  size_type;
     //####################################################################
-    //! node_set_iterator_T allowing the same access as this result_T has.
+    //! node_set_iterator_T allowing the same access as this object_T has.
     typedef node_set_iterator_T<Access>   iterator;
+    //####################################################################
+    //! Pointer returned by iterator.
+    typedef typename iterator::pointer    pointer;
     //####################################################################
     //! Reference returned by iterator.
     typedef typename iterator::reference  reference;
 
     //####################################################################
+    //! Create a new XPath object.
+    //! @author Shane Beasley
+    object_T ();
+    //####################################################################
+    //! Create a new XPath object.
+    //! @author Shane Beasley
+    object_T (bool val);
+    //####################################################################
+    //! Create a new XPath object.
+    //! @author Shane Beasley
+    object_T (double val);
+    //####################################################################
+    //! Create a new XPath object.
+    //! @author Shane Beasley
+    object_T (const char *val);
+    //####################################################################
+    //! Create a new XPath object.
+    //! @author Shane Beasley
+    object_T (const std::string &val);
+    //####################################################################
     //! Allow copy/conversion to read-write or read-only from read-write.
     //! @author Shane Beasley
-    result_T (const result_T<XMLWRAPP_RW_ACCESS> &);
+    object_T (const object_T<XMLWRAPP_RW_ACCESS> &);
     //####################################################################
     //! Perform an XPath query.
     //! @author Shane Beasley
-    result_T (restricted_context &ctxt, const expression &query);
+    object_T (restricted_context &ctxt, const expression &query);
     //####################################################################
     //! Perform an XPath query.
     //! @author Shane Beasley
-    result_T (detail::reference<rw_context> ctxt, const expression &query);
+    object_T (detail::reference<rw_context> ctxt, const expression &query);
     //####################################################################
-    //! Swap with another result.
+    //! Swap with another object.
     //! @author Shane Beasley
-    void swap (result_T &);
+    void swap (object_T &);
     //####################################################################
-    //! Destroy this result.
+    //! Destroy this object.
     //! @author Shane Beasley
-    ~result_T ();
+    ~object_T ();
     //####################################################################
-    //! Query the type of the result.
+    //! Query the type of the object.
     //! @author Shane Beasley
-    result_type type () const;
+    object_type type () const;
     //####################################################################
-    //! Convert this result to a number.
+    //! Convert this object to a number.
     //! @author Shane Beasley
     double to_number () const;
     //####################################################################
-    //! Convert this result to a string.
+    //! Convert this object to a string.
     //! @author Shane Beasley
     std::string to_string () const;
     //####################################################################
-    //! Convert this result to a boolean.
+    //! Convert this object to a boolean.
     //! @author Shane Beasley
     bool to_boolean () const;
     //####################################################################
-    //! Determine whether this result is a node set.
+    //! Determine whether this object is a node set.
     //! @author Shane Beasley
     bool is_node_set () const;
     //####################################################################
@@ -135,11 +158,19 @@ namespace xpath {
     //! Get an element of the set by index.
     //! @author Shane Beasley
     reference operator[] (size_type i) const;
+    //####################################################################
+    //! Get the first node in the set.
+    //! @author Shane Beasley
+    reference operator* () const { return begin().operator*(); }
+    //####################################################################
+    //! Get a pointer to the first node in the set.
+    //! @author Shane Beasley
+    pointer operator-> () const { return begin().operator->(); }
 
     //####################################################################
     //! @internal Private implementation class for Pimpl idiom.
     //! @author Shane Beasley
-    typedef XMLWRAPP_IMPL_T(result_T) impl;
+    typedef XMLWRAPP_IMPL_T(object_T) impl;
     //####################################################################
     //! @internal Pointer to private implementation class for Pimpl idiom.
     //! @author Shane Beasley
@@ -149,6 +180,9 @@ namespace xpath {
     //! @author Shane Beasley
     const pimpl_type &pimpl () const { return pimpl_; }
     //####################################################################
+    //! @internal Construct an object from its internal representation type.
+    //! @author Shane Beasley
+    explicit object_T (impl *impl);
 
   private:
     pimpl_type pimpl_;

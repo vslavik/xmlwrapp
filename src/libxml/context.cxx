@@ -22,9 +22,9 @@
  */
 
 #include "context_rep.h"
-
-#include "xmlwrapp/result.h"
+#include "object_rep.h"
 #include "xpath_helper.h"
+#include <libxml/xpathInternals.h>
 
 using namespace xmlwrapp::impl_cast;
 
@@ -50,7 +50,9 @@ namespace {
       return as_impl(new_ctxt);
     }
     
-    static void destroy (impl_ptr ctxt) { xmlXPathFreeContext(as_rep(ctxt)); }
+    static void destroy (impl_ptr ctxt) {
+      xmlXPathFreeContext(as_rep(ctxt));
+    }
   };
 }
 
@@ -98,8 +100,7 @@ xpath::context_T<Access>::operator= (const context_T &rhs) {
 }
 
 template <XMLWRAPP_ACCESS_SPECIFIER Access>
-void
-xpath::context_T<Access>::swap (context_T &rhs) {
+void xpath::context_T<Access>::swap (context_T &rhs) {
   pimpl_.swap(rhs.pimpl_);
 }
 
@@ -107,6 +108,31 @@ template <XMLWRAPP_ACCESS_SPECIFIER Access>
 typename xpath::context_T<Access>::result_type
 xpath::context_T<Access>::operator[] (const expression &query) {
   return result_type(*this, query);
+}
+
+template <XMLWRAPP_ACCESS_SPECIFIER Access>
+void
+xpath::context_T<Access>::set (const std::string &name,
+			       const xpath::const_object &obj) {
+  xmlXPathRegisterVariable(as_rep(pimpl_),
+			   reinterpret_cast<const xmlChar *>(name.c_str()),
+			   xmlXPathObjectCopy(as_rep(obj.pimpl())));
+}
+
+template <XMLWRAPP_ACCESS_SPECIFIER Access>
+void
+xpath::context_T<Access>::unset (const std::string &name) {
+  xmlXPathRegisterVariable(as_rep(pimpl_),
+			   reinterpret_cast<const xmlChar *>(name.c_str()),
+			   0);
+}
+
+template <XMLWRAPP_ACCESS_SPECIFIER Access>
+typename xpath::context_T<Access>::result_type
+xpath::context_T<Access>::get (const std::string &name) {
+  xmlXPathObjectPtr obj = xmlXPathVariableLookup(as_rep(pimpl_),
+						 reinterpret_cast<const xmlChar *>(name.c_str()));
+  return obj ? result_type(as_impl<result_type::impl>(obj)) : result_type();
 }
 
 template class xpath::context_T<xmlwrapp::access::read_write>;

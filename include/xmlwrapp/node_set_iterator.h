@@ -32,7 +32,7 @@
 #include "access.h"
 #include "node_ref.h"
 #include "pimpl.h"
-#include "xpath_types.h"
+#include "xpath_fwd.h"
 #include <iterator>
 
 namespace xpath {

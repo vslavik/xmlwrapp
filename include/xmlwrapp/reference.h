@@ -21,6 +21,10 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+/** @file
+ * Definition of xmlwrapp::detail::reference.
+ **/
+
 #ifndef XMLWRAPP_REFERENCE_H_20030809T064856
 #define XMLWRAPP_REFERENCE_H_20030809T064856
 

@@ -21,14 +21,18 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef XPATH_RESULT_REP_H_20030714T1820
-#define XPATH_RESULT_REP_H_20030714T1820
+#ifndef XPATH_H_20030714T1820
+#define XPATH_H_20030714T1820
 
-#include "xmlwrapp/result.h"
+/** @file
+ * Include this file to import all relevant XPath types.
+ **/
 
-#include "impl_cast.h"
-#include <libxml/xpath.h>
-
-XMLWRAPP_ASSOCIATE(XMLWRAPP_IMPL_T(xpath::result_T), xmlXPathObject);
+#include "xpath_fwd.h"
+#include "expression.h"
+#include "context.h"
+#include "node_set_iterator.h"
+#include "object.h"
+#include "xpath_cast.h"
 
 #endif

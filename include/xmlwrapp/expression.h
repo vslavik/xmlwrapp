@@ -29,7 +29,7 @@
  * Definition of xpath::expression
  **/
 
-#include "xpath_types.h"
+#include "xpath_fwd.h"
 #include "pimpl.h"
 #include <string>
 
@@ -62,7 +62,7 @@ namespace xpath {
 
   private:
     XMLWRAPP_PIMPL(shared_ptr, impl) pimpl_;
-    XMLWRAPP_FRIEND_T(result_T);
+    XMLWRAPP_FRIEND_T(object_T);
   };
 }
 

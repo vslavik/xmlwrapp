@@ -24,8 +24,8 @@
 /** @file
  * forward-declarations and typedefs for the various XPath types. */
 
-#ifndef XPATH_TYPES_H_20030714T1820
-#define XPATH_TYPES_H_20030714T1820
+#ifndef XPATH_FWD_H_20030714T1820
+#define XPATH_FWD_H_20030714T1820
 
 #include "access.h"
 
@@ -43,7 +43,7 @@ namespace xpath {
   class expression;
   template <XMLWRAPP_ACCESS_SPECIFIER> class context_T;
   template <XMLWRAPP_ACCESS_SPECIFIER> class node_set_iterator_T;
-  template <XMLWRAPP_ACCESS_SPECIFIER> class result_T;
+  template <XMLWRAPP_ACCESS_SPECIFIER> class object_T;
 
   //####################################################################
   //! @name Imported namespaces
@@ -65,7 +65,7 @@ namespace xpath {
     //@{
     typedef context_T<XMLWRAPP_RW_ACCESS>           context;
     typedef node_set_iterator_T<XMLWRAPP_RW_ACCESS> node_set_iterator;
-    typedef result_T<XMLWRAPP_RW_ACCESS>            result;
+    typedef object_T<XMLWRAPP_RW_ACCESS>            object, result;
     //@}
   }
   //####################################################################
@@ -76,18 +76,25 @@ namespace xpath {
     //@{
     typedef context_T<XMLWRAPP_RO_ACCESS>           context;
     typedef node_set_iterator_T<XMLWRAPP_RO_ACCESS> node_set_iterator;
-    typedef result_T<XMLWRAPP_RO_ACCESS>            result;
+    typedef object_T<XMLWRAPP_RO_ACCESS>            object, result;
     //@}
   }
 
-#if 0
+  //! @name Read-write XPath objects
+  //! @see xmlwrapp::access::read_write
+  //@{
   typedef read_write::context           context;
-  typedef read_only::context            const_context;
-  typedef read_write::result            result;
-  typedef read_only::result             const_result;
+  typedef read_write::object            object;
   typedef read_write::node_set_iterator node_set_iterator;
+  //@}
+
+  //! @name Read-only XPath objects
+  //! @see xmlwrapp::access::read_only
+  //@{
+  typedef read_only::context            const_context;
+  typedef read_only::object             const_object;
   typedef read_only::node_set_iterator  const_node_set_iterator;
-#endif
+  //@}
 }
 
 #endif

@@ -1,7 +1,7 @@
 #include "xmlwrapp/xpath_cast.h"
 
 #include "xpath_helper.h"
-#include "result_rep.h"
+#include "object_rep.h"
 
 using xmlwrapp::impl_cast::as_rep;
 
@@ -26,7 +26,7 @@ namespace xpath {
     return xmlXPathCastStringToBoolean(convert(val)) ? 1 : 0;
   }
   template <XMLWRAPP_ACCESS_SPECIFIER Access>
-  bool to_boolean (const result_T<Access> &val) {
+  bool to_boolean (const object_T<Access> &val) {
     return xmlXPathCastToBoolean(as_rep(val.pimpl())) ? 1 : 0;
   }
 
@@ -43,9 +43,10 @@ namespace xpath {
     return xmlXPathCastNodeToNumber(xpath_helper::get(node));
   }
   template <XMLWRAPP_ACCESS_SPECIFIER Access>
-  double to_number (const result_T<Access> &val) {
+  double to_number (const object_T<Access> &val) {
     return xmlXPathCastToNumber(as_rep(val.pimpl()));
   }
+
   std::string to_string (bool val) {
     return convert(xmlXPathCastBooleanToString(val));
   }
@@ -56,14 +57,14 @@ namespace xpath {
     return convert(xmlXPathCastNodeToString(xpath_helper::get(node)));
   }
   template <XMLWRAPP_ACCESS_SPECIFIER Access>
-  std::string to_string (const result_T<Access> &val) {
+  std::string to_string (const object_T<Access> &val) {
     return convert(xmlXPathCastToString(as_rep(val.pimpl())));
   }
 
-  template bool to_boolean (const result_T<XMLWRAPP_RO_ACCESS> &);
-  template bool to_boolean (const result_T<XMLWRAPP_RW_ACCESS> &);
-  template double to_number (const result_T<XMLWRAPP_RO_ACCESS> &);
-  template double to_number (const result_T<XMLWRAPP_RW_ACCESS> &);
-  template std::string to_string (const result_T<XMLWRAPP_RO_ACCESS> &);
-  template std::string to_string (const result_T<XMLWRAPP_RW_ACCESS> &);
+  template bool to_boolean (const object_T<XMLWRAPP_RO_ACCESS> &);
+  template bool to_boolean (const object_T<XMLWRAPP_RW_ACCESS> &);
+  template double to_number (const object_T<XMLWRAPP_RO_ACCESS> &);
+  template double to_number (const object_T<XMLWRAPP_RW_ACCESS> &);
+  template std::string to_string (const object_T<XMLWRAPP_RO_ACCESS> &);
+  template std::string to_string (const object_T<XMLWRAPP_RW_ACCESS> &);
 }

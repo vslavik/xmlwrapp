@@ -31,7 +31,7 @@
 
 #include "access.h"
 #include "node.h"
-#include "xpath_types.h"
+#include "xpath_fwd.h"
 
 namespace xpath {
   //####################################################################
@@ -124,7 +124,7 @@ namespace xpath {
 
   private:
     XMLWRAPP_FRIEND_T(node_set_iterator_T);
-    XMLWRAPP_FRIEND_T(result_T);
+    XMLWRAPP_FRIEND_T(object_T);
     node_ref ();
     node_ref (const node_ref &);
     node_ref &operator= (const node_ref &);

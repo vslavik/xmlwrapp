@@ -29,7 +29,7 @@
  * Various casting functions.
  **/
 
-#include "xpath_types.h"
+#include "xpath_fwd.h"
 #include <string>
 
 namespace xml {
@@ -53,7 +53,7 @@ namespace xpath {
   //! Convert an XPath query result to a boolean.
   //! @author Shane Beasley
   template <XMLWRAPP_ACCESS_SPECIFIER Access>
-  bool to_boolean (const result_T<Access> &val);
+  bool to_boolean (const object_T<Access> &val);
   //####################################################################
   //! Convert a boolean to a number.
   //! @author Shane Beasley
@@ -74,7 +74,7 @@ namespace xpath {
   //! Convert an XPath query result to a number.
   //! @author Shane Beasley
   template <XMLWRAPP_ACCESS_SPECIFIER Access>
-  double to_number (const result_T<Access> &val);
+  double to_number (const object_T<Access> &val);
   //####################################################################
   //! Convert a boolean to a string.
   //! @author Shane Beasley
@@ -91,7 +91,7 @@ namespace xpath {
   //! Convert an XPath query result to a string.
   //! @author Shane Beasley
   template <XMLWRAPP_ACCESS_SPECIFIER Access>
-  std::string to_string (const result_T<Access> &val);
+  std::string to_string (const object_T<Access> &val);
 }
 
 #endif

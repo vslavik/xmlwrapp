@@ -21,33 +21,14 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "expression_rep.h"
-#include <stdexcept>
-#include <string>
+#ifndef XPATH_OBJECT_REP_H_20030714T1820
+#define XPATH_OBJECT_REP_H_20030714T1820
 
-using namespace xmlwrapp::impl_cast;
+#include "xmlwrapp/object.h"
 
-namespace {
-  struct factory : factory_base<XMLWRAPP_IMPL(xpath::expression)> {
-    static impl_ptr create (const char *expr) {
-      rep_ptr new_expr = xmlXPathCompile(reinterpret_cast<const xmlChar *>(expr));
-      if (!new_expr)
-	throw std::runtime_error(std::string("error compiling XPath expression"));
-      return as_impl(new_expr);
-    }
+#include "impl_cast.h"
+#include <libxml/xpath.h>
 
-    static void destroy (impl_ptr expr) { xmlXPathFreeCompExpr(as_rep(expr)); }
-  };
-}
+XMLWRAPP_ASSOCIATE(XMLWRAPP_IMPL_T(xpath::object_T), xmlXPathObject);
 
-xpath::expression::expression (const char *expr)
-  : pimpl_(factory::create(expr), &factory::destroy) {
-}
-
-xpath::expression::expression (const std::string &expr)
-  : pimpl_(factory::create(expr.c_str()), &factory::destroy) {
-}
-
-void xpath::expression::swap (expression &rhs) {
-  pimpl_.swap(rhs.pimpl_);
-}
+#endif

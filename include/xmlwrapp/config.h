@@ -26,6 +26,7 @@
 
 //######################################
 /** @file
+ * @internal
  * Macros for platform-dependent code.
  **/
 

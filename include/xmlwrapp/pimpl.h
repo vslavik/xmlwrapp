@@ -41,6 +41,72 @@ namespace xmlwrapp {
     //! Declared but undefined private implementation type.
     template <typename T> struct impl;
     //####################################################################
+    //! Specifies how a particular type T is deleted.
+    //! By default, passed as second parameter to xmlwrapp::pimpl::local_ptr.
+    //! May be specialized for a particular type, or another class with
+    //! a similar interface may be passed instead.
+    template <typename T>
+    struct local_ptr_delete {
+      //####################################################################
+      //! delete p.
+      void do_delete (T *p) { delete p; }
+    };
+
+    //####################################################################
+    //! Template for a smart pointer which is uncopyable and unassignable
+    //! like boost::scoped_ptr, which allows a user-defined deletion
+    //! function like boost::shared_ptr, and which allows release of ownership
+    //! like std::auto_ptr.
+    //! @see http://boost.org/libs/smart_ptr/scoped_ptr.htm
+    //! @see http://boost.org/libs/smart_ptr/shared_ptr.htm
+    //! @see http://dinkumware.com/htm_cpl/memory.html#auto_ptr
+    template <typename T, typename Deleter = local_ptr_delete<T> >
+    class local_ptr {
+    public:
+      //####################################################################
+      //! Take ownership of the given object.
+      //! @author Shane Beasley
+      explicit local_ptr (T *obj = 0, Deleter d = Deleter())
+	: object_(obj), deleter_(d) { }
+      //####################################################################
+      //! Get a reference to the owned object.
+      //! @author Shane Beasley
+      T &operator* () const { return *object_; }
+      //####################################################################
+      //! Get a pointer to the owned object.
+      //! @author Shane Beasley
+      T *operator-> () const { return object_; }
+      //####################################################################
+      //! Get a pointer to the owned object.
+      //! @author Shane Beasley
+      T *get () const { return object_; }
+      //####################################################################
+      //! Transfer ownership of the owned object to the caller.
+      //! @author Shane Beasley
+      T *release () { T *p = object_; object_ = 0; return p; }
+      //####################################################################
+      //! Take ownership of the given object, deleting the previously-owned
+      //! object.
+      //! @author Shane Beasley
+      void reset (T *obj = 0) {
+	if (object_) deleter_.do_delete(object_);
+	object_ = obj;
+      }
+      //####################################################################
+      //! Swap with another local_ptr.
+      //! @author Shane Beasley
+      void swap (local_ptr &rhs) { std::swap(impl_, rhs.impl_); }
+      //####################################################################
+      //! Delete the owned object.
+      //! @author Shane Beasley
+      ~local_ptr () { reset(); }
+
+    private:
+      local_ptr (const local_ptr &);
+      local_ptr &operator= (const local_ptr &);
+      T *object_;
+      Deleter deleter_;
+    };
   }
 }
 //####################################################################

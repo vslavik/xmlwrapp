@@ -27,7 +27,7 @@
 #include "access.h"
 #include "expression.h" // included to allow implicit conversion
 #include "pimpl.h"
-#include "xpath_types.h"
+#include "xpath_fwd.h"
 
 //####################################################################
 /** @file
@@ -50,7 +50,7 @@ namespace xpath {
   public:
     //####################################################################
     //! Result of an XPath query.
-    typedef result_T<Access> result_type;
+    typedef object_T<Access> result_type;
     //####################################################################
     //! xml::node with required access rights.
     //! Prevents read-write context_T from operating on read-only node.
@@ -99,25 +99,39 @@ namespace xpath {
     //! Perform an XPath query.
     //! @author Shane Beasley
     result_type operator[] (const expression &query);
+    //####################################################################
+    //! Set a variable.
+    //! @author Shane Beasley
+    void set (const std::string &name, const xpath::const_object &obj);
+    //####################################################################
+    //! Unset a variable.
+    //! @author Shane Beasley
+    void unset (const std::string &name);
+    //####################################################################
+    //! Get a variable.
+    //! @author Shane Beasley
+    result_type get (const std::string &name);
 
   private:
     typedef XMLWRAPP_IMPL_T(context_T) impl;
     XMLWRAPP_PIMPL(shared_ptr, impl) pimpl_;
-    XMLWRAPP_FRIEND_T(result_T);
+    XMLWRAPP_FRIEND_T(object_T);
   };
 
   //####################################################################
   //! Perform an XPath query.
   //! @author Shane Beasley
   template <typename T>
-  read_write::result query (T &src, const expression &query) {
+  read_write::object
+  query (T &src, const expression &query) {
     return read_write::context(src)[query];
   }
   //####################################################################
   //! Perform an XPath query.
   //! @author Shane Beasley
   template <typename T>
-  read_only::result query (const T &src, const expression &query) {
+  read_only::object
+  query (const T &src, const expression &query) {
     return read_only::context(src)[query];
   }
 }

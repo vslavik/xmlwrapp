@@ -25,7 +25,7 @@
 #define XMLWRAPP_ACCESS_H_20030809T064856
 
 /** @file
- * Policies for read-only and read-write views of documents.
+ * Definition of xmlwrapp::access policies for read-only and read-write views of documents
  */
 
 #include "config.h"

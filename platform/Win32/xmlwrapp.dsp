@@ -137,7 +137,7 @@ SOURCE=..\..\src\libxml\node_set_iterator.cxx
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\libxml\result.cxx
+SOURCE=..\..\src\libxml\object.cxx
 # End Source File
 # Begin Source File
 

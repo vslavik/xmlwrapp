@@ -6,7 +6,8 @@ xpath::node_ref::node_ref () {
 
 xpath::node_ref::node_ref (const node_ref &rhs)
   : xml::node() {
-  xpath_helper::set(*this, xpath_helper::get(rhs));
+  if (xmlNodePtr node = xpath_helper::get(rhs))
+    xpath_helper::set(*this, node);
 }
 
 xpath::node_ref &
