@@ -1,0 +1,9 @@
+<root>
+    <child order="banana"/>
+    <child order="orange"/>
+    <child order="apple"/>
+    <child order="peach"/>
+    <child order="grape"/>
+    <child order="strawberry"/>
+    <child missing="order"/>
+</root>

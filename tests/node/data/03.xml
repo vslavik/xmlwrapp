@@ -1,0 +1,6 @@
+<root>
+    <to_replace x="1" y="2">
+	<child1/>
+	<child2/>
+    </to_replace>
+</root>

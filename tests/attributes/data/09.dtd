@@ -1,0 +1,4 @@
+<!ELEMENT root (#PCDATA)>
+<!ATTLIST root one CDATA "one">
+<!ATTLIST root two CDATA "two">
+<!ATTLIST root three CDATA "three">

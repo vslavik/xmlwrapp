@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<root>
+  <child order="apple"/>
+  <child order="banana"/>
+  <child order="grape"/>
+  <child order="orange"/>
+  <child order="peach"/>
+  <child order="strawberry"/>
+</root>
+

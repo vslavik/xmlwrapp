@@ -1,0 +1,40 @@
+-- CTOR:
+-- START_ELEMENT: root
+-- TEXT: 
+
+-- COMMENT:  just under root 
+-- TEXT: 
+    
+-- START_ELEMENT: one
+-- TEXT: 
+	
+-- START_ELEMENT: one_dot_one
+-- END_ELEMENT: one_dot_one
+-- TEXT: 
+    
+-- END_ELEMENT: one
+-- TEXT: 
+
+    
+-- START_ELEMENT: two
+-- TEXT: 
+	
+-- START_ELEMENT: two_dot_one
+-- TEXT: 
+	    
+-- START_ELEMENT: two_dot_two
+-- CDATA: inside two_dot_two
+-- END_ELEMENT: two_dot_two
+-- TEXT: 
+	
+-- END_ELEMENT: two_dot_one
+-- TEXT: 
+    
+-- END_ELEMENT: two
+-- TEXT: 
+
+-- PI: TARGET=someapp DATA=just above /root
+-- TEXT: 
+
+-- END_ELEMENT: root
+-- DTOR:
