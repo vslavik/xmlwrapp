@@ -110,10 +110,10 @@ namespace xpath {
     difference_type distance (const node_set_iterator_T &rhs) const;
 
     //####################################################################
-    //! @internal Private implementation class for Pimpl idiom.
+    /* @internal Private implementation class for Pimpl idiom. */
     typedef XMLWRAPP_IMPL_T(node_set_iterator_T) impl;
     //####################################################################
-    //! @internal Pointer to private implementation class for Pimpl idiom.
+    /* @internal Pointer to private implementation class for Pimpl idiom. */
     typedef impl *pimpl_type;
     //####################################################################
     //! @internal Construct an iterator from its private implementation.

@@ -30,7 +30,7 @@
 
 namespace xmlwrapp {
   //####################################################################
-  //! @internal Various implementation details.
+  /* @internal Various implementation details. */
   namespace detail {
     //####################################################################
     //! A reference to T, restricted as per the given access specifier.

@@ -52,6 +52,16 @@
 #include <memory>
 
 //####################################################################
+/*
+ * This is a hack to fix a problem with a change in the libxml2 API for
+ * versions starting at 2.6.0
+ */
+#if LIBXML_VERSION >= 20600
+#   define initxmlDefaultSAXHandler xmlSAX2InitDefaultSAXHandler
+#   include <libxml/SAX2.h>
+#endif
+
+//####################################################################
 namespace {
     const char const_default_error[] = "unknown XML parsing error";
 

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<root>
+  <counter>6</counter>
+
+  <user>
+    <name>Joe Blow</name>
+    <id>12345</id>
+    <oper/>
+    <subordinates>
+      <id>13579</id>
+      <id>54321</id>
+    </subordinates>
+  </user>
+
+  <user>
+    <name>John Q. Public</name>
+    <id>13579</id>
+    <subordinates>
+      <id>54321</id>
+    </subordinates>
+  </user>
+
+  <user>
+    <name>Lame User</name>
+    <id>54321</id>
+  </user>
+</root>

@@ -57,7 +57,7 @@ namespace xpath {
     void swap (expression &);
 
     //####################################################################
-    //! @internal Private implementation class for Pimpl idiom.
+    /* @internal Private implementation class for Pimpl idiom. */
     typedef XMLWRAPP_IMPL(expression) impl;
 
   private:

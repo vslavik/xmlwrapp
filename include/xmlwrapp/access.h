@@ -31,13 +31,13 @@
 #include "config.h"
 
 //####################################################################
-//! @see xmlwrapp::access::specifier
+/* @see xmlwrapp::access::specifier */
 #define XMLWRAPP_ACCESS_SPECIFIER ::xmlwrapp::access::specifier
 //####################################################################
-//! @see xmlwrapp::access::read_only
+/* @see xmlwrapp::access::read_only */
 #define XMLWRAPP_RO_ACCESS        ::xmlwrapp::access::read_only
 //####################################################################
-//! @see xmlwrapp::access::read_write
+/* @see xmlwrapp::access::read_write */
 #define XMLWRAPP_RW_ACCESS        ::xmlwrapp::access::read_write
 //####################################################################
 //! Typedef for T, restricted according to the given access specifier.
