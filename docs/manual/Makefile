@@ -1,2 +1,3 @@
 PROJECT_NAME=xmlwrapp
-.include "${HOME}/develop/project-xslt/docbook/docbook.mk"
+PROJECT_HOME=../..
+.include "${PROJECT_HOME}/project-xslt/docbook/docbook.mk"

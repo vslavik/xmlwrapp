@@ -1,14 +1,15 @@
 ####
 # Variables set by user
+PROJECT_HOME?=          unknown
 XML_INPUT?= 		manual.xml
 PROJECT_NAME?=		unknown-project
-INSTALL_TO?=		${HOME}/sites/pmade.org/software/${PROJECT_NAME}/download/documentation
+INSTALL_TO?=		${PROJECT_HOME}/download/documentation
 INSTALL_DIR?=		${XML_INPUT:.xml=}
 
 ####
 # General options
 CSS_FILE=		docbook.css
-CSS_SOURCE=		${HOME}/develop/project-xslt/docbook/${CSS_FILE}
+CSS_SOURCE=		${PROJECT_HOME}/project-xslt/docbook/${CSS_FILE}
 ####
 
 
@@ -24,7 +25,10 @@ XSLT_PARAMS= 		--stringparam section.autolabel 1 \
 # Options for all-in-one HTML generation
 HTML_DEST= 		one-html
 HTML_OUT= 		${HTML_DEST}/${XML_INPUT:.xml=.html}
-XSL_DOCKBOOK_HTML= 	/usr/local/share/xsl/docbook/html/docbook.xsl
+
+#XSL_DOCKBOOK_HTML= 	/usr/local/share/xsl/docbook/html/docbook.xsl
+XSL_DOCKBOOK_HTML= 	/usr/share/sgml/docbook/xsl-stylesheets-1.65.1-1/html/docbook.xsl
+
 HTML_PARAMS=		--stringparam html.stylesheet ${CSS_FILE}
 ####
 
@@ -94,9 +98,9 @@ install: all
 	cp -p ${HTML_DEST}/${CSS_FILE} ${INSTALL_TO}/${INSTALL_DIR}/
 	cp -pr ${SEP_HTML_DEST} ${INSTALL_TO}/${INSTALL_DIR}/
 	cp -pr ${PDF_OUT} ${INSTALL_TO}/${INSTALL_DIR}/
-	
 
-#### 
+
+####
 # Clean things up
 clean:
 	rm -rf ${HTML_DEST} ${SEP_HTML_DEST} ${PDF_DEST}

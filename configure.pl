@@ -2,11 +2,11 @@
 ######################################################################
 # Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
 # All Rights Reserved
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
-# 
+#
 # 1. Redistributions of source code must retain the above copyright
 #    notice, this list of conditions and the following disclaimer.
 # 2. Redistributions in binary form must reproduce the above copyright
@@ -16,7 +16,7 @@
 # 3. Neither the name of the Author nor the names of its contributors
 #    may be used to endorse or promote products derived from this software
 #    without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS''
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
 # TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
@@ -48,7 +48,7 @@ use Cwd qw(cwd chdir);
 #
 ################################################################################
 use constant DATE		=> 'Tue Jan 15 08:56:06 2002';
-use constant ID			=> '$Id: configure.pl,v 1.3 2003-11-10 23:16:48 pjones Exp $';
+use constant ID			=> '$Id: configure.pl,v 1.4 2005-09-12 16:59:43 tbrowder2 Exp $';
 ################################################################################
 #
 # Global Variables
@@ -175,11 +175,9 @@ generate_src_makefiles();
 
 if (!$clo{'contrib'}) {
     print "+---------------------------------------------------------------+\n";
-    print "|  Join the announcement mailing list for release annoucements  |\n";
-    print "|      http://pmade.org/mailman/listinfo/xmlwrapp-announce      |\n";
-    print "|                                                               |\n";
-    print "|      Join the users mailing list for help with xmlwrapp       |\n";
-    print "|        http://pmade.org/mailman/listinfo/xmlwrapp-users       |\n";
+    print "|      Join the users mailing list for help with xmlwrapp.      |\n";
+    print "|       Visit 'http://sourceforge.net/projects/xmlwrapp'.       |\n";
+    print "|                      Click on 'Lists'.                        |\n";
     print "+---------------------------------------------------------------+\n";
 }
 ################################################################################
@@ -206,7 +204,7 @@ sub check_libxslt {
 	print "no\n";
 	return 0;
     }
-    
+
     if ($output =~ /^(\d+\.\d+)\.(\d+)$/) {
 	if (($1 > 1.0) or ($1 == 1.0 and $2 >= 23)) {
 	    print "$output >= 1.0.23\n";
@@ -235,7 +233,7 @@ sub check_libxml2 {
     print "Checking for libxml2 version ... ";
     $clo{'xml2-config'} ||= 'xml2-config';
     chomp($output = `$clo{'xml2-config'} --version 2>&1`);
-    
+
     unless ($output) {
 	print "[fail]\n";
 	print STDERR "**** can't find xml2-config, try using --xml2-config\n";
@@ -476,7 +474,7 @@ sub generate_example_makefiles {
 	print STDERR "\n$0: can't cd to examples: $!\n";
 	exit 1;
     }
-    
+
     my @raw_example_dirs = grep {!/^(CVS|Makefile)$/} glob("*");
     my @example_dirs;
 
@@ -550,7 +548,7 @@ sub generate_config_script {
 	    $all_libs .= `$^X $cxxflags --linkwith $lib`;
 	}
     }
-    
+
     # clean and encode
     foreach ($all_incs, $all_libs) {
 	s/^\s+//; s/\s+$//; s/\s+/ /g; s/-/^/g;
