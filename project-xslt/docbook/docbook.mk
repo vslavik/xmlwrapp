@@ -1,3 +1,5 @@
+# Note that if tex capacity is exceeded, try increasing values in texmf.cnf file.
+# (Try "/usr/share/texmf/web2c/texmf.cnf".)
 ####
 # Variables set by user
 PROJECT_HOME?=          unknown
@@ -5,6 +7,8 @@ XML_INPUT?= 		manual.xml
 PROJECT_NAME?=		unknown-project
 INSTALL_TO?=		${PROJECT_HOME}/download/documentation
 INSTALL_DIR?=		${XML_INPUT:.xml=}
+# location of docbook stylesheets:
+XSL_STYLE_DIR=          /usr/local/share/docbook-xsl-1.69.1
 
 ####
 # General options
@@ -15,7 +19,7 @@ CSS_SOURCE=		${PROJECT_HOME}/project-xslt/docbook/${CSS_FILE}
 
 ####
 # XSLT options
-XSLTPROC= 		xsltproc --xinclude
+XSLTPROC= 		xsltproc --xinclude # --verbose --debug
 XSLT_PARAMS= 		--stringparam section.autolabel 1 \
 			--stringparam  section.label.includes.component.label 1
 ####
@@ -27,7 +31,7 @@ HTML_DEST= 		one-html
 HTML_OUT= 		${HTML_DEST}/${XML_INPUT:.xml=.html}
 
 #XSL_DOCKBOOK_HTML= 	/usr/local/share/xsl/docbook/html/docbook.xsl
-XSL_DOCKBOOK_HTML= 	/usr/share/sgml/docbook/xsl-stylesheets-1.65.1-1/html/docbook.xsl
+XSL_DOCKBOOK_HTML= 	${XSL_STYLE_DIR}/html/docbook.xsl
 
 HTML_PARAMS=		--stringparam html.stylesheet ${CSS_FILE}
 ####
@@ -37,7 +41,8 @@ HTML_PARAMS=		--stringparam html.stylesheet ${CSS_FILE}
 # Options for one-page-per-chapter HTML generation
 SEP_HTML_DEST=		sep-html
 SEP_HTML_OUT=		${SEP_HTML_DEST}/index.html
-XSL_DOCKBOOK_SEP_HTML= 	/usr/local/share/xsl/docbook/html/chunk.xsl
+#XSL_DOCKBOOK_SEP_HTML= 	/usr/local/share/xsl/docbook/html/chunk.xsl
+XSL_DOCKBOOK_SEP_HTML= 	${XSL_STYLE_DIR}/html/chunk.xsl
 SEP_HTML_PARAMS=	--stringparam base.dir ${SEP_HTML_DEST}/ \
 			--stringparam chunk.fast 1 \
 			--stringparam use.id.as.filename 1
@@ -46,12 +51,21 @@ SEP_HTML_PARAMS=	--stringparam base.dir ${SEP_HTML_DEST}/ \
 
 ####
 # Options for PDF output
-PDF_DEST=		postscript
+PDF_DEST=		pdf
 PDF_OUT=		${PDF_DEST}/${XML_INPUT:.xml=.pdf}
-XSL_DOCKBOOK_PDF=	/usr/local/share/xsl/docbook/fo/docbook.xsl
+#XSL_DOCKBOOK_PDF=	/usr/local/share/xsl/docbook/fo/docbook.xsl
+
+XSL_DOCKBOOK_PDF=	${XSL_STYLE_DIR}/fo/docbook.xsl
+#XSL_DOCKBOOK_PDF=	${XSL_STYLE_DIR}/fo/profile-docbook.xsl
+
 PDF_PARAMS=		--stringparam  double.sided 1 \
 			--stringparam  passivetex.extensions  1 \
 			--stringparam insert.xref.page.number 1
+PDF_DEBUG_FLAGS=            --recorder --interaction errorstopmode
+PDF_NORMAL_FLAGS=           --recorder --interaction nonstopmode
+#PDF_FLAGS=              ${PDF_DEBUG_FLAGS}
+PDF_FLAGS=             ${PDF_NORMAL_FLAGS}
+
 ####
 
 
@@ -87,7 +101,7 @@ ${SEP_HTML_OUT}: ${XML_INPUT}
 ${PDF_OUT}: ${XML_INPUT}
 	mkdir -p ${PDF_DEST}
 	${XSLTPROC} ${XSLT_PARAMS} ${PDF_PARAMS} --output ${PDF_DEST}/${XML_INPUT:.xml=.fo} ${XSL_DOCKBOOK_PDF} ${XML_INPUT}
-	(cd ${PDF_DEST}; pdftex --interaction nonstopmode "&pdfxmltex" ${XML_INPUT:.xml=.fo})
+	(cd ${PDF_DEST}; pdftex ${PDF_FLAGS} "&pdfxmltex" ${XML_INPUT:.xml=.fo})
 	(cd ${PDF_DEST}; pdftex --interaction nonstopmode "&pdfxmltex" ${XML_INPUT:.xml=.fo})
 
 ####
