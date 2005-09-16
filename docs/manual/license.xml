@@ -1,3 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+                      "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+>
 <appendix id="license"><title>xmlwrapp Software License</title>
     <para>
 	xmlwrapp is released under a 3 clause Berkeley style license.

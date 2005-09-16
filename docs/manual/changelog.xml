@@ -1,3 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+                      "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+>
 <appendix id="changelog"><title>Revision History</title>
     <!--################################################################-->
     <section id="ck-050"><title>Version 0.5.0</title>

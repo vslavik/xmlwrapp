@@ -1,0 +1,12 @@
+#XSLT_OPTIONS =  # --xinclude # --verbose --debug    \
+
+XML_INPUT = manual.xml
+#XSLT_OPTIONS  = --xinclude  --stringparam section.autolabel 1 \
+#                --stringparam  section.label.includes.component.label 1
+
+XSLT_OPTIONS = --xinclude \
+  --param section.autolabel 1 \
+                --param  section.label.includes.component.label 1
+
+pdf:
+	dblatex -t pdf -b pdftex -T db2latex -x "${XSLT_OPTIONS}" -o ${XML_INPUT:.xml=.pdf} ${XML_INPUT}

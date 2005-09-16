@@ -1,3 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+                      "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+>
 <appendix id="cedits"><title>Credits</title>
     <!--=================================================================================-->
     <para>
@@ -14,7 +18,7 @@
 	<itemizedlist>
 	    <listitem>
 		<para>
-		    <ulink url="http://pmade.org/cgi-bin/people.cgi?p=pj">Peter Jones</ulink> - 
+		    <ulink url="http://pmade.org/cgi-bin/people.cgi?p=pj">Peter Jones</ulink> -
 		    Author and main maintainer.
 		</para>
 	    </listitem>

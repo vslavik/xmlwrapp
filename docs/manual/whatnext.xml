@@ -1,3 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+                      "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+>
 <chapter id="whatnext"><title>Where To Go From Here</title>
     <para>
 	Like most programming tasks, the best place to start is to just dive in. The most obvious place to look is the xmlwrapp

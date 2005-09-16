@@ -1,3 +1,7 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+                      "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+>
 <chapter id="node"><title>XML Nodes</title>
     <!--=================================================================================-->
     <section id="node-types"><title>Node Types</title>
@@ -99,7 +103,7 @@
 ]]>
 	    </screen>
 	</example>
-	
+
 	<para>
 	    Here, the <constant>entry</constant> node does not contain any contents because it is an element node. It does,
 	    however, contain a child node that is a text node. Calling the <function>get_content</function> function on that child
