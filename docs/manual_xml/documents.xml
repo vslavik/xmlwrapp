@@ -1,0 +1,240 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+                      "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+>
+<chapter id="documents"><title>Working with XML Documents</title>
+    <!--=================================================================================-->
+    <para>
+	The <classname>xml::document</classname> class encapsulates the notion
+	of an XML document. When parsing XML documents with the
+	<classname>xml::tree_parser</classname>, you will be working with
+	<classname>xml::document</classname> objects so that you can access
+	the resulting node tree.
+    </para>
+
+    <para>
+	Using the <classname>xml::document</classname> class is not limited to
+	working with the <classname>xml::tree_parser</classname> class. You
+	can also use it when you want to generate an XML document. In this
+	case, you will build the node tree by hand, and then use one of the
+	<classname>xml::document</classname> member functions to convert or
+	save the node tree as XML data.
+    </para>
+    <!--=================================================================================-->
+    <section id="documents-settings"><title>Document Settings</title>
+	<para>
+	    Although the <classname>xml::document</classname> class is mainly
+	    a container for the node tree, it does contain some settings that
+	    apply to the entire XML document. The
+	    <classname>xml::document</classname> class provides member
+	    functions for getting and setting of these values. The following
+	    table illustrates which document settings are available.
+	</para>
+
+	<table><title>Available Document Settings</title>
+	    <tgroup cols="4">
+		<thead>
+		    <row>
+			<entry align="center">Setting</entry>
+			<entry align="center">Description</entry>
+			<entry align="center">Get Member Function</entry>
+			<entry align="center">Set Member Function</entry>
+		    </row>
+		</thead>
+
+		<tbody>
+		    <row>
+			<entry>Version</entry>
+			<entry><![CDATA[The version from the <?xml?> processing instruction.]]></entry>
+			<entry><function>get_version</function></entry>
+			<entry><function>set_version</function></entry>
+		    </row>
+
+		    <row>
+			<entry>Encoding</entry>
+			<entry><![CDATA[The document encoding from the <?xml?> processing instruction.]]></entry>
+			<entry><function>get_encoding</function></entry>
+			<entry><function>set_encoding</function></entry>
+		    </row>
+
+		    <row>
+			<entry>Stand Alone</entry>
+			<entry><![CDATA[Whether or not the document is marked standalone in the <?xml?> processing instruction.]]></entry>
+			<entry><function>get_is_standalone</function></entry>
+			<entry><function>set_is_standalone</function></entry>
+		    </row>
+		</tbody>
+	    </tgroup>
+	</table>
+
+	<para>
+	    You should consult the xmlwrapp API reference for more information about these member functions.
+	</para>
+    </section>
+    <!--=================================================================================-->
+    <section id="documents-subsets"><title>Internal and External Subsets</title>
+	<para>
+	    The XML document may contain either an internal or external
+	    subset, both or no subsets at all. The
+	    <classname>xml::document</classname> provides member functions to
+	    test for the existence of subsets.  The are the
+	    <function>has_internal_subset</function> and
+	    <function>has_external_subset</function> functions.
+	</para>
+
+	<para>
+	    An internal subset is present when document type definitions are
+	    placed inside the XML document itself. This can be useful if you
+	    did not want to use an external DTD or if you wanted to override
+	    something from the external DTD.
+	</para>
+
+	<para>
+	    If the XML document references an external DTD file or URL, it is
+	    said to have an external subset. This is the most common type of
+	    subset.
+	</para>
+    </section>
+    <!--=================================================================================-->
+    <section id="documents-valid"><title>Validating the Document</title>
+	<!--=================================================================================-->
+	<section id="documents-valid-inside"><title>Validating with DOCTYPE</title>
+	    <para>
+		If the XML document contains either an internal or external
+		subset, you can use the <function>validate</function> member
+		function to validate the XML document against the
+		subsets. This function will return <constant>true</constant>
+		if the document is valid.
+	    </para>
+
+	    <para>
+		When the document is not valid, or it does not contain an
+		internal or external subset, the <function>validate</function>
+		function will return <constant>false</constant>.
+	    </para>
+	</section>
+	<!--=================================================================================-->
+	<section id="documents-valid-outside"><title>Validating with Any DTD</title>
+	    <para>
+		If the XML document does not contain an internal or external
+		subset, or when you want to validate the document against a
+		specific external subset, you can use an overloaded version of
+		the <function>validate</function> member function. The
+		overloaded version takes the name of a file or a URL to an
+		external subset to validate the document against.
+	    </para>
+
+	    <para>
+		Like the other <function>validate</function> function, this
+		one will return <constant>true</constant> if the document is
+		valid according to the given external subset. In this case,
+		the external subset will be attached to the document for
+		further use. For example, to provide default attribute values.
+	    </para>
+
+	    <para>
+		If the external entity cannot be parsed, or the document is
+		not valid, the <function>validate</function> will return
+		<constant>false</constant>.
+	    </para>
+	</section>
+	<!--=================================================================================-->
+    </section>
+    <!--=================================================================================-->
+    <section id="documents-xinclude"><title>Processing XInclusions</title>
+	<para>
+	    If you would like xmlwrapp to search the node tree and process any
+	    XInclusions (<constant><![CDATA[<xi:include>
+	    elements]]></constant>), you can use the
+	    <function>process_xinclude</function> member function. It will
+	    return an <constant>int</constant> telling you how many
+	    substitutions were preformed.
+	</para>
+    </section>
+    <!--=================================================================================-->
+    <section id="documents-children"><title>Accessing Document Children</title>
+	<para>
+	    Although an XML document may only contain one element type node
+	    (the root node), it may contain more than one child.  For example,
+	    there may be XML comments above the root node's opening tag, or
+	    below the root node's closing tag. In this case, those comments
+	    would be children of the <classname>xml::document</classname>
+	    object.
+	</para>
+
+	<para>
+	    You can access these children using
+	    <classname>xml::node::iterator</classname> objects. The
+	    <classname>xml::document</classname> class provides
+	    <function>begin</function> and <function>end</function> member
+	    functions for getting iterators to the children. For more
+	    information about node iterators, see <xref
+	    linkend="node-children"/>.
+	</para>
+    </section>
+    <!--=================================================================================-->
+    <section id="documents-rootnode-get"><title>Accessing the Root Node</title>
+	<para>
+	    The most frequently used child node of the XML document is the
+	    root node. As mentioned above, the root node is the only child
+	    node of the document that is an element.
+	</para>
+
+	<para>
+	    In order to save you time and effort finding the root node, the
+	    <classname>xml::document</classname> class provides the
+	    <function>get_root_node</function> member function. This function
+	    will return a reference to the root node for the document.
+	</para>
+    </section>
+    <!--=================================================================================-->
+    <section id="documents-rootnode-set"><title>Setting the Root Node</title>
+	<para>
+	    If you wanted to set the root node of the document to some other
+	    element node, you can use the <function>set_root_node</function>
+	    member function. This will create a copy of the given node and use
+	    it and the root node for the document. If the document already had
+	    a root node, it will be removed and deleted.
+	</para>
+    </section>
+    <!--=================================================================================-->
+    <section id="documents-save"><title>Converting and Saving the Document as XML</title>
+	<para>
+	    The <classname>xml::document</classname> provides a few different
+	    member functions for converting the node tree into XML. The
+	    following table will summarize these functions.
+	</para>
+
+	<table><title>Functions to Convert to XML</title>
+	    <tgroup cols="2">
+		<thead>
+		    <row>
+			<entry align="center">Member Function</entry>
+			<entry align="center">Description</entry>
+		    </row>
+		</thead>
+
+		<tbody>
+		    <row>
+			<entry>save_to_string</entry>
+			<entry>Convert the node tree to XML and place the results in a given std::string object.</entry>
+		    </row>
+
+		    <row>
+			<entry>save_to_file</entry>
+			<entry>Convert the node tree to XML and save the results into the given file name.</entry>
+		    </row>
+
+		    <row>
+			<entry><![CDATA[operator<<]]></entry>
+			<entry>Convert the node tree to XML and insert the results into the given std::ostream object.</entry>
+		    </row>
+		</tbody>
+	    </tgroup>
+	</table>
+    </section>
+    <!--=================================================================================-->
+</chapter>
+<!--
+    vim:ft=docbk:tw=130
+-->

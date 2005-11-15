@@ -1,4 +1,7 @@
 Makefile
+README.xmlwrapp_sourceforge
+*.pdf
+*.ps
 xmlwrapp-config
 xmlwrapp.pc
 docbookmk-0.0.11.tar.gz
@@ -7,3 +10,7 @@ t
 t.pdf
 t.ps
 t.txt
+packxmlwrapp.pl
+xmlwrapp.carry
+xmlwrapp_exclude.pm
+tmp

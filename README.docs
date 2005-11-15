@@ -3,8 +3,12 @@ Things I had to do to be able to "make docs":
 docs/manual
 
   Collected project-xslt directory.
+
   Modified project-xslt/docbook.mk file.
-  Changed my /usr/share/texmf/web2c/texmf.cnf file so "save_size" was increased from 5000 to 90000.
+
+  Changed my local /usr/share/texmf/web2c/texmf.cnf file so "save_size" was
+  increased from 5000 to 90000.
+
   Use 'pmake' instead of 'make'.
 
   Went looking for LaTeX font packages (base on WARNINGs in pdf/manual.log):

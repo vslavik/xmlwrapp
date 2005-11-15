@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+                      "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+>
+<appendix id="cedits"><title>Credits</title>
+    <!--=================================================================================-->
+    <para>
+	This section is dedicated to those people who contributed in some
+	way to xmlwrapp. If I have forgotten you, please forgive me and drop me
+	a note.
+    </para>
+    <!--=================================================================================-->
+    <section id="credits-originalauthor"><title>Original Author</title>
+	<para>
+	    The following person is the original author and maintainer through
+	    version 0.5.0:
+	</para>
+
+	<itemizedlist>
+	    <listitem>
+		<para>
+		    <ulink
+		    url="http://pmade.org/cgi-bin/people.cgi?p=pj">Peter
+		    Jones</ulink> - Original author and maintainer through
+		    version 0.5.0.
+		</para>
+	    </listitem>
+	</itemizedlist>
+    </section>
+    <!--=================================================================================-->
+    <section id="credits-maintainer"><title>Maintainers</title>
+	<para>
+	    The following person currently maintains xmlwrapp.
+	</para>
+
+	<itemizedlist>
+	    <listitem>
+		<para>
+		    <ulink url="tbrowder2@users.sourceforge.net">Tom Browder</ulink> -
+		    Current author and maintainer.
+		</para>
+	    </listitem>
+	</itemizedlist>
+    </section>
+    <!--=================================================================================-->
+    <section id="credits-contrib"><title>Contributers</title>
+	<para>
+	    The following people have made contributions to xmlwrapp.
+	</para>
+
+	<itemizedlist>
+	    <listitem>
+		<para>
+		    Greg Chicares
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Daniel Evison
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Frank Grimm
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    Gary Passero
+		</para>
+	    </listitem>
+	</itemizedlist>
+    </section>
+    <!--=================================================================================-->
+    <section id="credits-software"><title>Other Software</title>
+	<para>
+	    We would also like to thank the following software projects.
+	</para>
+
+	<itemizedlist>
+	    <listitem>
+		<para>
+		    <ulink url="http://xmlsoft.org/">libxml2</ulink> -
+		    Thanks for the great XML parser library and the use of the MIT License and not the GPL.
+		</para>
+	    </listitem>
+
+	    <listitem>
+		<para>
+		    <ulink url="http://gcc.gnu.org/">GNU Compiler Collection</ulink> -
+		    Thanks for the 3.X series of compilers. Good work!
+		</para>
+	    </listitem>
+	</itemizedlist>
+    </section>
+    <!--=================================================================================-->
+</appendix>
+<!--
+    vim:ft=docbk:tw=130
+-->

@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+                      "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+>
+<chapter id="prepare"><title>Preparing To Use xmlwrapp</title>
+    <!--=================================================================================-->
+    <para>
+	Before you use xmlwrapp there are a few things you will need to
+	know. This chapter will give you all the background you need to
+	understand the rest of this book.
+    </para>
+    <!--=================================================================================-->
+    <section id="prepare-headers"><title>Header Files</title>
+	<para>
+	    When you install xmlwrapp, a set of header files will be installed
+	    in the include directory of your choosing. If you don't pick a
+	    location for these file to go, they will be installed in
+	    <filename>/usr/local/include</filename> by default. All of the
+	    xmlwrapp header files will be placed into a
+	    <filename>xmlwrapp</filename> subdirectory.
+	</para>
+
+	<para>
+	    If you are using the <filename>xmlwrapp-config</filename> script,
+	    you don't have to worry about where the xmlwrapp header files were
+	    installed. The <filename>xmlwrapp-config</filename> will add the
+	    appropriate directory to the compiler's search path.
+	</para>
+
+	<para>
+	    When using the xmlwrapp header files, you can either include each
+	    file you need or use the master include file to include all
+	    xmlwrapp header files. The choice is yours and mainly depends on
+	    your style and the project you are working on.
+	</para>
+
+	<example id="prepare-include-one"><title>Including xmlwrapp Header Files</title>
+	    <screen>
+<![CDATA[
+#include <xmlwrapp/init.h>
+#include <xmlwrapp/node.h>
+]]>
+	    </screen>
+	</example>
+
+	<example id="prepare-include-all"><title>Including All xmlwrapp Header Files</title>
+	    <screen>
+<![CDATA[
+#include <xmlwrapp/xmlwrapp.h>
+]]>
+	    </screen>
+	</example>
+    </section>
+    <!--=================================================================================-->
+    <section id="prepare-namespace"><title>The xmlwrapp Namespace</title>
+	<para>
+	    To prevent pollution of the global namespace, xmlwrapp places all
+	    classes and functions in the <constant>xml</constant>
+	    namespace. For clarity, this document will always use the
+	    <constant>xml</constant> namespace prefix when showing examples.
+	</para>
+
+	<para>
+	    It is your choice if you want to use the <constant>xml</constant>
+	    namespace in your code, or use one of the many forms of the
+	    <constant>using namespace</constant> statement.
+	</para>
+    </section>
+    <!--=================================================================================-->
+    <section id="prepare-init"><title>Initializing the XML Parser</title>
+	<para>
+	    In order for xmlwrapp to provide thread safety, it includes a
+	    class <classname>xml::init</classname> that will initialize the
+	    XML parser and set some default values. Even if you are not
+	    developing a multi-threaded application, it is a good idea to use
+	    <classname>xml::init</classname> to set those default parser
+	    variables.
+	</para>
+
+	<para>
+	    When you are using xmlwrapp in conjunction with a multi-threaded
+	    application, it is very important that you create a
+	    <classname>xml::init</classname> object before using xmlwrapp in
+	    any thread. If possible, it's best to create this object before
+	    you create any threads.
+	</para>
+
+	<para>
+	    You should also take care to only call member functions of the
+	    <classname>xml::init</classname> class before any threads start
+	    using xmlwrapp. Only one instance of
+	    <classname>xml::init</classname> should be used, because the
+	    destructor will clean up after libxml2.
+	</para>
+
+	<example id="prepare-init-ex"><title>Using the xml::init Class</title>
+	    <screen>
+<![CDATA[
+#include <xmlwrapp/init.h>
+
+int main (void) {
+    xml::init xmlinit;
+
+    ...
+
+    return 0;
+}
+]]>
+	</screen>
+    </example>
+    </section>
+    <!--=================================================================================-->
+</chapter>
+<!--
+    vim:ft=docbk:tw=130
+-->

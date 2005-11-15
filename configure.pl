@@ -48,7 +48,7 @@ use Cwd qw(cwd chdir);
 #
 ################################################################################
 use constant DATE		=> 'Tue Jan 15 08:56:06 2002';
-use constant ID			=> '$Id: configure.pl,v 1.4 2005-09-12 16:59:43 tbrowder2 Exp $';
+use constant ID			=> '$Id: configure.pl,v 1.5 2005-11-15 18:41:54 tbrowder2 Exp $';
 ################################################################################
 #
 # Global Variables
@@ -89,10 +89,9 @@ my @external_incs;
 $|++;
 
 if (not defined $ENV{'CXX'}) {
-    print STDERR "**** your CXX environment variable is not set. xmlwrapp needs this    ****\n";
-    print STDERR "**** variable to find your C++ compiler. For now, I will just use c++ ****\n";
-
-    $ENV{CXX} = 'c++';
+    print STDERR "**** Your CXX environment variable is not set.               ****\n";
+    print STDERR "**** xmlwrapp needs this variable to find your C++ compiler. ****\n";
+    exit;
 }
 
 GetOptions(

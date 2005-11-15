@@ -1,0 +1,246 @@
+<?xml version="1.0"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+                      "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
+>
+<chapter id="quickstart"><title>Building and Installing</title>
+    <!--=================================================================================-->
+    <section id="qs-req"><title>Requirements</title>
+	<para>
+	    Since xmlwrapp is a wrapper around the libxml2 parser, you will
+	    need to have that library installed and working first.  libxml2 is
+	    written in C and can be built on a large number of
+	    platforms. libxml2 can be downloaded from its <ulink
+	    url="http://xmlsoft.org/">web site</ulink>.
+	</para>
+
+	<para>
+	    You may already have libxml2 installed since it is bundled with
+	    many operating systems. When libxml2 is installed, a shell script
+	    called <command>xml2-config</command> is installed with it. You
+	    can use the <constant>--version</constant> command line option to
+	    see what version of libxml2 is installed.
+	</para>
+
+	<para>
+	    In order to use xmlwrapp, you need to be using at least version
+	    2.4.28 of libxml2. This is due to minor API changes and bug fixes
+	    that are part of each libxml2 release.
+	</para>
+    </section>
+    <!--=================================================================================-->
+    <section id="qs-compile-unix"><title>Building Under Unix</title>
+	<para>
+	    xmlwrapp comes with a Perl script called
+	    <command>configure.pl</command>. This script will generate the
+	    correct make files for your environment and compiler. This also
+	    adds Perl to the previous list of requirements. It should be noted
+	    that Perl is not used in any other place inside xmlwrapp except
+	    this script.
+	</para>
+
+	<para>
+	    In order for <command>configure.pl</command> to determine where
+	    libxml2 was installed it will need to execute the
+	    <command>xml2-config</command> script that was installed with
+	    libxml2. If that script is not in your path you can use the
+	    <constant>--xml2-config</constant> option to tell
+	    <command>configure.pl</command> where it is.
+	</para>
+
+	<para>
+	    The first step to building xmlwrapp is to run the
+	    <command>configure.pl</command> script. It has some reasonable
+	    defaults if you don't supply any command line options. To see the
+	    list of possible options, try using the
+	    <constant>--help</constant> option.
+	</para>
+
+	<para>
+	    To help <filename>configure.pl</filename> out, you should have
+	    your <constant>CXX</constant> environment variable set to the full
+	    path for the C++ compiler you want to use. If you are like me, you
+	    have more than one compiler installed.
+	</para>
+
+	<para>
+	    After <command>configure.pl</command> has finished successfully,
+	    you can run <command>make</command> and <command>make
+	    install</command>. The build system should work with either BSD or
+	    GNU make.
+	</para>
+
+	<example id="qs-compile-ex"><title>Using the configure.pl Script</title>
+	    <screen>
+<![CDATA[
+perl configure.pl --prefix=/usr/local
+make
+make install
+]]>
+	    </screen>
+	</example>
+    </section>
+    <!--=================================================================================-->
+    <section id="qs-compile-mac"><title>Building Under Mac OS X</title>
+	<para>
+	    First, you should have <ulink
+	    url="http://xmlsoft.org/">libxml2</ulink> installed. I don't
+	    recommend that you download the pre-built binaries, as they are
+	    too far out of date. libxml2 builds from source very nicely on
+	    OSX.
+	</para>
+
+	<para>
+	    xmlwrapp has been tested on OSX version 10.1.x with the April 2002
+	    Developer Tools (using /usr/bin/g++ [gcc-937.2]).  Because the
+	    <filename>configure.pl</filename> script is too stupid to build
+	    shared libaries on OSX, you will have to disable that. Here is
+	    what I do to compile under OSX.
+	</para>
+
+	<example id="qs-compile-mac-ex"><title>Mac OS X Compile Session</title>
+	    <para>From a Terminal.app inside the xmlwrapp-* directory.</para>
+	    <screen>
+<![CDATA[
+setenv CXX /usr/bin/g++
+./configure.pl --disable-shared --prefix=$HOME/Local
+make
+make install
+]]>
+	    </screen>
+	</example>
+
+	<warning>
+	    <para>
+		Don't use /usr/bin/g++3 to compile xmlwrapp. That compiler is
+		broken and does not handle exceptions correctly. If you are
+		using OSX 10.2.X and the December 2002 Developer Tools, it
+		should be safe to use gcc 3.1, this has not been tested yet.
+	    </para>
+	</warning>
+    </section>
+    <!--=================================================================================-->
+    <section id="qs-compile-win32"><title>Building Under Windows</title>
+	<para>
+	    You can compile a native Windows version of the xmlwrapp library
+	    by using the supplied MSVC 6 project files. The project files are
+	    in the <filename>platform/Win32</filename> directory. Because of
+	    problems with the standard library that comes with MSVC 6, you
+	    will need to use a different implementation.
+	</para>
+
+	<para>
+	    For a free high quality standard C++ library, visit <ulink
+	    url="http://stlport.org/">the STLport web site</ulink>. The
+	    included project files are built using MSVC 6 and the STLport
+	    version 4.5.3.
+	</para>
+
+	<note>
+	    <para>
+		If you want to build xmlwrapp using the cygwin environment,
+		you should follow the instructions for building under
+		Unix. You should make sure there are no spaces in the
+		directory paths for your current directory or any of your
+		include or library paths.
+	    </para>
+	</note>
+
+	<para>
+	    If you don't have libxml2 installed on your system you should download and install binaries of
+	    <ulink url="http://www.zlatkovic.com/projects/libxml/index.html">libxml2</ulink> and
+	    <ulink url="http://www.zlatkovic.com/projects/libxml/index.html">iconv</ulink>.
+	</para>
+
+	<para>
+	    Once you have that done, you will need to edit the project files,
+	    either by hand or using MSVC, to alter the include paths so that
+	    they point to the libxml2 and iconv include directories. The
+	    current paths assume you have libxml2 and iconv in the same
+	    directory that you have the xmlwrapp directory in.
+	</para>
+
+	<para>
+	    After the project files point to the correct paths, you can
+	    compile xmlwrapp. You may need to select the Release build or the
+	    Debug build, depending on what you want to do. When you choose
+	    "Rebuild All" from the "Build" menu, xmlwrapp and the example
+	    programs should compile without any warnings or error messages.
+	</para>
+
+	<note>
+	    <para>
+		In order for the example programs to run, you will need to
+		have the libxml2 and iconv libraries installed in a system
+		path. If you don't want to do that, you can do what I do, and
+		put the libraries in the <filename>Debug</filename> and
+		<filename>Release</filename> folders.
+	    </para>
+	</note>
+    </section>
+    <!--=================================================================================-->
+    <section id="qs-test"><title>The Test Suite</title>
+	<para>
+	    If you are on a platform where the
+	    <filename>configure.pl</filename> script is supported, you can run
+	    the xmlwrapp test suite. This is done by first enabling the test
+	    suite using the <constant>--enable-tests</constant> option to the
+	    <filename>configure.pl</filename> script.
+	</para>
+
+	<para>
+	    You can then build the xmlwrapp library as usual with
+	    <command>make</command>. Once the library is built, you can run
+	    the test suite using <command>make test</command>.
+	</para>
+    </section>
+    <!--=================================================================================-->
+    <section id="qs-link"><title>Linking Your Application With xmlwrapp</title>
+	<para>
+	    If you are using an IDE, such as MSVC, linking with the xmlwrapp
+	    library is as simple as adding the library to a dialog box
+	    field. It is just as simple to link with xmlwrapp if you are
+	    compiling from the command line using <command>make</command>.
+	</para>
+
+	<para>
+	    When you ran <command>configure.pl</command> and then
+	    <command>make install</command>, a shell script called
+	    <command>xmlwrapp-config</command> was generated and installed
+	    into your <filename>bin</filename> directory.
+	</para>
+
+	<para>
+	    You can use this script to give the correct command line options
+	    to your compiler. This includes the location of the xmlwrapp
+	    header files and other libraries to link with, such as libxml2.
+	</para>
+
+	<para>
+	    Here is an example, assuming that your entire application is
+	    contained within a file called <filename>example.cxx</filename>
+	    and the path to your compiler is stored in the
+	    <constant>CXX</constant> environment variable.
+	</para>
+
+	<example id="qs-link-config"><title>Using the xmlwrapp-config Script</title>
+	    <screen>
+<![CDATA[
+$CXX -c `xmlwrapp-config --cxxflags` example.cxx
+$CXX -o example example.o `xmlwrapp-config --libs`
+]]>
+	    </screen>
+	</example>
+
+	<para>
+	    There are other command line options that can be given to the
+	    <command>xmlwrapp-config</command> script, such as
+	    <constant>--version</constant>. Use the
+	    <constant>--help</constant> option to get information about all
+	    possible options.
+	</para>
+    </section>
+    <!--=================================================================================-->
+</chapter>
+<!--
+vim:ft=docbk:tw=130
+-->
