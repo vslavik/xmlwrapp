@@ -4,4 +4,6 @@ sep-html
 pdf
 dvi
 *.pdf
+*.html
+*.info
 t tt ttt

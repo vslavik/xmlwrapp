@@ -48,7 +48,7 @@ use Cwd qw(cwd chdir);
 #
 ################################################################################
 use constant DATE		=> 'Tue Jan 15 08:56:06 2002';
-use constant ID			=> '$Id: configure.pl,v 1.5 2005-11-15 18:41:54 tbrowder2 Exp $';
+use constant ID			=> '$Id: configure.pl,v 1.6 2005-11-15 21:30:43 tbrowder2 Exp $';
 ################################################################################
 #
 # Global Variables
@@ -261,9 +261,19 @@ sub load_flags_from_xml_config {
     my $config = "$xmllib-config";
     my $output;
 
-    print "Finding XML include directory ... ";
+    print "Finding XML '$xmllib' include directory ... ";
     chomp($output = `$clo{$config} --cflags 2>&1`);
 
+    if ($xmllib eq 'xslt' && 1) {
+      # hack
+      $output = '-I/usr/local/include/libxml2';
+      if (0) {
+	my $cmd = $clo{$config};
+	print "DEBUG: cmd = '$cmd'...\n";
+	print "DEBUG: xml2 flags = '$output'...\n";
+	exit;
+      }
+    }
     if ($? != 0 or not defined $output or not length($output)) {
 	print "fail\n";
 	print "**** error running $clo{$config} --cflags, sorry\n";
@@ -296,31 +306,34 @@ sub load_flags_from_xml_config {
 	}
     }
 
-    if (not defined $main_include_dir) {
-	print "fail\n";
-	print STDERR "**** can't find include dir for libxml2, what does $clo{'$xmllib-config'} --cflags say?\n";
-	exit 1;
-    } else {
-	print "$main_include_dir\n";
-	push(@external_incs, $main_include_dir);
+    if ($xmllib eq 'xslt' and not defined $xslt_include_dir) {
+      print STDERR "**** can't find include dir for libxslt, what does $clo{'$xmllib-config'} --cflags say?\n";
+      exit 1;
+    }
+    elsif($xmllib eq 'xslt') {
+      push(@external_incs, $xslt_include_dir);
     }
 
-    if ($xmllib eq 'xslt' and not defined $xslt_include_dir) {
-	print STDERR "**** can't find include dir for libxslt, what does $clo{'$xmllib-config'} --cflags say?\n";
-	exit 1;
-    } elsif($xmllib eq 'xslt') {
-	push(@external_incs, $xslt_include_dir);
+    if (not defined $main_include_dir) {
+      print "fail\n";
+      print STDERR "**** can't find include dir for libxml2, what does $clo{'$xmllib-config'} --cflags say?\n";
+      exit 1;
+    }
+    else {
+      print "$main_include_dir\n";
+      push(@external_incs, $main_include_dir);
     }
 
     print "Finding XML libraries ... ";
     chomp($output = `$clo{$config} --libs 2>&1`);
 
     if ($? != 0 or not defined $output or not length($output)) {
-	print "fail\n";
-	print "**** error running $clo{$config} --libs, sorry\n";
-	exit 1;
-    } else {
-	print "done\n";
+      print "fail\n";
+      print "**** error running $clo{$config} --libs, sorry\n";
+      exit 1;
+    }
+    else {
+      print "done\n";
     }
 
     $output =~ s/^\s+//; $output =~ s/\s+$//;
