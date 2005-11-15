@@ -1,0 +1,42 @@
+@node To Do List, Credits, Revision History, Top
+@appendix To Do List
+
+@menu
+* Version 0.6.0::
+* Sometime::
+@end menu
+
+@node Version 0.6.0, Sometime, To Do List
+@section Version 0.6.0
+
+@itemize
+
+@item
+Add fetching and setting of the node's namespace.
+
+@item
+Allow some way to get and set the namespace for node attributes.
+
+@item
+Add more standard container-like member functions to xml::document, xml::node
+and xml::attributes.
+
+@item
+Add operator-- for iterators.
+
+@item
+Add support for XPath.
+
+@item
+Close all open bugs.
+
+@end itemize
+
+@node Sometime, , Version 0.6.0, To Do List
+@section Sometime
+
+@itemize
+
+@item
+Add a wrapper around http://xmlsoft.org/xmlreader.html
+@end itemize

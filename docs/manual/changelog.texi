@@ -1,0 +1,52 @@
+@node Changes in Latest Version, To Do List, Bundling xmlwrapp, Top
+@appendix Changes in Latest Version
+
+@menu
+* Version 0.5.0: Version 0_5_0.
+@end menu
+
+@node Version 0_5_0, , , Revision History
+
+Following are the major changes since the last version:
+
+@sp
+
+@itemize
+
+@item
+Fixed a null pointer dereference problem in
+xml::attributes, Bug ID 20. Thanks goes to John K. Hohm
+for finding this and providing a working patch.
+
+@item
+Added three new constructors to the
+@code{xml::node} class for creating CDATA
+sections, XML comments, and XML processing
+instructions. This is done using three new helper structs,
+@code{xml::node::cdata},
+@code{xml::node::comment}, and
+@code{xml::node::pi}.
+
+@item
+Added new member functions to the
+@code{xml::node} class. They are:
+@code{size} and @code{empty}.
+
+@item
+Added new member functions to the
+@code{xml::document} class.  They are:
+@code{size}, @code{push_back},
+@code{insert}, @code{replace},
+and @code{erase}.
+
+@item
+Added the ability to compress XML files saved with the
+@code{xml::document::save_to_file} member
+function (Bug ID 19).
+
+@item
+Major clean ups in the test harness. Test code should be a
+lot easier to write now.
+
+@end itemize
+

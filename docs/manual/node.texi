@@ -1,0 +1,357 @@
+@node XML Nodes <1>, Node Attributes, Working with XML Documents, Top
+@chapter XML Nodes
+
+@menu
+* Node Types::
+* The Node Name::
+* The Node Contents::
+* Accessing a Node's Children::
+* Adding Children::
+* Removing and Replacing Children::
+* Accessing Node Attributes::
+@end menu
+
+@node Node Types, The Node Name, , XML Nodes <1>
+@section Node Types
+
+As I mentioned earlier, almost everything in an XML document is a
+node. The first thing that you probably think of is the XML
+element, but XML elements are just one type of XML node.
+
+Processing instructions, XML comments and even the whitespace
+around XML elements are nodes. When working with the
+@code{xml::node} class, you are going to want to
+know what type of node you have. The @code{get_type}
+member function is what you should use.
+
+The @file{xmlwrapp/node.h} header file defines the
+node types as an @code{enum}. Using that
+@code{enum} and the @code{get_type}
+member function, you can discover what a node is holding.
+
+@node The Node Name, The Node Contents, Node Types, XML Nodes <1>
+@section The Node Name
+
+All xmlwrapp nodes have name data, but it might not be what you
+expect. The definition for a node's name is different for each
+type of node. For example, an element node's name is the tag name,
+but the name for a text node is a string constant,
+text.
+
+The @code{xml::node::get_name} function returns the
+name of the node. You probably guessed that
+@code{xml::node::set_name} will set the name of a
+node. The following table lists the most common node types and
+what they store in their name data.
+
+@strong{Nodes and Their Names}
+
+@multitable @columnfractions 0.5 0.5
+@item
+Node Type@tab What @code{get_name} Returns
+@item
+Element Node
+(@code{type_element})@tab The
+name of the tag, for example, root for
+@code{<root/>}.
+@item
+Text Node (@code{type_text})@tab The string constant text.
+@item
+CDATA Node (@code{type_cdata})@tab Null (zero) pointer.
+@item
+Processing Instruction Node (@code{type_pi})@tab The processing instruction application name.
+@item
+Comment Node (@code{type_comment})@tab The string constant comment.
+@end multitable
+
+@quotation
+
+@strong{Note}
+
+You should be prepared to handle the case where
+@code{get_name} returns a null (zero) pointer.
+@end quotation
+
+@node The Node Contents, Accessing a Node's Children, The Node Name, XML Nodes <1>
+@section The Node Contents
+
+Very much like a node's name data, its contents vary depending on
+what type of node it is. For text nodes and CDATA nodes, the
+node's contents are the text data inside the node or CDATA
+block. The @code{xml::node::get_content} function is
+used to get the node's content.
+
+You should be aware of some magic that this function does. If you
+call it on an element node, which has no content by the way, it
+will try to return the content of its children text nodes, if it
+has any. An example should clarify things.
+
+@noindent
+@anchor{Element Nodes and Their Content}
+
+@strong{Element Nodes and Their Content}
+
+@example
+
+
+<list>
+    <entry>Pick up a Sun Enterprise 10000 while you are out shopping.</entry>
+</list>
+
+
+@end example
+
+Here, the @code{entry} node does not contain any
+contents because it is an element node. It does, however, contain
+a child node that is a text node. Calling the
+@code{get_content} function on that child text node
+should return Pick up a Sun Enterprise 10000 while you are
+out shopping.. What you might not expect is that calling
+the @code{get_content} function on the
+@code{entry} node returns the same string! Very cool
+if you ask me.
+
+To be complete, here is a table that explains what the
+@code{get_content} function returns for the common
+node types.
+
+@strong{Nodes and Their Contents}
+
+@multitable @columnfractions 0.5 0.5
+@item
+Node Type@tab What @code{get_content} Returns
+@item
+Element Node (@code{type_element})@tab The contents of its children nodes.
+@item
+Text Node (@code{type_text})@tab The text.
+@item
+CDATA Node (@code{type_cdata})@tab The text inside the CDATA block.
+@item
+Processing Instruction Node (@code{type_pi})@tab The processing instruction data.
+@item
+Comment Node (@code{type_comment})@tab The comment text.
+@end multitable
+
+@quotation
+
+@strong{Note}
+
+You should be prepared to handle the case where the
+@code{get_content} function returns a null
+(zero) pointer.
+@end quotation
+
+The function for setting the node's content is
+@code{xml::node::set_content}. This function
+performs the same magic that the @code{get_content}
+function does. That is, if you call it on an element node, it will
+remove all of the node's children and replace them with a text
+node.
+
+@node Accessing a Node's Children, Adding Children, The Node Contents, XML Nodes <1>
+@section Accessing a Node's Children
+
+From what we have seen in the past few sections, XML nodes can
+have children. Almost all node types can have children.  In order
+to make effective use of a node tree, you are going to want to
+access the children of a node. In xmlwrapp, this is done with
+iterators.
+
+Using iterators you can walk the node tree, add nodes, remove
+nodes and even replace nodes. xmlwrapp iterators are just as
+useful as the standard library iterators.
+
+@menu
+* Begin and End Iterators::
+* Finding Children Nodes::
+@end menu
+
+@node Begin and End Iterators, Finding Children Nodes, , Accessing a Node's Children
+@subsection Begin and End Iterators
+
+Just like the standard containers, the
+@code{xml::node} class has
+@code{begin} and @code{end} member
+functions that return either a
+@code{xml::node::iterator} or a
+@code{xml::node::const_iterator}. They are
+very useful for working with the children of a
+@code{xml::node}, which are
+@code{xml::node}s themselves.
+
+@noindent
+@anchor{Using Begin and End Iterators}
+
+@strong{Using Begin and End Iterators}
+
+@example
+
+
+xml::node n;
+
+...
+
+xml::node::iterator i(n.begin());
+xml::node::iterator end(n.end());
+
+for (; i != end; ++i) @{
+    // do something with this child
+@}
+
+
+@end example
+
+@node Finding Children Nodes, , Begin and End Iterators, Accessing a Node's Children
+@subsection Finding Children Nodes
+
+You can use the @code{xml::node::find} member
+function to find an element node by its name. There are four
+different version of the @code{find}
+function. All of them return a
+@code{xml::node::iterator} or a
+@code{xml::node::const_iterator} that either
+points to the found element node, or is equal to the iterator
+that @code{xml::node::end} returns.
+
+@noindent
+@anchor{Using Find}
+
+@strong{Using Find}
+
+@example
+
+
+xml::node n;
+
+...
+
+xml::node::iterator i(n.find("entry"));
+
+if (i != n.end()) @{
+    // do something with the found node
+@}
+
+
+@end example
+
+@node Adding Children, Removing and Replacing Children, Accessing a Node's Children, XML Nodes <1>
+@section Adding Children
+
+There are two ways of adding a child to a
+@code{xml::node}. Which one you chose depends
+mostly on your style. The two member functions that allow you to
+do this are @code{xml::node::push_back} and
+@code{xml::node::insert}.
+
+@menu
+* Using push_back::
+* Using insert::
+@end menu
+
+@node Using push_back, Using insert, , Adding Children
+@subsection Using push_back
+
+The @code{xml::node::push_back} member function
+takes a const reference to a
+@code{xml::node}. It will copy that node and
+then insert it as the last child.
+
+@noindent
+@anchor{push_back example}
+
+@strong{push_back example}
+
+@example
+
+
+xml::node parent("parent");
+xml::node child("child");
+
+parent.push_back(child);
+
+
+@end example
+
+@quotation
+
+@strong{Note}
+
+The @code{xml::node::push_back} function is
+just like the @code{push_back} function for
+the standard library containers. You should be aware that
+it inserts a copy of the given node, and not the node
+itself.
+
+In the example above, if you modified the
+@code{child} node after it was inserted into
+the @code{parent} node, those modifications
+will not be reflected in the @code{parent}
+node's copy of @code{child}.
+
+See the next section for a better way of adding child
+nodes when you want to modify them after adding them to
+another node.
+@end quotation
+
+@node Using insert, , Using push_back, Adding Children
+@subsection Using insert
+
+The @code{xml::node::insert} function is a lot
+more flexible compared to the
+@code{xml::node::push_back} function. For
+starters, you can insert a node anywhere in the list of
+children. This means you can add the node to the back or even
+the front of the child list.
+
+More importantly, @code{xml::node::insert}
+returns a @code{xml::node::iterator} that
+points to the copy of the node that was inserted. This means
+that you can modify the new child after it has been inserted
+into the parent.
+
+@noindent
+@anchor{insert example}
+
+@strong{insert example}
+
+@example
+
+
+xml::node parent("parent");
+xml::node child("child");
+
+xml::node::iterator i(parent.insert(parent.begin(), child);
+
+i->set_name("kid");
+
+
+@end example
+
+@node Removing and Replacing Children, Accessing Node Attributes, Adding Children, XML Nodes <1>
+@section Removing and Replacing Children
+
+Using iterators, it is possible to remove children and to replace
+them with other nodes. To remove a child node, you first need a
+@code{xml::node::iterator} that points to it, then
+you can call @code{xml::node::erase}.
+
+The @code{xml::node::erase} function will return a
+@code{xml::node::iterator} that points to the node
+after the one being removed. This should help you if you are
+iterating over all the children and wanted to remove one without
+losing your place.
+
+To replace a node for which you have an iterator, you can use the
+@code{xml::node::replace} function. It will remove
+and clean up the old node, and insert the new node in its place.
+
+@node Accessing Node Attributes, , Removing and Replacing Children, XML Nodes <1>
+@section Accessing Node Attributes
+
+In addition to possibly having children, an element node may have
+attributes. In xmlwrapp, these attributes are stored in a
+@code{xml::attributes} class. You can use the
+@code{xml::node::get_attributes} function to get a
+reference to a node's @code{xml::attributes}
+object.
+

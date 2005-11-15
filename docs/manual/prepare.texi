@@ -1,0 +1,115 @@
+@node Preparing To Use xmlwrapp, Parsing XML, Building and Installing, Top
+@chapter Preparing To Use xmlwrapp
+
+Before you use xmlwrapp there are a few things you will need to
+know. This chapter will give you all the background you need to
+understand the rest of this book.
+
+@menu
+* Header Files::
+* The xmlwrapp Namespace::
+* Initializing the XML Parser::
+@end menu
+
+@node Header Files, The xmlwrapp Namespace, , Preparing To Use xmlwrapp
+@section Header Files
+
+When you install xmlwrapp, a set of header files will be installed
+in the include directory of your choosing. If you don't pick a
+location for these file to go, they will be installed in
+@file{/usr/local/include} by default. All of the
+xmlwrapp header files will be placed into a
+@file{xmlwrapp} subdirectory.
+
+If you are using the @file{xmlwrapp-config} script,
+you don't have to worry about where the xmlwrapp header files were
+installed. The @file{xmlwrapp-config} will add the
+appropriate directory to the compiler's search path.
+
+When using the xmlwrapp header files, you can either include each
+file you need or use the master include file to include all
+xmlwrapp header files. The choice is yours and mainly depends on
+your style and the project you are working on.
+
+@noindent
+@anchor{Including xmlwrapp Header Files}
+
+@strong{Including xmlwrapp Header Files}
+
+@example
+
+
+#include <xmlwrapp/init.h>
+#include <xmlwrapp/node.h>
+
+
+@end example
+
+@noindent
+@anchor{Including All xmlwrapp Header Files}
+
+@strong{Including All xmlwrapp Header Files}
+
+@example
+
+
+#include <xmlwrapp/xmlwrapp.h>
+
+
+@end example
+
+@node The xmlwrapp Namespace, Initializing the XML Parser, Header Files, Preparing To Use xmlwrapp
+@section The xmlwrapp Namespace
+
+To prevent pollution of the global namespace, xmlwrapp places all
+classes and functions in the @code{xml}
+namespace. For clarity, this document will always use the
+@code{xml} namespace prefix when showing examples.
+
+It is your choice if you want to use the @code{xml}
+namespace in your code, or use one of the many forms of the
+@code{using namespace} statement.
+
+@node Initializing the XML Parser, , The xmlwrapp Namespace, Preparing To Use xmlwrapp
+@section Initializing the XML Parser
+
+In order for xmlwrapp to provide thread safety, it includes a
+class @code{xml::init} that will initialize the
+XML parser and set some default values. Even if you are not
+developing a multi-threaded application, it is a good idea to use
+@code{xml::init} to set those default parser
+variables.
+
+When you are using xmlwrapp in conjunction with a multi-threaded
+application, it is very important that you create a
+@code{xml::init} object before using xmlwrapp in
+any thread. If possible, it's best to create this object before
+you create any threads.
+
+You should also take care to only call member functions of the
+@code{xml::init} class before any threads start
+using xmlwrapp. Only one instance of
+@code{xml::init} should be used, because the
+destructor will clean up after libxml2.
+
+@noindent
+@anchor{Using the xml;;init Class}
+
+@strong{Using the xml::init Class}
+
+@example
+
+
+#include <xmlwrapp/init.h>
+
+int main (void) @{
+    xml::init xmlinit;
+
+    ...
+
+    return 0;
+@}
+
+
+@end example
+

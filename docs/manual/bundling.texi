@@ -1,0 +1,21 @@
+@node Bundling xmlwrapp, Revision History, xmlwrapp Software License, Top
+@appendix Bundling xmlwrapp
+
+Since xmlwrapp is released under a BSD style license, you may bundle it
+with your software, whether or not it is for commercial gain.
+
+The @code{configure.pl} has an option that makes it easier to build an
+in-place static library. The name of the option is
+@code{--contrib}. Using this flag automatically configures xmlwrapp to
+build a static library and generate a @file{xmlwrapp-config} script that
+points you to this library.
+
+This allows you to distribute xmlwrapp with your software and not
+require that the user have it already installed. Another side effect of
+this configuration method is that the xmlwrapp header files and library
+will not be installed on the end user's computer.
+
+Of course, you could always check to see if xmlwrapp is installed on the
+user's computer before you configure the bundled version. This is easy
+to do using the @file{xmlwrapp-config} script.
+

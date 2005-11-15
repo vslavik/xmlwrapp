@@ -1,0 +1,178 @@
+\input texinfo
+@setfilename manual.info
+@documentencoding us-ascii
+@settitle Working with XML using xmlwrapp
+@setchapternewpage odd
+
+@c date and version settings:
+@set VERSION 0.5.0
+@set UPDATED 2005 November 13
+
+@titlepage
+@title Working with XML using xmlwrapp
+@subtitle A C++ Developers Guide
+@subtitle for version @value{VERSION}, @value{UPDATED}
+@author Peter Jones
+@author Thomas M. Browder, Jr.
+
+@end titlepage
+@headings off
+
+@include copyright.texi
+
+@headings on
+
+@contents
+
+@ifnottex
+@direntry
+* Working with XML using xmlwrapp::
+@end direntry
+
+@node Top, Introduction, , (dir)
+@top Working with XML using xmlwrapp
+
+@menu
+* Introduction::
+* Building and Installing::
+* Preparing To Use xmlwrapp::
+* Parsing XML::
+* Working with XML Documents::
+* XML Nodes: XML Nodes <1>.
+* Node Attributes::
+* Using the XSLT Support::
+* Where To Go From Here::
+* Tips, Tricks and Warnings: Tips; Tricks and Warnings.
+* xmlwrapp Software License::
+* Bundling xmlwrapp::
+* Revision History::
+* To Do List::
+* Credits::
+
+@detailmenu
+--- The Detailed Node Listing ---
+
+Introduction
+
+* XML and C++::
+* Intended Audience::
+* Terminology::
+* What This Book Covers::
+
+Building and Installing
+
+* Requirements::
+* Building Under Unix::
+* Building Under Mac OS X::
+* Building Under Windows::
+* The Test Suite::
+* Linking Your Application With xmlwrapp::
+
+Preparing To Use xmlwrapp
+
+* Header Files::
+* The xmlwrapp Namespace::
+* Initializing the XML Parser::
+
+Parsing XML
+
+* Introduction: Introduction <1>.
+* Parsing into a Node Tree::
+* Event Based Parsing::
+
+Working with XML Documents
+
+* Document Settings::
+* Internal and External Subsets::
+* Validating the Document::
+* Processing XInclusions::
+* Accessing Document Children::
+* Accessing the Root Node::
+* Setting the Root Node::
+* Converting and Saving the Document as XML::
+
+XML Nodes
+
+* Node Types::
+* The Node Name::
+* The Node Contents::
+* Accessing a Node's Children::
+* Adding Children::
+* Removing and Replacing Children::
+* Accessing Node Attributes::
+
+Node Attributes
+
+* Accessing Individual Attributes::
+* Adding and Replacing Attributes::
+* Removing Attributes::
+
+Using the XSLT Support
+
+* Preparing to use xsltwrapp::
+* The xslt;;stylesheet Class::
+* Applying the Stylesheet without Exceptions::
+* Applying the Stylesheet with the Possibility of Exceptions::
+
+Where To Go From Here
+
+* Getting Help::
+
+Tips, Tricks and Warnings
+
+* Iterators and Object Lifetimes::
+
+Revision History
+
+* Version 0.5.0: Version 0_5_0.
+
+To Do List
+
+* Version 0.5.0 (development in progress): Version 0_5_0 [development in progress].
+* Version 0.6.0 (development in progress): Version 0_6_0 [development in progress].
+* Sometime::
+
+Credits
+
+* Original Author::
+* Maintainers::
+* Contributers::
+* Other Software::
+
+@end detailmenu
+@end menu
+@end ifnottex
+
+@include intro.texi
+
+@include quickstart.texi
+
+@include prepare.texi
+
+@include parsing.texi
+
+@include documents.texi
+
+@include node.texi
+
+@include attributes.texi
+
+@include xslt.texi
+
+@include whatnext.texi
+
+@c appendices below here:
+
+@include tips.texi
+
+@include license.texi
+
+@include bundling.texi
+
+@include changelog.texi
+
+@include todo.texi
+
+@include credits.texi
+
+@bye

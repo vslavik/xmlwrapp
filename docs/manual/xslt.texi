@@ -1,0 +1,88 @@
+@node Using the XSLT Support, Where To Go From Here, Node Attributes, Top
+@chapter Using the XSLT Support
+
+Starting with version 0.4.0, xmlwrapp supports XSLT using the @uref{http://xmlsoft.org/XSLT/,libxslt} XSLT library. If
+@file{configure.pl} detects that you have libxslt
+installed, it will enable the creation of a library called
+@code{xsltwrapp}.
+
+The two main classes that you should care about are
+@code{xslt::init} and
+@code{xslt::stylesheet}. There is also a general
+header file that will bring in all of xsltwrapp and xmlwrapp called
+@file{xsltwrapp/xsltwrapp.h}.
+
+@menu
+* Preparing to use xsltwrapp::
+* The xslt;;stylesheet Class::
+* Applying the Stylesheet without Exceptions::
+* Applying the Stylesheet with the Possibility of Exceptions::
+@end menu
+
+@node Preparing to use xsltwrapp, The xslt;;stylesheet Class, , Using the XSLT Support
+@section Preparing to use xsltwrapp
+
+Before you use any part of xsltwrapp or xmlwrapp, you should
+create an instance of the @code{xslt::init}
+class. This class will initialize xmlwrapp and xsltwrapp, so you
+should not use the @code{xml::init} class if you
+are using the @code{xslt::init} class.
+
+@node The xslt;;stylesheet Class, Applying the Stylesheet without Exceptions, Preparing to use xsltwrapp, Using the XSLT Support
+@section The xslt::stylesheet Class
+
+The @code{xslt::stylesheet} class can be used to
+parse an XSLT stylesheet and apply it to another XML document to
+produce a results document. You can have the
+@code{xslt::stylesheet} class parse a XSLT file,
+or you can give it an @code{xml::document} object
+that contains the stylesheet tree.
+
+Once you have created an @code{xslt::stylesheet}
+object, you can apply the loaded stylesheet to any
+@code{xml::document} object. The resulting
+document is also returned in an
+@code{xml::document} object.
+
+@node Applying the Stylesheet without Exceptions, Applying the Stylesheet with the Possibility of Exceptions, The xslt;;stylesheet Class, Using the XSLT Support
+@section Applying the Stylesheet without Exceptions
+
+If you don't want xsltwrapp to throw an exception for
+transformation errors, you can use one of the two
+@code{apply} member functions that take a reference
+to an @code{xml::document} object where the
+results should be placed. These functions return a
+@code{bool} to indicate if the transformation was
+successful or not.
+
+These functions have the following prototypes.
+
+@example
+
+
+bool xslt::stylesheet::apply (xml::document &doc, xml::document &result);
+bool xslt::stylesheet::apply (xml::document &doc, xml::document &result, const param_type &with_params);
+
+
+@end example
+
+@node Applying the Stylesheet with the Possibility of Exceptions, , Applying the Stylesheet without Exceptions, Using the XSLT Support
+@section Applying the Stylesheet with the Possibility of Exceptions
+
+You can have xsltwrapp throw an exception
+(@code{std::runtime_error}) if the transformation
+fails. This is done using the two versions of the
+@code{apply} member function that return the
+resulting document.  They return a reference to the results
+document, when the transformation was successful.
+
+These functions have the following prototypes.
+
+@example
+
+
+xml::document& xslt::stylesheet::apply (xml::document &doc);
+xml::document& xslt::stylesheet::apply (xml::document &doc, const param_type &with_params);
+
+
+@end example
