@@ -286,6 +286,7 @@ sub stat_compiler {
 	if ($^O =~ /freebsd/i) {
 	    $flags{'mtlink'} .= " -pthread";
 	    $flags{'arextra'}.= "ranlib";
+	    $flags{'pic'} = '-fpic -shared';
 	} elsif ($^O =~ /darwin/i) {
 	    $flags{'pic'} = '';
 	    $flags{'shared.ext'} = '.dylib';
