@@ -512,10 +512,12 @@ namespace {
     }
 }
 //####################################################################
-std::ostream& xml::operator<< (std::ostream &stream, const xml::node &n) {
-    std::string xmldata;
-    n.node_to_string(xmldata);
-    stream << xmldata;
-    return stream;
+namespace xml {
+    std::ostream& operator<< (std::ostream &stream, const xml::node &n) {
+        std::string xmldata;
+        n.node_to_string(xmldata);
+        stream << xmldata;
+        return stream;
+    }
 }
 //####################################################################
