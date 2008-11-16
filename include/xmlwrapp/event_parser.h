@@ -38,6 +38,7 @@
 #define _xmlwrapp_event_parser_h_
 
 // standard includes
+#include <cstddef>
 #include <string>
 #include <iosfwd>
 #include <map>

@@ -42,6 +42,7 @@
 #include "node_manip.h"
 
 // standard includes
+#include <cstring>
 #include <new>
 #include <memory>
 #include <string>
