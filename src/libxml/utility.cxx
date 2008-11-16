@@ -37,7 +37,7 @@
 #include <string>
 
 // hack to pull in vsnprintf for MSVC6
-#if defined(_MSC_VER) && _MSC_VER <= 1200
+#if (defined(_MSC_VER) && _MSC_VER <= 1200) || (defined(__COMO__) && defined(__WIN32__))
 #  undef vsnprintf
 #  define vsnprintf _vsnprintf
 #endif
