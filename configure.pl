@@ -266,7 +266,7 @@ sub load_flags_from_xml_config {
 
     if ($xmllib eq 'xslt' && 1) {
       # hack
-      $output = '-I/usr/local/include/libxml2';
+      $output = $output . ' -I/usr/local/include/libxml2';
       if (0) {
 	my $cmd = $clo{$config};
 	print "DEBUG: cmd = '$cmd'...\n";
