@@ -58,13 +58,8 @@
 #include <libxml/tree.h>
 #include <libxml/xinclude.h>
 
-// bring in libxslt stuff if we need it.
-#if defined(XMLWRAPP_WITH_XSLT)
-#  include <libxslt/xslt.h>
-#  include <libxslt/xsltInternals.h>
-#  include <libxslt/transform.h>
-#  include <libxslt/xsltutils.h>
-#endif
+// bring in private libxslt stuff (see bug #1927398)
+#include "../libxslt/result.h"
 
 //####################################################################
 namespace {
@@ -73,19 +68,19 @@ namespace {
 //####################################################################
 struct xml::doc_impl {
     //####################################################################
-    doc_impl (void) : doc_(0), from_xslt_(0) { 
+    doc_impl (void) : doc_(0), xslt_result_(0) { 
 	xmlDocPtr tmpdoc;
 	if ( (tmpdoc = xmlNewDoc(0)) == 0) throw std::bad_alloc();
 	set_doc_data(tmpdoc, true);
     }
     //####################################################################
-    doc_impl (const char *root_name) : doc_(0), from_xslt_(0), root_(root_name) {
+    doc_impl (const char *root_name) : doc_(0), xslt_result_(0), root_(root_name) {
 	xmlDocPtr tmpdoc;
 	if ( (tmpdoc = xmlNewDoc(0)) == 0) throw std::bad_alloc();
 	set_doc_data(tmpdoc, true);
     }
     //####################################################################
-    doc_impl (const doc_impl &other) : doc_(0), from_xslt_(0) {
+    doc_impl (const doc_impl &other) : doc_(0), xslt_result_(0) {
 	xmlDocPtr tmpdoc;
 	if ( (tmpdoc = xmlCopyDoc(other.doc_, 1)) == 0) throw std::bad_alloc();
 	set_doc_data(tmpdoc, false);
@@ -123,16 +118,17 @@ struct xml::doc_impl {
 	root_.set_node_data(new_root_node);
 	if (old_root_node) xmlFreeNode(old_root_node);
 
-	from_xslt_ = 0;
+	xslt_result_ = 0;
     }
     //####################################################################
     ~doc_impl (void) {
 	if (doc_) xmlFreeDoc(doc_);
+	delete xslt_result_;
     }
     //####################################################################
 
     xmlDocPtr doc_;
-    void *from_xslt_;
+    xslt::result *xslt_result_;
     node root_;
     std::string version_;
     mutable std::string encoding_;
@@ -303,18 +299,11 @@ void xml::document::save_to_string (std::string &s) const {
     xmlChar *xml_string;
     int xml_string_length;
 
-#if defined(XMLWRAPP_WITH_XSLT)
-    if (pimpl_->from_xslt_ != 0) {
-	if (xsltSaveResultToString(&xml_string, &xml_string_length, pimpl_->doc_, 
-		    static_cast<xsltStylesheetPtr>(pimpl_->from_xslt_)) >= 0)
-	{
-	    xmlchar_helper helper(xml_string);
-	    if (xml_string_length) s.assign(helper.get(), xml_string_length);
-	}
+    if (pimpl_->xslt_result_ != 0) {
+	pimpl_->xslt_result_->save_to_string(s);
 
 	return;
     }
-#endif
 
     const char *enc = pimpl_->encoding_.empty() ? 0 : pimpl_->encoding_.c_str();
     xmlDocDumpFormatMemoryEnc(pimpl_->doc_, &xml_string, &xml_string_length, enc, 1);
@@ -326,14 +315,12 @@ void xml::document::save_to_string (std::string &s) const {
 bool xml::document::save_to_file (const char *filename, int compression_level) const {
     std::swap(pimpl_->doc_->compression, compression_level);
 
-#if defined(XMLWRAPP_WITH_XSLT)
-    if (pimpl_->from_xslt_ != 0) {
-	bool rc = xsltSaveResultToFilename(filename, pimpl_->doc_, static_cast<xsltStylesheetPtr>(pimpl_->from_xslt_), 0) >= 0;
+    if (pimpl_->xslt_result_ != 0) {
+	bool rc = pimpl_->xslt_result_->save_to_file(filename, compression_level);
 	std::swap(pimpl_->doc_->compression, compression_level);
 
 	return rc;
     }
-#endif
 
     const char *enc = pimpl_->encoding_.empty() ? 0 : pimpl_->encoding_.c_str();
     bool rc = xmlSaveFormatFileEnc(filename, pimpl_->doc_, enc, 1) > 0;
@@ -345,13 +332,13 @@ bool xml::document::save_to_file (const char *filename, int compression_level) c
 void xml::document::set_doc_data (void *data) {
     // we own the doc now, don't free it!
     pimpl_->set_doc_data(static_cast<xmlDocPtr>(data), false);
-    pimpl_->from_xslt_ = 0;
+    pimpl_->xslt_result_ = 0;
 }
 //####################################################################
-void xml::document::set_doc_data_from_xslt (void *data, void *ss) {
+void xml::document::set_doc_data_from_xslt (void *data, xslt::result *xr) {
     // this document came from a XSLT transformation
     pimpl_->set_doc_data(static_cast<xmlDocPtr>(data), false);
-    pimpl_->from_xslt_ = ss;
+    pimpl_->xslt_result_ = xr;
 }
 //####################################################################
 void* xml::document::get_doc_data (void) {

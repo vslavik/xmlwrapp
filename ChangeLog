@@ -1,3 +1,8 @@
+Version 0.6.0
+
+	Fixed libxmlwrapp to not depend on libxslt if XSLT support
+	is enabled (Vadim Zeitlin, #1927398).
+
 Version 0.5.1
 
 	Various compilation fixes.

@@ -39,6 +39,9 @@
 #include "xmlwrapp/document.h"
 #include "xmlwrapp/tree_parser.h"
 
+#include "result.h"
+#include "../libxml/utility.h"
+
 // libxslt includes
 #include <libxslt/xslt.h>
 #include <libxslt/xsltInternals.h>
@@ -51,6 +54,42 @@
 #include <string>
 #include <vector>
 #include <map>
+
+namespace {
+
+// implementation of xslt::result using xslt::stylesheet: we pass this object
+// to xml::document for the documents obtained via XSLT so that some operations
+// (currently only saving) could be done differently for them
+class result_impl : public xslt::result {
+public:
+    // We don't own the pointers given to us, their lifetime must be greater
+    // than the lifetime of this object.
+    result_impl(xmlDocPtr doc, xsltStylesheetPtr ss) : doc_(doc), ss_(ss) { }
+
+    virtual void save_to_string(std::string &s) const
+    {
+	xmlChar *xml_string;
+	int xml_string_length;
+
+	if (xsltSaveResultToString(&xml_string, &xml_string_length, doc_, ss_) >= 0)
+	{
+	    xml::xmlchar_helper helper(xml_string);
+	    if (xml_string_length) s.assign(helper.get(), xml_string_length);
+	}
+    }
+
+    virtual bool
+    save_to_file (const char *filename, int /* compression_level */) const
+    {
+	return xsltSaveResultToFilename(filename, doc_, ss_, 0) >= 0;
+    }
+
+private:
+    xmlDocPtr doc_;
+    xsltStylesheetPtr ss_;
+};
+
+} // end of anonymous namespace
 
 //####################################################################
 namespace {
@@ -114,7 +153,7 @@ bool xslt::stylesheet::apply (xml::document &doc, xml::document &result) {
     xmlDocPtr xmldoc = apply_stylesheet(pimpl_->ss_, input); 
 
     if (xmldoc) {
-	result.set_doc_data_from_xslt(xmldoc, pimpl_->ss_);
+	result.set_doc_data_from_xslt(xmldoc, new result_impl(xmldoc, pimpl_->ss_));
 	return true;
     }
 
@@ -126,7 +165,7 @@ bool xslt::stylesheet::apply (xml::document &doc, xml::document &result, const p
     xmlDocPtr xmldoc = apply_stylesheet(pimpl_->ss_, input, &with_params); 
 
     if (xmldoc) {
-	result.set_doc_data_from_xslt(xmldoc, pimpl_->ss_);
+	result.set_doc_data_from_xslt(xmldoc, new result_impl(xmldoc, pimpl_->ss_));
 	return true;
     }
 
@@ -142,7 +181,7 @@ xml::document& xslt::stylesheet::apply (xml::document &doc) {
 	throw std::runtime_error(pimpl_->error_);
     }
 
-    pimpl_->doc_.set_doc_data_from_xslt(xmldoc, pimpl_->ss_);
+    pimpl_->doc_.set_doc_data_from_xslt(xmldoc, new result_impl(xmldoc, pimpl_->ss_));
     return pimpl_->doc_;
 }
 //####################################################################
@@ -155,7 +194,7 @@ xml::document& xslt::stylesheet::apply (xml::document &doc, const param_type &wi
 	throw std::runtime_error(pimpl_->error_);
     }
 
-    pimpl_->doc_.set_doc_data_from_xslt(xmldoc, pimpl_->ss_);
+    pimpl_->doc_.set_doc_data_from_xslt(xmldoc, new result_impl(xmldoc, pimpl_->ss_));
     return pimpl_->doc_;
 }
 //####################################################################

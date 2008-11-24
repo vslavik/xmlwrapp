@@ -46,7 +46,10 @@
 #include <cstddef>
 
 // forward declaration
-namespace xslt { class stylesheet; }
+namespace xslt {
+    class result;
+    class stylesheet;
+} // end xslt namespace
 
 namespace xml {
 
@@ -532,7 +535,7 @@ public:
 private:
     doc_impl *pimpl_;
     void set_doc_data (void *data);
-    void set_doc_data_from_xslt (void *data, void *ss);
+    void set_doc_data_from_xslt (void *data, xslt::result *xr);
     void* get_doc_data (void);
     void* release_doc_data (void);
 
