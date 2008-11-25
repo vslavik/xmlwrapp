@@ -1,8 +1,8 @@
 
-if WITH_XSLT
-
 AM_CPPFLAGS = -I$(top_srcdir)/include
 LIBS = ../../src/libxsltwrapp.la ../../src/libxmlwrapp.la
+
+if WITH_XSLT
 
 TESTS = runtest.pl
 
