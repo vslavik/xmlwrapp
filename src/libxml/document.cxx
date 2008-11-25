@@ -41,11 +41,6 @@
 #include "dtd_impl.h"
 #include "node_manip.h"
 
-// configure.pl generated file
-#ifndef WIN32
-#  include "../xmlwrapp_config.h"
-#endif
-
 // standard includes
 #include <new>
 #include <memory>
