@@ -50,12 +50,7 @@ namespace {
 }
 //####################################################################
 xslt::init::init (void) {
-    /*
-     * this really sucks, but it is the only way to call xsltInit() right
-     * now. This is necessary to make libxslt thread safe.
-     */
-    xsltStylesheetPtr ss = xsltNewStylesheet();
-    xsltFreeStylesheet(ss);
+    xsltInit();
 
     // set some defautls
     process_xincludes(true);

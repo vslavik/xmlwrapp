@@ -79,7 +79,7 @@ AC_LANG(C++)
 PKG_CHECK_MODULES(LIBXML, [libxml-2.0 >= 2.4.28])
 
 if test "x$build_xslt" = "xyes" ; then
-    PKG_CHECK_MODULES(LIBXSLT, [libxslt >= 1.0.23])
+    PKG_CHECK_MODULES(LIBXSLT, [libxslt >= 1.1.6])
     PKG_CHECK_MODULES(LIBEXSLT, [libexslt])
 fi
 
