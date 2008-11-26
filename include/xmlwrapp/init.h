@@ -40,11 +40,11 @@
 namespace xml {
 
 /**
- * The xml::init class is used to initilize the XML parser. For thread
+ * The xml::init class is used to initialize the XML parser. For thread
  * safety it should be instantiated one time in the main thread before any
- * other threads use xmlwrapp. Non-threaded programs should instantiante a
+ * other threads use xmlwrapp. Non-threaded programs should instantiate a
  * xml::init class before using xmlwrapp as well, at least for
- * consistanticy.
+ * consistency.
  *
  * If you want to use and of the xml::init member functions, do so before
  * you start any threads or use any other part of xmlwrapp. The member

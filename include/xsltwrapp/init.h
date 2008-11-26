@@ -43,20 +43,20 @@
 namespace xslt {
 
 /**
- * The xslt::init class is used to initilize the XSLT engine. For thread
+ * The xslt::init class is used to initialize the XSLT engine. For thread
  * safety it should be instantiated one time in the main thread before any
- * other threads use xsltwrapp. Non-threaded programs should instantiante a
+ * other threads use xsltwrapp. Non-threaded programs should instantiate a
  * xslt::init class before using xsltwrapp as well, at least for
- * consistanticy.
+ * consistency.
  *
  * If you want to use any of the xslt::init member functions, do so before
  * you start any threads or use any other part of xsltwrapp. The member
  * functions may alter global and/or static variables. In other words, this
  * class is not thread safe.
  *
- * Since this class is derived from the xml::init it is not neccessary to
+ * Since this class is derived from the xml::init it is not necessary to
  * use both classes. If you are going to be using xsltwrapp, you should only
- * use this class to initilize both xmlwrapp and xsltwrapp.
+ * use this class to initialize both xmlwrapp and xsltwrapp.
 **/
 class init : public xml::init {
 public:
