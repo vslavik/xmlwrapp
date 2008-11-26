@@ -5,7 +5,8 @@ includedir=@includedir@
 
 Name: xmlwrapp
 Version: @VERSION@
-Description: A C++ wrapper around libxml2 and libxslt
+Description: A C++ wrapper around libxml2
 Requires:
-Libs: -L${libdir} @XMLWRAPP_LINK_FLAGS@
+Libs: -L${libdir} -lxmlwrapp
+Libs.private: @LIBXML_LIBS@
 Cflags: -I${includedir}

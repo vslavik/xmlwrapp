@@ -29,7 +29,7 @@ while test $# -gt 0; do
 	    ;;
 
 	--libs)
-	    echo "-L@libdir@  @XMLWRAPP_LINK_FLAGS@"
+	    echo "-L@libdir@ @LEGACY_LINK_FLAGS@"
 	    ;;
 
 	--cflags|--cxxflags)

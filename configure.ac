@@ -94,17 +94,20 @@ fi
 
 dnl === Generate output files ===
 
-XMLWRAPP_LINK_FLAGS="-lxmlwrapp $LIBXML_LIBS"
+dnl This is support for the legacy xmlwrapp-config script, which has to behave
+dnl as it did in 0.5.x, i.e. output flags for both libxmlwrapp and
+dnl libxsltwrapp and also include dependency libs' flags for static linking
+LEGACY_LINK_FLAGS="-lxmlwrapp $LIBXML_LIBS"
 if test "x$build_xslt" = "xyes" ; then
-    XMLWRAPP_LINK_FLAGS="-lxsltwrapp $LIBEXSLT_LIBS $LIBXSLT_LIBS $XMLWRAPP_LINK_FLAGS"
+    LEGACY_LINK_FLAGS="-lxsltwrapp $LIBEXSLT_LIBS $LIBXSLT_LIBS $LEGACY_LINK_FLAGS"
 fi
+AC_SUBST(LEGACY_LINK_FLAGS)
 
 AM_CONDITIONAL(WITH_XSLT, [ test "x$build_xslt" = "xyes" ])
 
-AC_SUBST(XMLWRAPP_LINK_FLAGS)
-
 AC_CONFIG_FILES([
     xmlwrapp.pc
+    xsltwrapp.pc
     xmlwrapp-config
     Makefile
     include/Makefile

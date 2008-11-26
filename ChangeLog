@@ -5,6 +5,10 @@ Version 0.6.0
 
 	Ported Unix build system to Autotools.
 
+	Split pkg-config file xmlwrapp.pc into xmlwrapp.pc and
+	xsltwrapp.pc. Applications that use libxsltwrapp need to be
+	updated to use the latter (too).
+
 Version 0.5.1
 
 	Various compilation fixes.

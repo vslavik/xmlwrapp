@@ -1,0 +1,12 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: xsltwrapp
+Version: @VERSION@
+Description: A C++ wrapper around libxslt
+Requires: xmlwrapp = @VERSION@
+Libs: -L${libdir} -lxsltwrapp
+Libs.private: @LIBEXSLT_LIBS@ @LIBXSLT_LIBS@
+Cflags: -I${includedir}
