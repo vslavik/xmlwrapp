@@ -116,7 +116,7 @@ public:
      * loading of the subsets, it does not cause files to be validated. The
      * default, set in the xml::init constructor, is true.
      *
-     * @param flag True to turn on loading, flase to turn it off.
+     * @param flag True to turn on loading, false to turn it off.
      * @author Peter Jones
     **/
     //####################################################################
