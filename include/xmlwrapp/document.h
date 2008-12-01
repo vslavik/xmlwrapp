@@ -537,6 +537,7 @@ private:
     void set_doc_data (void *data);
     void set_doc_data_from_xslt (void *data, xslt::result *xr);
     void* get_doc_data (void);
+    void* get_doc_data_read_only (void) const;
     void* release_doc_data (void);
 
     friend class tree_parser;

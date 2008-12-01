@@ -148,8 +148,8 @@ xslt::stylesheet::~stylesheet (void) {
     delete pimpl_;
 }
 //####################################################################
-bool xslt::stylesheet::apply (xml::document &doc, xml::document &result) {
-    xmlDocPtr input = static_cast<xmlDocPtr>(doc.get_doc_data());
+bool xslt::stylesheet::apply (const xml::document &doc, xml::document &result) {
+    xmlDocPtr input = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
     xmlDocPtr xmldoc = apply_stylesheet(pimpl_->ss_, input); 
 
     if (xmldoc) {
@@ -160,8 +160,8 @@ bool xslt::stylesheet::apply (xml::document &doc, xml::document &result) {
     return false;
 }
 //####################################################################
-bool xslt::stylesheet::apply (xml::document &doc, xml::document &result, const param_type &with_params) {
-    xmlDocPtr input = static_cast<xmlDocPtr>(doc.get_doc_data());
+bool xslt::stylesheet::apply (const xml::document &doc, xml::document &result, const param_type &with_params) {
+    xmlDocPtr input = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
     xmlDocPtr xmldoc = apply_stylesheet(pimpl_->ss_, input, &with_params); 
 
     if (xmldoc) {
@@ -172,8 +172,8 @@ bool xslt::stylesheet::apply (xml::document &doc, xml::document &result, const p
     return false;
 }
 //####################################################################
-xml::document& xslt::stylesheet::apply (xml::document &doc) {
-    xmlDocPtr input = static_cast<xmlDocPtr>(doc.get_doc_data());
+xml::document& xslt::stylesheet::apply (const xml::document &doc) {
+    xmlDocPtr input = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
     xmlDocPtr xmldoc = apply_stylesheet(pimpl_->ss_, input);
 
     if (xmldoc == 0) {
@@ -185,8 +185,8 @@ xml::document& xslt::stylesheet::apply (xml::document &doc) {
     return pimpl_->doc_;
 }
 //####################################################################
-xml::document& xslt::stylesheet::apply (xml::document &doc, const param_type &with_params) {
-    xmlDocPtr input = static_cast<xmlDocPtr>(doc.get_doc_data());
+xml::document& xslt::stylesheet::apply (const xml::document &doc, const param_type &with_params) {
+    xmlDocPtr input = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
     xmlDocPtr xmldoc = apply_stylesheet(pimpl_->ss_, input, &with_params);
 
     if (xmldoc == 0) {

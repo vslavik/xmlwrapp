@@ -66,8 +66,8 @@
 
 	<screen>
 <![CDATA[
-bool xslt::stylesheet::apply (xml::document &doc, xml::document &result);
-bool xslt::stylesheet::apply (xml::document &doc, xml::document &result, const param_type &with_params);
+bool xslt::stylesheet::apply (const xml::document &doc, xml::document &result);
+bool xslt::stylesheet::apply (const xml::document &doc, xml::document &result, const param_type &with_params);
 ]]>
 	</screen>
     </section>
@@ -87,8 +87,8 @@ bool xslt::stylesheet::apply (xml::document &doc, xml::document &result, const p
 	</para>
 	<screen>
 <![CDATA[
-xml::document& xslt::stylesheet::apply (xml::document &doc);
-xml::document& xslt::stylesheet::apply (xml::document &doc, const param_type &with_params);
+xml::document& xslt::stylesheet::apply (const xml::document &doc);
+xml::document& xslt::stylesheet::apply (const xml::document &doc, const param_type &with_params);
 ]]>
 	</screen>
     </section>

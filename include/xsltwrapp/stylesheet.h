@@ -101,7 +101,7 @@ public:
      * @author Peter Jones
     **/
     //####################################################################
-    bool apply (xml::document &doc, xml::document &result);
+    bool apply (const xml::document &doc, xml::document &result);
 
     //####################################################################
     /** 
@@ -116,7 +116,7 @@ public:
      * @author Peter Jones
     **/
     //####################################################################
-    bool apply (xml::document &doc, xml::document &result, const param_type &with_params);
+    bool apply (const xml::document &doc, xml::document &result, const param_type &with_params);
 
     //####################################################################
     /** 
@@ -133,7 +133,7 @@ public:
      * @author Peter Jones
     **/
     //####################################################################
-    xml::document& apply (xml::document &doc);
+    xml::document& apply (const xml::document &doc);
 
     //####################################################################
     /** 
@@ -151,7 +151,7 @@ public:
      * @author Peter Jones
     **/
     //####################################################################
-    xml::document& apply (xml::document &doc, const param_type &with_params);
+    xml::document& apply (const xml::document &doc, const param_type &with_params);
 
     //####################################################################
     /** 

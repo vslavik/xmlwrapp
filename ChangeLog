@@ -9,6 +9,9 @@ Version 0.6.0
 	xsltwrapp.pc. Applications that use libxsltwrapp need to be
 	updated to use the latter (too).
 
+	Input document to xslt::stylesheet::apply() is now passed as
+	const reference instead of non-const one.
+
 Version 0.5.1
 
 	Various compilation fixes.

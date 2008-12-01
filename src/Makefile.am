@@ -34,7 +34,7 @@ if WITH_XSLT
 
 libxsltwrapp_la_CPPFLAGS = $(AM_CPPFLAGS) $(LIBEXSLT_CFLAGS) $(LIBXSLT_CFLAGS)
 libxsltwrapp_la_LIBADD = libxmlwrapp.la $(LIBEXSLT_LIBS) $(LIBXSLT_LIBS)
-libxsltwrapp_la_LDFLAGS = -version-info 2:1:0
+libxsltwrapp_la_LDFLAGS = -version-info 3:0:0
 
 libxsltwrapp_la_SOURCES = \
 		libxslt/init.cxx \

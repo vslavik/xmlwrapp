@@ -340,6 +340,10 @@ void* xml::document::get_doc_data (void) {
     return pimpl_->doc_;
 }
 //####################################################################
+void* xml::document::get_doc_data_read_only (void) const {
+    return pimpl_->doc_;
+}
+//####################################################################
 void* xml::document::release_doc_data (void) {
     xmlDocPtr xmldoc = pimpl_->doc_;
     pimpl_->doc_ = 0;
