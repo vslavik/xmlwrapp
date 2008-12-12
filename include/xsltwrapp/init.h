@@ -76,10 +76,13 @@ public:
      * Clean up the XSLT engine. Don't let the xslt::init object go out of
      * scope before you are done using the xsltwrapp or xmlwrapp libraries!
      *
+     * @note The destructor is intentionally not virtual, this class and
+     *       derived classes are meant to be used in RAII manner.
+     *
      * @author Peter Jones
     **/
     //####################################################################
-    virtual ~init (void);
+    ~init (void);
 
     //####################################################################
     /** 
