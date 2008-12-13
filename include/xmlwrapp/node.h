@@ -75,7 +75,7 @@ public:
 
     /// enum for the different types of XML nodes
     enum node_type {
-	type_element,		///< XML element such as <chapter/>
+	type_element,		///< XML element such as "<chapter/>"
 	type_text,		///< Text node
 	type_cdata,		///< <![CDATA[text]]>
 	type_pi,		///< Processing Instruction
