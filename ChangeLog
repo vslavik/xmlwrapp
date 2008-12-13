@@ -26,7 +26,26 @@ Version 0.5.1
 
 Version 0.5.0
 
-	?
+	Fixed a null pointer dereference problem in
+	xml::attributes, Bug ID 20. Thanks goes to John K. Hohm
+	for finding this and providing a working patch.
+
+	Added three new constructors to the xml::node class for creating
+	CDATA sections, XML comments, and XML processing instructions. This
+	is done using three new helper structs, xml::node::cdata,
+	xml::node::comment, and xml::node::pi.
+
+	Added new member functions to the xml::node class.
+	They are: size and empty.
+
+	Added new member functions to the xml::document class.
+	They are: size, push_back, insert, replace, and erase.
+
+	Added the ability to compress XML files saved with the
+	xml::document::save_to_file member function (Bug ID 19).
+
+	Major clean ups in the test harness. Test code should be a lot easier
+	to write now.
 
 Version 0.4.4
 
