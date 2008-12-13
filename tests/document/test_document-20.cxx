@@ -45,7 +45,6 @@ int main (int argc, char *argv[]) {
 
     try {
 
-	xml::init xml;
 	xml::document doc("root");
 
 	xml::node::iterator n(doc.insert(xml::node(xml::node::comment(" To Be Replaced "))));

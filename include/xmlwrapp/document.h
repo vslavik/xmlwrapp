@@ -38,7 +38,8 @@
 #define _xmlwrapp_document_h_
 
 // xmlwrapp includes
-#include <xmlwrapp/node.h>
+#include "xmlwrapp/init.h"
+#include "xmlwrapp/node.h"
 
 // standard includes
 #include <iosfwd>

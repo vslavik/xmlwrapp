@@ -44,9 +44,6 @@
 
 int main (void) {
     try {
-	// prepare the XSLT engine and XML parser
-	xslt::init init;
-
 	// parse the input XML document
 	xml::tree_parser parser("example.xml");
 	xml::document &doc = parser.get_document();

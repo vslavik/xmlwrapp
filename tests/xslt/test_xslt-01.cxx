@@ -46,7 +46,6 @@ int main (int argc, char *argv[]) {
 
     try {
     
-	xslt::init init;
 	xslt::stylesheet style(argv[1]);
 
     } catch (std::exception &e) {

@@ -44,8 +44,6 @@ int main (int argc, char *argv[]) {
 
     try {
 
-	xml::init xml;
-	
 	xml::document doc("root");
 	doc.get_root_node().push_back(xml::node("child"));
 	doc.save_to_file(argv[1], std::atoi(argv[2]));

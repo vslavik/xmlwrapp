@@ -43,7 +43,6 @@ int main (int argc, char *argv[]) {
 
     try {
 
-	xml::init xml;
 	xml::tree_parser parser(argv[1]);
 	parser.get_document().set_version("1.1");
 	std::cout << parser.get_document();

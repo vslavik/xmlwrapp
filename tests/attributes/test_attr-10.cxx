@@ -42,7 +42,6 @@ int main (int argc, char *argv[]) {
     if (argc != 3) return 1;
 
     try {
-	xml::init xml;
 	xml::tree_parser parser(argv[1]);
 
 	if (parser.get_document().has_internal_subset() && !parser.get_document().validate()) {

@@ -12,6 +12,14 @@ Version 0.6.0
 	Input document to xslt::stylesheet::apply() is now passed as
 	const reference instead of non-const one.
 
+	It is no longer necessary to instantiate xml/xslt::init object before
+	using the library; this is now done automatically (thread safety is
+	preserved) and new code shouldn't do it. Moreover, creating multiple
+	xml/xslt::init object instances is now possible and doesn't result in
+	multiple initialization/shutdown of the library.
+
+	Configuration methods of xml/xslt::init classes are now static.
+
 Version 0.5.1
 
 	Various compilation fixes.

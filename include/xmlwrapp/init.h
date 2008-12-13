@@ -40,107 +40,100 @@
 namespace xml {
 
 /**
- * The xml::init class is used to initialize the XML parser. For thread
- * safety it should be instantiated one time in the main thread before any
- * other threads use xmlwrapp. Non-threaded programs should instantiate a
- * xml::init class before using xmlwrapp as well, at least for
- * consistency.
+ * The xml::init class is used to configure the XML parser.
  *
  * If you want to use and of the xml::init member functions, do so before
  * you start any threads or use any other part of xmlwrapp. The member
- * functions may alter global and/or static variables. In other words, this
- * class is not thread safe.
+ * functions may alter global and/or static variables and affect the behavior
+ * of subsequently created classes (and the parser in particular).
+ * In other words, this class is not thread safe.
+ *
+ * @note In xmlwrapp versions prior to 0.6.0, this class was used to initialize
+ *       the library and exactly one instance had to be created before first
+ *       use. This is no longer true: user code doesn't have to create any
+ *       instances, but it @em can create as many instances as it wants.
 **/
 class init {
 public:
-    //####################################################################
-    /** 
-     * Create a new xml::init object. This constructor will prepare the XML
-     * parser and set some default values for the parsers global variables.
-     *
-     * @author Peter Jones
-    **/
-    //####################################################################
     init (void);
-
-    //####################################################################
-    /** 
-     * Clean up the XML parser. Don't let the xml::init object go out of
-     * scope before you are done using the xmlwrapp library!
-     *
-     * @note The destructor is intentionally not virtual, this class and
-     *       derived classes are meant to be used in RAII manner.
-     *
-     * @author Peter Jones
-    **/
-    //####################################################################
     ~init (void);
 
     //####################################################################
     /** 
      * This member function controls whether or not the XML parser should
      * add text nodes for indenting when generating XML text output from a
-     * node tree. The default, set in the xml::init constructor, is true.
+     * node tree. The default is true.
      *
      * @param flag True to turn on indenting, false to turn it off.
      * @author Peter Jones
     **/
     //####################################################################
-    void indent_output (bool flag);
+    static void indent_output (bool flag);
 
     //####################################################################
     /** 
      * This member function controls whether or not the XML parser should
-     * remove ignorable whitespace around XML elements. The default, set in
-     * the xml::init constructor, is false.
+     * remove ignorable whitespace around XML elements. The default
+     * is false.
      *
      * @param flag True to remove whitespace, false to leave alone.
      * @author Peter Jones
     **/
     //####################################################################
-    void remove_whitespace (bool flag);
+    static void remove_whitespace (bool flag);
 
     //####################################################################
     /** 
      * This member function controls whether or not the XML parser should
-     * substitute entities while parsing. The default, set in the xml::init
-     * constructor, is true.
+     * substitute entities while parsing. The default is true.
      *
      * @param flag True to turn on substitution, false to turn off.
      * @author Peter Jones
     **/
     //####################################################################
-    void substitute_entities (bool flag);
+    static void substitute_entities (bool flag);
 
     //####################################################################
     /** 
      * This member function controls whether or not the XML parser should
      * load external (DTD) subsets while parsing. This will only affect the
      * loading of the subsets, it does not cause files to be validated. The
-     * default, set in the xml::init constructor, is true.
+     * default is true.
      *
      * @param flag True to turn on loading, false to turn it off.
      * @author Peter Jones
     **/
     //####################################################################
-    void load_external_subsets (bool flag);
+    static void load_external_subsets (bool flag);
 
     //####################################################################
     /** 
      * This member function controls whether or not the XML parser should
-     * validate every XML document that is parses with its DTD. The default,
-     * set in the xml::init constructor, is false.
+     * validate every XML document that is parses with its DTD. The default
+     * is false.
      *
      * @return flag True to turn on validation, false to turn it off.
      * @author Peter Jones
     **/
     //####################################################################
-    void validate_xml (bool flag);
+    static void validate_xml (bool flag);
 
 private:
     init (const init&);
     init& operator= (const init&);
+
+    void init_library();
+    void shutdown_library();
+
+    static int ms_counter;
 }; // end xml::init class
-    
+
 } // end xml namespace
+
+// use a "nifty counter" to ensure that any source file that uses xmlwrapp
+// will initialize the library prior to its first use
+namespace {
+    xml::init g_xmlwrapp_initializer;
+}
+
 #endif

@@ -118,7 +118,6 @@ int main (int argc, char *argv[]) {
 	return 1;
     }
 
-    xml::init init;
     test_parser parser(argv[2],argc == 4);
     bool status = parser.parse_file(argv[1]);
     std::cout << "\n";

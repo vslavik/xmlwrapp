@@ -45,8 +45,6 @@ int main (int argc, char *argv[]) {
     }
 
     try {
-	xml::init xml;
-
 	xml::node n("root");
 	std::cout << n.size() << "\n";
 

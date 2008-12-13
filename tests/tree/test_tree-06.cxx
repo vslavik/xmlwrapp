@@ -48,7 +48,6 @@ int main (int argc, char *argv[]) {
 
     try {
 
-	xml::init xml;
 	std::string xmldata = argv[1];
 	xml::tree_parser parser(xmldata.c_str(), xmldata.size(), false);
 

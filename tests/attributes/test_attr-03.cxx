@@ -41,7 +41,6 @@ int main (int argc, char *argv[]) {
     if (argc != 3) return 1;
 
     try {
-	xml::init xml;
 	xml::tree_parser parser(argv[1]);
 
 	const xml::attributes &attrs = parser.get_document().get_root_node().get_attributes();

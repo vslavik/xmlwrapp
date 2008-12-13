@@ -33,11 +33,11 @@
 #ifndef _xmlwrapp_xmlwrapp_h_
 #define _xmlwrapp_xmlwrapp_h_
 
-#include <xmlwrapp/init.h>
-#include <xmlwrapp/node.h>
-#include <xmlwrapp/attributes.h>
-#include <xmlwrapp/document.h>
-#include <xmlwrapp/tree_parser.h>
-#include <xmlwrapp/event_parser.h>
+#include "xmlwrapp/init.h"
+#include "xmlwrapp/node.h"
+#include "xmlwrapp/attributes.h"
+#include "xmlwrapp/document.h"
+#include "xmlwrapp/tree_parser.h"
+#include "xmlwrapp/event_parser.h"
 
 #endif

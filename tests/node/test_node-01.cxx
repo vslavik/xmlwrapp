@@ -39,8 +39,6 @@
 #include <iostream>
 
 int main (void) {
-    xml::init xml;
-
     xml::node root_node("root");
     xml::node one("count", "one");
     xml::node two("count", "two");

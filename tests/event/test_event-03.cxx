@@ -64,7 +64,6 @@ int main (int argc, char *argv[]) {
 	return 1;
     }
 
-    xml::init init;
     test_parser parser;
     if (!parser.parse_file(argv[1])) return 1;
     return 0;

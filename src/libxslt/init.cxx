@@ -49,7 +49,19 @@ namespace {
     extern "C" void xslt_error (void *, const char*, ...);
 }
 //####################################################################
+int xslt::init::ms_counter = 0;
+//####################################################################
 xslt::init::init (void) {
+    if ( ms_counter++ == 0 )
+        init_library();
+}
+//####################################################################
+xslt::init::~init (void) {
+    if ( --ms_counter == 0 )
+        shutdown_library();
+}
+//####################################################################
+void xslt::init::init_library() {
     xsltInit();
 
     // set some defautls
@@ -63,7 +75,7 @@ xslt::init::init (void) {
     exsltRegisterAll();
 }
 //####################################################################
-xslt::init::~init (void) {
+void xslt::init::shutdown_library() {
     xsltCleanupGlobals();
 }
 //####################################################################

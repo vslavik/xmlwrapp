@@ -47,7 +47,7 @@ int main (int argc, char *argv[]) {
     }
 
     try {
-	xml::init xml; xml.substitute_entities(false);
+	xml::init::substitute_entities(false);
 	xml::tree_parser parser(argv[1]);
 
 	xml::node::iterator i=parser.get_document().begin(), end=parser.get_document().end();

@@ -42,7 +42,6 @@
 int main (void) {
     try {
 
-	xml::init xml;
 	xml::document doc("root");
 	std::cout << doc;
 

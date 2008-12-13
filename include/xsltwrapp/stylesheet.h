@@ -38,7 +38,8 @@
 #define _xsltwrapp_stylesheet_h_
 
 // xmlwrapp includes
-#include <xmlwrapp/document.h>
+#include "xsltwrapp/init.h"
+#include "xmlwrapp/document.h"
 
 // standard includes
 #include <map>

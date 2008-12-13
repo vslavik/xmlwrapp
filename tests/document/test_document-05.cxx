@@ -41,7 +41,6 @@
 int main (void) {
     try {
 
-	xml::init xml;
 	xml::node n("root", "pcdata");
 	xml::document doc(n);
 

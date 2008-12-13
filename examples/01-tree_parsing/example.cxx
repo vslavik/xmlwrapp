@@ -51,7 +51,6 @@ int main (int argc, char *argv[]) {
 
     try {
 
-	xml::init init;
 	xml::tree_parser parser(argv[1]);
 
 	xml::node &root = parser.get_document().get_root_node();

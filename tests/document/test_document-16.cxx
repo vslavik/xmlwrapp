@@ -42,8 +42,6 @@
 int main (void) {
     try {
 
-	xml::init xml;
-
 	xml::document doc_01("root");
 	std::cout << doc_01.size() << "\n";
 	doc_01.push_back(xml::node(xml::node::comment("This is a comment")));

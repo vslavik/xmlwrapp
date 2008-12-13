@@ -38,68 +38,55 @@
 #define _xsltwrapp_init_h_
 
 // xmlwrapp includes
-#include <xmlwrapp/init.h>
+#include "xmlwrapp/init.h"
 
 namespace xslt {
 
 /**
- * The xslt::init class is used to initialize the XSLT engine. For thread
- * safety it should be instantiated one time in the main thread before any
- * other threads use xsltwrapp. Non-threaded programs should instantiate a
- * xslt::init class before using xsltwrapp as well, at least for
- * consistency.
+ * The xslt::init class is used to configure the XSLT engine.
  *
  * If you want to use any of the xslt::init member functions, do so before
  * you start any threads or use any other part of xsltwrapp. The member
  * functions may alter global and/or static variables. In other words, this
  * class is not thread safe.
  *
- * Since this class is derived from the xml::init it is not necessary to
- * use both classes. If you are going to be using xsltwrapp, you should only
- * use this class to initialize both xmlwrapp and xsltwrapp.
+ * @note In xmlwrapp versions prior to 0.6.0, this class was used to initialize
+ *       the library and exactly one instance had to be created before first
+ *       use. This is no longer true: user code doesn't have to create any
+ *       instances, but it @em can create as many instances as it wants.
 **/
 class init : public xml::init {
 public:
-    //####################################################################
-    /** 
-     * Create a new xslt::init object. This constructor will prepare the
-     * XSLT engine parser and set some default values for the engine's
-     * global variables.
-     *
-     * @author Peter Jones
-    **/
-    //####################################################################
     init (void);
-
-    //####################################################################
-    /** 
-     * Clean up the XSLT engine. Don't let the xslt::init object go out of
-     * scope before you are done using the xsltwrapp or xmlwrapp libraries!
-     *
-     * @note The destructor is intentionally not virtual, this class and
-     *       derived classes are meant to be used in RAII manner.
-     *
-     * @author Peter Jones
-    **/
-    //####################################################################
     ~init (void);
 
     //####################################################################
     /** 
      * This function controls whether or not the XSLT engine will process
-     * XInclusions by default while parsing the stylesheet. The default, set
-     * in the xslt::init constructor, is true.
+     * XInclusions by default while parsing the stylesheet. The default is
+     * true.
      *
      * @param flag True to enable XInclusing processing; False otherwise.
      * @author Peter Jones
     **/
     //####################################################################
-    void process_xincludes (bool flag);
+    static void process_xincludes (bool flag);
 
 private:
     init (const init&);
     init& operator= (const init&);
+
+    void init_library();
+    void shutdown_library();
+
+    static int ms_counter;
 }; // end xslt::init class
-    
+
+// use a "nifty counter" to ensure that any source file that uses xsltwrapp
+// will initialize the library prior to its first use
+namespace {
+    xslt::init g_xsltwrapp_initializer;
+}
+
 } // end xslt namespace
 #endif

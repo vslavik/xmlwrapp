@@ -37,6 +37,9 @@
 #ifndef _xmlwrapp_attributes_h_
 #define _xmlwrapp_attributes_h_
 
+// xmlwrapp includes
+#include "xmlwrapp/init.h"
+
 // standard includes
 #include <cstddef>
 #include <iosfwd>

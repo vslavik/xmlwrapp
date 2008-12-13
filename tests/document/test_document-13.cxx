@@ -44,7 +44,6 @@ int main (int argc, char *argv[]) {
 
     try {
 
-	xml::init xml;
 	xml::tree_parser parser(argv[1]);
 
 	bool sa = parser.get_document().get_is_standalone();

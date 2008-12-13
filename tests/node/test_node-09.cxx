@@ -45,7 +45,6 @@ int main (int argc, char *argv[]) {
     }
 
     try {
-	xml::init xml;
 	xml::node n(xml::node::cdata("This is a CDATA section"));
 	std::cout << n;
     } catch (const std::exception &e) {

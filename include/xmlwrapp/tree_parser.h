@@ -37,6 +37,9 @@
 #ifndef _xmlwrapp_tree_parser_h_
 #define _xmlwrapp_tree_parser_h_
 
+// xmlwrapp includes
+#include "xmlwrapp/init.h"
+
 // standard includes
 #include <cstddef>
 #include <string>

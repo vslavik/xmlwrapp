@@ -47,7 +47,19 @@ namespace {
     extern "C" void xml_error (void *, const char*, ...);
 }
 //####################################################################
+int xml::init::ms_counter = 0;
+//####################################################################
 xml::init::init (void) {
+    if ( ms_counter++ == 0 )
+        init_library();
+}
+//####################################################################
+xml::init::~init (void) {
+    if ( --ms_counter == 0 )
+        shutdown_library();
+}
+//####################################################################
+void xml::init::init_library() {
     // set some libxml global variables
     indent_output(true);
     remove_whitespace(false);
@@ -62,7 +74,7 @@ xml::init::init (void) {
     xmlInitParser();
 }
 //####################################################################
-xml::init::~init (void) {
+void xml::init::shutdown_library() {
     xmlCleanupParser();
 }
 //####################################################################

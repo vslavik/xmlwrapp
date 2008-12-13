@@ -42,7 +42,6 @@
 int main (void) {
     try {
 
-	xml::init xml;
 	xml::document doc("root");
 
 	doc.push_back(xml::node(xml::node::comment(" Comment From push_back ")));

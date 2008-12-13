@@ -45,7 +45,6 @@ int main (int argc, char *argv[]) {
     }
 
     try {
-	xml::init xml;
 	xml::node n(xml::node::pi("xslt", "stylesheet=\"test.xsl\""));
 	std::cout << n;
     } catch (const std::exception &e) {

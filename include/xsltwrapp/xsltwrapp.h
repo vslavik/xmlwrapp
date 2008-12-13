@@ -33,8 +33,8 @@
 #ifndef _xsltwrapp_xsltwrapp_h_
 #define _xsltwrapp_xsltwrapp_h_
 
-#include <xmlwrapp/xmlwrapp.h>
-#include <xsltwrapp/init.h>
-#include <xsltwrapp/stylesheet.h>
+#include "xmlwrapp/xmlwrapp.h"
+#include "xsltwrapp/init.h"
+#include "xsltwrapp/stylesheet.h"
 
 #endif

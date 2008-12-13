@@ -45,7 +45,7 @@ int main (int argc, char *argv[]) {
     }
 
     try {
-	xml::init xml; xml.remove_whitespace(true);
+	xml::init::remove_whitespace(true);
 	xml::tree_parser parser(argv[1]);
 
 	xml::node &root = parser.get_document().get_root_node();

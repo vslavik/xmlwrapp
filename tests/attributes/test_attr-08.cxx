@@ -41,7 +41,6 @@ int main (int argc, char *argv[]) {
     if (argc != 2) return 1;
 
     try {
-	xml::init xml;
 	xml::tree_parser parser(argv[1]);
 
 	/* MAKE A COPY! */

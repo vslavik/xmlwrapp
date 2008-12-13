@@ -47,7 +47,6 @@ int main (int argc, char *argv[]) {
 
     try {
     
-	xslt::init init;
 	xslt::stylesheet style(argv[1]);
 	xml::tree_parser parser(argv[2]);
 	xml::document result;

@@ -37,8 +37,11 @@
 #ifndef _xmlwrapp_node_h_
 #define _xmlwrapp_node_h_
 
+// xmlwrapp includes
+#include "xmlwrapp/init.h"
+
 // hidden stuff
-#include <xmlwrapp/_cbfo.h>
+#include "xmlwrapp/_cbfo.h"
 
 // standard includes
 #include <cstddef>

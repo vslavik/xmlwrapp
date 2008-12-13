@@ -53,9 +53,6 @@
 #include <exception>
 
 int main (void) {
-    // prepare the XML parser
-    xml::init init;
-
     // create a new XML document and set the root node
     xml::document xmldoc("abook");
     xml::node &root = xmldoc.get_root_node();

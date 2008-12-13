@@ -45,7 +45,6 @@ int main (int argc, char *argv[]) {
 
     try {
 
-	xml::init xml;
 	xml::document doc("root");
 
 	switch (*argv[1]) {
