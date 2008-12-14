@@ -37,6 +37,7 @@
 #ifndef _xmlwrapp_init_h_
 #define _xmlwrapp_init_h_
 
+/// XML library namespace
 namespace xml {
 
 /**

@@ -40,6 +40,7 @@
 // xmlwrapp includes
 #include "xmlwrapp/init.h"
 
+/// XSLT library namespace
 namespace xslt {
 
 /**
