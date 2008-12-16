@@ -25,6 +25,8 @@ Version 0.6.0
 	PDF version of the manual is no longer provided, use HTML documentation
 	included with xmlwrapp source distribution.
 
+	Added xml::node::get_namespace() function.
+
 Version 0.5.1
 
 	Various compilation fixes.

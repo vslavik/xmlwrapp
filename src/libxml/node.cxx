@@ -340,6 +340,12 @@ const xml::attributes& xml::node::get_attributes (void) const {
     return pimpl_->attrs_;
 }
 //####################################################################
+const char *xml::node::get_namespace (void) const {
+    return pimpl_->xmlnode_->ns
+        ? reinterpret_cast<const char*>(pimpl_->xmlnode_->ns->href)
+        : NULL;
+}
+//####################################################################
 bool xml::node::is_text (void) const {
     return xmlNodeIsText(pimpl_->xmlnode_) != 0;
 }

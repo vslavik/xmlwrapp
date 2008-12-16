@@ -328,6 +328,17 @@ public:
 
     //####################################################################
     /** 
+     * Get the namespace of this xml::node.
+     *
+     * @return The namespace of this node or NULL if no namespace is
+     *         associated.
+     * @author Vaclav Slavik
+    **/
+    //####################################################################
+    const char* get_namespace (void) const;
+
+    //####################################################################
+    /** 
      * Find out if this node is a text node or sometiming like a text node,
      * CDATA for example.
      *
