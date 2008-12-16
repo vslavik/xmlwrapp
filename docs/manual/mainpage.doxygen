@@ -1,0 +1,57 @@
+/**
+
+@mainpage
+
+
+@section mainpage_manual Manual
+
+- @subpage intro
+  - @subpage intro_xml
+  - @subpage intro_license
+  - @subpage intro_audience
+  - @subpage intro_terms
+  - @subpage intro_topics
+- @subpage prepare
+  - @subpage prepare_headers
+  - @subpage prepare_namespace
+  - @subpage prepare_init
+- @subpage parsing
+  - @subpage parsing_intro
+  - @subpage parsing_tree
+  - @subpage parsing_event
+- @subpage documents
+  - @subpage documents_settings
+  - @subpage documents_subsets
+  - @subpage documents_valid
+  - @subpage documents_xinclude
+  - @subpage documents_children
+  - @subpage documents_rootnode_get
+  - @subpage documents_rootnode_set
+  - @subpage documents_save
+- @subpage node
+  - @subpage node_types
+  - @subpage node_name
+  - @subpage node_contents
+  - @subpage node_children
+  - @subpage node_add
+  - @subpage node_remove
+  - @subpage node_attr
+- @subpage attr
+  - @subpage attr_it
+  - @subpage attr_add
+  - @subpage attr_remove
+- @subpage xslt
+  - @subpage xslt_init
+  - @subpage xslt_stylesheet
+  - @subpage xslt_apply_ne
+  - @subpage xslt_apply_we
+- @subpage tips
+  - @subpage tips_lifetime
+- @subpage whatnext
+
+
+@section mainpage_refdocs Reference documentation
+
+<a href="annotated.html">Reference documentation for all classes.</a>
+
+*/

@@ -1,0 +1,22 @@
+/**
+
+@page whatnext Where To Go From Here
+
+Like most programming tasks, the best place to start is to just dive
+in. The most obvious place to look is the xmlwrapp header files. They
+are clean and well documented. When any document does not agree with
+the header file, the header file will always win.
+
+The header files are documented using the
+<a href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a>
+syntax. The comments are then used to build the API reference
+manual.
+
+
+@section whatnext_help Getting Help
+
+If you need specific help using xmlwrapp, you can try the
+<a href="http://sourceforge.net/mail/?group_id=142403">xmlwrapp-users</a>
+mailing list.
+
+*/

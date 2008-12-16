@@ -1,0 +1,136 @@
+/**
+
+@page documents Working with XML Documents
+
+The xml::document class encapsulates the notion of an XML document. When
+parsing XML documents with the xml::tree_parser, you will be working with
+xml::document objects so that you can access the resulting node tree.
+
+Using the xml::document class is not limited to working with the
+xml::tree_parser class. You can also use it when you want to generate an XML
+document. In this case, you will build the node tree by hand, and then use one
+of the xml::document member functions to convert or save the node tree as XML
+data.
+
+
+@section documents_settings Document Settings
+
+Although the xml::document class is mainly a container for the node tree, it
+does contain some settings that apply to the entire XML document. The
+xml::document class provides member functions for getting and setting of these
+values. The following list illustrates which document settings are available:
+
+- The version from the <?xml?> processing instruction:
+  xml::document::get_version(), xml::document::set_version().
+- The document encoding from the <?xml?> processing instruction:
+  xml::document::get_encoding(), xml::document::set_encoding().
+- Whether or not the document is marked standalone in the <?xml?> processing
+  instruction:
+  xml::document::get_is_standalone(), xml::document::set_is_standalone().
+
+You should consult the xmlwrapp API reference for more information about these
+member functions.
+
+
+@section documents_subsets Internal and External Subsets
+
+The XML document may contain either an internal or external subset, both or no
+subsets at all. The xml::document provides member functions to test for the
+existence of subsets.  The are the xml::document::has_internal_subset() and
+xml::document::has_external_subset() functions.
+
+An internal subset is present when document type definitions are placed inside
+the XML document itself. This can be useful if you did not want to use an
+external DTD or if you wanted to override something from the external DTD.
+
+If the XML document references an external DTD file or URL, it is said to have
+an external subset. This is the most common type of subset.
+
+
+@section documents_valid Validating the Document
+
+@subsection documents_valid_inside"><title>Validating with DOCTYPE</title>
+
+If the XML document contains either an internal or external subset, you can use
+the xml::document::validate() member function to validate the XML document
+against the subsets. This function will return @c true if the document is
+valid.
+
+When the document is not valid, or it does not contain an internal or external
+subset, the xml::document::validate() function will return @c false.
+
+@subsection documents_valid_outside Validating with Any DTD
+
+If the XML document does not contain an internal or external subset, or when
+you want to validate the document against a specific external subset, you can
+use an overloaded version of the xml::document::validate() member function. The
+overloaded version takes the name of a file or a URL to an external subset to
+validate the document against.
+
+Like the other xml::document::validate() function, this one will return @c true
+if the document is valid according to the given external subset. In this case,
+the external subset will be attached to the document for further use. For
+example, to provide default attribute values.
+
+If the external entity cannot be parsed, or the document is not valid, the
+xml::document::validate() will return @c false.
+
+
+@section documents_xinclude Processing XInclusions
+
+If you would like xmlwrapp to search the node tree and process any XInclusions
+(@c <xi:include> elements), you can use the xml::document::process_xinclude()
+member function. It will return an @c int telling you how many substitutions
+were preformed.
+
+
+@section documents_children Accessing Document Children
+
+Although an XML document may only contain one element type node (the root
+node), it may contain more than one child.  For example, there may be XML
+comments above the root node's opening tag, or below the root node's closing
+tag. In this case, those comments would be children of the xml::document
+object.
+
+You can access these children using
+xml::node::iterator objects. The
+xml::document class provides
+xml::document::begin() and xml::document::end() member
+functions for getting iterators to the children. For more
+information about node iterators, see @ref node_children.
+
+
+@section documents_rootnode_get Accessing the Root Node
+
+The most frequently used child node of the XML document is the
+root node. As mentioned above, the root node is the only child
+node of the document that is an element.
+
+In order to save you time and effort finding the root node, the xml::document
+class provides the xml::document::get_root_node() member function. This
+function will return a reference to the root node for the document.
+
+
+@section documents_rootnode_set Setting the Root Node
+
+If you wanted to set the root node of the document to some other element node,
+you can use the xml::document::set_root_node() member function. This will
+create a copy of the given node and use it and the root node for the document.
+If the document already had a root node, it will be removed and deleted.
+
+
+@section documents_save Converting and Saving the Document as XML
+
+The xml::document provides a few different member functions for converting the
+node tree into XML. The following list will summarize these functions:
+
+- xml::document::save_to_string() converts the node tree to XML and places the
+  results in a given std::string object.
+
+- xml::document::save_to_file() converts the node tree to XML and saves the
+  results into the given file.
+
+- xml::document::operator<<() convert the node tree to XML and inserts the
+  results into the given std::ostream object.
+
+*/

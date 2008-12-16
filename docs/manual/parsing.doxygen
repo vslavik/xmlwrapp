@@ -1,0 +1,236 @@
+/**
+
+@page parsing Parsing XML
+
+@section parsing_intro Introduction
+
+There are two different ways to parse XML data using xmlwrapp. They are similar
+to the standard Document Object Model (DOM) and the Simple API for XML (SAX),
+although not exact. The two parsing methods differ from the two main stream
+parsing models in order to better fit modern C++ programming style.
+
+Which parsing method you choose is entirely left up to you. I won't recommend
+one over the other because it can quickly become a religious issue. You should
+pick the method that best fits your style and the project you are going to use
+xmlwrapp with.
+
+
+@section parsing_tree Parsing into a Node Tree
+
+Having xmlwrapp parse an XML document and generate a node tree is the easiest
+way to work with the XML data. Using the xml::tree_parser class, you can parse
+a file, URL or the contents of memory, into a node tree.
+
+Once xmlwrapp has created a node tree, you can use the API for the objects that
+make up the tree. This will be one xml::document object and possibly many
+xml::node objects.
+
+Example:
+@code
+#include <xmlwrapp/tree_parser.h>
+#include <xmlwrapp/document.h>
+
+int main (void)
+{
+    xml::tree_parser parser("somefile.xml");
+
+    xml::document &doc = parser.get_document();
+
+    return 0;
+}
+@endcode
+
+You should notice in the above example that the
+xml::tree_parser::get_document() member function returns a reference to a
+xml::document object. You should take care to use this reference and not make a
+copy of the xml::document object. That is of course, unless you actually wanted
+to make a copy, which is valid and safe, although not very efficient.
+
+The above example does not contain any error condition checking. By default, if
+there are any errors while parsing the XML document, the xml::tree_parser class
+will throw an exception (a std::runtime_error to be exact).
+
+If you don't want the xml::tree_parser to throw an exception, you can pass a
+bool to the constructors to disable them. In this case, you will have to check
+to state of the parser after the constructor returns. This is done with the
+#xml::tree_parser::operator!  member function.
+
+Example:
+@code
+#include <xmlwrapp/tree_parser.h>
+
+int main (void)
+{
+    xml::init xmlinit;
+
+    xml::tree_parser parser("somefile.xml", false);
+
+    if (!parser)
+    {
+        // ERROR PARSING FILE
+        return 1;
+    }
+
+    return 0;
+}
+@endcode
+
+As you can see, using the xml::tree_parser class is very easy. At this point,
+you may be wondering how you work with this node tree. The following chapters
+should answer your questions. They describe how to work with the xml::document,
+xml::node and xml::attributes objects.
+
+
+@section parsing_event Event Based Parsing
+
+Event parsing is done using callbacks. In xmlwrapp, these callbacks turn out to
+be protected virtual member functions that you will override. Events, such as
+the parser encountering an opening element, will trigger a call to the
+corresponding member function of your class.
+
+@subsection parsing_event_events Events
+
+In order to receive these events, you will need to derive a class from the
+xmlwrapp xml::event_parser class. You should then override the appropriate
+member functions. The following table lists a description of each event and the
+member function you should override to receive that event.
+
+<table>
+    <tr>
+        <th>event</th>
+        <th>description</th>
+        <th>member function</th>
+        <th>use requirement</th>
+    </tr>
+    <tr>
+        <td>start element</td>
+        <td>An opening tag has been parsed.</td>
+        <td>xml::event_parser::start_element()</td>
+        <td>mandatory (pure virtual)</td>
+    </tr>
+    <tr>
+        <td>end element</td>
+        <td>A closing tag has been parsed.</td>
+        <td>xml::event_parser::end_element()</td>
+        <td>mandatory (pure virtual)</td>
+    </tr>
+    <tr>
+        <td>text</td>
+        <td>A text node has been parsed.</td>
+        <td>xml::event_parser::text()</td>
+        <td>mandatory (pure virtual)</td>
+    </tr>
+    <tr>
+        <td>CDATA</td>
+        <td>A CDATA section has been parsed.</td>
+        <td>xml::event_parser::cdata()</td>
+        <td>optional; the default implementation calls xml::event_parser::text()</td>
+    </tr>
+    <tr>
+        <td>processing instruction</td>
+        <td>A processing instruction has been parsed.</td>
+        <td>xml::event_parser::processing_instruction()</td>
+        <td>optional; the default implementation ignores processing instructions</td>
+    </tr>
+    <tr>
+        <td>comment</td>
+        <td>An XML comment has been parsed.</td>
+        <td>xml::event_parser::comment()</td>
+        <td>optional; the default implementation ignores comments</td>
+    </tr>
+    <tr>
+        <td>warning</td>
+        <td>The XML parser found a non-fatal error in the XML document.</td>
+        <td>xml::event_parser::warning()</td>
+        <td>optional; the default implementation ignores warnings</td>
+    </tr>
+</table>
+
+With all of these member functions, you should return @c true if you want the
+XML parser to continue. If you return @c false, or throw an exception, the XML
+parser will stop parsing the current document.
+
+For a good example of event parsing, see the @c 02-event_parsing example in the
+@c examples directory.
+
+
+@subsection parsing_event_use Using the Derived Class to Parse an XML Document
+
+Once you have created a class that is derived from xml::event_parser and have
+overridden the necessary member functions, you are ready to parse XML documents
+with it. The xml::event_parser provides a few different ways of parsing XML
+documents.
+
+The easiest way is to use the xml::event_parser::parse_file() member function.
+It takes the name of a file or a URL and will parse the entire file before
+returning. You may also choose the similar function,
+xml::event_parser::parse_stream() that will parse XML data coming from a
+std::istream object such as std::cin.
+
+You also have the option of feeding the parser XML data piece by piece. You
+begin by calling xml::event_parser::parse_chunk() with the current piece of XML
+data. You continue calling that function until you have no more XML data to
+parse. You should then call the xml::event_parser::parse_finish() member
+function to tell the parser that there is no more XML data to parse. This
+method can be very useful, for example, if you are reading XML data from a
+network connection.
+
+This is a very simple example to give you an idea of what
+event parsing comprises of:
+@code
+#include <xmlwrapp/event_parser.h>
+#include <string>
+
+class MyEventParser : public xml::event_parser
+{
+private:
+    bool start_element (const std::string &name, const attrs_type &attrs)
+    {
+
+        ...
+
+        return true;
+    }
+
+    ...
+
+};
+
+int main (void)
+{
+    MyEventParser parser;
+
+    parser.parse_file("somefile.xml");
+
+    return 0;
+}
+@endcode
+
+@subsection parsing_event_wellformed Parse Status and Well Formed XML Documents
+
+Each of the member functions used to make xml::event_parser parse XML data,
+return a bool. If they return @c true, the parsed XML document was well formed.
+The one exception is the xml::event_parser::parse_chunk() member function. Its
+bool indicates the success of parsing the current chunk and
+xml::event_parser::parse_finish() returns the final parsing status.
+
+If any of the parsing callbacks (event handling member functions) returned @c
+false, or threw an exception, the final parsing status will be @c false. The
+final parsing status will also be @c false if the XML document was not well
+formed.
+
+In the case where the final parsing status is @c false, you can use the
+xml::event::parser::get_error_message() member function to get an error message
+that should explain why the status was @c false. The callback member functions
+should use the xml::event_parser::set_error_message() member function to set
+the error message when they are going to return false or throw an exception.
+
+@note
+Because the callback member functions are really being called from the libxml2
+library, exceptions that get thrown from them will not propagate up the calling
+stack. Instead, they will be trapped (using a catch (...) statement) and used
+to set the parsing state to @c false.  The reason they must be trapped is
+because C++ exceptions cannot propagate through the libxml2 library, which is
+written in C. There are some ways around this, but none of them are portable.
+
+*/

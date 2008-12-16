@@ -1,0 +1,59 @@
+/**
+
+@page xslt Using the XSLT Support
+
+Starting with version 0.4.0, xmlwrapp supports XSLT using the
+<a href="http://xmlsoft.org/XSLT/">libxslt</a> XSLT library. If @c configure
+detects that you have libxslt installed, it will enable the creation of a
+library called @c xsltwrapp.
+
+The two main classes that you should care about are
+xslt::init and
+xslt::stylesheet. There is also a general
+header file that will bring in all of xsltwrapp and xmlwrapp called
+xsltwrapp/xsltwrapp.h.
+
+
+@section xslt_init Configuring xsltwrapp
+
+Similarly to xml::init, the xslt::init class can be used to configure
+runtime behavior of libxslt.
+
+@see @ref prepare_init
+
+
+@section xslt_stylesheet The xslt::stylesheet Class
+
+The xslt::stylesheet class can be used to parse an XSLT stylesheet and apply it
+to another XML document to produce a results document. You can have the
+xslt::stylesheet class parse a XSLT file, or you can give it an xml::document
+object that contains the stylesheet tree.
+
+Once you have created an xslt::stylesheet object, you can apply the loaded
+stylesheet to any xml::document object. The resulting document is also returned
+in an xml::document object.
+
+
+@section xslt_apply_ne Applying the Stylesheet without Exceptions
+
+If you don't want xsltwrapp to throw an exception for transformation errors,
+you can use one of the two xslt::stylesheet::apply() member functions that take
+a reference to an xml::document object where the results should be placed.
+These functions return a @c bool to indicate if the transformation was
+successful or not. These functions have the following prototypes:
+- bool xslt::stylesheet::apply(const xml::document& doc, xml::document& result)
+- bool xslt::stylesheet::apply(const xml::document& doc, xml::document& result, const param_type& with_params)
+
+
+@section xslt_apply_we Applying the Stylesheet with the Possibility of Exceptions
+
+You can have xsltwrapp throw an exception (std::runtime_error) if the
+transformation fails. This is done using the two versions of the
+xslt::stylesheet::apply() member function that return the resulting document.
+They return a reference to the results document, when the transformation was
+successful. These functions have the following prototypes:
+
+- xml::document& xslt::stylesheet::apply(const xml::document& doc);
+- xml::document& xslt::stylesheet::apply(const xml::document& doc, const param_type& with_params);
+
+*/

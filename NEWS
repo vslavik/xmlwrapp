@@ -20,6 +20,11 @@ Version 0.6.0
 
 	Configuration methods of xml/xslt::init classes are now static.
 
+	The previously separate manual was merged with Doxygen documentation so
+	that all documentation is available in single place. As a consequence,
+	PDF version of the manual is no longer provided, use HTML documentation
+	included with xmlwrapp source distribution.
+
 Version 0.5.1
 
 	Various compilation fixes.

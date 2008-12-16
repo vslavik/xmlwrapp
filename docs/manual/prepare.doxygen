@@ -1,0 +1,70 @@
+/**
+
+@page prepare Preparing To Use xmlwrapp
+
+Before you use xmlwrapp there are a few things you will need to
+know. This chapter will give you all the background you need to
+understand the rest of this book.
+
+@section prepare_headers Header Files
+
+When you install xmlwrapp, a set of header files will be installed in the
+include directory of your choosing. If you don't pick a location for these file
+to go, they will be installed in /usr/local/include by default. All of the
+xmlwrapp header files will be placed into a @c xmlwrapp subdirectory.
+
+If you are using the @c pkg-config script, you don't have to worry about where
+the xmlwrapp header files were installed. @c "pkg-config xmlwrapp" will add the
+appropriate directory to the compiler's search path.
+
+When using the xmlwrapp header files, you can either include each
+file you need or use the master include file to include all
+xmlwrapp header files. The choice is yours and mainly depends on
+your style and the project you are working on.
+
+@subsection prepare_headers_example1 Include xmlwrapp Header Files
+
+@code
+#include <xmlwrapp/node.h>
+#include <xmlwrapp/document.h>
+@endcode
+
+@subsection prepare_headers_example2 Include All xmlwrapp Header Files
+
+@code
+#include <xmlwrapp/xmlwrapp.h>
+@endcode
+
+@section prepare_namespace The xmlwrapp Namespace
+
+To prevent pollution of the global namespace, xmlwrapp places all classes and
+functions in the xml namespace. For clarity, this document will always use the
+xml namespace prefix when showing examples.
+
+It is your choice if you want to use the xml namespace in your code, or use
+one of the many forms of the "using namespace" statement.
+
+
+@section prepare_init Initializing the XML Parser
+
+Starting with xmlwrapp version 0.6.0, you don't have to explicitly initialize
+the library, it is automatically initialized at startup time, in a thread-safe
+way.
+
+You may want to configure the libxml2 parser to behave differently from
+its default behavior. The xml::init class exists for this purpose and provides
+several static methods for configuring various aspects of libxml2. If you
+decide to tweak the defaults, it is generally good idea to do it before
+first use of xmlwrapp, as setting the defaults is @em not thread-safe and
+has global effect.
+
+@code
+int main() {
+  xml::init::remove_whitespace(true);
+  ...
+  return 0;
+}
+@endcode
+
+
+*/

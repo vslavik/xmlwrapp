@@ -1,0 +1,85 @@
+/**
+
+@page attr Node Attributes
+
+It is possible for every element type node in an XML node tree to have
+attributes. Attributes are nothing more than a collection of name value pairs.
+In xmlwrapp, attributes are accessed using the xml::attributes class. This
+chapter will show you how to work with objects of this class.
+
+
+@section attr_it Accessing Individual Attributes
+
+The xml::attributes class is a container of node attributes. It would be pretty
+useless if there was no way to access the individual attributes inside of it.
+Iterators come to the rescue again.  Just like the other xmlwrapp classes,
+iterators are used to access the attributes stored inside the xml::attributes
+class.
+
+@subsection attr_it_it Attribute Iterators
+
+The xml::attributes::iterator and xml::attributes::const_iterator classes point
+to a xml::attributes::attr object. This object is what gives you access to the
+name and value of a given attribute. In future versions of xmlwrapp, you will
+be able to use this class to access the attribute's namespace.
+
+@code
+xml::attributes attrs;
+
+...
+
+xml::attributes::iterator i(attrs.begin());
+
+if (i != attrs.end())
+{
+  std::cout << " name: " << i->get_name() << "\n";
+  std::cout << "value: " << i->get_value() << "\n";
+}
+@endcode
+
+@subsection attr_it_begin Begin and End
+
+If you just wanted to iterate through the attributes, you can use the
+xml::attributes::begin() and the xml::attributes::end() member functions. They
+both return either a xml::attributes::iterator or
+xml::attributes::const_iterator object depending on whether the xml::attributes
+object is const or not.
+
+@subsection attr_it_find Finding Attributes
+
+When you want to locate an attribute with a given name, you can use the
+xml::attributes::find() member function. It will return an iterator that points
+to the found attribute or an iterator that is equal to the iterators that the
+xml::attributes::end() function returns.
+
+There is a small difference between the xml::attributes::find() function and
+just using the xml::attributes::begin() function to iterate over the
+attributes. If the attributes belong to a xml::document object that has been
+validated, the xml::attributes::find() function may return an attribute that
+was not given in the XML document but contains a default value in the DTD.
+
+If you are asking the xml::attributes::find() function to find an attribute
+that has a default value, but was present in the XML document, the document
+version of the attribute is returned.
+
+
+@section attr_add Adding and Replacing Attributes
+
+Since only one attribute with a given name can exist in a node at any one time,
+the same function can be used to both add and replace attributes. When
+attempting to add an attribute who has the same name as another attribute in
+the container, the old attribute will be removed before the new one is
+inserted.
+
+To add or replace an attribute, you can use the xml::attributes::insert()
+member function. It takes the name and value for the attribute to insert.
+
+
+@section attr_remove Removing Attributes
+
+There are two ways to remove an attribute from a xml::attributes object. Both
+involve a call to the xml::attributes::erase() member function. You can remove
+an attribute by name, or using an iterator that points to the attribute you
+wish to remove.
+
+*/

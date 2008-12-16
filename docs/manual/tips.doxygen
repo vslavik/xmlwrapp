@@ -1,22 +1,17 @@
-<?xml version="1.0"?>
-<!DOCTYPE appendix PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-                      "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
->
-<appendix id="tips"><title>Tips, Tricks and Warnings</title>
-    <!--===================================================================-->
-    <section><title>Iterators and Object Lifetimes</title>
-	<para>
-	    Because of the way xmlwrapp is implemented, you must be careful
-	    with pointers and references that you take from xmlwrapp
-	    iterators. The pointers and references will only be valid as long
-	    as the iterator is valid.
-	</para>
+/**
 
-	<para>
-	    From the xmlwrapp-users mailing list:
+@page tips Tips, Tricks and Warnings
 
-	    <screen>
-<![CDATA[
+@section tips_lifetime Iterators and Object Lifetimes
+
+Because of the way xmlwrapp is implemented, you must be careful
+with pointers and references that you take from xmlwrapp
+iterators. The pointers and references will only be valid as long
+as the iterator is valid.
+
+From the xmlwrapp-users mailing list:
+
+<pre>
 From: Peter Jones <xmlwrapp@pmade.org>
 Subject: Re: [xmlwrapp-users] Potential bug in xml::node::iterator dereferencing?
 Date: Fri, 21 Mar 2003 07:47:05 -0800
@@ -57,9 +52,6 @@ Currently, the xml::node::iterator will use its xml::node member
 variable as a way to pretend that xml::node objects are containers for
 other xml::node objects. This is why the lifetime of the xml::node is
 limited to the lifetime of the xml::node::iterator.
-]]>
-	    </screen>
-	</para>
-    </section>
-    <!--===================================================================-->
-</appendix>
+</pre>
+
+*/
