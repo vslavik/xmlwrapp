@@ -25,7 +25,8 @@ noinst_PROGRAMS = \
 		test_node-10 \
 		test_node-11 \
 		test_node-12 \
-		test_node-13
+		test_node-13 \
+		test_node-14
 
 test_node_01_SOURCES = test_node-01.cxx
 test_node_02a_SOURCES = test_node-02a.cxx
@@ -48,3 +49,4 @@ test_node_10_SOURCES = test_node-10.cxx
 test_node_11_SOURCES = test_node-11.cxx
 test_node_12_SOURCES = test_node-12.cxx
 test_node_13_SOURCES = test_node-13.cxx
+test_node_14_SOURCES = test_node-14.cxx

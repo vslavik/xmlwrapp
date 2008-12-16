@@ -130,6 +130,18 @@ public:
 	const char *n, *c;
     };
 
+    /**
+     * Helper struct for creating a xml::node of type_text.
+     *
+     * @code
+     * xml::node mynode(xml::node::text("This is an XML text fragment"));
+     * @endcode
+     */
+    struct text {
+	explicit text (const char *text) : t(text) { }
+	const char *t;
+    };
+
     //####################################################################
     /** 
      * Construct a new blank xml::node.
@@ -209,6 +221,22 @@ public:
     **/
     //####################################################################
     explicit node (pi pi_info);
+
+    //####################################################################
+    /** 
+     * Construct a new xml::node that is of type_text. The text_info
+     * parameter should contain the text.
+     *
+     * @note Sample Use Example:
+     * @code
+     * xml::node mynode(xml::node::text("This is XML text"));
+     * @endcode
+     *
+     * @param text_info A text struct that tells xml::node what the text will be.
+     * @author Vaclav Slavik
+    **/
+    //####################################################################
+    explicit node (text text_info);
 
     //####################################################################
     /** 

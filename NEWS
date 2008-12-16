@@ -27,6 +27,9 @@ Version 0.6.0
 
 	Added xml::node::get_namespace() function.
 
+	Added new constructor to the xml::node class for creating text nodes,
+	using xml::node::text helper struct.
+
 Version 0.5.1
 
 	Various compilation fixes.
