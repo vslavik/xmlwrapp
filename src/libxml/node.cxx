@@ -175,6 +175,10 @@ namespace {
     xmlNodePtr find_node(const char *name, xmlNodePtr first);
 }
 //####################################################################
+xml::node::node (int) {
+    pimpl_ = new node_impl;
+}
+//####################################################################
 xml::node::node (void) {
     std::auto_ptr<node_impl> ap(pimpl_ = new node_impl);
 

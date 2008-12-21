@@ -800,8 +800,13 @@ public:
     **/
     //####################################################################
     friend std::ostream& operator<< (std::ostream &stream, const node &n);
+
 private:
     node_impl *pimpl_;
+
+    // private ctor to create uninitialized instance
+    explicit node (int);
+
     void set_node_data (void *data);
     void* get_node_data (void);
     void* release_node_data (void);

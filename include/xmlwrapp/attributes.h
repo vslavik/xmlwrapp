@@ -372,7 +372,10 @@ public:
 
 private:
     struct pimpl; pimpl *pimpl_;
+
+    // private ctor to create uninitialized instance
     explicit attributes (int);
+
     void set_data (void *node);
     void* get_data (void);
     friend struct node_impl;
