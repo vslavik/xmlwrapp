@@ -30,6 +30,8 @@ Version 0.6.0
 	Added new constructor to the xml::node class for creating text nodes,
 	using xml::node::text helper struct.
 
+	Improved iterators performance (only if Boost.Pool is available).
+
 Version 0.5.1
 
 	Various compilation fixes.

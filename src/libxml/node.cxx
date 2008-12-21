@@ -40,6 +40,7 @@
 #include "utility.h"
 #include "ait_impl.h"
 #include "node_manip.h"
+#include "pimpl_base.h"
 
 // standard includes
 #include <cstring>
@@ -58,7 +59,7 @@
 #include <libxml/parser.h>
 
 //####################################################################
-struct xml::node_impl {
+struct xml::node_impl : public xml::pimpl_base<xml::node_impl> {
     //####################################################################
     node_impl (void) : xmlnode_(0), owner_(true), attrs_(0)
     { }

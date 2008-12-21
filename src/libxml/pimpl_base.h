@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
+ * Copyright (C) 2008 Vaclav Slavik (vslavik@fastmail.fm)
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,53 +30,48 @@
  * SUCH DAMAGE.
  */
 
-/** @file
- * This file defines the xml::ait_impl class.
-**/
+#ifndef _xmlwrapp_pimpl_base_h_
+#define _xmlwrapp_pimpl_base_h_
 
-#ifndef _xmlwrapp_attr_iterator_h_
-#define _xmlwrapp_attr_iterator_h_
+#ifdef HAVE_BOOST_POOL_SINGLETON_POOL_HPP
+    #include <cassert>
+    #include <boost/pool/singleton_pool.hpp>
+#endif // HAVE_BOOST_POOL_SINGLETON_POOL_HPP
 
-// xmlwrapp includes
-#include "xmlwrapp/attributes.h"
+namespace xml
+{
 
-#include "pimpl_base.h"
-
-// libxml2 includes
-#include <libxml/tree.h>
-
-namespace xml {
-
-/**
- * the class that does all the work behind xml::attributes::iterator and
- * xml::attributes::const_iterator.
- */
-class ait_impl : public pimpl_base<ait_impl> {
+// Base class for all pimpl classes. Uses custom pool allocator for better
+// performance. Usage: derive your class FooImpl from pimpl_base<FooImpl>.
+template<typename T>
+class pimpl_base
+{
+#ifdef HAVE_BOOST_POOL_SINGLETON_POOL_HPP
 public:
-    ait_impl (xmlNodePtr node, xmlAttrPtr prop);
-    ait_impl (const char *name, const char *value, bool);
-    ait_impl (const ait_impl &other);
-    ait_impl& operator= (const ait_impl &other);
+    struct xmlwrapp_pool_tag {};
 
-    attributes::attr* get (void);
-    xmlAttrPtr get_raw_attr (void);
+    // NB: we can't typedef the pool type as pimpl_base<T> subtype,
+    //     because sizeof(T) is unknown (incomplete type) at this point,
+    //     but it's OK to use the type in implementation of operators
+    //     (compiled only when T, and so sizeof(T), is known)
+    #define XMLWRAPP_PIMPL_ALLOCATOR_TYPE(T) \
+        boost::singleton_pool<xmlwrapp_pool_tag, sizeof(T)>
 
-    ait_impl& operator++ (void);
-    ait_impl  operator++ (int);
+    static void* operator new(size_t size)
+    {
+        assert( size == sizeof(T) );
+        return XMLWRAPP_PIMPL_ALLOCATOR_TYPE(T)::malloc();
+    }
 
-    friend bool operator== (const ait_impl &lhs, const ait_impl &rhs);
-    friend bool operator!= (const ait_impl &lhs, const ait_impl &rhs);
-private:
-    xmlNodePtr xmlnode_;
-    xmlAttrPtr xmlattr_;
-    attributes::attr attr_;
-    bool fake_;
+    static void operator delete(void *ptr, size_t size)
+    {
+        assert( size == sizeof(T) );
+        if ( ptr )
+            XMLWRAPP_PIMPL_ALLOCATOR_TYPE(T)::free(ptr);
+    }
+#endif // HAVE_BOOST_POOL_SINGLETON_POOL_HPP
+};
 
-}; // end xml::ait_impl class
+} // namespace xml
 
-// a couple helper functions
-xmlAttrPtr find_prop (xmlNodePtr xmlnode, const char *name);
-xmlAttributePtr find_default_prop (xmlNodePtr xmlnode, const char *name);
-
-} // end xml namespace
-#endif
+#endif // _xmlwrapp_pimpl_base_h_

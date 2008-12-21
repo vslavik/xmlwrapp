@@ -37,6 +37,7 @@
 // xmlwrapp includes
 #include "xmlwrapp/attributes.h"
 #include "ait_impl.h"
+#include "pimpl_base.h"
 
 // standard includes
 #include <new>
@@ -46,7 +47,7 @@
 #include <libxml/tree.h>
 
 //####################################################################
-struct xml::attributes::pimpl {
+struct xml::attributes::pimpl : public xml::pimpl_base<xml::attributes::pimpl> {
     //####################################################################
     pimpl (void) : owner_(true) {
 	xmlnode_ = xmlNewNode(0, reinterpret_cast<const xmlChar*>("blank"));

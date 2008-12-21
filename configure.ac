@@ -84,6 +84,10 @@ if test "x$build_xslt" = "xyes" ; then
 fi
 
 
+AC_LANG_PUSH([C++])
+AC_CHECK_HEADERS([boost/pool/singleton_pool.hpp])
+AC_LANG_POP([C++])
+
 dnl === Compiler-specific stuff ===
 
 if test "x$GCC" == "xyes"; then

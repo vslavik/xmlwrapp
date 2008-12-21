@@ -36,6 +36,7 @@
 
 // definition include
 #include "node_iterator.h"
+#include "pimpl_base.h"
 
 // xmlwrapp includes
 #include "xmlwrapp/node.h"
@@ -47,7 +48,7 @@
 #include <libxml/tree.h>
 
 // xml::node::iterator pimpl
-struct xml::nipimpl {
+struct xml::nipimpl : public xml::pimpl_base<xml::nipimpl> {
     node_iterator it;
 
     nipimpl (void) {};
