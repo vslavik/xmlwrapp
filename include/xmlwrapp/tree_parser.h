@@ -47,8 +47,10 @@
 namespace xml {
 
 // forward declarations
-struct tree_impl;
 class document;
+namespace impl {
+struct tree_impl;
+}
 
 /**
  * The xml::tree_parser class is used to parse an XML document and generate
@@ -166,7 +168,7 @@ public:
     //####################################################################
     const xml::document& get_document (void) const;
 private:
-    tree_impl *pimpl_; // private implementation
+    impl::tree_impl *pimpl_; // private implementation
 
     /* 
      * Don't allow anyone to copy construct a xml::tree_parser or allow the

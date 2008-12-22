@@ -47,7 +47,11 @@
 #include <map>
 
 namespace xml {
-    struct epimpl; // forward declaration of private implementation
+
+
+namespace impl {
+struct epimpl; // forward declaration of private implementation
+}
 
 /**
  * The xml::event_parser is used to parse an XML document by calling member
@@ -255,8 +259,8 @@ protected:
     //####################################################################
     void set_error_message (const char *message);
 private:
-    friend struct epimpl;
-    epimpl *pimpl_; // private implementation
+    friend struct impl::epimpl;
+    impl::epimpl *pimpl_; // private implementation
 
     /*
      * Don't allow anyone to copy construct an event_parser or to call the

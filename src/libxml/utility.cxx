@@ -44,6 +44,8 @@
 
 namespace xml {
 
+namespace impl {
+
     //####################################################################
     void printf2string (std::string &s, const char *message, va_list ap) {
 	char buffer[512];
@@ -59,5 +61,7 @@ namespace xml {
 	}
     }
     //####################################################################
+
+} // end impl namespace
 
 } // end xml namespace

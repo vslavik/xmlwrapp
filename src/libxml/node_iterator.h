@@ -31,7 +31,7 @@
  */
 
 /** @file
- * This file defines the xml::node_iterator class for libxml2.
+ * This file defines the xml::impl::node_iterator class for libxml2.
 **/
 
 #ifndef _xmlwrapp_node_iterator_h_
@@ -44,6 +44,8 @@
 #include <libxml/tree.h>
 
 namespace xml {
+
+namespace impl {
 
 // base iterator class
 class node_iterator {
@@ -65,7 +67,9 @@ public:
 private:
     mutable node fake_node_;
     xmlNodePtr node_;
-}; // end xml::node_iterator class
+}; // end xml::impl::node_iterator class
+
+} // end impl namespace
 
 } // end xml namespace
 #endif

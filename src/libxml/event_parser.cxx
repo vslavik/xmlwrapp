@@ -55,6 +55,9 @@
 #include <iostream>
 #include <fstream>
 
+using namespace xml;
+using namespace xml::impl;
+
 //####################################################################
 /*
  * This is a hack to fix a problem with a change in the libxml2 API for
@@ -80,7 +83,7 @@ namespace {
     extern "C" void cb_ignore (void*, const xmlChar*, int);
 } // end anonymous namespace
 //####################################################################
-struct xml::epimpl {
+struct xml::impl::epimpl {
 public:
     epimpl (event_parser &parent);
     ~epimpl (void);
@@ -168,7 +171,7 @@ void xml::event_parser::set_error_message (const char *message) {
     pimpl_->last_error_message_ = message;
 }
 //####################################################################
-xml::epimpl::epimpl (event_parser &parent)
+epimpl::epimpl (event_parser &parent)
     : parser_status_(true), parent_(parent)
 {
     std::memset(&sax_handler_, 0, sizeof(sax_handler_));
@@ -191,11 +194,11 @@ xml::epimpl::epimpl (event_parser &parent)
     }
 }
 //####################################################################
-xml::epimpl::~epimpl (void) {
+epimpl::~epimpl (void) {
     xmlFreeParserCtxt(parser_context_);
 }
 //####################################################################
-void xml::epimpl::event_start_element (const xmlChar *tag, const xmlChar **props) {
+void epimpl::event_start_element (const xmlChar *tag, const xmlChar **props) {
     if (!parser_status_) return;
 
     try {
@@ -214,7 +217,7 @@ void xml::epimpl::event_start_element (const xmlChar *tag, const xmlChar **props
     if (!parser_status_) xmlStopParser(parser_context_);
 }
 //####################################################################
-void xml::epimpl::event_end_element (const xmlChar *tag) {
+void epimpl::event_end_element (const xmlChar *tag) {
     if (!parser_status_) return;
 
     try {
@@ -226,7 +229,7 @@ void xml::epimpl::event_end_element (const xmlChar *tag) {
     if (!parser_status_) xmlStopParser(parser_context_);
 }
 //####################################################################
-void xml::epimpl::event_text (const xmlChar *text, int length) {
+void epimpl::event_text (const xmlChar *text, int length) {
     if (!parser_status_) return;
 
     try {
@@ -238,7 +241,7 @@ void xml::epimpl::event_text (const xmlChar *text, int length) {
     if (!parser_status_) xmlStopParser(parser_context_);
 }
 //####################################################################
-void xml::epimpl::event_pi (const xmlChar *target, const xmlChar *data) {
+void epimpl::event_pi (const xmlChar *target, const xmlChar *data) {
     if (!parser_status_) return;
 
     try {
@@ -251,7 +254,7 @@ void xml::epimpl::event_pi (const xmlChar *target, const xmlChar *data) {
     if (!parser_status_) xmlStopParser(parser_context_);
 }
 //####################################################################
-void xml::epimpl::event_comment (const xmlChar *text) {
+void epimpl::event_comment (const xmlChar *text) {
     if (!parser_status_) return;
 
     try {
@@ -263,7 +266,7 @@ void xml::epimpl::event_comment (const xmlChar *text) {
     if (!parser_status_) xmlStopParser(parser_context_);
 }
 //####################################################################
-void xml::epimpl::event_cdata (const xmlChar *text, int length) {
+void epimpl::event_cdata (const xmlChar *text, int length) {
     if (!parser_status_) return;
 
     try {
@@ -275,7 +278,7 @@ void xml::epimpl::event_cdata (const xmlChar *text, int length) {
     if (!parser_status_) xmlStopParser(parser_context_);
 }
 //####################################################################
-void xml::epimpl::event_warning (const std::string &message) {
+void epimpl::event_warning (const std::string &message) {
     if (!parser_status_) return;
 
     try {
@@ -287,7 +290,7 @@ void xml::epimpl::event_warning (const std::string &message) {
     if (!parser_status_) xmlStopParser(parser_context_);
 }
 //####################################################################
-void xml::epimpl::event_error (const std::string &message) {
+void epimpl::event_error (const std::string &message) {
     try { last_error_message_ = message; } catch ( ... ) { }
     parser_status_ = false;
     xmlStopParser(parser_context_);
@@ -299,32 +302,32 @@ namespace {
     { return xmlGetPredefinedEntity(name); }
     //####################################################################
     extern "C" void cb_start_element (void *parser, const xmlChar *tag, const xmlChar **props)
-    { static_cast<xml::epimpl*>(parser)->event_start_element(tag, props); }
+    { static_cast<epimpl*>(parser)->event_start_element(tag, props); }
     //####################################################################
     extern "C" void cb_end_element (void *parser, const xmlChar *tag)
-    { static_cast<xml::epimpl*>(parser)->event_end_element(tag); }
+    { static_cast<epimpl*>(parser)->event_end_element(tag); }
     //####################################################################
     extern "C" void cb_text (void *parser, const xmlChar *text, int length)
-    { static_cast<xml::epimpl*>(parser)->event_text(text, length); }
+    { static_cast<epimpl*>(parser)->event_text(text, length); }
     //####################################################################
     extern "C" void cb_pi (void *parser, const xmlChar *target, const xmlChar *data)
-    { static_cast<xml::epimpl*>(parser)->event_pi(target, data); }
+    { static_cast<epimpl*>(parser)->event_pi(target, data); }
     //####################################################################
     extern "C" void cb_comment (void *parser, const xmlChar *text)
-    { static_cast<xml::epimpl*>(parser)->event_comment(text); }
+    { static_cast<epimpl*>(parser)->event_comment(text); }
     //####################################################################
     extern "C" void cb_cdata (void *parser, const xmlChar *text, int length)
-    { static_cast<xml::epimpl*>(parser)->event_cdata(text, length); }
+    { static_cast<epimpl*>(parser)->event_cdata(text, length); }
     //####################################################################
     extern "C" void cb_warning (void *parser, const char *message, ...) {
 	std::string complete_message;
 
 	va_list ap;
 	va_start(ap, message);
-	xml::printf2string(complete_message, message, ap);
+	printf2string(complete_message, message, ap);
 	va_end(ap);
 
-	static_cast<xml::epimpl*>(parser)->event_warning(complete_message);
+	static_cast<epimpl*>(parser)->event_warning(complete_message);
     }
     //####################################################################
     extern "C" void cb_error (void *parser, const char *message, ...) { 
@@ -332,10 +335,10 @@ namespace {
 
 	va_list ap;
 	va_start(ap, message);
-	xml::printf2string(complete_message, message, ap);
+	printf2string(complete_message, message, ap);
 	va_end(ap);
 
-	static_cast<xml::epimpl*>(parser)->event_error(complete_message);
+	static_cast<epimpl*>(parser)->event_error(complete_message);
     }
     //####################################################################
     extern "C" void cb_ignore (void*, const xmlChar*, int) {

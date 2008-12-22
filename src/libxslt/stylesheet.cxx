@@ -60,7 +60,7 @@ namespace {
 // implementation of xslt::result using xslt::stylesheet: we pass this object
 // to xml::document for the documents obtained via XSLT so that some operations
 // (currently only saving) could be done differently for them
-class result_impl : public xslt::result {
+class result_impl : public xslt::impl::result {
 public:
     // We don't own the pointers given to us, their lifetime must be greater
     // than the lifetime of this object.
@@ -73,7 +73,7 @@ public:
 
 	if (xsltSaveResultToString(&xml_string, &xml_string_length, doc_, ss_) >= 0)
 	{
-	    xml::xmlchar_helper helper(xml_string);
+	    xml::impl::xmlchar_helper helper(xml_string);
 	    if (xml_string_length) s.assign(helper.get(), xml_string_length);
 	}
     }

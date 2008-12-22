@@ -31,7 +31,7 @@
  */
 
 /** @file
- * This file implements the xml::node_iterator class for libxml2.
+ * This file implements the xml::impl::node_iterator class for libxml2.
 **/
 
 // definition include
@@ -47,8 +47,11 @@
 // libxml includes
 #include <libxml/tree.h>
 
+using namespace xml;
+using namespace xml::impl;
+
 // xml::node::iterator pimpl
-struct xml::nipimpl : public xml::pimpl_base<xml::nipimpl> {
+struct xml::impl::nipimpl : public pimpl_base<xml::impl::nipimpl> {
     node_iterator it;
 
     nipimpl (void) {};
@@ -57,27 +60,27 @@ struct xml::nipimpl : public xml::pimpl_base<xml::nipimpl> {
 };
 
 /*
- * xml::node_iterator Real Iterator class
+ * xml::impl::node_iterator Real Iterator class
  */
 
 //####################################################################
-xml::node* xml::node_iterator::get (void) const {
+xml::node* xml::impl::node_iterator::get (void) const {
     fake_node_.set_node_data(node_);
     return &fake_node_;
 }
 //####################################################################
-xml::node_iterator& xml::node_iterator::operator++ (void) {
+xml::impl::node_iterator& xml::impl::node_iterator::operator++ (void) {
     node_ = node_->next;
     return *this;
 }
 //####################################################################
-xml::node_iterator xml::node_iterator::operator++ (int) {
+xml::impl::node_iterator xml::impl::node_iterator::operator++ (int) {
     node_iterator old(*this);
     ++(*this);
     return old;
 }
 //####################################################################
-xmlNodePtr xml::node_iterator::get_raw_node (void) {
+xmlNodePtr xml::impl::node_iterator::get_raw_node (void) {
     return node_;
 }
 //####################################################################
@@ -196,6 +199,8 @@ void* xml::node::const_iterator::get_raw_node (void) {
 }
 //####################################################################
 namespace xml {
+
+namespace impl {
     bool operator== (const node_iterator &lhs, const node_iterator &rhs) {
 	return lhs.node_ == rhs.node_;
     }
@@ -203,6 +208,7 @@ namespace xml {
     bool operator!= (const node_iterator &lhs, const node_iterator &rhs) {
 	return !(lhs == rhs);
     }
+}
 
     bool operator== (const node::iterator &lhs, const node::iterator &rhs) {
 	return lhs.pimpl_->it == rhs.pimpl_->it;

@@ -47,6 +47,8 @@
 
 namespace xml {
 
+namespace impl {
+
 class dtd_impl {
 public:
     /*
@@ -83,7 +85,9 @@ private:
     dtd_impl (const dtd_impl&);
     dtd_impl& operator= (const dtd_impl&);
     void init_ctxt (void);
-}; // end xml::dtd_impl class
+}; // end xml::impl::dtd_impl class
+
+} // end impl namespace
 
 } // end xml namespace
 #endif

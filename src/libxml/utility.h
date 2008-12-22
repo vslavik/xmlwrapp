@@ -42,6 +42,8 @@
 
 namespace xml {
 
+namespace impl {
+
     /*
      * exception safe wrapper around xmlChar*s that are returned from some
      * of the libxml functions that the user must free.
@@ -61,6 +63,8 @@ namespace xml {
     };
 
     void printf2string (std::string &s, const char *message, va_list ap);
+
+} // end impl namespace
 
 } // end xml namespace
 #endif

@@ -31,7 +31,7 @@
  */
 
 /** @file
- * This file implements the xml::dtd_impl class.
+ * This file implements the dtd_impl class.
 **/
 
 // xmlwrapp includes
@@ -47,26 +47,29 @@
 #include <libxml/valid.h>
 #include <libxml/tree.h>
 
+using namespace xml;
+using namespace xml::impl;
+
 //####################################################################
 namespace {
     extern "C" void dtd_error (void *ctxt, const char *message, ...);
     extern "C" void dtd_warning (void *ctxt, const char*, ...);
 } // end anonymous namespace
 //####################################################################
-xml::dtd_impl::dtd_impl (const char *filename) : warnings_(0), dtd_(0) {
+dtd_impl::dtd_impl (const char *filename) : warnings_(0), dtd_(0) {
     if ( (dtd_ = xmlParseDTD(0, reinterpret_cast<const xmlChar*>(filename))) == 0) {
 	error_ = "unable to parse DTD "; error_ += filename;
     }
 }
 //####################################################################
-xml::dtd_impl::dtd_impl (void) : warnings_(0), dtd_(0) {
+dtd_impl::dtd_impl (void) : warnings_(0), dtd_(0) {
 }
 //####################################################################
-xml::dtd_impl::~dtd_impl (void) {
+dtd_impl::~dtd_impl (void) {
     if (dtd_) xmlFreeDtd(dtd_);
 }
 //####################################################################
-void xml::dtd_impl::init_ctxt (void) {
+void dtd_impl::init_ctxt (void) {
     std::memset(&vctxt_, 0, sizeof(vctxt_));
 
     vctxt_.userData = this;
@@ -74,14 +77,14 @@ void xml::dtd_impl::init_ctxt (void) {
     vctxt_.warning  = dtd_warning;
 }
 //####################################################################
-bool xml::dtd_impl::validate (xmlDocPtr xmldoc) {
+bool dtd_impl::validate (xmlDocPtr xmldoc) {
     init_ctxt();
 
     if (dtd_) return xmlValidateDtd(&vctxt_, xmldoc, dtd_) != 0;
     else return xmlValidateDocument(&vctxt_, xmldoc) != 0;
 }
 //####################################################################
-xmlDtdPtr xml::dtd_impl::release (void) {
+xmlDtdPtr dtd_impl::release (void) {
     xmlDtdPtr xmldtd = dtd_;
     dtd_ = 0;
     return xmldtd;
@@ -90,16 +93,16 @@ xmlDtdPtr xml::dtd_impl::release (void) {
 namespace {
     //####################################################################
     extern "C" void dtd_error (void *ctxt, const char *message, ...) {
-	xml::dtd_impl *dtd = static_cast<xml::dtd_impl*>(ctxt);
+	dtd_impl *dtd = static_cast<dtd_impl*>(ctxt);
 
 	va_list ap;
 	va_start(ap, message);
-	xml::printf2string(dtd->error_, message, ap);
+	printf2string(dtd->error_, message, ap);
 	va_end(ap);
     }
     //####################################################################
     extern "C" void dtd_warning (void *ctxt, const char*, ...) {
-	xml::dtd_impl *dtd = static_cast<xml::dtd_impl*>(ctxt);
+	dtd_impl *dtd = static_cast<dtd_impl*>(ctxt);
 	++dtd->warnings_;
     }
     //####################################################################

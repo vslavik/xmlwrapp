@@ -31,7 +31,7 @@
  */
 
 /** @file
- * This file implements the xml::ait_impl, xml::attributes::iterator,
+ * This file implements the ait_impl, xml::attributes::iterator,
  * xml::attributes::const_iterator and xml::attributes::attr classes.
 **/
 
@@ -47,16 +47,19 @@
 // libxml2 includes
 #include <libxml/tree.h>
 
+using namespace xml;
+using namespace xml::impl;
+
 /*
- * First we have the xml::ait_impl class.
+ * First we have the ait_impl class.
  */
 
 //####################################################################
-xml::ait_impl::ait_impl (xmlNodePtr node, xmlAttrPtr prop) : xmlnode_(node), xmlattr_(prop), fake_(false) {
+ait_impl::ait_impl (xmlNodePtr node, xmlAttrPtr prop) : xmlnode_(node), xmlattr_(prop), fake_(false) {
     attr_.set_data(xmlnode_, xmlattr_);
 }
 //####################################################################
-xml::ait_impl::ait_impl (const char *name, const char *value, bool) : xmlnode_(0), xmlattr_(0), fake_(true) {
+ait_impl::ait_impl (const char *name, const char *value, bool) : xmlnode_(0), xmlattr_(0), fake_(true) {
     /* 
      * in this constructor and in the functions to follow, the last
      * parameter, the bool, is only used to create a unique signature
@@ -64,12 +67,12 @@ xml::ait_impl::ait_impl (const char *name, const char *value, bool) : xmlnode_(0
     attr_.set_data(name, value, true);
 }
 //####################################################################
-xml::ait_impl::ait_impl (const ait_impl &other) : xmlnode_(other.xmlnode_), xmlattr_(other.xmlattr_), fake_(other.fake_)  {
+ait_impl::ait_impl (const ait_impl &other) : xmlnode_(other.xmlnode_), xmlattr_(other.xmlattr_), fake_(other.fake_)  {
     if (fake_) attr_.set_data(other.attr_.get_name(), other.attr_.get_value(), true);
     else attr_.set_data(xmlnode_, xmlattr_);
 }
 //####################################################################
-xml::ait_impl& xml::ait_impl::operator= (const ait_impl &other) {
+ait_impl& ait_impl::operator= (const ait_impl &other) {
     ait_impl tmp(other);
 
     std::swap(xmlnode_, tmp.xmlnode_);
@@ -80,15 +83,15 @@ xml::ait_impl& xml::ait_impl::operator= (const ait_impl &other) {
     return *this;
 }
 //####################################################################
-xml::attributes::attr* xml::ait_impl::get (void) {
+xml::attributes::attr* ait_impl::get (void) {
     return &attr_;
 }
 //####################################################################
-xmlAttrPtr xml::ait_impl::get_raw_attr (void) {
+xmlAttrPtr ait_impl::get_raw_attr (void) {
     return xmlattr_;
 }
 //####################################################################
-xml::ait_impl& xml::ait_impl::operator++ (void) {
+ait_impl& ait_impl::operator++ (void) {
     if (xmlattr_) xmlattr_ = xmlattr_->next;
     else fake_ = false;
 
@@ -96,7 +99,7 @@ xml::ait_impl& xml::ait_impl::operator++ (void) {
     return *this;
 }
 //####################################################################
-xml::ait_impl xml::ait_impl::operator++ (int) {
+ait_impl ait_impl::operator++ (int) {
     ait_impl tmp(xmlnode_, xmlattr_);
     ++(*this);
     return tmp;
@@ -288,6 +291,8 @@ const char* xml::attributes::attr::get_value (void) const {
 
 //####################################################################
 namespace xml {
+
+namespace impl {
     //####################################################################
     xmlAttrPtr find_prop (xmlNodePtr xmlnode, const char *name) {
 	xmlAttrPtr prop = xmlnode->properties;
@@ -320,15 +325,8 @@ namespace xml {
 
 	return 0;
     }
-    //####################################################################
-    bool operator== (const ait_impl &lhs, const ait_impl &rhs) {
-	if (lhs.fake_ || rhs.fake_) return false;
-	return lhs.xmlattr_ == rhs.xmlattr_;
-    }
-    //####################################################################
-    bool operator!= (const ait_impl &lhs, const ait_impl &rhs) {
-	return !(lhs == rhs);
-    }
+}
+
     //####################################################################
     bool operator== (const attributes::iterator &lhs, const attributes::iterator &rhs) {
 	return *(lhs.pimpl_) == *(rhs.pimpl_);
@@ -345,6 +343,17 @@ namespace xml {
     bool operator!= (const attributes::const_iterator &lhs, const attributes::const_iterator &rhs) {
 	return !(lhs == rhs);
     }
+    //####################################################################
+namespace impl {
+    bool operator== (const ait_impl &lhs, const ait_impl &rhs) {
+	if (lhs.fake_ || rhs.fake_) return false;
+	return lhs.xmlattr_ == rhs.xmlattr_;
+    }
+    //####################################################################
+    bool operator!= (const ait_impl &lhs, const ait_impl &rhs) {
+	return !(lhs == rhs);
+    }
+}
     //####################################################################
 }
 //####################################################################

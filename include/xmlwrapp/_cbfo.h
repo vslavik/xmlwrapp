@@ -36,7 +36,10 @@
 #include <functional>
 
 namespace xml {
-    class node;
+
+class node;
+
+namespace impl {
 
     struct cbfo_node_compare : public std::binary_function<xml::node, xml::node, bool> {
 	virtual ~cbfo_node_compare (void) { }
@@ -51,5 +54,8 @@ namespace xml {
 
 	T &t_;
     };
-}
+
+} // namespace impl
+
+} // namespace xml
 #endif

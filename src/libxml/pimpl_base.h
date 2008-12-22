@@ -41,6 +41,9 @@
 namespace xml
 {
 
+namespace impl
+{
+
 // Base class for all pimpl classes. Uses custom pool allocator for better
 // performance. Usage: derive your class FooImpl from pimpl_base<FooImpl>.
 template<typename T>
@@ -71,6 +74,8 @@ public:
     }
 #endif // HAVE_BOOST_POOL_SINGLETON_POOL_HPP
 };
+
+} // namespace impl
 
 } // namespace xml
 

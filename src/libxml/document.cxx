@@ -56,12 +56,16 @@
 // bring in private libxslt stuff (see bug #1927398)
 #include "../libxslt/result.h"
 
+using namespace xml;
+using namespace xml::impl;
+
+
 //####################################################################
 namespace {
     const char const_default_encoding[] = "ISO-8859-1";
 }
 //####################################################################
-struct xml::doc_impl {
+struct xml::impl::doc_impl {
     //####################################################################
     doc_impl (void) : doc_(0), xslt_result_(0) { 
 	xmlDocPtr tmpdoc;
@@ -123,7 +127,7 @@ struct xml::doc_impl {
     //####################################################################
 
     xmlDocPtr doc_;
-    xslt::result *xslt_result_;
+    xslt::impl::result *xslt_result_;
     node root_;
     std::string version_;
     mutable std::string encoding_;
@@ -259,17 +263,17 @@ xml::node::const_iterator xml::document::end (void) const {
 //####################################################################
 void xml::document::push_back (const node &child) {
     if (child.get_type() == node::type_element) throw std::runtime_error("xml::document::push_back can't take element type nodes");
-    xmlwrapp::node_insert(reinterpret_cast<xmlNodePtr>(pimpl_->doc_), 0, static_cast<xmlNodePtr>(const_cast<node&>(child).get_node_data()));
+    xml::impl::node_insert(reinterpret_cast<xmlNodePtr>(pimpl_->doc_), 0, static_cast<xmlNodePtr>(const_cast<node&>(child).get_node_data()));
 }
 //####################################################################
 xml::node::iterator xml::document::insert (const node &n) {
     if (n.get_type() == node::type_element) throw std::runtime_error("xml::document::insert can't take element type nodes");
-    return node::iterator(xmlwrapp::node_insert(reinterpret_cast<xmlNodePtr>(pimpl_->doc_), 0, static_cast<xmlNodePtr>(const_cast<node&>(n).get_node_data())));
+    return node::iterator(xml::impl::node_insert(reinterpret_cast<xmlNodePtr>(pimpl_->doc_), 0, static_cast<xmlNodePtr>(const_cast<node&>(n).get_node_data())));
 }
 //####################################################################
 xml::node::iterator xml::document::insert (node::iterator position, const node &n) {
     if (n.get_type() == node::type_element) throw std::runtime_error("xml::document::insert can't take element type nodes");
-    return node::iterator(xmlwrapp::node_insert(reinterpret_cast<xmlNodePtr>(pimpl_->doc_), static_cast<xmlNodePtr>(position.get_raw_node()), static_cast<xmlNodePtr>(const_cast<node&>(n).get_node_data())));
+    return node::iterator(xml::impl::node_insert(reinterpret_cast<xmlNodePtr>(pimpl_->doc_), static_cast<xmlNodePtr>(position.get_raw_node()), static_cast<xmlNodePtr>(const_cast<node&>(n).get_node_data())));
 }
 //####################################################################
 xml::node::iterator xml::document::replace (node::iterator old_node, const node &new_node) {
@@ -277,12 +281,12 @@ xml::node::iterator xml::document::replace (node::iterator old_node, const node 
 	throw std::runtime_error("xml::document::replace can't replace element type nodes");
     }
 
-    return node::iterator(xmlwrapp::node_replace(static_cast<xmlNodePtr>(old_node.get_raw_node()), static_cast<xmlNodePtr>(const_cast<node&>(new_node).get_node_data())));
+    return node::iterator(xml::impl::node_replace(static_cast<xmlNodePtr>(old_node.get_raw_node()), static_cast<xmlNodePtr>(const_cast<node&>(new_node).get_node_data())));
 }
 //####################################################################
 xml::node::iterator xml::document::erase (node::iterator to_erase) {
     if (to_erase->get_type() == node::type_element) throw std::runtime_error("xml::document::erase can't erase element type nodes");
-    return node::iterator(xmlwrapp::node_erase(static_cast<xmlNodePtr>(to_erase.get_raw_node())));
+    return node::iterator(xml::impl::node_erase(static_cast<xmlNodePtr>(to_erase.get_raw_node())));
 }
 //####################################################################
 xml::node::iterator xml::document::erase (node::iterator first, node::iterator last) {
@@ -330,7 +334,7 @@ void xml::document::set_doc_data (void *data) {
     pimpl_->xslt_result_ = 0;
 }
 //####################################################################
-void xml::document::set_doc_data_from_xslt (void *data, xslt::result *xr) {
+void xml::document::set_doc_data_from_xslt (void *data, xslt::impl::result *xr) {
     // this document came from a XSLT transformation
     pimpl_->set_doc_data(static_cast<xmlDocPtr>(data), false);
     pimpl_->xslt_result_ = xr;

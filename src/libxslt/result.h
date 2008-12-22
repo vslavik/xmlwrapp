@@ -45,6 +45,8 @@ typedef struct _xmlDoc *xmlDocPtr;
 
 namespace xslt {
 
+namespace impl {
+
 /**
  * The xslt::result class is used as a callback by xml::document to allow
  * special treatment of XML documents which were created by XSLT.
@@ -89,6 +91,8 @@ public:
     //####################################################################
     virtual ~result (void) { }
 };
+
+} // end impl namespace
 
 } // end xslt namespace
 

@@ -48,15 +48,20 @@
 
 // forward declaration
 namespace xslt {
-    class result;
     class stylesheet;
+    namespace impl {
+    class result;
+    }
 } // end xslt namespace
 
 namespace xml {
 
 // forward declarations
 class tree_parser;
+
+namespace impl {
 struct doc_impl;
+}
 
 /**
  * The xml::document class is used to hold the XML tree and various bits of
@@ -534,9 +539,9 @@ public:
     friend std::ostream& operator<< (std::ostream &stream, const document &doc);
 
 private:
-    doc_impl *pimpl_;
+    impl::doc_impl *pimpl_;
     void set_doc_data (void *data);
-    void set_doc_data_from_xslt (void *data, xslt::result *xr);
+    void set_doc_data_from_xslt (void *data, xslt::impl::result *xr);
     void* get_doc_data (void);
     void* get_doc_data_read_only (void) const;
     void* release_doc_data (void);

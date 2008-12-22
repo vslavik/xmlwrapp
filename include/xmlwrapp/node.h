@@ -53,9 +53,15 @@ namespace xml {
 // forward declarations
 class document;
 class attributes;
+
+namespace impl {
+class node_iterator;
 struct node_impl;
+struct doc_impl;
 struct nipimpl;
 struct node_cmp;
+}
+
 
 /**
  * The xml::node class is used to hold information about one XML node. This
@@ -428,7 +434,7 @@ public:
 	friend bool operator== (const iterator &lhs, const iterator &rhs);
 	friend bool operator!= (const iterator &lhs, const iterator &rhs);
     private:
-	nipimpl *pimpl_;
+    impl::nipimpl *pimpl_;
 	explicit iterator (void *data);
 	void* get_raw_node (void);
 	void swap (iterator &other);
@@ -468,7 +474,7 @@ public:
 	friend bool operator== (const const_iterator &lhs, const const_iterator &rhs);
 	friend bool operator!= (const const_iterator &lhs, const const_iterator &rhs);
     private:
-	nipimpl *pimpl_;
+    impl::nipimpl *pimpl_;
 	explicit const_iterator (void *data);
 	void* get_raw_node (void);
 	void swap (const_iterator &other);
@@ -776,7 +782,7 @@ public:
     **/
     //####################################################################
     template <typename T> void sort (T compare)
-    { sort_callback<T> cb(compare); sort_fo(cb); }
+    { impl::sort_callback<T> cb(compare); sort_fo(cb); }
 
     //####################################################################
     /** 
@@ -802,7 +808,7 @@ public:
     friend std::ostream& operator<< (std::ostream &stream, const node &n);
 
 private:
-    node_impl *pimpl_;
+    impl::node_impl *pimpl_;
 
     // private ctor to create uninitialized instance
     explicit node (int);
@@ -811,12 +817,12 @@ private:
     void* get_node_data (void);
     void* release_node_data (void);
     friend class tree_parser;
-    friend class node_iterator;
+    friend class impl::node_iterator;
     friend class document;
-    friend struct doc_impl;
-    friend struct node_cmp;
+    friend struct impl::doc_impl;
+    friend struct impl::node_cmp;
 
-    void sort_fo (cbfo_node_compare &fo);
+    void sort_fo (impl::cbfo_node_compare &fo);
 }; // end xml::node class
 
 } // end xml namespace

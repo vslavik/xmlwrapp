@@ -46,8 +46,11 @@
 // libxml2 includes
 #include <libxml/tree.h>
 
+using namespace xml;
+using namespace xml::impl;
+
 //####################################################################
-struct xml::attributes::pimpl : public xml::pimpl_base<xml::attributes::pimpl> {
+struct xml::attributes::pimpl : public pimpl_base<xml::attributes::pimpl> {
     //####################################################################
     pimpl (void) : owner_(true) {
 	xmlnode_ = xmlNewNode(0, reinterpret_cast<const xmlChar*>("blank"));

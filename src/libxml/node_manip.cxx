@@ -45,7 +45,7 @@
 #include <libxml/tree.h>
 
 //####################################################################
-xmlNodePtr xmlwrapp::node_insert (xmlNodePtr parent, xmlNodePtr before, xmlNodePtr to_add) {
+xmlNodePtr xml::impl::node_insert (xmlNodePtr parent, xmlNodePtr before, xmlNodePtr to_add) {
     xmlNodePtr new_xml_node =  xmlCopyNode(to_add, 1);
     if (!new_xml_node) throw std::bad_alloc();
 
@@ -64,7 +64,7 @@ xmlNodePtr xmlwrapp::node_insert (xmlNodePtr parent, xmlNodePtr before, xmlNodeP
     return new_xml_node;
 }
 //####################################################################
-xmlNodePtr xmlwrapp::node_replace (xmlNodePtr old_node, xmlNodePtr new_node) {
+xmlNodePtr xml::impl::node_replace (xmlNodePtr old_node, xmlNodePtr new_node) {
     xmlNodePtr copied_node =  xmlCopyNode(new_node, 1);
     if (!copied_node) throw std::bad_alloc();
 
@@ -81,7 +81,7 @@ xmlNodePtr xmlwrapp::node_replace (xmlNodePtr old_node, xmlNodePtr new_node) {
     return copied_node;
 }
 //####################################################################
-xmlNodePtr xmlwrapp::node_erase (xmlNodePtr to_erase) {
+xmlNodePtr xml::impl::node_erase (xmlNodePtr to_erase) {
     xmlNodePtr after = to_erase->next;
 
     xmlUnlinkNode(to_erase);

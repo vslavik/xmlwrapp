@@ -58,8 +58,11 @@
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 
+using namespace xml;
+using namespace xml::impl;
+
 //####################################################################
-struct xml::node_impl : public xml::pimpl_base<xml::node_impl> {
+struct xml::impl::node_impl : public pimpl_base<xml::impl::node_impl> {
     //####################################################################
     node_impl (void) : xmlnode_(0), owner_(true), attrs_(0)
     { }
@@ -80,7 +83,7 @@ struct xml::node_impl : public xml::pimpl_base<xml::node_impl> {
     std::string tmp_string;
 };
 //####################################################################
-struct xml::node_cmp : public std::binary_function<xmlNodePtr, xmlNodePtr, bool> {
+struct xml::impl::node_cmp : public std::binary_function<xmlNodePtr, xmlNodePtr, bool> {
     //####################################################################
     node_cmp (cbfo_node_compare &cb) : cb_(cb) { }
     //####################################################################
@@ -138,11 +141,11 @@ namespace {
 	    xmlAttrPtr attr_l, attr_r;
 	    xmlAttributePtr dtd_l(0), dtd_r(0);
 
-	    attr_l = xml::find_prop(lhs, name_);
-	    if (attr_l == 0 && (dtd_l = xml::find_default_prop(lhs, name_)) == 0) return true;
+	    attr_l = find_prop(lhs, name_);
+	    if (attr_l == 0 && (dtd_l = find_default_prop(lhs, name_)) == 0) return true;
 
-	    attr_r = xml::find_prop(rhs, name_);
-	    if (attr_r == 0 && (dtd_r = xml::find_default_prop(rhs, name_)) == 0) return false;
+	    attr_r = find_prop(rhs, name_);
+	    if (attr_r == 0 && (dtd_r = find_default_prop(rhs, name_)) == 0) return false;
 
 	    xmlChar *value_l, *value_r;
 	    
@@ -366,7 +369,7 @@ bool xml::node::is_text (void) const {
 }
 //####################################################################
 void xml::node::push_back (const node &child) {
-    xmlwrapp::node_insert(pimpl_->xmlnode_, 0, child.pimpl_->xmlnode_);
+    xml::impl::node_insert(pimpl_->xmlnode_, 0, child.pimpl_->xmlnode_);
 }
 //####################################################################
 xml::node::size_type xml::node::size (void) const {
@@ -436,19 +439,19 @@ xml::node::const_iterator xml::node::find (const char *name, const_iterator star
 }
 //####################################################################
 xml::node::iterator xml::node::insert (const node &n) {
-    return iterator(xmlwrapp::node_insert(pimpl_->xmlnode_, 0, n.pimpl_->xmlnode_));
+    return iterator(xml::impl::node_insert(pimpl_->xmlnode_, 0, n.pimpl_->xmlnode_));
 }
 //####################################################################
 xml::node::iterator xml::node::insert (iterator position, const node &n) {
-    return iterator(xmlwrapp::node_insert(pimpl_->xmlnode_, static_cast<xmlNodePtr>(position.get_raw_node()), n.pimpl_->xmlnode_));
+    return iterator(xml::impl::node_insert(pimpl_->xmlnode_, static_cast<xmlNodePtr>(position.get_raw_node()), n.pimpl_->xmlnode_));
 }
 //####################################################################
 xml::node::iterator xml::node::replace (iterator old_node, const node &new_node) {
-    return iterator(xmlwrapp::node_replace(static_cast<xmlNodePtr>(old_node.get_raw_node()), new_node.pimpl_->xmlnode_));
+    return iterator(xml::impl::node_replace(static_cast<xmlNodePtr>(old_node.get_raw_node()), new_node.pimpl_->xmlnode_));
 }
 //####################################################################
 xml::node::iterator xml::node::erase (iterator to_erase) {
-    return iterator(xmlwrapp::node_erase(static_cast<xmlNodePtr>(to_erase.get_raw_node())));
+    return iterator(xml::impl::node_erase(static_cast<xmlNodePtr>(to_erase.get_raw_node())));
 }
 //####################################################################
 xml::node::iterator xml::node::erase (iterator first, iterator last) {

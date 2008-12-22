@@ -49,8 +49,11 @@ namespace xml {
    
 // forward declarations
 class node;
+
+namespace impl {
 class ait_impl;
 struct node_impl;
+}
 
 /**
  * The xml::attributes class is used to access all the attributes of one
@@ -154,7 +157,7 @@ public:
 
 	void set_data (void *node, void *prop);
 	void set_data (const char *name, const char *value, bool);
-	friend class ait_impl;
+	friend class impl::ait_impl;
     }; // end xml::attributes::attr class
 
     /**
@@ -185,7 +188,7 @@ public:
 	friend bool operator== (const iterator &lhs, const iterator &rhs);
 	friend bool operator!= (const iterator &lhs, const iterator &rhs);
     private:
-	ait_impl *pimpl_;
+    impl::ait_impl *pimpl_;
 	iterator (void *node, void *prop);
 	iterator (const char *name, const char *value, bool);
 	void swap (iterator &other);
@@ -223,7 +226,7 @@ public:
 	friend bool operator== (const const_iterator &lhs, const const_iterator &rhs);
 	friend bool operator!= (const const_iterator &lhs, const const_iterator &rhs);
     private:
-	ait_impl *pimpl_;
+    impl::ait_impl *pimpl_;
 	const_iterator (void *node, void *prop);
 	const_iterator (const char *name, const char *value, bool);
 	void swap (const_iterator &other);
@@ -378,7 +381,7 @@ private:
 
     void set_data (void *node);
     void* get_data (void);
-    friend struct node_impl;
+    friend struct impl::node_impl;
     friend class node;
 }; // end xml::attributes class
     

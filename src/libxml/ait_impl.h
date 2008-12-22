@@ -47,6 +47,8 @@
 
 namespace xml {
 
+namespace impl {
+
 /**
  * the class that does all the work behind xml::attributes::iterator and
  * xml::attributes::const_iterator.
@@ -77,6 +79,8 @@ private:
 // a couple helper functions
 xmlAttrPtr find_prop (xmlNodePtr xmlnode, const char *name);
 xmlAttributePtr find_default_prop (xmlNodePtr xmlnode, const char *name);
+
+} // end impl namespace
 
 } // end xml namespace
 #endif

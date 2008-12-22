@@ -41,7 +41,9 @@
 // libxml includes
 #include <libxml/tree.h>
 
-namespace xmlwrapp {
+namespace xml {
+
+namespace impl {
 
     //####################################################################
     /** 
@@ -79,5 +81,7 @@ namespace xmlwrapp {
     **/
     //####################################################################
     xmlNodePtr node_erase (xmlNodePtr to_erase);
+}
+
 }
 #endif

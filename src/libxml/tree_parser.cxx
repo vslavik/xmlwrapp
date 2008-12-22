@@ -52,6 +52,9 @@
 #include <string>
 #include <memory>
 
+using namespace xml;
+using namespace xml::impl;
+
 //####################################################################
 /*
  * This is a hack to fix a problem with a change in the libxml2 API for
@@ -70,7 +73,7 @@ namespace {
     extern "C" void cb_tree_ignore (void*, const xmlChar*, int);
 }
 //####################################################################
-struct xml::tree_impl {
+struct xml::impl::tree_impl {
     tree_impl (void) : last_error_(const_default_error), warnings_(false), okay_(false) {
 	std::memset(&sax_, 0, sizeof(sax_));
 	initxmlDefaultSAXHandler(&sax_, 0);
@@ -166,12 +169,12 @@ namespace {
 	try {
 
 	    xmlParserCtxtPtr ctxt = static_cast<xmlParserCtxtPtr>(v);
-	    xml::tree_impl *p = static_cast<xml::tree_impl*>(ctxt->_private);
+	    tree_impl *p = static_cast<tree_impl*>(ctxt->_private);
 	    if (!p) return; // handle bug in older versions of libxml
 
 	    va_list ap;
 	    va_start(ap, message);
-	    xml::printf2string(p->last_error_, message, ap);
+	    printf2string(p->last_error_, message, ap);
 	    va_end(ap);
 
 	    xmlStopParser(ctxt);
@@ -182,7 +185,7 @@ namespace {
 	try {
 
 	    xmlParserCtxtPtr ctxt = static_cast<xmlParserCtxtPtr>(v);
-	    xml::tree_impl *p = static_cast<xml::tree_impl*>(ctxt->_private);
+	    tree_impl *p = static_cast<tree_impl*>(ctxt->_private);
 	    if (!p) return; // handle bug in older versions of libxml
 
 	    p->warnings_ = true;
