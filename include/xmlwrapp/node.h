@@ -367,6 +367,7 @@ public:
      * @return The namespace of this node or NULL if no namespace is
      *         associated.
      * @author Vaclav Slavik
+     * @since  0.6.0
     **/
     //####################################################################
     const char* get_namespace (void) const;
