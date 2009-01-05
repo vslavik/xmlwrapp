@@ -364,6 +364,10 @@ const char *xml::node::get_namespace (void) const {
         : NULL;
 }
 //####################################################################
+void xml::node::set_namespace (const char *href) {
+    xmlNewNs(pimpl_->xmlnode_, reinterpret_cast<const xmlChar*>(href), 0);
+}
+//####################################################################
 bool xml::node::is_text (void) const {
     return xmlNodeIsText(pimpl_->xmlnode_) != 0;
 }
