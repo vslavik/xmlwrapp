@@ -392,14 +392,6 @@ xml::node::const_iterator xml::node::begin (void) const {
     return const_iterator(pimpl_->xmlnode_->children);
 }
 //####################################################################
-xml::node::iterator xml::node::end (void) {
-    return iterator();
-}
-//####################################################################
-xml::node::const_iterator xml::node::end (void) const {
-    return const_iterator();
-}
-//####################################################################
 xml::node::iterator xml::node::self (void) {
     return iterator(pimpl_->xmlnode_);
 }

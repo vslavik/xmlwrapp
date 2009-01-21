@@ -547,7 +547,7 @@ public:
      * @author Peter Jones
     **/
     //####################################################################
-    iterator end (void);
+    iterator end (void) { return iterator(); }
 
     //####################################################################
     /** 
@@ -558,7 +558,7 @@ public:
      * @author Peter Jones
     **/
     //####################################################################
-    const_iterator end (void) const;
+    const_iterator end (void) const { return const_iterator(); }
 
     //####################################################################
     /** 
