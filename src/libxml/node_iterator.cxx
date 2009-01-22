@@ -74,12 +74,6 @@ xml::impl::node_iterator& xml::impl::node_iterator::operator++ (void) {
     return *this;
 }
 //####################################################################
-xml::impl::node_iterator xml::impl::node_iterator::operator++ (int) {
-    node_iterator old(*this);
-    ++(*this);
-    return old;
-}
-//####################################################################
 xmlNodePtr xml::impl::node_iterator::get_raw_node (void) {
     return node_;
 }

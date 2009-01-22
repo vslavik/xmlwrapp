@@ -58,12 +58,11 @@ public:
 
     node* get (void) const;
     xmlNodePtr get_raw_node (void);
-    
+
     node_iterator& operator++ (void);
-    node_iterator  operator++ (int);
 
     friend bool operator== (const node_iterator &lhs, const node_iterator &rhs);
-    friend bool operator!= (const node_iterator &lhs, const node_iterator &rhs);
+
 private:
     mutable node fake_node_;
     xmlNodePtr node_;
