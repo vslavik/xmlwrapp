@@ -57,7 +57,7 @@ public:
     node_iterator& operator= (const node_iterator &other) { node_ = other.node_; return *this;}
 
     node* get (void) const;
-    xmlNodePtr get_raw_node (void);
+    xmlNodePtr get_raw_node (void) { return node_; }
 
     node_iterator& operator++ (void);
 
