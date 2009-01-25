@@ -35,7 +35,7 @@ dnl === Prologue ===
 
 AC_REVISION($Id$)dnl
 
-AC_PREREQ(2.56)
+AC_PREREQ(2.60)
 AC_INIT(xmlwrapp, 0.6.0, [xmlwrapp-users@lists.sourceforge.net])
 
 AC_CONFIG_SRCDIR([xmlwrapp.pc.in])
@@ -116,6 +116,7 @@ AC_CONFIG_FILES([
     Makefile
     include/Makefile
     src/Makefile
+    docs/Makefile
     examples/Makefile
     examples/01-tree_parsing/Makefile
     examples/02-event_parsing/Makefile

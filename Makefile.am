@@ -1,5 +1,5 @@
 
-SUBDIRS = include src examples tests
+SUBDIRS = include src examples tests docs
 
 pkgconfigdir=$(libdir)/pkgconfig
 
@@ -10,3 +10,6 @@ pkgconfig_DATA = xmlwrapp.pc
 endif
 
 bin_SCRIPTS = xmlwrapp-config
+
+EXTRA_DIST = LICENSE bootstrap \
+			 platform/Win32/*.dsp platform/Win32/*.dsw

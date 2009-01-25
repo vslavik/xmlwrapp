@@ -51,6 +51,7 @@ echo " - aclocal " && aclocal ${wx+-I} $wx && \
 echo " - libtoolize " && libtoolize --copy --automake && \
 echo " - autoconf " && autoconf && \
 echo " - automake " && automake --add-missing --copy --foreign && \
+echo " - doxygen " && (cd docs && doxygen) && \
 echo "Build setup successful, type \"configure\" to configure xmlwrapp now." && \
 exit 0
 

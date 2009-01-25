@@ -18,3 +18,5 @@ test_tree_03_SOURCES = test_tree-03.cxx
 test_tree_04_SOURCES = test_tree-04.cxx
 test_tree_05_SOURCES = test_tree-05.cxx
 test_tree_06_SOURCES = test_tree-06.cxx
+
+EXTRA_DIST = runtest.pl

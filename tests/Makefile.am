@@ -6,3 +6,5 @@ SUBDIRS = \
 		node \
 		tree \
 		xslt
+
+EXTRA_DIST = harness/harness.pm

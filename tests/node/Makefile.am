@@ -50,3 +50,5 @@ test_node_11_SOURCES = test_node-11.cxx
 test_node_12_SOURCES = test_node-12.cxx
 test_node_13_SOURCES = test_node-13.cxx
 test_node_14_SOURCES = test_node-14.cxx
+
+EXTRA_DIST = data/*.out data/*.xml runtest.pl

@@ -20,3 +20,5 @@ test_xslt_04_SOURCES = test_xslt-04.cxx
 test_xslt_05_SOURCES = test_xslt-05.cxx
 
 endif
+
+EXTRA_DIST = data/*.xml data/*.xsl data/*.out runtest.pl
