@@ -21,6 +21,7 @@ libxmlwrapp_la_SOURCES = \
 		libxml/event_parser.cxx \
 		libxml/init.cxx \
 		libxml/node.cxx \
+		libxml/nodes_view.cxx \
 		libxml/node_iterator.cxx \
 		libxml/node_iterator.h \
 		libxml/node_manip.cxx \

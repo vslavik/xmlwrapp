@@ -113,6 +113,10 @@ SOURCE=..\..\src\libxml\node.cxx
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\src\libxml\nodes_view.cxx
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\src\libxml\node_iterator.cxx
 # End Source File
 # Begin Source File
@@ -150,6 +154,10 @@ SOURCE=..\..\include\xmlwrapp\init.h
 # Begin Source File
 
 SOURCE=..\..\include\xmlwrapp\node.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\include\xmlwrapp\nodes_view.h
 # End Source File
 # Begin Source File
 

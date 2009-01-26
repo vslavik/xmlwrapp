@@ -32,6 +32,9 @@ Version 0.6.0
 
 	Improved iterators performance (only if Boost.Pool is available).
 
+	Added xml::node::elements() methods for efficient iteration over child
+	elements. In most cases, this is a better alternative to find().
+
 Version 0.5.1
 
 	Various compilation fixes.

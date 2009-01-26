@@ -53,15 +53,17 @@ namespace xml {
 // forward declarations
 class document;
 class attributes;
+class nodes_view;
+class const_nodes_view;
 
 namespace impl {
 class node_iterator;
+class iter_advance_functor;
 struct node_impl;
 struct doc_impl;
 struct nipimpl;
 struct node_cmp;
 }
-
 
 /**
  * The xml::node class is used to hold information about one XML node. This
@@ -620,6 +622,8 @@ public:
      * @return An iterator that points to the node if found.
      * @return An end() iterator if the node was not found.
      * @author Peter Jones
+     *
+     * @see elements(const char*), find(const char*, iterator)
     **/
     //####################################################################
     iterator find (const char *name);
@@ -638,6 +642,8 @@ public:
      * @return A const_iterator that points to the node if found.
      * @return An end() const_iterator if the node was not found.
      * @author Peter Jones
+     *
+     * @see elements(const char*) const, find(const char*, const_iterator) const
     **/
     //####################################################################
     const_iterator find (const char *name) const;
@@ -658,6 +664,8 @@ public:
      * @return An iterator that points to the node if found.
      * @return An end() iterator if the node was not found.
      * @author Peter Jones
+     *
+     * @see elements(const char*)
     **/
     //####################################################################
     iterator find (const char *name, iterator start);
@@ -670,7 +678,7 @@ public:
      *
      * This function should be given a const_iterator to one of this node's
      * children. The search will begin with that node and continue with all
-     * its sibliings. This function will not recurse down the tree, it only
+     * its siblings. This function will not recurse down the tree, it only
      * searches in one level.
      *
      * @param name The name of the node you want to find.
@@ -678,9 +686,97 @@ public:
      * @return A const_iterator that points to the node if found.
      * @return An end() const_iterator if the node was not found.
      * @author Peter Jones
+     *
+     * @see elements(const char*) const
     **/
     //####################################################################
     const_iterator find (const char *name, const_iterator start) const;
+
+    /**
+     * Returns view of child nodes of type type_element. If no such node
+     * can be found, returns empty view.
+     *
+     * Example:
+     * @code
+     * xml::nodes_view view(root.elements());
+     * for (xml::nodes_view::iterator i = view.begin(); i != view.end(); ++i)
+     * {
+     *   ...
+     * }
+     * @endcode
+     *
+     * @return View with all child elements or empty view if there aren't any.
+     * @author Vaclav Slavik
+     * @since  0.6.0
+     *
+     * @see nodes_view
+    **/
+    nodes_view elements();
+
+    /**
+     * Returns view of child nodes of type type_element. If no such node
+     * can be found, returns empty view.
+     *
+     * Example:
+     * @code
+     * xml::const_nodes_view view(root.elements());
+     * for (xml::const_nodes_view::const_iterator i = view.begin();
+     *      i != view.end();
+     *      ++i)
+     * {
+     *   ...
+     * }
+     * @endcode
+     *
+     * @return View with all child elements or empty view if there aren't any.
+     * @author Vaclav Slavik
+     * @since  0.6.0
+     *
+     * @see const_nodes_view
+    **/
+    const_nodes_view elements() const;
+
+    /**
+     * Returns view of child nodes of type type_element with name @a name.
+     * If no such node can be found, returns empty view.
+     *
+     * Example:
+     * @code
+     * xml::nodes_view persons(root.elements("person"));
+     * for (xml::nodes_view::iterator i = view.begin(); i != view.end(); ++i)
+     * {
+     *   ...
+     * }
+     * @endcode
+     *
+     * @param  name Name of the elements to return.
+     * @return View that contains only elements @a name.
+     * @author Vaclav Slavik
+     * @since  0.6.0
+    **/
+    nodes_view elements(const char *name);
+
+    /**
+     * Returns view of child nodes of type type_element with name @a name.
+     * If no such node can be found, returns empty view.
+     *
+     * Example:
+     * @code
+     * xml::const_nodes_view persons(root.elements("person"));
+     * for (xml::const_nodes_view::const_iterator i = view.begin();
+     *      i != view.end();
+     *      ++i)
+     * {
+     *   ...
+     * }
+     * @endcode
+     *
+     * @param  name Name of the elements to return.
+     * @return View that contains only elements @a name.
+     * @author Vaclav Slavik
+     * @since  0.6.0
+    **/
+    const_nodes_view elements(const char *name) const;
 
     //####################################################################
     /** 

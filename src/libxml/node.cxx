@@ -36,11 +36,13 @@
 
 // xmlwrapp includes
 #include "xmlwrapp/node.h"
+#include "xmlwrapp/nodes_view.h"
 #include "xmlwrapp/attributes.h"
 #include "utility.h"
 #include "ait_impl.h"
 #include "node_manip.h"
 #include "pimpl_base.h"
+#include "node_iterator.h"
 
 // standard includes
 #include <cstring>
@@ -175,8 +177,41 @@ namespace {
 	xmlNodePtr parent_;
     };
 
-    // a node finder
-    xmlNodePtr find_node(const char *name, xmlNodePtr first);
+    // an element node finder
+    xmlNodePtr find_element(const char *name, xmlNodePtr first) {
+	while (first != 0) {
+	    if (first->type == XML_ELEMENT_NODE && xmlStrcmp(first->name, reinterpret_cast<const xmlChar*>(name)) == 0) return first;
+	    first = first->next;
+	}
+
+	return 0;
+    }
+
+    xmlNodePtr find_element(xmlNodePtr first) {
+	while (first != 0) {
+	    if (first->type == XML_ELEMENT_NODE) return first;
+	    first = first->next;
+	}
+
+	return 0;
+    }
+
+    class next_element_functor : public iter_advance_functor
+    {
+    public:
+        virtual xmlNodePtr operator()(xmlNodePtr node) const
+            { return find_element(node->next); }
+    };
+
+    class next_named_element_functor : public iter_advance_functor
+    {
+    public:
+        next_named_element_functor(const char *name) : name_(name) {}
+        virtual xmlNodePtr operator()(xmlNodePtr node) const
+            { return find_element(name_.c_str(), node->next); }
+    private:
+        std::string name_;
+    };
 }
 //####################################################################
 xml::node::node (int) {
@@ -411,28 +446,65 @@ xml::node::const_iterator xml::node::parent (void) const {
 }
 //####################################################################
 xml::node::iterator xml::node::find (const char *name) {
-    xmlNodePtr found = find_node(name, pimpl_->xmlnode_->children);
+    xmlNodePtr found = find_element(name, pimpl_->xmlnode_->children);
     if (found) return iterator(found);
     return end();
 }
 //####################################################################
 xml::node::const_iterator xml::node::find (const char *name) const {
-    xmlNodePtr found = find_node(name, pimpl_->xmlnode_->children);
+    xmlNodePtr found = find_element(name, pimpl_->xmlnode_->children);
     if (found) return const_iterator(found);
     return end();
 }
 //####################################################################
 xml::node::iterator xml::node::find (const char *name, iterator start) {
     xmlNodePtr n = static_cast<xmlNodePtr>(start.get_raw_node());
-    if ( (n = find_node(name, n))) return iterator(n);
+    if ( (n = find_element(name, n))) return iterator(n);
     return end();
 }
 //####################################################################
 xml::node::const_iterator xml::node::find (const char *name, const_iterator start) const {
     xmlNodePtr n = static_cast<xmlNodePtr>(start.get_raw_node());
-    if ( (n = find_node(name, n))) return const_iterator(n);
+    if ( (n = find_element(name, n))) return const_iterator(n);
     return end();
 }
+
+xml::nodes_view xml::node::elements()
+{
+    return nodes_view
+           (
+               find_element(pimpl_->xmlnode_->children),
+               new next_element_functor
+           );
+}
+
+xml::const_nodes_view xml::node::elements() const
+{
+    return const_nodes_view
+           (
+               find_element(pimpl_->xmlnode_->children),
+               new next_element_functor
+           );
+}
+
+xml::nodes_view xml::node::elements(const char *name)
+{
+    return nodes_view
+           (
+               find_element(name, pimpl_->xmlnode_->children),
+               new next_named_element_functor(name)
+           );
+}
+
+xml::const_nodes_view xml::node::elements(const char *name) const
+{
+    return const_nodes_view
+           (
+               find_element(name, pimpl_->xmlnode_->children),
+               new next_named_element_functor(name)
+           );
+}
+
 //####################################################################
 xml::node::iterator xml::node::insert (const node &n) {
     return iterator(xml::impl::node_insert(pimpl_->xmlnode_, 0, n.pimpl_->xmlnode_));
@@ -520,17 +592,6 @@ void xml::node::node_to_string (std::string &xml) const {
 
     xmlchar_helper helper(xml_string);
     if (xml_string_length) xml.assign(helper.get(), xml_string_length);
-}
-//####################################################################
-namespace {
-    xmlNodePtr find_node(const char *name, xmlNodePtr first) {
-	while (first != 0) {
-	    if (first->type == XML_ELEMENT_NODE && xmlStrcmp(first->name, reinterpret_cast<const xmlChar*>(name)) == 0) return first;
-	    first = first->next;
-	}
-
-	return 0;
-    }
 }
 //####################################################################
 namespace xml {

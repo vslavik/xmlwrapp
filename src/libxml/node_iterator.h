@@ -47,6 +47,38 @@ namespace xml {
 
 namespace impl {
 
+// helper to obtain the next node in "filtering" iterators (as used by
+// nodes_view and const_nodes_view)
+//
+// Note: This class is reference-counted; don't delete instance of it, use
+//       dec_ref() and inc_ref(). Newly created instance has reference count
+//       of 1.
+class iter_advance_functor
+{
+public:
+    iter_advance_functor() : refcnt_(1) {}
+
+    void inc_ref()
+    {
+        refcnt_++;
+    }
+
+    void dec_ref()
+    {
+        if ( --refcnt_ == 0 )
+            delete this;
+    }
+
+    virtual xmlNodePtr operator()(xmlNodePtr node) const = 0;
+
+protected:
+    // use inc_ref(), dec_ref() instead of using the dtor explicitly
+    virtual ~iter_advance_functor() {}
+
+private:
+    int refcnt_;
+};
+
 // base iterator class
 class node_iterator {
 public:
@@ -59,9 +91,11 @@ public:
     node* get (void) const;
     xmlNodePtr get_raw_node (void) { return node_; }
 
-    node_iterator& operator++ (void);
+    void advance() { node_ = node_->next; }
+    void advance(iter_advance_functor& next) { node_ = next(node_); }
 
     friend bool operator== (const node_iterator &lhs, const node_iterator &rhs);
+
 
 private:
     mutable node fake_node_;

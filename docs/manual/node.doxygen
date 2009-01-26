@@ -179,6 +179,41 @@ if (i != n.end())
 }
 @endcode
 
+@subsection node_children_elements Iterating Over Children Elements
+
+If you need to do something with all child element nodes, you can use
+xml::node::elements() method to obtain a @em view of child nodes. The view,
+implemented by xml::nodes_view and xml::const_nodes_view classes, behaves like
+a standard container in that it lets you iterate over the nodes in the usual
+way. The difference between the iterator returned by xml::nodes_view::begin()
+and the one from xml::node::begin() is that the latter iterates over all child
+nodes, whereas the former iterates only over selected elements.
+
+The usage is similar to iterating over all child nodes:
+
+@code
+xml::node n;
+...
+xml::nodes_view all(n.elements());
+for (xml::nodes_view::iterator i = all.begin()); i != all.end(); ++i)
+{
+  do_something_with_child(*i);
+}
+@endcode
+
+Similarly, you can iterate over all child elements with given name using
+the xml::node::elements(const char*) method:
+
+@code
+xml::node n;
+...
+xml::nodes_view persons(n.elements("person"));
+for (xml::nodes_view::iterator i = all.begin()); i != all.end(); ++i)
+{
+  do_something_with_person_child(*i);
+}
+@endcode
+
 
 @section node_add Adding Children
 

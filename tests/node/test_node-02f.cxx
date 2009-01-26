@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
+ * Copyright (C) 2008 Vaclav Slavik <vslavik@fastmail.fm>
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,15 +30,39 @@
  * SUCH DAMAGE.
  */
 
-#ifndef _xmlwrapp_xmlwrapp_h_
-#define _xmlwrapp_xmlwrapp_h_
+/*
+ * This test checks xml::node::elements (const char *name);
+ */
 
-#include "xmlwrapp/init.h"
-#include "xmlwrapp/nodes_view.h"
-#include "xmlwrapp/node.h"
-#include "xmlwrapp/attributes.h"
-#include "xmlwrapp/document.h"
-#include "xmlwrapp/tree_parser.h"
-#include "xmlwrapp/event_parser.h"
+#include <xmlwrapp/xmlwrapp.h>
+#include <iostream>
+#include <exception>
+#include <cassert>
 
-#endif
+int main (int argc, char *argv[]) {
+    if (argc != 2) {
+	std::cerr << "Usage: " << argv[0] << " xmlfile\n";
+	return 1;
+    }
+
+    try {
+	xml::tree_parser parser(argv[1]);
+
+	const xml::node &root = parser.get_document().get_root_node();
+	xml::const_nodes_view persons(root.elements("person"));
+	for (xml::const_nodes_view::const_iterator i = persons.begin(); i != persons.end(); ++i) {
+	    std::cout << *i;
+	}
+
+    // FIXME: make this a proper test after moving to Cppunit or Boost.Unit
+    xml::const_nodes_view v2(root.elements("nonexistent"));
+    assert( v2.begin() == v2.end() );
+    assert( v2.empty() );
+
+    } catch (const std::exception &e) {
+	std::cout << e.what() << std::endl;
+	return 1;
+    }
+
+    return 0;
+}

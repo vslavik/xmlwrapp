@@ -10,6 +10,10 @@ noinst_PROGRAMS = \
 		test_node-02b \
 		test_node-02c \
 		test_node-02d \
+		test_node-02e \
+		test_node-02f \
+		test_node-02g \
+		test_node-02h \
 		test_node-03a \
 		test_node-03b \
 		test_node-04a \
@@ -33,6 +37,10 @@ test_node_02a_SOURCES = test_node-02a.cxx
 test_node_02b_SOURCES = test_node-02b.cxx
 test_node_02c_SOURCES = test_node-02c.cxx
 test_node_02d_SOURCES = test_node-02d.cxx
+test_node_02e_SOURCES = test_node-02e.cxx
+test_node_02f_SOURCES = test_node-02f.cxx
+test_node_02g_SOURCES = test_node-02g.cxx
+test_node_02h_SOURCES = test_node-02h.cxx
 test_node_03a_SOURCES = test_node-03a.cxx
 test_node_03b_SOURCES = test_node-03b.cxx
 test_node_04a_SOURCES = test_node-04a.cxx

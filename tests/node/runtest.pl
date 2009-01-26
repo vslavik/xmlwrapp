@@ -46,6 +46,9 @@ sub runtests {
     foreach my $i (qw(02a 02b 02c 02d)) {
 	$test->regression("find ($i)", "./test_node-$i data/02.xml", "data/$i.out");
     }
+    foreach my $i (qw(02e 02f 02g 02h)) {
+	$test->regression("elements ($i)", "./test_node-$i data/02.xml", "data/$i.out");
+    }
     ###########################################################################
     foreach my $i (qw(03a 03b)) {
 	$test->regression("replace ($i)", "./test_node-$i data/03.xml", "data/$i.out");

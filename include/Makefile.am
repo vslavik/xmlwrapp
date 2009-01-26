@@ -7,6 +7,7 @@ xmlwrapp_include_HEADERS = \
 		xmlwrapp/event_parser.h \
 		xmlwrapp/init.h \
 		xmlwrapp/node.h \
+		xmlwrapp/nodes_view.h \
 		xmlwrapp/tree_parser.h \
 		xmlwrapp/xmlwrapp.h
 
