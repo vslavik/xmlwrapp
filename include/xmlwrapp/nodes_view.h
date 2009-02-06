@@ -52,7 +52,7 @@ class const_nodes_view;
 
 namespace impl
 {
-class nipimpl;
+struct nipimpl;
 class iter_advance_functor;
 }
 
