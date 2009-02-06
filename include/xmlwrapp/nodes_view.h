@@ -79,6 +79,8 @@ public:
 
     nodes_view& operator=(const nodes_view& other);
 
+    class const_iterator;
+
     /**
      * The iterator provides a way to access nodes in the view
      * similar to a standard C++ container.
@@ -122,6 +124,7 @@ public:
         impl::iter_advance_functor *advance_func_;
 
         friend class nodes_view;
+        friend class const_iterator;
     };
 
     /**
