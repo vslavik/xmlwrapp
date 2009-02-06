@@ -674,7 +674,7 @@ public:
      * @see elements(const char*)
     **/
     //####################################################################
-    iterator find (const char *name, iterator start);
+    iterator find (const char *name, const iterator& start);
 
     //####################################################################
     /** 
@@ -696,7 +696,7 @@ public:
      * @see elements(const char*) const
     **/
     //####################################################################
-    const_iterator find (const char *name, const_iterator start) const;
+    const_iterator find (const char *name, const const_iterator& start) const;
 
     /**
      * Returns view of child nodes of type type_element. If no such node
@@ -808,7 +808,7 @@ public:
      * @author Peter Jones
     **/
     //####################################################################
-    iterator insert (iterator position, const node &n);
+    iterator insert (const iterator& position, const node &n);
 
     //####################################################################
     /** 
@@ -824,7 +824,7 @@ public:
      * @author Peter Jones
     **/
     //####################################################################
-    iterator replace (iterator old_node, const node &new_node);
+    iterator replace (const iterator& old_node, const node &new_node);
 
     //####################################################################
     /** 
@@ -839,7 +839,7 @@ public:
      * @author Gary A. Passero
     **/
     //####################################################################
-    iterator erase (iterator to_erase);
+    iterator erase (const iterator& to_erase);
 
     //####################################################################
     /** 
@@ -853,7 +853,7 @@ public:
      * @author Peter Jones
     **/
     //####################################################################
-    iterator erase (iterator first, iterator last);
+    iterator erase (iterator first, const iterator& last);
 
     //####################################################################
     /** 

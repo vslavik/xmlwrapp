@@ -458,13 +458,13 @@ xml::node::const_iterator xml::node::find (const char *name) const {
     return end();
 }
 //####################################################################
-xml::node::iterator xml::node::find (const char *name, iterator start) {
+xml::node::iterator xml::node::find (const char *name, const iterator& start) {
     xmlNodePtr n = static_cast<xmlNodePtr>(start.get_raw_node());
     if ( (n = find_element(name, n))) return iterator(n);
     return end();
 }
 //####################################################################
-xml::node::const_iterator xml::node::find (const char *name, const_iterator start) const {
+xml::node::const_iterator xml::node::find (const char *name, const const_iterator& start) const {
     xmlNodePtr n = static_cast<xmlNodePtr>(start.get_raw_node());
     if ( (n = find_element(name, n))) return const_iterator(n);
     return end();
@@ -511,19 +511,19 @@ xml::node::iterator xml::node::insert (const node &n) {
     return iterator(xml::impl::node_insert(pimpl_->xmlnode_, 0, n.pimpl_->xmlnode_));
 }
 //####################################################################
-xml::node::iterator xml::node::insert (iterator position, const node &n) {
+xml::node::iterator xml::node::insert (const iterator& position, const node &n) {
     return iterator(xml::impl::node_insert(pimpl_->xmlnode_, static_cast<xmlNodePtr>(position.get_raw_node()), n.pimpl_->xmlnode_));
 }
 //####################################################################
-xml::node::iterator xml::node::replace (iterator old_node, const node &new_node) {
+xml::node::iterator xml::node::replace (const iterator& old_node, const node &new_node) {
     return iterator(xml::impl::node_replace(static_cast<xmlNodePtr>(old_node.get_raw_node()), new_node.pimpl_->xmlnode_));
 }
 //####################################################################
-xml::node::iterator xml::node::erase (iterator to_erase) {
+xml::node::iterator xml::node::erase (const iterator& to_erase) {
     return iterator(xml::impl::node_erase(static_cast<xmlNodePtr>(to_erase.get_raw_node())));
 }
 //####################################################################
-xml::node::iterator xml::node::erase (iterator first, iterator last) {
+xml::node::iterator xml::node::erase (iterator first, const iterator& last) {
     while (first != last) first = erase(first);
     return first;
 }
