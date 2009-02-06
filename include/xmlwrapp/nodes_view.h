@@ -94,7 +94,7 @@ public:
         typedef value_type& reference;
         typedef std::forward_iterator_tag iterator_category;
 
-        iterator();
+        iterator() : pimpl_(0), advance_func_(0) {}
         iterator(const iterator& other);
         iterator& operator=(const iterator& other);
         ~iterator();
@@ -105,11 +105,14 @@ public:
         iterator& operator++();
         iterator  operator++(int);
 
-        bool operator==(const iterator& other) const;
-        bool operator!=(const iterator& other) const { return !(*this == other); }
+        bool operator==(const iterator& other) const
+            { return get_raw_node() == other.get_raw_node(); }
+        bool operator!=(const iterator& other) const
+            { return !(*this == other); }
 
     private:
         explicit iterator(void *data, impl::iter_advance_functor *advance_func);
+        void* get_raw_node() const;
         void swap(iterator& other);
 
         impl::nipimpl *pimpl_;
@@ -137,7 +140,7 @@ public:
         typedef value_type& reference;
         typedef std::forward_iterator_tag iterator_category;
 
-        const_iterator();
+        const_iterator() : pimpl_(0), advance_func_(0) {}
         const_iterator(const const_iterator& other);
         const_iterator(const iterator& other);
         const_iterator& operator=(const const_iterator& other);
@@ -150,11 +153,14 @@ public:
         const_iterator& operator++();
         const_iterator  operator++(int);
 
-        bool operator==(const const_iterator& other) const;
-        bool operator!=(const const_iterator& other) const { return !(*this == other); }
+        bool operator==(const const_iterator& other) const
+            { return get_raw_node() == other.get_raw_node(); }
+        bool operator!=(const const_iterator& other) const
+            { return !(*this == other); }
 
     private:
         explicit const_iterator(void *data, impl::iter_advance_functor *advance_func);
+        void* get_raw_node() const;
         void swap(const_iterator& other);
 
         impl::nipimpl *pimpl_;

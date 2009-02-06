@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
+ *               2009      Vaclav Slavik <vslavik@fastmail.fm>
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -93,8 +94,6 @@ public:
 
     void advance() { node_ = node_->next; }
     void advance(iter_advance_functor& next) { node_ = next(node_); }
-
-    friend bool operator== (const node_iterator &lhs, const node_iterator &rhs);
 
 
 private:

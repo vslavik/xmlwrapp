@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
+ *               2009      Vaclav Slavik <vslavik@fastmail.fm>
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -76,16 +77,12 @@ xml::node* xml::impl::node_iterator::get (void) const {
  */
 
 //####################################################################
-xml::node::iterator::iterator (void) {
-    pimpl_ = new nipimpl;
-}
-//####################################################################
 xml::node::iterator::iterator (void *data) {
     pimpl_ = new nipimpl(static_cast<xmlNodePtr>(data));
 }
 //####################################################################
 xml::node::iterator::iterator (const iterator &other) {
-    pimpl_ = new nipimpl(*(other.pimpl_));
+    pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : 0;
 }
 //####################################################################
 xml::node::iterator& xml::node::iterator::operator= (const iterator &other) {
@@ -121,8 +118,8 @@ xml::node::iterator xml::node::iterator::operator++ (int) {
     return tmp;
 }
 //####################################################################
-void* xml::node::iterator::get_raw_node (void) {
-    return pimpl_->it.get_raw_node();
+void* xml::node::iterator::get_raw_node (void) const {
+    return pimpl_ ? pimpl_->it.get_raw_node() : 0;
 }
 //####################################################################
 
@@ -131,20 +128,16 @@ void* xml::node::iterator::get_raw_node (void) {
  */
 
 //####################################################################
-xml::node::const_iterator::const_iterator (void) {
-    pimpl_ = new nipimpl;
-}
-//####################################################################
 xml::node::const_iterator::const_iterator (void *data) {
     pimpl_ = new nipimpl(static_cast<xmlNodePtr>(data));
 }
 //####################################################################
 xml::node::const_iterator::const_iterator (const const_iterator &other) {
-    pimpl_ = new nipimpl(*(other.pimpl_));
+    pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : 0;
 }
 //####################################################################
 xml::node::const_iterator::const_iterator (const iterator &other) {
-    pimpl_ = new nipimpl(*(other.pimpl_));
+    pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : 0;
 }
 //####################################################################
 xml::node::const_iterator& xml::node::const_iterator::operator= (const const_iterator &other) {
@@ -180,37 +173,8 @@ xml::node::const_iterator xml::node::const_iterator::operator++ (int) {
     return tmp;
 }
 //####################################################################
-void* xml::node::const_iterator::get_raw_node (void) {
-    return pimpl_->it.get_raw_node();
-}
-//####################################################################
-namespace xml {
-
-namespace impl {
-    bool operator== (const node_iterator &lhs, const node_iterator &rhs) {
-	return lhs.node_ == rhs.node_;
-    }
-
-    bool operator!= (const node_iterator &lhs, const node_iterator &rhs) {
-	return !(lhs == rhs);
-    }
-}
-
-    bool operator== (const node::iterator &lhs, const node::iterator &rhs) {
-	return lhs.pimpl_->it == rhs.pimpl_->it;
-    }
-
-    bool operator!= (const node::iterator &lhs, const node::iterator &rhs) {
-	return !(lhs == rhs);
-    }
-
-    bool operator== (const node::const_iterator &lhs, const node::const_iterator &rhs) {
-	return lhs.pimpl_->it == rhs.pimpl_->it;
-    }
-
-    bool operator!= (const node::const_iterator &lhs, const node::const_iterator &rhs) {
-	return !(lhs == rhs);
-    }
+void* xml::node::const_iterator::get_raw_node (void) const {
+    return pimpl_ ? pimpl_->it.get_raw_node() : 0;
 }
 //####################################################################
 
@@ -222,15 +186,9 @@ namespace xml
 // xml::nodes_view::iterator
 // ------------------------------------------------------------------------
 
-nodes_view::iterator::iterator()
-{
-    pimpl_ = new nipimpl;
-    advance_func_ = 0;
-}
-
 nodes_view::iterator::iterator(const iterator& other)
 {
-    pimpl_ = new nipimpl(*(other.pimpl_));
+    pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : 0;
     advance_func_ = other.advance_func_;
 }
 
@@ -273,9 +231,9 @@ nodes_view::iterator nodes_view::iterator::operator++(int)
     return tmp;
 }
 
-bool nodes_view::iterator::operator==(const iterator& other) const
+void* nodes_view::iterator::get_raw_node() const
 {
-    return pimpl_->it == other.pimpl_->it;
+    return pimpl_ ? pimpl_->it.get_raw_node() : 0;
 }
 
 nodes_view::iterator::iterator(void *data, impl::iter_advance_functor *advance_func)
@@ -295,21 +253,15 @@ void nodes_view::iterator::swap(iterator& other)
 // xml::nodes_view::const_iterator
 // ------------------------------------------------------------------------
 
-nodes_view::const_iterator::const_iterator()
-{
-    pimpl_ = new nipimpl;
-    advance_func_ = 0;
-}
-
 nodes_view::const_iterator::const_iterator(const const_iterator& other)
 {
-    pimpl_ = new nipimpl(*(other.pimpl_));
+    pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : 0;
     advance_func_ = other.advance_func_;
 }
 
 nodes_view::const_iterator::const_iterator(const iterator& other)
 {
-    pimpl_ = new nipimpl(*(other.pimpl_));
+    pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : 0;
     advance_func_ = other.advance_func_;
 }
 
@@ -360,9 +312,9 @@ nodes_view::const_iterator nodes_view::const_iterator::operator++(int)
     return tmp;
 }
 
-bool nodes_view::const_iterator::operator==(const const_iterator& other) const
+void* nodes_view::const_iterator::get_raw_node() const
 {
-    return pimpl_->it == other.pimpl_->it;
+    return pimpl_ ? pimpl_->it.get_raw_node() : 0;
 }
 
 nodes_view::const_iterator::const_iterator(void *data, impl::iter_advance_functor *advance_func)

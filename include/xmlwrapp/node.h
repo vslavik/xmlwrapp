@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
+ *               2009      Vaclav Slavik <vslavik@fastmail.fm>
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -431,7 +432,7 @@ public:
 	typedef value_type& reference;
 	typedef std::forward_iterator_tag iterator_category;
 
-	iterator  (void);
+	iterator  (void) : pimpl_(0) {}
 	iterator  (const iterator &other);
 	iterator& operator= (const iterator& other);
 	~iterator (void);
@@ -445,12 +446,15 @@ public:
 	/// postfix increment (avoid if possible for better performance)
 	iterator  operator++ (int);
 
-	friend bool operator== (const iterator &lhs, const iterator &rhs);
-	friend bool operator!= (const iterator &lhs, const iterator &rhs);
+    bool operator==(const iterator& other) const
+        { return get_raw_node() == other.get_raw_node(); }
+    bool operator!=(const iterator& other) const
+        { return !(*this == other); }
+
     private:
     impl::nipimpl *pimpl_;
 	explicit iterator (void *data);
-	void* get_raw_node (void);
+	void* get_raw_node (void) const;
 	void swap (iterator &other);
 	friend class node;
 	friend class document;
@@ -470,7 +474,7 @@ public:
 	typedef value_type& reference;
 	typedef std::forward_iterator_tag iterator_category;
 
-	const_iterator  (void);
+	const_iterator  (void) : pimpl_(0) {}
 	const_iterator  (const const_iterator &other);
 	const_iterator  (const iterator &other);
 	const_iterator& operator= (const const_iterator& other);
@@ -485,12 +489,14 @@ public:
 	/// postfix increment (avoid if possible for better performance)
 	const_iterator  operator++ (int);
 
-	friend bool operator== (const const_iterator &lhs, const const_iterator &rhs);
-	friend bool operator!= (const const_iterator &lhs, const const_iterator &rhs);
+    bool operator==(const const_iterator& other) const
+        { return get_raw_node() == other.get_raw_node(); }
+    bool operator!=(const const_iterator& other) const
+        { return !(*this == other); }
     private:
     impl::nipimpl *pimpl_;
 	explicit const_iterator (void *data);
-	void* get_raw_node (void);
+	void* get_raw_node (void) const;
 	void swap (const_iterator &other);
 	friend class document;
 	friend class node;
