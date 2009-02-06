@@ -45,6 +45,7 @@
 
 // standard includes
 #include <algorithm>
+#include <cassert>
 
 // libxml includes
 #include <libxml/tree.h>
