@@ -377,17 +377,6 @@ public:
 
     //####################################################################
     /** 
-     * Sets the namespace of this xml::node.
-     *
-     * @param  href URI of the namespace to associate with the node.
-     * @author Vaclav Slavik
-     * @since  0.6.0
-    **/
-    //####################################################################
-    void set_namespace(const char *href);
-
-    //####################################################################
-    /** 
      * Find out if this node is a text node or sometiming like a text node,
      * CDATA for example.
      *

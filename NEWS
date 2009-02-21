@@ -25,7 +25,7 @@ Version 0.6.0
 	PDF version of the manual is no longer provided, use HTML documentation
 	included with xmlwrapp source distribution.
 
-	Added xml::node::get_namespace() and set_namespace() functions.
+	Added xml::node::get_namespace() function.
 
 	Added new constructor to the xml::node class for creating text nodes,
 	using xml::node::text helper struct.
