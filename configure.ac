@@ -35,7 +35,7 @@ dnl === Prologue ===
 
 AC_REVISION($Id$)dnl
 
-AC_PREREQ(2.60)
+AC_PREREQ(2.62)
 AC_INIT(xmlwrapp, 0.6.0, [xmlwrapp-users@lists.sourceforge.net])
 
 AC_CONFIG_SRCDIR([xmlwrapp.pc.in])
@@ -84,9 +84,8 @@ if test "x$build_xslt" = "xyes" ; then
 fi
 
 
-AC_LANG_PUSH([C++])
+AC_HEADER_ASSERT
 AC_CHECK_HEADERS([boost/pool/singleton_pool.hpp])
-AC_LANG_POP([C++])
 
 dnl === Compiler-specific stuff ===
 
