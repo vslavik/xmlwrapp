@@ -51,4 +51,4 @@ test_document_20_SOURCES = test_document-20.cxx
 test_document_21_SOURCES = test_document-21.cxx
 test_document_22_SOURCES = test_document-22.cxx
 
-EXTRA_DIST = data/*.out data/*.xml runtest.pl
+EXTRA_DIST = $(srcdir)/data/*.out $(srcdir)/data/*.xml runtest.pl

@@ -21,4 +21,4 @@ test_xslt_05_SOURCES = test_xslt-05.cxx
 
 endif
 
-EXTRA_DIST = data/*.xml data/*.xsl data/*.out runtest.pl
+EXTRA_DIST = $(srcdir)/data/*.xml $(srcdir)/data/*.xsl $(srcdir)/data/*.out runtest.pl

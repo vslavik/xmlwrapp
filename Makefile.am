@@ -12,4 +12,4 @@ endif
 bin_SCRIPTS = xmlwrapp-config
 
 EXTRA_DIST = LICENSE bootstrap \
-			 platform/Win32/*.dsp platform/Win32/*.dsw
+			 $(srcdir)/platform/Win32/*.dsp $(srcdir)/platform/Win32/*.dsw

@@ -27,4 +27,4 @@ test_attr_08_SOURCES = test_attr-08.cxx
 test_attr_09_SOURCES = test_attr-09.cxx
 test_attr_10_SOURCES = test_attr-10.cxx
 
-EXTRA_DIST = data/*.out data/*.xml data/*.dtd runtest.pl
+EXTRA_DIST = $(srcdir)/data/*.out $(srcdir)/data/*.xml $(srcdir)/data/*.dtd runtest.pl
