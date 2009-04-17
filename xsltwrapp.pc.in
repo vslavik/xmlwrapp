@@ -6,7 +6,6 @@ includedir=@includedir@
 Name: xsltwrapp
 Version: @VERSION@
 Description: A C++ wrapper around libxslt
-Requires: xmlwrapp = @VERSION@
+Requires: xmlwrapp = @VERSION@, libexslt, libxslt
 Libs: -L${libdir} -lxsltwrapp
-Libs.private: @LIBEXSLT_LIBS@ @LIBXSLT_LIBS@
 Cflags: -I${includedir}
