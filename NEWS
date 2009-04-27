@@ -1,3 +1,5 @@
+	Added Visual C++ 200x projects and fixed VC6 project.
+
 Version 0.6.0
 
 	Fixed libxmlwrapp to not depend on libxslt if XSLT support

@@ -25,7 +25,9 @@ See the output of `./configure --help` for additional settings and options.
 ----------------------
 
 At this time, only building with Visual C++ compiler is supported. The required
-project files are located in platform/Win32 directory.
+project files are located in platform/Win32 directory. You will need libxml
+and libxslt libraries built for Windows, e.g. the binaries from
+http://www.zlatkovic.com/libxml.en.html.
 
 
 4. Using xmlwrapp

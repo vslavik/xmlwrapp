@@ -1,0 +1,66 @@
+<?xml version="1.0" ?>
+
+<makefile>
+    <set-srcdir>../..</set-srcdir>
+
+    <include file="presets/simple.bkl"/>
+
+    <template id="xmlwrapp_lib" template="simple">
+    </template>
+
+
+    <lib id="xmlwrapp" template="xmlwrapp_lib">
+        <headers>
+            include/xmlwrapp/attributes.h
+            include/xmlwrapp/_cbfo.h
+            include/xmlwrapp/document.h
+            include/xmlwrapp/event_parser.h
+            include/xmlwrapp/init.h
+            include/xmlwrapp/node.h
+            include/xmlwrapp/nodes_view.h
+            include/xmlwrapp/tree_parser.h
+            include/xmlwrapp/xmlwrapp.h
+
+            <!-- private headers -->
+            src/libxml/ait_impl.h
+            src/libxml/dtd_impl.h
+            src/libxml/node_iterator.h
+            src/libxml/node_manip.h
+            src/libxml/pimpl_base.h
+            src/libxml/utility.h
+        </headers>
+
+        <sources>
+            src/libxml/ait_impl.cxx
+            src/libxml/attributes.cxx
+            src/libxml/document.cxx
+            src/libxml/dtd_impl.cxx
+            src/libxml/event_parser.cxx
+            src/libxml/init.cxx
+            src/libxml/node.cxx
+            src/libxml/node_iterator.cxx
+            src/libxml/node_manip.cxx
+            src/libxml/nodes_view.cxx
+            src/libxml/tree_parser.cxx
+            src/libxml/utility.cxx
+        </sources>
+    </lib>
+
+
+    <lib id="xsltwrapp" template="xmlwrapp_lib">
+        <headers>
+            include/xsltwrapp/init.h
+            include/xsltwrapp/stylesheet.h
+            include/xsltwrapp/xsltwrapp.h
+
+            <!-- private headers -->
+            src/libxslt/result.h
+        </headers>
+
+        <sources>
+            src/libxslt/init.cxx
+            src/libxslt/stylesheet.cxx
+        </sources>
+    </lib>
+
+</makefile>

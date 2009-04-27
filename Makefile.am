@@ -11,5 +11,13 @@ endif
 
 bin_SCRIPTS = xmlwrapp-config
 
-EXTRA_DIST = LICENSE bootstrap \
-			 $(srcdir)/platform/Win32/*.dsp $(srcdir)/platform/Win32/*.dsw
+EXTRA_DIST = \
+		LICENSE bootstrap \
+		$(srcdir)/platform/Win32/README \
+		$(srcdir)/platform/Win32/*.dsp \
+		$(srcdir)/platform/Win32/Bakefiles.bkgen \
+		$(srcdir)/platform/Win32/*.bkl
+
+dist-hook:
+	(cd $(distdir)/platform/Win32 ; bakefile_gen)
+	rm -f $(distdir)/platform/Win32/.bakefile_gen.state
