@@ -1,5 +1,8 @@
 	Added Visual C++ 200x projects and fixed VC6 project.
 
+	Fixed xml::event_parser::parse_stream() to return false on empty
+	input (Michael Grundberg, #2787836).
+
 Version 0.6.0
 
 	Fixed libxmlwrapp to not depend on libxslt if XSLT support

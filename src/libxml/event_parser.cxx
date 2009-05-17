@@ -124,6 +124,13 @@ bool xml::event_parser::parse_file (const char *filename) {
 bool xml::event_parser::parse_stream (std::istream &stream) {
     char buffer[const_buffer_size];
 
+    if (stream && (stream.eof() || stream.peek() == std::istream::traits_type::eof()))
+    {
+        pimpl_->parser_status_ = false;
+        pimpl_->last_error_message_ = "empty xml document";
+        return false;
+    }
+
     while (pimpl_->parser_status_ && (stream.read(buffer, const_buffer_size) || stream.gcount()))
 	pimpl_->parser_status_ = parse_chunk(buffer, stream.gcount());
 
