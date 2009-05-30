@@ -3,6 +3,8 @@
 	Fixed xml::event_parser::parse_stream() to return false on empty
 	input (Michael Grundberg, #2787836).
 
+	Converted test suite to Boost Test.
+
 Version 0.6.0
 
 	Fixed libxmlwrapp to not depend on libxslt if XSLT support
