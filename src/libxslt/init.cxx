@@ -39,6 +39,7 @@
 #include "xsltwrapp/init.h"
 
 #include <libxslt/xslt.h>
+#include <libxslt/xsltInternals.h>
 #include <libxslt/transform.h>
 #include <libxslt/xsltutils.h>
 #include <libexslt/exslt.h>
