@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
  * All Rights Reserved
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright
  *    notice, this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright
@@ -15,7 +15,7 @@
  * 3. Neither the name of the Author nor the names of its contributors
  *    may be used to endorse or promote products derived from this software
  *    without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS''
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
@@ -30,9 +30,11 @@
  * SUCH DAMAGE.
  */
 
-/** @file
- * This file contains the definition of the xslt::init class.
-**/
+/**
+    @file
+
+    This file contains the definition of the xslt::init class.
+ */
 
 #ifndef _xsltwrapp_init_h_
 #define _xsltwrapp_init_h_
@@ -41,41 +43,41 @@
 #include "xmlwrapp/init.h"
 
 /// XSLT library namespace
-namespace xslt {
+namespace xslt
+{
 
 /**
- * The xslt::init class is used to configure the XSLT engine.
- *
- * If you want to use any of the xslt::init member functions, do so before
- * you start any threads or use any other part of xsltwrapp. The member
- * functions may alter global and/or static variables. In other words, this
- * class is not thread safe.
- *
- * @note In xmlwrapp versions prior to 0.6.0, this class was used to initialize
- *       the library and exactly one instance had to be created before first
- *       use. This is no longer true: user code doesn't have to create any
- *       instances, but it @em can create as many instances as it wants.
-**/
-class init : public xml::init {
-public:
-    init (void);
-    ~init (void);
+    The xslt::init class is used to configure the XSLT engine.
 
-    //####################################################################
-    /** 
-     * This function controls whether or not the XSLT engine will process
-     * XInclusions by default while parsing the stylesheet. The default is
-     * true.
-     *
-     * @param flag True to enable XInclusing processing; False otherwise.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    static void process_xincludes (bool flag);
+    If you want to use any of the xslt::init member functions, do so before
+    you start any threads or use any other part of xsltwrapp. The member
+    functions may alter global and/or static variables. In other words, this
+    class is not thread safe.
+
+    @note In xmlwrapp versions prior to 0.6.0, this class was used to initialize
+          the library and exactly one instance had to be created before first
+          use. This is no longer true: user code doesn't have to create any
+          instances, but it @em can create as many instances as it wants.
+ */
+class init : public xml::init
+{
+public:
+    init();
+    ~init();
+
+    /**
+        This function controls whether or not the XSLT engine will process
+        XInclusions by default while parsing the stylesheet. The default is
+        true.
+
+        @param flag True to enable XInclusing processing; False otherwise.
+        @author Peter Jones
+     */
+    static void process_xincludes(bool flag);
 
 private:
-    init (const init&);
-    init& operator= (const init&);
+    init(const init&);
+    init& operator=(const init&);
 
     void init_library();
     void shutdown_library();
@@ -83,11 +85,14 @@ private:
     static int ms_counter;
 }; // end xslt::init class
 
+
 // use a "nifty counter" to ensure that any source file that uses xsltwrapp
 // will initialize the library prior to its first use
-namespace {
-    xslt::init g_xsltwrapp_initializer;
+namespace
+{
+xslt::init g_xsltwrapp_initializer;
 }
 
 } // end xslt namespace
-#endif
+
+#endif // _xsltwrapp_init_h_

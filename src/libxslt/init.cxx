@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
  * All Rights Reserved
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright
  *    notice, this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright
@@ -15,7 +15,7 @@
  * 3. Neither the name of the Author nor the names of its contributors
  *    may be used to endorse or promote products derived from this software
  *    without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS''
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
@@ -30,38 +30,50 @@
  * SUCH DAMAGE.
  */
 
-/** @file
- * This file contains the implementation of the xslt::init class.
-**/
+/**
+   @file
 
-// defintion include
+   This file contains the implementation of the xslt::init class.
+ */
+
 #include "xsltwrapp/init.h"
 
-// libxslt includes
 #include <libxslt/xslt.h>
 #include <libxslt/xsltInternals.h>
 #include <libxslt/transform.h>
 #include <libxslt/xsltutils.h>
 #include <libexslt/exslt.h>
 
-//####################################################################
-namespace {
-    extern "C" void xslt_error (void *, const char*, ...);
+namespace
+{
+
+extern "C" void xslt_error(void *, const char*, ...)
+{
+    // don't do anything
 }
-//####################################################################
+
+} // anonymous namespace
+
+
 int xslt::init::ms_counter = 0;
-//####################################################################
-xslt::init::init (void) {
+
+
+xslt::init::init()
+{
     if ( ms_counter++ == 0 )
         init_library();
 }
-//####################################################################
-xslt::init::~init (void) {
+
+
+xslt::init::~init(void)
+{
     if ( --ms_counter == 0 )
         shutdown_library();
 }
-//####################################################################
-void xslt::init::init_library() {
+
+
+void xslt::init::init_library()
+{
     xsltInit();
 
     // set some defautls
@@ -74,17 +86,15 @@ void xslt::init::init_library() {
     // load EXSLT
     exsltRegisterAll();
 }
-//####################################################################
-void xslt::init::shutdown_library() {
+
+
+void xslt::init::shutdown_library()
+{
     xsltCleanupGlobals();
 }
-//####################################################################
-void xslt::init::process_xincludes (bool flag) {
+
+
+void xslt::init::process_xincludes(bool flag)
+{
     xsltSetXIncludeDefault(flag ? 1 : 0);
 }
-//####################################################################
-namespace {
-    extern "C" void xslt_error (void*, const char*, ...)
-    { /* don't do anything */ }
-}
-//####################################################################

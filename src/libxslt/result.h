@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2008 Vadim Zeitlin (vadim@zeitlins.org)
  * All Rights Reserved
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright
  *    notice, this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright
@@ -15,7 +15,7 @@
  * 3. Neither the name of the Author nor the names of its contributors
  *    may be used to endorse or promote products derived from this software
  *    without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS''
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
  * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
@@ -30,9 +30,11 @@
  * SUCH DAMAGE.
  */
 
-/** @file
- * This file contains the declaration of the xslt::result class.
-**/
+/**
+    @file
+
+    This file contains the declaration of the xslt::result class.
+ */
 
 #ifndef _xsltwrapp_result_h_
 #define _xsltwrapp_result_h_
@@ -43,57 +45,55 @@
 // forward declarations
 typedef struct _xmlDoc *xmlDocPtr;
 
-namespace xslt {
+namespace xslt
+{
 
-namespace impl {
+namespace impl
+{
 
 /**
- * The xslt::result class is used as a callback by xml::document to allow
- * special treatment of XML documents which were created by XSLT.
- *
- * This class is only meant to be used internally by the library and is
- * necessary to avoid the dependency of xml::document, which is part of
- * libxmlwrapp, on libxslt which should be only a dependency of libxsltwrapp
- * as this precludes calling the XSLT functions which must be used with such
- * "result" documents directly from xml::document code.
- *
- * @author Vadim Zeitlin
- * @internal
-**/
-class result {
+    @internal
+
+    The xslt::result class is used as a callback by xml::document to allow
+    special treatment of XML documents which were created by XSLT.
+
+    This class is only meant to be used internally by the library and is
+    necessary to avoid the dependency of xml::document, which is part of
+    libxmlwrapp, on libxslt which should be only a dependency of libxsltwrapp
+    as this precludes calling the XSLT functions which must be used with such
+    "result" documents directly from xml::document code.
+
+    @author Vadim Zeitlin
+ */
+class result
+{
 public:
-    //####################################################################
     /**
-     * Save the contents of the given XML document in the provided string.
-     *
-     * @param s The string to place the XML text data.
-    **/
-    //####################################################################
+        Save the contents of the given XML document in the provided string.
+
+        @param s The string to place the XML text data.
+     */
     virtual void save_to_string(std::string &s) const = 0;
 
-    //####################################################################
-    /** 
-     * Save the contents of the given XML document in the provided filename.
-     *
-     * @param filename The name of the file to place the XML text data into.
-     * @param compression_level 0 is no compression, 1-9 allowed, where 1 is for better speed, and 9 is for smaller size
-     * @return True if the data was saved successfully.
-     * @return False otherwise.
-    **/
-    //####################################################################
-    virtual bool save_to_file (const char *filename,
-                               int compression_level) const = 0;
-
-    //####################################################################
     /**
-     * Trivial but virtual base class destructor.
-    **/
-    //####################################################################
-    virtual ~result (void) { }
+        Save the contents of the given XML document in the provided filename.
+
+        @param filename
+                The name of the file to place the XML text data into.
+        @param compression_level
+                0 is no compression, 1-9 allowed, where 1 is for better speed,
+                and 9 is for smaller size
+        @return True if the data was saved successfully, false otherwise.
+     */
+    virtual bool save_to_file(const char *filename,
+                              int compression_level) const = 0;
+
+    /// Trivial but virtual base class destructor.
+    virtual ~result() {}
 };
 
 } // end impl namespace
 
 } // end xslt namespace
 
-#endif
+#endif // _xsltwrapp_result_h_
