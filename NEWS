@@ -1,3 +1,5 @@
+Version 0.6.1
+
     Added Visual C++ 200x projects and fixed VC6 project.
 
     Fixed xml::event_parser::parse_stream() to return false on empty
