@@ -43,8 +43,12 @@
 #include <libxml/parser.h>
 
 //####################################################################
-namespace {
-    extern "C" void xml_error (void *, const char*, ...);
+extern "C"
+{
+    static void xml_error (void *, const char*, ...)
+    {
+        // don't do anything
+    }
 }
 //####################################################################
 int xml::init::ms_counter = 0;
@@ -96,10 +100,5 @@ void xml::init::load_external_subsets (bool flag) {
 //####################################################################
 void xml::init::validate_xml (bool flag) {
     xmlDoValidityCheckingDefaultValue = flag ? 1 : 0;
-}
-//####################################################################
-namespace {
-    extern "C" void xml_error (void*, const char*, ...)
-    { /* don't do anything */ }
 }
 //####################################################################

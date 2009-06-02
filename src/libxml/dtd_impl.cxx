@@ -51,10 +51,24 @@ using namespace xml;
 using namespace xml::impl;
 
 //####################################################################
-namespace {
-    extern "C" void dtd_error (void *ctxt, const char *message, ...);
-    extern "C" void dtd_warning (void *ctxt, const char*, ...);
-} // end anonymous namespace
+extern "C"
+{
+    //####################################################################
+    static void dtd_error (void *ctxt, const char *message, ...) {
+	dtd_impl *dtd = static_cast<dtd_impl*>(ctxt);
+
+	va_list ap;
+	va_start(ap, message);
+	printf2string(dtd->error_, message, ap);
+	va_end(ap);
+    }
+    //####################################################################
+    static void dtd_warning (void *ctxt, const char*, ...) {
+	dtd_impl *dtd = static_cast<dtd_impl*>(ctxt);
+	++dtd->warnings_;
+    }
+    //####################################################################
+}
 //####################################################################
 dtd_impl::dtd_impl (const char *filename) : warnings_(0), dtd_(0) {
     if ( (dtd_ = xmlParseDTD(0, reinterpret_cast<const xmlChar*>(filename))) == 0) {
@@ -89,22 +103,3 @@ xmlDtdPtr dtd_impl::release (void) {
     dtd_ = 0;
     return xmldtd;
 }
-//####################################################################
-namespace {
-    //####################################################################
-    extern "C" void dtd_error (void *ctxt, const char *message, ...) {
-	dtd_impl *dtd = static_cast<dtd_impl*>(ctxt);
-
-	va_list ap;
-	va_start(ap, message);
-	printf2string(dtd->error_, message, ap);
-	va_end(ap);
-    }
-    //####################################################################
-    extern "C" void dtd_warning (void *ctxt, const char*, ...) {
-	dtd_impl *dtd = static_cast<dtd_impl*>(ctxt);
-	++dtd->warnings_;
-    }
-    //####################################################################
-}
-//####################################################################

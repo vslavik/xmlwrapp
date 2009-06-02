@@ -44,16 +44,16 @@
 #include <libxslt/xsltutils.h>
 #include <libexslt/exslt.h>
 
-namespace
+extern "C"
 {
 
-extern "C" void xslt_error(void *, const char*, ...)
+static void xslt_error(void *, const char*, ...)
 {
     // don't do anything; we install context-specific error handler to
     // catch errors while applying a stylesheet
 }
 
-} // anonymous namespace
+} // extern "C"
 
 
 int xslt::init::ms_counter = 0;

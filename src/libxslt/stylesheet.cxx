@@ -121,7 +121,10 @@ void make_vector_param(std::vector<const char*> &v,
 }
 
 
-extern "C" void xsltwrapp_error_cb(void *c, const char *message, ...)
+extern "C"
+{
+
+static void error_cb(void *c, const char *message, ...)
 {
     xsltTransformContextPtr ctxt = static_cast<xsltTransformContextPtr>(c);
     xslt::stylesheet::pimpl *impl = static_cast<xslt::stylesheet::pimpl*>(ctxt->_private);
@@ -146,6 +149,7 @@ extern "C" void xsltwrapp_error_cb(void *c, const char *message, ...)
     impl->error_.append(formatted);
 }
 
+} // extern "C"
 
 xmlDocPtr apply_stylesheet(xslt::stylesheet::pimpl *impl,
                            xmlDocPtr doc,
@@ -159,7 +163,7 @@ xmlDocPtr apply_stylesheet(xslt::stylesheet::pimpl *impl,
 
     xsltTransformContextPtr ctxt = xsltNewTransformContext(style, doc);
     ctxt->_private = impl;
-    xsltSetTransformErrorFunc(ctxt, ctxt, xsltwrapp_error_cb);
+    xsltSetTransformErrorFunc(ctxt, ctxt, error_cb);
 
     // clear the error flag before applying the stylesheet
     impl->errors_occured_ = false;
