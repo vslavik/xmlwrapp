@@ -122,11 +122,5 @@ AC_CONFIG_FILES([
     examples/03-xml_generation/Makefile
     examples/04-xslt/Makefile
     tests/Makefile
-    tests/attributes/Makefile
-    tests/document/Makefile
-    tests/event/Makefile
-    tests/node/Makefile
-    tests/tree/Makefile
-    tests/xslt/Makefile
 ])
 AC_OUTPUT
