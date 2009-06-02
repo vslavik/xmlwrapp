@@ -6,6 +6,7 @@
     <include file="presets/simple.bkl"/>
 
     <template id="xmlwrapp_lib" template="simple">
+        <include>../../include</include>
     </template>
 
 
