@@ -5,6 +5,8 @@
 
     Converted test suite to Boost Test.
 
+    Fixed xslt::stylesheet::apply() to detect and report errors.
+
 Version 0.6.0
 
     Fixed libxmlwrapp to not depend on libxslt if XSLT support

@@ -49,7 +49,8 @@ namespace
 
 extern "C" void xslt_error(void *, const char*, ...)
 {
-    // don't do anything
+    // don't do anything; we install context-specific error handler to
+    // catch errors while applying a stylesheet
 }
 
 } // anonymous namespace
@@ -79,7 +80,8 @@ void xslt::init::init_library()
     // set some defautls
     process_xincludes(true);
 
-    // keep libxslt silent
+    // keep libxslt silent; we install context-specific error handler to
+    // catch errors while applying a stylesheet
     xsltSetGenericErrorFunc(0, xslt_error);
     xsltSetGenericDebugFunc(0, xslt_error);
 

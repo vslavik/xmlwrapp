@@ -131,4 +131,30 @@ BOOST_AUTO_TEST_CASE( apply4 )
 }
 
 
+/*
+ * Tests libxslt errors reporting
+ */
+
+BOOST_AUTO_TEST_CASE( xsl_with_errors )
+{
+    xslt::stylesheet style(test_file_path("xslt/data/with_errors.xsl").c_str());
+    xml::tree_parser parser(test_file_path("xslt/data/input.xml").c_str());
+
+    xml::document result;
+    BOOST_CHECK( !style.apply(parser.get_document(), result) );
+}
+
+BOOST_AUTO_TEST_CASE( xsl_with_errors_throw )
+{
+    xslt::stylesheet style(test_file_path("xslt/data/with_errors.xsl").c_str());
+    xml::tree_parser parser(test_file_path("xslt/data/input.xml").c_str());
+
+    BOOST_CHECK_THROW
+    (
+        style.apply(parser.get_document()),
+        std::exception
+    );
+}
+
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -58,6 +58,8 @@ namespace xslt
 class stylesheet
 {
 public:
+    struct pimpl;
+
     /// Type for passing parameters to the stylesheet
     typedef std::map<std::string, std::string> param_type;
 
@@ -160,7 +162,6 @@ public:
     const std::string& get_error_message() const;
 
 private:
-    struct pimpl;
     pimpl *pimpl_;
 
     // an xslt::stylesheet cannot yet be copied or assigned to.
