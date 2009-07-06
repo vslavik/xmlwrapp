@@ -47,7 +47,7 @@ fi
 # --copy to allow simultaneous use on windows under mingw and cygwin platforms.
 # Symlinking of files under mingw does not work out for cygwin and vice-versa.
 echo "Setting up build system for xmlwrapp:"
-echo " - aclocal " && aclocal ${wx+-I} $wx && \
+echo " - aclocal " && aclocal && \
 echo " - libtoolize " && libtoolize --copy --automake && \
 echo " - autoconf " && autoconf && \
 echo " - automake " && automake --add-missing --copy --foreign && \
