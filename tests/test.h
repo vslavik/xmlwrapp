@@ -34,6 +34,8 @@
 #define _xmlwrapp_test_h_
 
 #define BOOST_TEST_ALTERNATIVE_INIT_API
+#define BOOST_TEST_DYN_LINK
+
 #include <boost/test/unit_test.hpp>
 
 #include <xmlwrapp/xmlwrapp.h>
@@ -41,6 +43,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <cstring>
 
 // path to source directory, where test data files are located
 extern std::string srcdir;
