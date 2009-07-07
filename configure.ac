@@ -35,7 +35,7 @@ dnl === Prologue ===
 
 AC_REVISION($Id$)dnl
 
-AC_PREREQ(2.62)
+AC_PREREQ(2.61)
 AC_INIT(xmlwrapp, 0.6.1, [xmlwrapp-users@lists.sourceforge.net])
 
 AC_CONFIG_SRCDIR([xmlwrapp.pc.in])
