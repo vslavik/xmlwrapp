@@ -186,4 +186,31 @@ BOOST_AUTO_TEST_CASE( dump_tree_data )
 }
 
 
+
+namespace
+{
+
+// this is invalid markup, libxml2 fails with
+// namespace error : Namespace prefix a on book is not defined
+const std::string XMLDATA_BAD_NS =
+      "<a:book> xmlns:a=\"a\" <title>title</title></a:book>";
+
+} // anonymous namespace
+
+BOOST_AUTO_TEST_CASE( bad_ns_xml_data_throw )
+{
+
+    BOOST_CHECK_THROW
+    (
+        xml::tree_parser parser( XMLDATA_BAD_NS.c_str(), XMLDATA_BAD_NS.size()),
+        std::exception
+    );
+}
+
+BOOST_AUTO_TEST_CASE( bad_ns_xml_data_no_throw )
+{
+    xml::tree_parser parser(XMLDATA_BAD_NS.c_str(), XMLDATA_BAD_NS.size(), false);
+    BOOST_CHECK( !parser ); // failed
+}
+
 BOOST_AUTO_TEST_SUITE_END()

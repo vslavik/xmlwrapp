@@ -1,3 +1,6 @@
+
+    Fixed xml::tree_parser to fail on non-fatal parser errors.
+
 Version 0.6.1
 
     Added Visual C++ 200x projects and fixed VC6 project.
