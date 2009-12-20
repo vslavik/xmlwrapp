@@ -30,10 +30,6 @@
  * SUCH DAMAGE.
  */
 
-/** @file
- * This file implements the dtd_impl class.
-**/
-
 // xmlwrapp includes
 #include "dtd_impl.h"
 #include "utility.h"
@@ -50,55 +46,74 @@
 using namespace xml;
 using namespace xml::impl;
 
-//####################################################################
-extern "C"
+namespace
 {
-    //####################################################################
-    static void dtd_error (void *ctxt, const char *message, ...) {
-	dtd_impl *dtd = static_cast<dtd_impl*>(ctxt);
 
-	va_list ap;
-	va_start(ap, message);
-	printf2string(dtd->error_, message, ap);
-	va_end(ap);
+extern "C" void dtd_error(void *ctxt, const char *message, ...)
+{
+    dtd_impl *dtd = static_cast<dtd_impl*>(ctxt);
+
+    va_list ap;
+    va_start(ap, message);
+    printf2string(dtd->error_, message, ap);
+    va_end(ap);
+}
+
+extern "C" void dtd_warning(void *ctxt, const char*, ...)
+{
+    dtd_impl *dtd = static_cast<dtd_impl*>(ctxt);
+    ++dtd->warnings_;
+}
+
+} // anonymous namespace
+
+
+dtd_impl::dtd_impl(const char *filename)
+    : warnings_(0), dtd_(0)
+{
+    if ( (dtd_ = xmlParseDTD(0, reinterpret_cast<const xmlChar*>(filename))) == 0)
+    {
+        error_ = "unable to parse DTD ";
+        error_ += filename;
     }
-    //####################################################################
-    static void dtd_warning (void *ctxt, const char*, ...) {
-	dtd_impl *dtd = static_cast<dtd_impl*>(ctxt);
-	++dtd->warnings_;
-    }
-    //####################################################################
 }
-//####################################################################
-dtd_impl::dtd_impl (const char *filename) : warnings_(0), dtd_(0) {
-    if ( (dtd_ = xmlParseDTD(0, reinterpret_cast<const xmlChar*>(filename))) == 0) {
-	error_ = "unable to parse DTD "; error_ += filename;
-    }
+
+
+dtd_impl::dtd_impl() : warnings_(0), dtd_(0)
+{
 }
-//####################################################################
-dtd_impl::dtd_impl (void) : warnings_(0), dtd_(0) {
+
+
+dtd_impl::~dtd_impl()
+{
+    if (dtd_)
+        xmlFreeDtd(dtd_);
 }
-//####################################################################
-dtd_impl::~dtd_impl (void) {
-    if (dtd_) xmlFreeDtd(dtd_);
-}
-//####################################################################
-void dtd_impl::init_ctxt (void) {
+
+
+void dtd_impl::init_ctxt()
+{
     std::memset(&vctxt_, 0, sizeof(vctxt_));
 
     vctxt_.userData = this;
     vctxt_.error    = dtd_error;
     vctxt_.warning  = dtd_warning;
 }
-//####################################################################
-bool dtd_impl::validate (xmlDocPtr xmldoc) {
+
+
+bool dtd_impl::validate(xmlDocPtr xmldoc)
+{
     init_ctxt();
 
-    if (dtd_) return xmlValidateDtd(&vctxt_, xmldoc, dtd_) != 0;
-    else return xmlValidateDocument(&vctxt_, xmldoc) != 0;
+    if (dtd_)
+        return xmlValidateDtd(&vctxt_, xmldoc, dtd_) != 0;
+    else
+        return xmlValidateDocument(&vctxt_, xmldoc) != 0;
 }
-//####################################################################
-xmlDtdPtr dtd_impl::release (void) {
+
+
+xmlDtdPtr dtd_impl::release()
+{
     xmlDtdPtr xmldtd = dtd_;
     dtd_ = 0;
     return xmldtd;

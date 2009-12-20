@@ -30,111 +30,106 @@
  * SUCH DAMAGE.
  */
 
-/** @file
- * This file contains the definition of the xml::init class.
-**/
+/**
+    @file
+
+    This file contains the definition of the xml::init class.
+ */
 
 #ifndef _xmlwrapp_init_h_
 #define _xmlwrapp_init_h_
 
 /// XML library namespace
-namespace xml {
+namespace xml
+{
 
 /**
- * The xml::init class is used to configure the XML parser.
- *
- * If you want to use and of the xml::init member functions, do so before
- * you start any threads or use any other part of xmlwrapp. The member
- * functions may alter global and/or static variables and affect the behavior
- * of subsequently created classes (and the parser in particular).
- * In other words, this class is not thread safe.
- *
- * @note In xmlwrapp versions prior to 0.6.0, this class was used to initialize
- *       the library and exactly one instance had to be created before first
- *       use. This is no longer true: user code doesn't have to create any
- *       instances, but it @em can create as many instances as it wants.
-**/
-class init {
+    The xml::init class is used to configure the XML parser.
+
+    If you want to use and of the xml::init member functions, do so before
+    you start any threads or use any other part of xmlwrapp. The member
+    functions may alter global and/or static variables and affect the behavior
+    of subsequently created classes (and the parser in particular).
+    In other words, this class is not thread safe.
+
+    @note In xmlwrapp versions prior to 0.6.0, this class was used to initialize
+          the library and exactly one instance had to be created before first
+          use. This is no longer true: user code doesn't have to create any
+          instances, but it @em can create as many instances as it wants.
+ */
+class init
+{
 public:
-    init (void);
-    ~init (void);
+    init();
+    ~init();
 
-    //####################################################################
-    /** 
-     * This member function controls whether or not the XML parser should
-     * add text nodes for indenting when generating XML text output from a
-     * node tree. The default is true.
-     *
-     * @param flag True to turn on indenting, false to turn it off.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    static void indent_output (bool flag);
+    /**
+        This member function controls whether or not the XML parser should
+        add text nodes for indenting when generating XML text output from a
+        node tree. The default is true.
 
-    //####################################################################
-    /** 
-     * This member function controls whether or not the XML parser should
-     * remove ignorable whitespace around XML elements. The default
-     * is false.
-     *
-     * @param flag True to remove whitespace, false to leave alone.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    static void remove_whitespace (bool flag);
+        @param flag True to turn on indenting, false to turn it off.
+        @author Peter Jones
+     */
+    static void indent_output(bool flag);
 
-    //####################################################################
-    /** 
-     * This member function controls whether or not the XML parser should
-     * substitute entities while parsing. The default is true.
-     *
-     * @param flag True to turn on substitution, false to turn off.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    static void substitute_entities (bool flag);
+    /**
+        This member function controls whether or not the XML parser should
+        remove ignorable whitespace around XML elements. The default
+        is false.
 
-    //####################################################################
-    /** 
-     * This member function controls whether or not the XML parser should
-     * load external (DTD) subsets while parsing. This will only affect the
-     * loading of the subsets, it does not cause files to be validated. The
-     * default is true.
-     *
-     * @param flag True to turn on loading, false to turn it off.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    static void load_external_subsets (bool flag);
+        @param flag True to remove whitespace, false to leave alone.
+        @author Peter Jones
+     */
+    static void remove_whitespace(bool flag);
 
-    //####################################################################
-    /** 
-     * This member function controls whether or not the XML parser should
-     * validate every XML document that is parses with its DTD. The default
-     * is false.
-     *
-     * @return flag True to turn on validation, false to turn it off.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    static void validate_xml (bool flag);
+    /**
+        This member function controls whether or not the XML parser should
+        substitute entities while parsing. The default is true.
+
+        @param flag True to turn on substitution, false to turn off.
+        @author Peter Jones
+     */
+    static void substitute_entities(bool flag);
+
+    /**
+        This member function controls whether or not the XML parser should
+        load external (DTD) subsets while parsing. This will only affect the
+        loading of the subsets, it does not cause files to be validated. The
+        default is true.
+
+        @param flag True to turn on loading, false to turn it off.
+        @author Peter Jones
+     */
+    static void load_external_subsets(bool flag);
+
+    /**
+        This member function controls whether or not the XML parser should
+        validate every XML document that is parses with its DTD. The default
+        is false.
+
+        @return flag True to turn on validation, false to turn it off.
+        @author Peter Jones
+     */
+    static void validate_xml(bool flag);
 
 private:
-    init (const init&);
-    init& operator= (const init&);
+    init(const init&);
+    init& operator=(const init&);
 
     void init_library();
     void shutdown_library();
 
     static int ms_counter;
-}; // end xml::init class
+};
 
-} // end xml namespace
+} // namespace xml
 
 // use a "nifty counter" to ensure that any source file that uses xmlwrapp
 // will initialize the library prior to its first use
-namespace {
+namespace
+{
     xml::init g_xmlwrapp_initializer;
 }
 
-#endif
+#endif // _xmlwrapp_init_h_

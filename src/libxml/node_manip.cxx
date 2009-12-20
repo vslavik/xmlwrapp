@@ -30,11 +30,6 @@
  * SUCH DAMAGE.
  */
 
-/** @file
- * This file contains the implementation of the xml::node manipulation
- * functions.
-**/
-
 // xmlwrapp includes
 #include "node_manip.h"
 
@@ -44,44 +39,59 @@
 // libxml includes
 #include <libxml/tree.h>
 
-//####################################################################
-xmlNodePtr xml::impl::node_insert (xmlNodePtr parent, xmlNodePtr before, xmlNodePtr to_add) {
-    xmlNodePtr new_xml_node =  xmlCopyNode(to_add, 1);
-    if (!new_xml_node) throw std::bad_alloc();
+xmlNodePtr
+xml::impl::node_insert(xmlNodePtr parent, xmlNodePtr before, xmlNodePtr to_add)
+{
+    xmlNodePtr new_xml_node = xmlCopyNode(to_add, 1);
+    if ( !new_xml_node )
+        throw std::bad_alloc();
 
-    if (before == 0) { // insert at the end of the child list
-	if (xmlAddChild(parent, new_xml_node) == 0) {
-	    xmlFreeNode(new_xml_node);
-	    throw std::runtime_error("failed to insert xml::node; xmlAddChild failed");
-	}
-    } else {
-	if (xmlAddPrevSibling(before, new_xml_node) == 0) {
-	    xmlFreeNode(new_xml_node);
-	    throw std::runtime_error("failed to insert xml::node; xmlAddPrevSibling failed");
-	}
+    if ( before == 0 )
+    {
+        // insert at the end of the child list
+        if ( xmlAddChild(parent, new_xml_node) == 0 )
+        {
+            xmlFreeNode(new_xml_node);
+            throw std::runtime_error("failed to insert xml::node; xmlAddChild failed");
+        }
+    }
+    else
+    {
+        if ( xmlAddPrevSibling(before, new_xml_node) == 0 )
+        {
+            xmlFreeNode(new_xml_node);
+            throw std::runtime_error("failed to insert xml::node; xmlAddPrevSibling failed");
+        }
     }
 
     return new_xml_node;
 }
-//####################################################################
-xmlNodePtr xml::impl::node_replace (xmlNodePtr old_node, xmlNodePtr new_node) {
-    xmlNodePtr copied_node =  xmlCopyNode(new_node, 1);
-    if (!copied_node) throw std::bad_alloc();
+
+
+xmlNodePtr
+xml::impl::node_replace(xmlNodePtr old_node, xmlNodePtr new_node)
+{
+    xmlNodePtr copied_node = xmlCopyNode(new_node, 1);
+    if ( !copied_node )
+        throw std::bad_alloc();
 
     // hack to see if xmlReplaceNode was successful
     copied_node->doc = reinterpret_cast<xmlDocPtr>(old_node);
     xmlReplaceNode(old_node, copied_node);
 
-    if (copied_node->doc == reinterpret_cast<xmlDocPtr>(old_node)) {
-	xmlFreeNode(copied_node);
-	throw std::runtime_error("failed to replace xml::node; xmlReplaceNode() failed");
+    if ( copied_node->doc == reinterpret_cast<xmlDocPtr>(old_node) )
+    {
+        xmlFreeNode(copied_node);
+        throw std::runtime_error("failed to replace xml::node; xmlReplaceNode() failed");
     }
 
     xmlFreeNode(old_node);
     return copied_node;
 }
-//####################################################################
-xmlNodePtr xml::impl::node_erase (xmlNodePtr to_erase) {
+
+
+xmlNodePtr xml::impl::node_erase(xmlNodePtr to_erase)
+{
     xmlNodePtr after = to_erase->next;
 
     xmlUnlinkNode(to_erase);
@@ -89,4 +99,3 @@ xmlNodePtr xml::impl::node_erase (xmlNodePtr to_erase) {
 
     return after;
 }
-//####################################################################

@@ -35,27 +35,35 @@
 
 #include <functional>
 
-namespace xml {
+namespace xml
+{
 
 class node;
 
-namespace impl {
+namespace impl
+{
 
-    struct cbfo_node_compare : public std::binary_function<xml::node, xml::node, bool> {
-	virtual ~cbfo_node_compare (void) { }
-	virtual bool operator() (const xml::node &lhs, const xml::node &rhs) = 0;
+    // helper for xml::node::sort()
+    struct cbfo_node_compare
+            : public std::binary_function<xml::node, xml::node, bool>
+    {
+        virtual ~cbfo_node_compare() {}
+        virtual bool operator()(const xml::node& lhs, const xml::node& rhs) = 0;
     };
 
-    template <typename T> struct sort_callback : public cbfo_node_compare {
-	sort_callback (T &t) : t_(t) { }
+    template<typename T>
+    struct sort_callback : public cbfo_node_compare
+    {
+        sort_callback(T& t) : t_(t) {}
 
-	bool operator() (const xml::node &lhs, const xml::node &rhs)
-	{ return t_(lhs, rhs); }
+        bool operator()(const xml::node& lhs, const xml::node& rhs)
+            { return t_(lhs, rhs); }
 
-	T &t_;
+        T &t_;
     };
 
 } // namespace impl
 
 } // namespace xml
-#endif
+
+#endif // _xmlwrapp_cbfo_h_

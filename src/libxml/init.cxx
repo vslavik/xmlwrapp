@@ -30,11 +30,8 @@
  * SUCH DAMAGE.
  */
 
-/** @file
- * This file contains the implementation of the xml::init class for libxml.
-**/
 
-// defintion include
+// xmlwrapp includes
 #include "xmlwrapp/init.h"
 
 // libxml includes
@@ -42,28 +39,37 @@
 #include <libxml/xmlerror.h>
 #include <libxml/parser.h>
 
-//####################################################################
 extern "C"
 {
-    static void xml_error (void *, const char*, ...)
-    {
-        // don't do anything
-    }
+
+static void xml_error(void *, const char*, ...)
+{
+    // don't do anything
 }
-//####################################################################
-int xml::init::ms_counter = 0;
-//####################################################################
-xml::init::init (void) {
+
+} // extern "C"
+
+namespace xml
+{
+
+int init::ms_counter = 0;
+
+init::init()
+{
     if ( ms_counter++ == 0 )
         init_library();
 }
-//####################################################################
-xml::init::~init (void) {
+
+
+init::~init()
+{
     if ( --ms_counter == 0 )
         shutdown_library();
 }
-//####################################################################
-void xml::init::init_library() {
+
+
+void init::init_library()
+{
     // set some libxml global variables
     indent_output(true);
     remove_whitespace(false);
@@ -77,28 +83,41 @@ void xml::init::init_library() {
     // init the parser (keeps libxml2 thread safe)
     xmlInitParser();
 }
-//####################################################################
-void xml::init::shutdown_library() {
+
+
+void init::shutdown_library()
+{
     xmlCleanupParser();
 }
-//####################################################################
-void xml::init::indent_output (bool flag) {
+
+
+void init::indent_output(bool flag)
+{
     xmlIndentTreeOutput = flag ? 1 : 0;
 }
-//####################################################################
-void xml::init::remove_whitespace (bool flag) {
+
+
+void init::remove_whitespace(bool flag)
+{
     xmlKeepBlanksDefaultValue = flag ? 0 : 1;
 }
-//####################################################################
-void xml::init::substitute_entities (bool flag) {
+
+
+void init::substitute_entities(bool flag)
+{
     xmlSubstituteEntitiesDefaultValue = flag ? 1 : 0;
 }
-//####################################################################
-void xml::init::load_external_subsets (bool flag) {
+
+
+void init::load_external_subsets(bool flag)
+{
     xmlLoadExtDtdDefaultValue = flag ? 1 : 0;
 }
-//####################################################################
-void xml::init::validate_xml (bool flag) {
+
+
+void init::validate_xml(bool flag)
+{
     xmlDoValidityCheckingDefaultValue = flag ? 1 : 0;
 }
-//####################################################################
+
+} // namespace xml

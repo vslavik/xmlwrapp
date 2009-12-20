@@ -30,10 +30,11 @@
  * SUCH DAMAGE.
  */
 
-/** @file
- * This file contains the definition of the xml::node manipulation
- * functions.
-**/
+/**
+    @file
+
+    This file contains the definition of the xml::node manipulation functions.
+ */
 
 #ifndef _xmlwrapp_node_manip_h_
 #define _xmlwrapp_node_manip_h_
@@ -41,47 +42,57 @@
 // libxml includes
 #include <libxml/tree.h>
 
-namespace xml {
+namespace xml
+{
 
-namespace impl {
+namespace impl
+{
 
-    //####################################################################
-    /** 
-     * Insert a node somewhere in the child list of a parent node.
-     *
-     * @param parent The parent who's child list will be inserted into.
-     * @param before Insert to_add before this node, or, if this node is 0 (null), insert at the end of the child list.
-     * @param to_add The node to be copied and then inserted into the child list.
-     * @return The new node that was inserted into the child list.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    xmlNodePtr node_insert (xmlNodePtr parent, xmlNodePtr before, xmlNodePtr to_add);
+/**
+    @internal
 
-    //####################################################################
-    /** 
-     * Replace a node with another one. The node being replaced will be
-     * freed from memory.
-     *
-     * @param old_node The old node to remove and free.
-     * @param new_node The new node to copy and insert where old node was.
-     * @return The new node that was crated from copying new_node and inserted into the child list where old_node was.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    xmlNodePtr node_replace (xmlNodePtr old_node, xmlNodePtr new_node);
+    Insert a node somewhere in the child list of a parent node.
 
-    //####################################################################
-    /** 
-     * Erase a node from the child list, and then free it from memory.
-     *
-     * @param to_erase The node to remove and free.
-     * @return The node that was after to_erase (may be 0 (null) if to_erase was the last node in the list)
-     * @author Peter Jones
-    **/
-    //####################################################################
-    xmlNodePtr node_erase (xmlNodePtr to_erase);
-}
+    @param parent The parent who's child list will be inserted into.
+    @param before Insert @a to_add before this node, or, if this node is
+                  0 (null), insert at the end of the child list.
+    @param to_add The node to be copied and then inserted into the child list.
 
-}
-#endif
+    @return The new node that was inserted into the child list.
+    @author Peter Jones
+ */
+xmlNodePtr node_insert(xmlNodePtr parent, xmlNodePtr before, xmlNodePtr to_add);
+
+/**
+    @internal
+
+    Replace a node with another one. The node being replaced will be
+    freed from memory.
+
+    @param old_node The old node to remove and free.
+    @param new_node The new node to copy and insert where old node was.
+
+    @return The new node that was crated from copying @a new_node and inserted
+            into the child list where @a old_node was.
+    @author Peter Jones
+ */
+xmlNodePtr node_replace(xmlNodePtr old_node, xmlNodePtr new_node);
+
+/**
+    @internal
+
+    Erase a node from the child list, and then free it from memory.
+
+    @param to_erase The node to remove and free.
+
+    @return The node that was after to_erase (may be 0 (null) if @a to_erase
+            was the last node in the list)
+    @author Peter Jones
+ */
+xmlNodePtr node_erase(xmlNodePtr to_erase);
+
+} // namespace impl
+
+} // namespace xml
+
+#endif // _xmlwrapp_node_manip_h_

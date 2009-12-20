@@ -37,4 +37,4 @@
 #include "xsltwrapp/init.h"
 #include "xsltwrapp/stylesheet.h"
 
-#endif
+#endif // _xsltwrapp_xsltwrapp_h_

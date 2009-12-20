@@ -41,4 +41,4 @@
 #include "xmlwrapp/tree_parser.h"
 #include "xmlwrapp/event_parser.h"
 
-#endif
+#endif // _xmlwrapp_xmlwrapp_h_

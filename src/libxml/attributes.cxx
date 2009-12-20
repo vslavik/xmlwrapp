@@ -30,10 +30,6 @@
  * SUCH DAMAGE.
  */
 
-/** @file
- * This file contains the implementation of the xml::attributes class.
-**/
-
 // xmlwrapp includes
 #include "xmlwrapp/attributes.h"
 #include "ait_impl.h"
@@ -46,135 +42,192 @@
 // libxml2 includes
 #include <libxml/tree.h>
 
-using namespace xml;
+namespace xml
+{
+
 using namespace xml::impl;
 
-//####################################################################
-struct xml::attributes::pimpl : public pimpl_base<xml::attributes::pimpl> {
-    //####################################################################
-    pimpl (void) : owner_(true) {
-	xmlnode_ = xmlNewNode(0, reinterpret_cast<const xmlChar*>("blank"));
-	if (!xmlnode_) throw std::bad_alloc();
+// ------------------------------------------------------------------------
+// xml::attributes::pimpl
+// ------------------------------------------------------------------------
+
+struct attributes::pimpl : public pimpl_base<attributes::pimpl>
+{
+    pimpl() : owner_(true)
+    {
+        xmlnode_ = xmlNewNode(0, reinterpret_cast<const xmlChar*>("blank"));
+        if (!xmlnode_)
+            throw std::bad_alloc();
     }
-    //####################################################################
-    pimpl (xmlNodePtr node) : xmlnode_(node), owner_(false)
-    { }
-    //####################################################################
-    pimpl (const pimpl &other) : owner_(true) {
-	xmlnode_ = xmlNewNode(0, reinterpret_cast<const xmlChar*>("blank"));
-	if (!xmlnode_) throw std::bad_alloc();
 
-	xmlAttrPtr i=other.xmlnode_->properties;
-	xmlAttrPtr copy;
+    pimpl(xmlNodePtr node) : xmlnode_(node), owner_(false) {}
 
-	// work around bug in libxml
-	for (; i!=0; i=i->next) {
-	    if ( (copy = xmlCopyProp(0, i)) == 0) {
-		xmlFreeNode(xmlnode_);
-		throw std::bad_alloc();
-	    }
+    pimpl(const pimpl& other) : owner_(true)
+    {
+        xmlnode_ = xmlNewNode(0, reinterpret_cast<const xmlChar*>("blank"));
+        if (!xmlnode_)
+            throw std::bad_alloc();
 
-	    copy->prev = 0;
-	    copy->next = 0;
-	    xmlAddChild(xmlnode_, reinterpret_cast<xmlNodePtr>(copy));
-	}
+        xmlAttrPtr i=other.xmlnode_->properties;
+        xmlAttrPtr copy;
+
+        // work around bug in libxml
+        for ( ; i != 0; i = i->next )
+        {
+            if ( (copy = xmlCopyProp(0, i)) == 0)
+            {
+                xmlFreeNode(xmlnode_);
+                throw std::bad_alloc();
+            }
+
+            copy->prev = 0;
+            copy->next = 0;
+            xmlAddChild(xmlnode_, reinterpret_cast<xmlNodePtr>(copy));
+        }
     }
-    //####################################################################
-    ~pimpl (void)
-    { release(); }
-    //####################################################################
-    void release (void)
-    { if (owner_ && xmlnode_) xmlFreeNode(xmlnode_); }
-    //####################################################################
-    
+
+    ~pimpl()
+    {
+        release();
+    }
+
+    void release()
+    {
+        if (owner_ && xmlnode_)
+            xmlFreeNode(xmlnode_);
+    }
+
     xmlNodePtr xmlnode_;
     bool owner_;
 };
-//####################################################################
-xml::attributes::attributes (void) {
+
+
+// ------------------------------------------------------------------------
+// xml::attributes
+// ------------------------------------------------------------------------
+
+attributes::attributes()
+{
     pimpl_ = new pimpl;
 }
-//####################################################################
-xml::attributes::attributes (int) {
+
+
+attributes::attributes(int)
+{
     pimpl_ = new pimpl(0);
 }
-//####################################################################
-xml::attributes::attributes (const attributes &other) {
+
+
+attributes::attributes(const attributes& other)
+{
     pimpl_ = new pimpl(*other.pimpl_);
 }
-//####################################################################
-xml::attributes& xml::attributes::operator= (const attributes &other) {
+
+
+attributes& attributes::operator=(const attributes& other)
+{
     attributes tmp(other);
     swap(tmp);
     return *this;
 }
-//####################################################################
-void xml::attributes::swap (attributes &other) {
+
+
+void attributes::swap(attributes& other)
+{
     std::swap(pimpl_, other.pimpl_);
 }
-//####################################################################
-xml::attributes::~attributes (void) {
+
+
+attributes::~attributes()
+{
     delete pimpl_;
 }
-//####################################################################
-void* xml::attributes::get_data (void) {
+
+
+void* attributes::get_data()
+{
     return pimpl_->xmlnode_;
 }
-//####################################################################
-void xml::attributes::set_data (void *node) {
+
+
+void attributes::set_data(void *node)
+{
     xmlNodePtr x = static_cast<xmlNodePtr>(node);
 
     pimpl_->release();
     pimpl_->owner_ = false;
     pimpl_->xmlnode_ = x;
 }
-//####################################################################
-xml::attributes::iterator xml::attributes::begin (void) {
+
+
+attributes::iterator attributes::begin()
+{
     return iterator(pimpl_->xmlnode_, pimpl_->xmlnode_->properties);
 }
-//####################################################################
-xml::attributes::const_iterator xml::attributes::begin (void) const {
+
+
+attributes::const_iterator attributes::begin() const
+{
     return const_iterator(pimpl_->xmlnode_, pimpl_->xmlnode_->properties);
 }
-//####################################################################
-xml::attributes::iterator xml::attributes::end (void) {
+
+
+attributes::iterator attributes::end()
+{
     return iterator();
 }
-//####################################################################
-xml::attributes::const_iterator xml::attributes::end (void) const {
+
+
+attributes::const_iterator attributes::end() const
+{
     return const_iterator();
 }
-//####################################################################
-void xml::attributes::insert (const char *name, const char *value) {
-    xmlSetProp(pimpl_->xmlnode_, reinterpret_cast<const xmlChar*>(name), reinterpret_cast<const xmlChar*>(value));
+
+
+void attributes::insert(const char *name, const char *value)
+{
+    xmlSetProp(pimpl_->xmlnode_,
+               reinterpret_cast<const xmlChar*>(name),
+               reinterpret_cast<const xmlChar*>(value));
 }
-//####################################################################
-xml::attributes::iterator xml::attributes::find(const char *name) {
+
+
+attributes::iterator attributes::find(const char *name)
+{
     xmlAttrPtr prop = find_prop(pimpl_->xmlnode_, name);
-    if (prop != 0) return iterator(pimpl_->xmlnode_, prop);
+    if ( prop != 0 )
+        return iterator(pimpl_->xmlnode_, prop);
 
     xmlAttributePtr dtd_prop = find_default_prop(pimpl_->xmlnode_, name);
-    if (dtd_prop != 0) return iterator(name, reinterpret_cast<const char*>(dtd_prop->defaultValue), true);
+    if ( dtd_prop != 0 )
+        return iterator(name, reinterpret_cast<const char*>(dtd_prop->defaultValue), true);
 
     return iterator();
 }
-//####################################################################
-xml::attributes::const_iterator xml::attributes::find (const char *name) const {
+
+
+attributes::const_iterator attributes::find(const char *name) const
+{
     xmlAttrPtr prop = find_prop(pimpl_->xmlnode_, name);
-    if (prop != 0) return const_iterator(pimpl_->xmlnode_, prop);
+    if (prop != 0)
+        return const_iterator(pimpl_->xmlnode_, prop);
 
     xmlAttributePtr dtd_prop = find_default_prop(pimpl_->xmlnode_, name);
 
-    if (dtd_prop != 0) {
-	return const_iterator(name, reinterpret_cast<const char*>(dtd_prop->defaultValue), true);
+    if (dtd_prop != 0)
+    {
+        return const_iterator(name, reinterpret_cast<const char*>(dtd_prop->defaultValue), true);
     }
 
     return const_iterator();
 }
-//####################################################################
-xml::attributes::iterator xml::attributes::erase (iterator to_erase) {
+
+
+attributes::iterator attributes::erase (iterator to_erase)
+{
     xmlNodePtr prop = static_cast<xmlNodePtr>(to_erase.get_raw_attr());
-    if (prop == 0) return iterator(); // handle fake and bad iterators
+    if (prop == 0)
+        return iterator(); // handle fake and bad iterators
     ++to_erase;
 
     xmlUnlinkNode(prop);
@@ -182,21 +235,32 @@ xml::attributes::iterator xml::attributes::erase (iterator to_erase) {
 
     return to_erase;
 }
-//####################################################################
-void xml::attributes::erase (const char *name) {
+
+
+void attributes::erase(const char *name)
+{
     xmlUnsetProp(pimpl_->xmlnode_, reinterpret_cast<const xmlChar*>(name));
 }
-//####################################################################
-bool xml::attributes::empty (void) const {
+
+
+bool attributes::empty() const
+{
     return pimpl_->xmlnode_->properties == 0;
 }
-//####################################################################
-xml::attributes::size_type xml::attributes::size (void) const {
+
+
+attributes::size_type attributes::size() const
+{
     size_type count = 0;
 
     xmlAttrPtr prop = pimpl_->xmlnode_->properties;
-    while (prop != 0) { ++count; prop = prop->next; }
+    while (prop != 0)
+    {
+        ++count;
+        prop = prop->next;
+    }
 
     return count;
 }
-//####################################################################
+
+} // namespace xml

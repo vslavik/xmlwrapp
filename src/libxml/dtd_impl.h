@@ -30,10 +30,6 @@
  * SUCH DAMAGE.
  */
 
-/** @file
- * This file defines the xml::dtd_impl class.
-**/
-
 #ifndef _xmlwrapp_dtd_impl_h_
 #define _xmlwrapp_dtd_impl_h_
 
@@ -45,49 +41,48 @@
 #include <libxml/valid.h>
 #include <libxml/tree.h>
 
-namespace xml {
+namespace xml
+{
 
-namespace impl {
+namespace impl
+{
 
-class dtd_impl {
+class dtd_impl
+{
 public:
-    /*
-     * load the given DTD. you should check to see if error_ is empty or
-     * not, which will tell you if the DTD was loaded okay.
-     */
-    explicit dtd_impl (const char *filename);
+    // load the given DTD. you should check to see if error_ is empty or
+    // not, which will tell you if the DTD was loaded okay.
+    explicit dtd_impl(const char *filename);
 
-    /// Don't load a DTD
-    dtd_impl (void);
+    // Don't load a DTD
+    dtd_impl();
 
-    /// Delete stuff
-    ~dtd_impl (void);
+    ~dtd_impl();
 
-    /*
-     * check the document against the loaded DTD, or in the case where no
-     * DTD is loaded try to use the one inside the document.
-     */
-    bool validate (xmlDocPtr xmldoc);
+    // check the document against the loaded DTD, or in the case where no
+    // DTD is loaded try to use the one inside the document.
+    bool validate(xmlDocPtr xmldoc);
 
-    /// return the dtd pointer and never again free it.
-    xmlDtdPtr release (void);
+    // return the dtd pointer and never again free it.
+    xmlDtdPtr release();
 
-    /// count of DTD parsing/validating warnings
+    // count of DTD parsing/validating warnings
     int warnings_;
 
-    /// last DTD parsing/validating error message
+    // last DTD parsing/validating error message
     std::string error_;
 
 private:
     xmlValidCtxt vctxt_;
     xmlDtdPtr dtd_;
 
-    dtd_impl (const dtd_impl&);
-    dtd_impl& operator= (const dtd_impl&);
-    void init_ctxt (void);
-}; // end xml::impl::dtd_impl class
+    dtd_impl(const dtd_impl&);
+    dtd_impl& operator=(const dtd_impl&);
+    void init_ctxt();
+};
 
-} // end impl namespace
+} // namespace impl
 
-} // end xml namespace
-#endif
+} // namespace xml
+
+#endif // _xmlwrapp_dtd_impl_h_

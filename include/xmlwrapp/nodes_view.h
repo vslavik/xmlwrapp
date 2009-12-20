@@ -30,10 +30,12 @@
  * SUCH DAMAGE.
  */
 
-/** @file
- * This file contains the definition of the xml::nodes_view and
- * xml::const_nodes_view classes.
-**/
+/**
+    @file
+
+    This file contains the definition of the xml::nodes_view and
+    xml::const_nodes_view classes.
+ */
 
 #ifndef _xmlwrapp_nodes_view_h_
 #define _xmlwrapp_nodes_view_h_
@@ -52,24 +54,26 @@ class const_nodes_view;
 
 namespace impl
 {
+
 struct nipimpl;
 class iter_advance_functor;
-}
+
+} // namespace impl
 
 /**
- * This class implements a view of XML nodes. A @em view is a container-like
- * class that only allows access to a subset of xml::node's child nodes. The
- * exact content depends on how the view was obtained; typical uses are
- * e.g. a view of all element children or all elements with a given name.
- *
- * The nodes_view class implements the same container interface that xml::node
- * does: it has begin() and end() methods.
- *
- * @author Vaclav Slavik
- * @since  0.6.0
- *
- * @see xml::node::elements(), xml::node::elements(const char*)
-**/
+    This class implements a view of XML nodes. A @em view is a container-like
+    class that only allows access to a subset of xml::node's child nodes. The
+    exact content depends on how the view was obtained; typical uses are
+    e.g. a view of all element children or all elements with a given name.
+
+    The nodes_view class implements the same container interface that
+    xml::node does: it has begin() and end() methods.
+
+    @author Vaclav Slavik
+    @since  0.6.0
+
+    @see xml::node::elements(), xml::node::elements(const char *)
+ */
 class nodes_view
 {
 public:
@@ -82,11 +86,11 @@ public:
     class const_iterator;
 
     /**
-     * The iterator provides a way to access nodes in the view
-     * similar to a standard C++ container.
-     *
-     * @see xml::node::iterator
-    **/
+        The iterator provides a way to access nodes in the view
+        similar to a standard C++ container.
+
+        @see xml::node::iterator
+     */
     class iterator
     {
     public:
@@ -128,12 +132,12 @@ public:
     };
 
     /**
-     * The const_iterator provides a way to access nodes in the view
-     * similar to a standard C++ container. The nodes that are pointed to by
-     * the iterator cannot be changed.
-     *
-     * @see xml::node::const_iterator
-    **/
+        The const_iterator provides a way to access nodes in the view
+        similar to a standard C++ container. The nodes that are pointed to by
+        the iterator cannot be changed.
+
+        @see xml::node::const_iterator
+     */
     class const_iterator
     {
     public:
@@ -177,33 +181,33 @@ public:
     };
 
     /**
-     * Get an iterator that points to the beginning of this node's
-     * children.
-     *
-     * @return An iterator that points to the beginning of the children.
-    **/
+        Get an iterator that points to the beginning of this node's
+        children.
+
+        @return An iterator that points to the beginning of the children.
+     */
     iterator begin() { return iterator(data_begin_, advance_func_); }
 
     /**
-     * Get an iterator that points to the beginning of this node's
-     * children.
-     *
-     * @return An iterator that points to the beginning of the children.
-    **/
+        Get an iterator that points to the beginning of this node's
+        children.
+
+        @return An iterator that points to the beginning of the children.
+     */
     const_iterator begin() const { return const_iterator(data_begin_, advance_func_); }
 
     /**
-     * Get an iterator that points one past the last child for this node.
-     *
-     * @return A "one past the end" iterator.
-    **/
+        Get an iterator that points one past the last child for this node.
+
+        @return A "one past the end" iterator.
+     */
     iterator end() { return iterator(); }
 
     /**
-     * Get an iterator that points one past the last child for this node.
-     *
-     * @return A "one past the end" iterator.
-    **/
+        Get an iterator that points one past the last child for this node.
+
+        @return A "one past the end" iterator.
+     */
     const_iterator end() const { return const_iterator(); }
 
     /// Is the view empty?
@@ -224,15 +228,15 @@ private:
 
 
 /**
- * This class implements a @em read-only view of XML nodes. The only difference
- * from xml::nodes_view is that it doesn't allow modifications of the nodes,
- * it is otherwise identical.
- *
- * @see nodes_view
- *
- * @author Vaclav Slavik
- * @since  0.6.0
-**/
+    This class implements a @em read-only view of XML nodes. The only
+    difference from xml::nodes_view is that it doesn't allow modifications of
+    the nodes, it is otherwise identical.
+
+    @see nodes_view
+
+    @author Vaclav Slavik
+    @since  0.6.0
+ */
 class const_nodes_view
 {
 public:
@@ -248,19 +252,19 @@ public:
     typedef nodes_view::const_iterator const_iterator;
 
     /**
-     * Get an iterator that points to the beginning of this node's
-     * children.
-     *
-     * @return An iterator that points to the beginning of the children.
-    **/
+        Get an iterator that points to the beginning of this node's
+        children.
+
+        @return An iterator that points to the beginning of the children.
+     */
     const_iterator begin() const
         { return const_iterator(data_begin_, advance_func_); }
 
     /**
-     * Get an iterator that points one past the last child for this node.
-     *
-     * @return A "one past the end" iterator.
-    **/
+        Get an iterator that points one past the last child for this node.
+
+        @return A "one past the end" iterator.
+     */
     const_iterator end() const { return const_iterator(); }
 
     /// Is the view empty?

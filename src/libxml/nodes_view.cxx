@@ -53,6 +53,7 @@ const_nodes_view::const_nodes_view(const const_nodes_view& other)
         advance_func_->inc_ref();
 }
 
+
 const_nodes_view::const_nodes_view(const nodes_view& other)
     : data_begin_(other.data_begin_),
       advance_func_(other.advance_func_)
@@ -61,11 +62,13 @@ const_nodes_view::const_nodes_view(const nodes_view& other)
         advance_func_->inc_ref();
 }
 
+
 const_nodes_view::~const_nodes_view()
 {
     if ( advance_func_ )
         advance_func_->dec_ref();
 }
+
 
 const_nodes_view& const_nodes_view::operator=(const const_nodes_view& other)
 {
@@ -81,6 +84,7 @@ const_nodes_view& const_nodes_view::operator=(const const_nodes_view& other)
     return *this;
 }
 
+
 const_nodes_view& const_nodes_view::operator=(const nodes_view& other)
 {
     if ( advance_func_ )
@@ -95,6 +99,7 @@ const_nodes_view& const_nodes_view::operator=(const nodes_view& other)
     return *this;
 }
 
+
 // ------------------------------------------------------------------------
 // xml::nodes_view
 // ------------------------------------------------------------------------
@@ -107,11 +112,13 @@ nodes_view::nodes_view(const nodes_view& other)
         advance_func_->inc_ref();
 }
 
+
 nodes_view::~nodes_view()
 {
     if ( advance_func_ )
         advance_func_->dec_ref();
 }
+
 
 nodes_view& nodes_view::operator=(const nodes_view& other)
 {

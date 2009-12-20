@@ -30,12 +30,8 @@
  * SUCH DAMAGE.
  */
 
-/** @file
- * This file defines the xml::ait_impl class.
-**/
-
-#ifndef _xmlwrapp_attr_iterator_h_
-#define _xmlwrapp_attr_iterator_h_
+#ifndef _xmlwrapp_ait_impl_h_
+#define _xmlwrapp_ait_impl_h_
 
 // xmlwrapp includes
 #include "xmlwrapp/attributes.h"
@@ -45,42 +41,44 @@
 // libxml2 includes
 #include <libxml/tree.h>
 
-namespace xml {
+namespace xml
+{
 
-namespace impl {
+namespace impl
+{
 
-/**
- * the class that does all the work behind xml::attributes::iterator and
- * xml::attributes::const_iterator.
- */
-class ait_impl : public pimpl_base<ait_impl> {
+// The class that does all the work behind xml::attributes::iterator and
+// xml::attributes::const_iterator.
+class ait_impl : public pimpl_base<ait_impl>
+{
 public:
-    ait_impl (xmlNodePtr node, xmlAttrPtr prop);
-    ait_impl (const char *name, const char *value, bool);
-    ait_impl (const ait_impl &other);
-    ait_impl& operator= (const ait_impl &other);
+    ait_impl(xmlNodePtr node, xmlAttrPtr prop);
+    ait_impl(const char *name, const char *value, bool);
+    ait_impl(const ait_impl& other);
+    ait_impl& operator=(const ait_impl& other);
 
-    attributes::attr* get (void);
-    xmlAttrPtr get_raw_attr (void);
+    attributes::attr* get();
+    xmlAttrPtr get_raw_attr();
 
-    ait_impl& operator++ (void);
-    ait_impl  operator++ (int);
+    ait_impl& operator++();
+    ait_impl  operator++(int);
 
-    friend bool operator== (const ait_impl &lhs, const ait_impl &rhs);
-    friend bool operator!= (const ait_impl &lhs, const ait_impl &rhs);
+    friend bool operator==(const ait_impl& lhs, const ait_impl& rhs);
+    friend bool operator!=(const ait_impl& lhs, const ait_impl& rhs);
+
 private:
     xmlNodePtr xmlnode_;
     xmlAttrPtr xmlattr_;
     attributes::attr attr_;
     bool fake_;
-
-}; // end xml::ait_impl class
+};
 
 // a couple helper functions
-xmlAttrPtr find_prop (xmlNodePtr xmlnode, const char *name);
-xmlAttributePtr find_default_prop (xmlNodePtr xmlnode, const char *name);
+xmlAttrPtr find_prop(xmlNodePtr xmlnode, const char *name);
+xmlAttributePtr find_default_prop(xmlNodePtr xmlnode, const char *name);
 
-} // end impl namespace
+} // namespace impl
 
-} // end xml namespace
-#endif
+} // namespace xml
+
+#endif // _xmlwrapp_ait_impl_h_

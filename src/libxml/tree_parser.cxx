@@ -30,11 +30,6 @@
  * SUCH DAMAGE.
  */
 
-/** @file
- * This file contains the implementation of the xml::tree_parser class for
- * the libxml XML parser.
-**/
-
 // xmlwrapp includes
 #include "xmlwrapp/tree_parser.h"
 #include "xmlwrapp/document.h"
@@ -52,41 +47,25 @@
 #include <string>
 #include <memory>
 
-using namespace xml;
-using namespace xml::impl;
-
-//####################################################################
-/*
- * This is a hack to fix a problem with a change in the libxml2 API for
- * versions starting at 2.6.0
- */
+// This is a hack to fix a problem with a change in the libxml2 API for
+// versions starting at 2.6.0
 #if LIBXML_VERSION >= 20600
-#   define initxmlDefaultSAXHandler xmlSAX2InitDefaultSAXHandler
-#   include <libxml/SAX2.h>
+    #define initxmlDefaultSAXHandler xmlSAX2InitDefaultSAXHandler
+    #include <libxml/SAX2.h>
 #endif
-//####################################################################
-namespace {
-    const char const_default_error[] = "unknown XML parsing error";
-}
 
-extern "C" {
-    static void cb_tree_error (void *v, const char *message, ...);
-    static void cb_tree_warning (void *v, const char *, ...);
-    static void cb_tree_ignore (void*, const xmlChar*, int);
-}
+namespace xml
+{
 
-//####################################################################
-struct xml::impl::tree_impl {
-    tree_impl (void) : last_error_(const_default_error), warnings_(false), okay_(false) {
-	std::memset(&sax_, 0, sizeof(sax_));
-	initxmlDefaultSAXHandler(&sax_, 0);
+using namespace impl;
 
-	sax_.warning	= cb_tree_warning;
-	sax_.error	= cb_tree_error;
-	sax_.fatalError	= cb_tree_error;
+// ------------------------------------------------------------------------
+// xml::impl::tree_impl
+// ------------------------------------------------------------------------
 
-	if (xmlKeepBlanksDefaultValue == 0) sax_.ignorableWhitespace =  cb_tree_ignore;
-    }
+struct impl::tree_impl
+{
+    tree_impl();
 
     document doc_;
     xmlSAXHandler sax_;
@@ -95,48 +74,75 @@ struct xml::impl::tree_impl {
     bool okay_;
 };
 
-//####################################################################
-extern "C"
+namespace
 {
-//####################################################################
-static void cb_tree_error (void *v, const char *message, ...) {
-try {
 
-    xmlParserCtxtPtr ctxt = static_cast<xmlParserCtxtPtr>(v);
-    tree_impl *p = static_cast<tree_impl*>(ctxt->_private);
-    if (!p) return; // handle bug in older versions of libxml
+const char DEFAULT_ERROR[] = "unknown XML parsing error";
 
-    p->okay_ = false;
+extern "C" void cb_tree_error(void *v, const char *message, ...)
+{
+    try
+    {
+        xmlParserCtxtPtr ctxt = static_cast<xmlParserCtxtPtr>(v);
+        tree_impl *p = static_cast<tree_impl*>(ctxt->_private);
+        if (!p)
+            return; // handle bug in older versions of libxml
 
-    va_list ap;
-    va_start(ap, message);
-    printf2string(p->last_error_, message, ap);
-    va_end(ap);
+        p->okay_ = false;
 
-    xmlStopParser(ctxt);
-} catch (...) { }
-}
-//####################################################################
-static void cb_tree_warning (void *v, const char *, ...) {
-try {
+        va_list ap;
+        va_start(ap, message);
+        printf2string(p->last_error_, message, ap);
+        va_end(ap);
 
-    xmlParserCtxtPtr ctxt = static_cast<xmlParserCtxtPtr>(v);
-    tree_impl *p = static_cast<tree_impl*>(ctxt->_private);
-    if (!p) return; // handle bug in older versions of libxml
-
-    p->warnings_ = true;
-
-} catch (...) { }
-}
-//####################################################################
-static void cb_tree_ignore (void*, const xmlChar*, int) {
-return;
+        xmlStopParser(ctxt);
+    }
+    catch (...) {}
 }
 
-} // extern "C"
+extern "C" void cb_tree_warning(void *v, const char *, ...)
+{
+    try
+    {
+        xmlParserCtxtPtr ctxt = static_cast<xmlParserCtxtPtr>(v);
+        tree_impl *p = static_cast<tree_impl*>(ctxt->_private);
+        if (!p)
+            return; // handle bug in older versions of libxml
 
-//####################################################################
-xml::tree_parser::tree_parser (const char *name, bool allow_exceptions) {
+        p->warnings_ = true;
+    }
+    catch (...) {}
+}
+
+
+extern "C" void cb_tree_ignore(void*, const xmlChar*, int)
+{
+}
+
+} // anonymous namespace
+
+
+impl::tree_impl::tree_impl()
+    : last_error_(DEFAULT_ERROR), warnings_(false), okay_(false)
+{
+    std::memset(&sax_, 0, sizeof(sax_));
+    initxmlDefaultSAXHandler(&sax_, 0);
+
+    sax_.warning    = cb_tree_warning;
+    sax_.error      = cb_tree_error;
+    sax_.fatalError = cb_tree_error;
+
+    if (xmlKeepBlanksDefaultValue == 0)
+        sax_.ignorableWhitespace =  cb_tree_ignore;
+}
+
+
+// ------------------------------------------------------------------------
+// xml::tree_parser
+// ------------------------------------------------------------------------
+
+tree_parser::tree_parser(const char *name, bool allow_exceptions)
+{
     std::auto_ptr<tree_impl> ap(pimpl_ = new tree_impl);
 
     pimpl_->okay_ = true;
@@ -159,16 +165,19 @@ xml::tree_parser::tree_parser (const char *name, bool allow_exceptions) {
 
     ap.release();
 }
-//####################################################################
-xml::tree_parser::tree_parser (const char *data, size_type size, bool allow_exceptions) {
+
+
+tree_parser::tree_parser(const char *data, size_type size, bool allow_exceptions)
+{
     std::auto_ptr<tree_impl> ap(pimpl_ = new tree_impl);
     xmlParserCtxtPtr ctxt;
 
-    if ( (ctxt = xmlCreateMemoryParserCtxt(data, size)) == 0) {
-	throw std::bad_alloc();
-    }
+    if ( (ctxt = xmlCreateMemoryParserCtxt(data, size)) == 0)
+        throw std::bad_alloc();
 
-    if (ctxt->sax) xmlFree(ctxt->sax);
+    if (ctxt->sax)
+        xmlFree(ctxt->sax);
+
     ctxt->sax = &(pimpl_->sax_);
 
     ctxt->_private = pimpl_;
@@ -176,7 +185,8 @@ xml::tree_parser::tree_parser (const char *data, size_type size, bool allow_exce
     pimpl_->okay_ = true;
     const int retval = xmlParseDocument(ctxt);
 
-    if (!ctxt->wellFormed || retval != 0 || !pimpl_->okay_) {
+    if (!ctxt->wellFormed || retval != 0 || !pimpl_->okay_)
+    {
         xmlFreeDoc(ctxt->myDoc);
         ctxt->myDoc = 0;
         ctxt->sax = 0;
@@ -197,27 +207,41 @@ xml::tree_parser::tree_parser (const char *data, size_type size, bool allow_exce
     xmlFreeParserCtxt(ctxt);
     ap.release();
 }
-//####################################################################
-xml::tree_parser::~tree_parser (void) {
+
+
+tree_parser::~tree_parser()
+{
     delete pimpl_;
 }
-//####################################################################
-bool xml::tree_parser::operator! (void) const {
+
+
+bool tree_parser::operator!() const
+{
     return !pimpl_->okay_;
 }
-//####################################################################
-const std::string& xml::tree_parser::get_error_message (void) const {
+
+
+const std::string& tree_parser::get_error_message() const
+{
     return pimpl_->last_error_;
 }
-//####################################################################
-bool xml::tree_parser::had_warnings (void) const {
+
+
+bool tree_parser::had_warnings() const
+{
     return pimpl_->warnings_;
 }
-//####################################################################
-xml::document& xml::tree_parser::get_document (void) {
+
+
+document& tree_parser::get_document()
+{
     return pimpl_->doc_;
 }
-//####################################################################
-const xml::document& xml::tree_parser::get_document (void) const {
+
+
+const document& tree_parser::get_document() const
+{
     return pimpl_->doc_;
 }
+
+} // namespace xml

@@ -31,10 +31,6 @@
  * SUCH DAMAGE.
  */
 
-/** @file
- * This file implements the xml::impl::node_iterator class for libxml2.
-**/
-
 // definition include
 #include "node_iterator.h"
 #include "pimpl_base.h"
@@ -50,138 +46,178 @@
 // libxml includes
 #include <libxml/tree.h>
 
-using namespace xml;
-using namespace xml::impl;
+namespace xml
+{
 
-// xml::node::iterator pimpl
-struct xml::impl::nipimpl : public pimpl_base<xml::impl::nipimpl> {
+using namespace impl;
+
+// ------------------------------------------------------------------------
+// impl::nipimpl
+// ------------------------------------------------------------------------
+
+// node::iterator pimpl
+struct impl::nipimpl : public pimpl_base<impl::nipimpl>
+{
     node_iterator it;
 
-    nipimpl (void) {};
-    nipimpl (xmlNodePtr ptr) : it(ptr) {}
-    nipimpl (const nipimpl &other) : it(other.it) {}
+    nipimpl() {};
+    nipimpl(xmlNodePtr ptr) : it(ptr) {}
+    nipimpl(const nipimpl& other) : it(other.it) {}
 };
 
-/*
- * xml::impl::node_iterator Real Iterator class
- */
+// ------------------------------------------------------------------------
+// xml::impl::node_iterator - real iterator class
+// ------------------------------------------------------------------------
 
-//####################################################################
-xml::node* xml::impl::node_iterator::get (void) const {
+node* impl::node_iterator::get() const
+{
     fake_node_.set_node_data(node_);
-    return &fake_node_;
+    return& fake_node_;
 }
-//####################################################################
 
-/*
- * xml::node::iterator wrapper iterator class.
- */
 
-//####################################################################
-xml::node::iterator::iterator (void *data) {
+// ------------------------------------------------------------------------
+// xml::node::iterator wrapper iterator class
+// ------------------------------------------------------------------------
+
+node::iterator::iterator(void *data)
+{
     pimpl_ = new nipimpl(static_cast<xmlNodePtr>(data));
 }
-//####################################################################
-xml::node::iterator::iterator (const iterator &other) {
+
+
+node::iterator::iterator(const iterator& other)
+{
     pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : 0;
 }
-//####################################################################
-xml::node::iterator& xml::node::iterator::operator= (const iterator &other) {
+
+
+node::iterator& node::iterator::operator=(const iterator& other)
+{
     iterator tmp(other);
     swap(tmp);
     return *this;
 }
-//####################################################################
-void xml::node::iterator::swap (iterator &other) {
+
+
+void node::iterator::swap(iterator& other)
+{
     std::swap(pimpl_, other.pimpl_);
 }
-//####################################################################
-xml::node::iterator::~iterator (void) {
+
+
+node::iterator::~iterator()
+{
     delete pimpl_;
 }
-//####################################################################
-xml::node::iterator::reference xml::node::iterator::operator* (void) const {
+
+
+node::iterator::reference node::iterator::operator*() const
+{
     return *(pimpl_->it.get());
 }
-//####################################################################
-xml::node::iterator::pointer xml::node::iterator::operator-> (void) const {
+
+
+node::iterator::pointer node::iterator::operator->() const
+{
     return pimpl_->it.get();
 }
-//####################################################################
-xml::node::iterator& xml::node::iterator::operator++ (void) {
+
+
+node::iterator& node::iterator::operator++()
+{
     pimpl_->it.advance();
     return *this;
 }
-//####################################################################
-xml::node::iterator xml::node::iterator::operator++ (int) {
+
+
+node::iterator node::iterator::operator++(int)
+{
     iterator tmp(*this);
     ++(*this);
     return tmp;
 }
-//####################################################################
-void* xml::node::iterator::get_raw_node (void) const {
+
+
+void* node::iterator::get_raw_node() const
+{
     return pimpl_ ? pimpl_->it.get_raw_node() : 0;
 }
-//####################################################################
 
-/*
- * xml::node::const_iterator wrapper iterator class.
- */
 
-//####################################################################
-xml::node::const_iterator::const_iterator (void *data) {
+// ------------------------------------------------------------------------
+// xml::node::const_iterator wrapper iterator class
+// ------------------------------------------------------------------------
+
+node::const_iterator::const_iterator(void *data)
+{
     pimpl_ = new nipimpl(static_cast<xmlNodePtr>(data));
 }
-//####################################################################
-xml::node::const_iterator::const_iterator (const const_iterator &other) {
+
+
+node::const_iterator::const_iterator(const const_iterator& other)
+{
     pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : 0;
 }
-//####################################################################
-xml::node::const_iterator::const_iterator (const iterator &other) {
+
+
+node::const_iterator::const_iterator(const iterator& other)
+{
     pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : 0;
 }
-//####################################################################
-xml::node::const_iterator& xml::node::const_iterator::operator= (const const_iterator &other) {
+
+
+node::const_iterator& node::const_iterator::operator=(const const_iterator& other)
+{
     const_iterator tmp(other);
     swap(tmp);
     return *this;
 }
-//####################################################################
-void xml::node::const_iterator::swap (const_iterator &other) {
+
+
+void node::const_iterator::swap(const_iterator& other)
+{
     std::swap(pimpl_, other.pimpl_);
 }
-//####################################################################
-xml::node::const_iterator::~const_iterator (void) {
+
+
+node::const_iterator::~const_iterator()
+{
     delete pimpl_;
 }
-//####################################################################
-xml::node::const_iterator::reference xml::node::const_iterator::operator* (void) const {
+
+
+node::const_iterator::reference node::const_iterator::operator*() const
+{
     return *(pimpl_->it.get());
 }
-//####################################################################
-xml::node::const_iterator::pointer xml::node::const_iterator::operator-> (void) const {
+
+
+node::const_iterator::pointer node::const_iterator::operator->() const
+{
     return pimpl_->it.get();
 }
-//####################################################################
-xml::node::const_iterator& xml::node::const_iterator::operator++ (void) {
+
+
+node::const_iterator& node::const_iterator::operator++()
+{
     pimpl_->it.advance();
     return *this;
 }
-//####################################################################
-xml::node::const_iterator xml::node::const_iterator::operator++ (int) {
+
+
+node::const_iterator node::const_iterator::operator++(int)
+{
     const_iterator tmp(*this);
     ++(*this);
     return tmp;
 }
-//####################################################################
-void* xml::node::const_iterator::get_raw_node (void) const {
+
+
+void* node::const_iterator::get_raw_node() const
+{
     return pimpl_ ? pimpl_->it.get_raw_node() : 0;
 }
-//####################################################################
-
-
-namespace xml
-{
 
 // ------------------------------------------------------------------------
 // xml::nodes_view::iterator
@@ -193,6 +229,7 @@ nodes_view::iterator::iterator(const iterator& other)
     advance_func_ = other.advance_func_;
 }
 
+
 nodes_view::iterator&
 nodes_view::iterator::operator=(const iterator& other)
 {
@@ -201,10 +238,12 @@ nodes_view::iterator::operator=(const iterator& other)
     return *this;
 }
 
+
 nodes_view::iterator::~iterator()
 {
     delete pimpl_;
 }
+
 
 nodes_view::iterator::reference
 nodes_view::iterator::operator*() const
@@ -212,11 +251,13 @@ nodes_view::iterator::operator*() const
     return *(pimpl_->it.get());
 }
 
+
 nodes_view::iterator::pointer
 nodes_view::iterator::operator->() const
 {
     return pimpl_->it.get();
 }
+
 
 nodes_view::iterator& nodes_view::iterator::operator++()
 {
@@ -225,6 +266,7 @@ nodes_view::iterator& nodes_view::iterator::operator++()
     return *this;
 }
 
+
 nodes_view::iterator nodes_view::iterator::operator++(int)
 {
     iterator tmp(*this);
@@ -232,10 +274,12 @@ nodes_view::iterator nodes_view::iterator::operator++(int)
     return tmp;
 }
 
+
 void* nodes_view::iterator::get_raw_node() const
 {
     return pimpl_ ? pimpl_->it.get_raw_node() : 0;
 }
+
 
 nodes_view::iterator::iterator(void *data, impl::iter_advance_functor *advance_func)
 {
@@ -243,6 +287,7 @@ nodes_view::iterator::iterator(void *data, impl::iter_advance_functor *advance_f
     pimpl_ = new nipimpl(static_cast<xmlNodePtr>(data));
     advance_func_ = advance_func;
 }
+
 
 void nodes_view::iterator::swap(iterator& other)
 {
@@ -260,11 +305,13 @@ nodes_view::const_iterator::const_iterator(const const_iterator& other)
     advance_func_ = other.advance_func_;
 }
 
+
 nodes_view::const_iterator::const_iterator(const iterator& other)
 {
     pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : 0;
     advance_func_ = other.advance_func_;
 }
+
 
 nodes_view::const_iterator&
 nodes_view::const_iterator::operator=(const const_iterator& other)
@@ -274,6 +321,7 @@ nodes_view::const_iterator::operator=(const const_iterator& other)
     return *this;
 }
 
+
 nodes_view::const_iterator&
 nodes_view::const_iterator::operator=(const iterator& other)
 {
@@ -282,10 +330,12 @@ nodes_view::const_iterator::operator=(const iterator& other)
     return *this;
 }
 
+
 nodes_view::const_iterator::~const_iterator()
 {
     delete pimpl_;
 }
+
 
 nodes_view::const_iterator::reference
 nodes_view::const_iterator::operator*() const
@@ -293,11 +343,13 @@ nodes_view::const_iterator::operator*() const
     return *(pimpl_->it.get());
 }
 
+
 nodes_view::const_iterator::pointer
 nodes_view::const_iterator::operator->() const
 {
     return pimpl_->it.get();
 }
+
 
 nodes_view::const_iterator& nodes_view::const_iterator::operator++()
 {
@@ -306,6 +358,7 @@ nodes_view::const_iterator& nodes_view::const_iterator::operator++()
     return *this;
 }
 
+
 nodes_view::const_iterator nodes_view::const_iterator::operator++(int)
 {
     const_iterator tmp(*this);
@@ -313,10 +366,12 @@ nodes_view::const_iterator nodes_view::const_iterator::operator++(int)
     return tmp;
 }
 
+
 void* nodes_view::const_iterator::get_raw_node() const
 {
     return pimpl_ ? pimpl_->it.get_raw_node() : 0;
 }
+
 
 nodes_view::const_iterator::const_iterator(void *data, impl::iter_advance_functor *advance_func)
 {
@@ -324,6 +379,7 @@ nodes_view::const_iterator::const_iterator(void *data, impl::iter_advance_functo
     pimpl_ = new nipimpl(static_cast<xmlNodePtr>(data));
     advance_func_ = advance_func;
 }
+
 
 void nodes_view::const_iterator::swap(nodes_view::const_iterator& other)
 {

@@ -40,31 +40,33 @@
 // libxml2 includes
 #include <libxml/tree.h>
 
-namespace xml {
+namespace xml
+{
 
-namespace impl {
+namespace impl
+{
 
-    /*
-     * exception safe wrapper around xmlChar*s that are returned from some
-     * of the libxml functions that the user must free.
-     */
-    class xmlchar_helper {
-    public:
-	xmlchar_helper (xmlChar *ptr) : ptr_(ptr)
-	{ }
+// exception safe wrapper around xmlChar*s that are returned from some
+// of the libxml functions that the user must free.
+class xmlchar_helper
+{
+public:
+    xmlchar_helper(xmlChar *ptr) : ptr_(ptr) {}
 
-	~xmlchar_helper (void)
-	{ if (ptr_) xmlFree(ptr_); }
+    ~xmlchar_helper()
+        { if (ptr_) xmlFree(ptr_); }
 
-	const char* get (void) const
-	{ return reinterpret_cast<const char*>(ptr_); }
-    private:
-	xmlChar *ptr_;
-    };
+    const char* get() const
+        { return reinterpret_cast<const char*>(ptr_); }
 
-    void printf2string (std::string &s, const char *message, va_list ap);
+private:
+    xmlChar *ptr_;
+};
 
-} // end impl namespace
+void printf2string(std::string& s, const char *message, va_list ap);
 
-} // end xml namespace
-#endif
+} // namespace impl
+
+} // namespace xml
+
+#endif // _xmlwrapp_utility_h_

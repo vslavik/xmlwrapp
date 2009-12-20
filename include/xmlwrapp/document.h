@@ -30,9 +30,11 @@
  * SUCH DAMAGE.
  */
 
-/** @file
- * This file contains the definition of the xml::document class.
-**/
+/**
+    @file
+
+    This file contains the definition of the xml::document class.
+ */
 
 #ifndef _xmlwrapp_document_h_
 #define _xmlwrapp_document_h_
@@ -47,508 +49,448 @@
 #include <cstddef>
 
 // forward declaration
-namespace xslt {
-    class stylesheet;
-    namespace impl {
-    class result;
-    }
+namespace xslt
+{
+
+class stylesheet;
+namespace impl
+{
+class result;
+}
+
 } // end xslt namespace
 
-namespace xml {
+namespace xml
+{
 
 // forward declarations
 class tree_parser;
 
-namespace impl {
+namespace impl
+{
 struct doc_impl;
 }
 
 /**
- * The xml::document class is used to hold the XML tree and various bits of
- * information about it.
-**/
-class document {
+    The xml::document class is used to hold the XML tree and various bits of
+    information about it.
+ */
+class document
+{
 public:
     /// size type
     typedef std::size_t size_type;
 
-    //####################################################################
-    /** 
-     * Create a new XML document with the default settings. The new document
-     * will contain a root node with a name of "blank".
-     *
-     * @author Peter Jones
-    **/
-    //####################################################################
-    document (void);
+    /**
+        Create a new XML document with the default settings. The new document
+        will contain a root node with a name of "blank".
 
-    //####################################################################
-    /** 
-     * Create a new XML document and set the name of the root element to the
-     * given text.
-     *
-     * @param root_name What to set the name of the root element to.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    explicit document (const char *root_name);
+        @author Peter Jones
+     */
+    document();
 
-    //####################################################################
-    /** 
-     * Create a new XML document and set the root node.
-     *
-     * @param n The node to use as the root node. n will be copied.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    explicit document (const node &n);
+    /**
+        Create a new XML document and set the name of the root element to the
+        given text.
 
-    //####################################################################
-    /** 
-     * Copy construct a new XML document. The new document will be an exact
-     * copy of the original.
-     *
-     * @param other The other document object to copy from.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    document (const document &other);
+        @param root_name What to set the name of the root element to.
+        @author Peter Jones
+     */
+    explicit document(const char *root_name);
 
-    //####################################################################
-    /** 
-     * Copy another document object into this one using the assignment
-     * operator. This document object will be an exact copy of the other
-     * document after the assignement.
-     *
-     * @param other The document to copy from.
-     * @return *this.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    document& operator= (const document &other);
+    /**
+        Create a new XML document and set the root node.
 
-    //####################################################################
-    /** 
-     * Swap one xml::document object for another.
-     *
-     * @param other The other document to swap
-     * @author Peter Jones
-    **/
-    //####################################################################
-    void swap (document &other);
+        @param n The node to use as the root node. n will be copied.
+        @author Peter Jones
+     */
+    explicit document(const node& n);
 
-    //####################################################################
-    /** 
-     * Clean up after an XML document object.
-     *
-     * @author Peter Jones
-    **/
-    //####################################################################
-    ~document (void);
+    /**
+        Copy construct a new XML document. The new document will be an exact
+        copy of the original.
 
-    //####################################################################
-    /** 
-     * Get a reference to the root node of this document. If no root node
-     * has been set, the returned node will be a blank node. You should take
-     * caution to use a reference so that you don't copy the whole node
-     * tree!
-     *
-     * @return A const reference to the root node.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    const node& get_root_node (void) const;
+        @param other The other document object to copy from.
+        @author Peter Jones
+     */
+    document(const document& other);
 
-    //####################################################################
-    /** 
-     * Get a reference to the root node of this document. If no root node
-     * has been set, the returned node will be a blank node. You should take
-     * caution to use a reference so that you don't copy the whole node
-     * tree!
-     *
-     * @return A reference to the root node.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    node& get_root_node (void);
+    /**
+        Copy another document object into this one using the assignment
+        operator. This document object will be an exact copy of the other
+        document after the assignement.
 
-    //####################################################################
-    /** 
-     * Set the root node to the given node. A full copy is made and stored
-     * in the document object.
-     *
-     * @param n The new root node to use.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    void set_root_node (const node &n);
+        @param other The document to copy from.
+        @return *this.
+        @author Peter Jones
+     */
+    document& operator=(const document& other);
 
-    //####################################################################
-    /** 
-     * Get the XML version for this document. For generated documents, the
-     * version will be the default. For parsed documents, this will be the
-     * version from the XML processing instruction.
-     *
-     * @return The XML version string for this document.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    const std::string& get_version (void) const;
+    /**
+        Swap one xml::document object for another.
 
-    //####################################################################
-    /** 
-     * Set the XML version number for this document. This version string
-     * will be used when generating the XML output.
-     *
-     * @param version The version string to use, like "1.0".
-     * @author Peter Jones
-    **/
-    //####################################################################
-    void set_version (const char *version);
+        @param other The other document to swap
+        @author Peter Jones
+     */
+    void swap(document& other);
 
-    //####################################################################
-    /** 
-     * Get the XML encoding for this document. The default encoding is
-     * ISO-8859-1.
-     *
-     * @return The encoding string.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    const std::string& get_encoding (void) const;
+    /**
+        Clean up after an XML document object.
 
-    //####################################################################
-    /** 
-     * Set the XML encoding string. If you don't set this, it will default
-     * to ISO-8859-1.
-     *
-     * @param encoding The XML encoding to use.
-     * @author Peter Jones
-     * @author Dmitriy Nikitinskiy
-    **/
-    //####################################################################
-    void set_encoding (const char *encoding);
+        @author Peter Jones
+     */
+    ~document();
 
-    //####################################################################
-    /** 
-     * Find out if the current document is a standalone document. For
-     * generated documents, this will be the default. For parsed documents
-     * this will be set based on the XML processing instruction.
-     *
-     * @return True if this document is standalone.
-     * @return False if this document is not standalone.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    bool get_is_standalone (void) const;
+    /**
+        Get a reference to the root node of this document. If no root node
+        has been set, the returned node will be a blank node. You should take
+        caution to use a reference so that you don't copy the whole node
+        tree!
 
-    //####################################################################
-    /** 
-     * Set the standalone flag. This will show up in the XML output in the
-     * correct processing instruction.
-     *
-     * @param sa What to set the standalone flag to.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    void set_is_standalone (bool sa);
+        @return A const reference to the root node.
+        @author Peter Jones
+     */
+    const node& get_root_node() const;
 
-    //####################################################################
-    /** 
-     * Walk through the document and expand <xi:include> elements. For more
-     * information, please see the w3c recomendation for XInclude.
-     * http://www.w3.org/2001/XInclude.
-     *
-     * The return value of this function may change to int after a bug has
-     * been fixed in libxml2 (xmlXIncludeDoProcess).
-     *
-     * @return False if there was an error with substitutions.
-     * @return True if there were no errors (with or without substitutions).
-     * @author Peter Jones
-     * @author Daniel Evison
-    **/
-    //####################################################################
-    bool process_xinclude (void);
+    /**
+        Get a reference to the root node of this document. If no root node
+        has been set, the returned node will be a blank node. You should take
+        caution to use a reference so that you don't copy the whole node
+        tree!
 
-    //####################################################################
-    /** 
-     * Test to see if this document has an internal subset. That is, DTD
-     * data that is declared within the XML document itself.
-     *
-     * @return True if this document has an internal subset.
-     * @return False otherwise.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    bool has_internal_subset (void) const;
+        @return A reference to the root node.
+        @author Peter Jones
+     */
+    node& get_root_node();
 
-    //####################################################################
-    /** 
-     * Test to see if this document has an external subset. That is, it
-     * references a DTD from an external source, such as a file or URL.
-     *
-     * @return True if this document has an external subset.
-     * @return False otherwise.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    bool has_external_subset (void) const;
+    /**
+        Set the root node to the given node. A full copy is made and stored
+        in the document object.
 
-    //####################################################################
-    /** 
-     * Validate this document against the DTD that has been attached to it.
-     * This would happen at parse time if there was a !DOCTYPE definition.
-     * If the DTD is valid, and the document is valid, this member function
-     * will return true.
-     *
-     * If it returns false, you may want to send the document through
-     * xmllint to get the actual error messages.
-     *
-     * @return True if the document is valid.
-     * @return False if there was a problem with the DTD or XML doc.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    bool validate (void);
+        @param n The new root node to use.
+        @author Peter Jones
+     */
+    void set_root_node(const node& n);
 
-    //####################################################################
-    /** 
-     * Parse the given DTD and try to validate this document against it. If
-     * the DTD is valid, and the document is valid, this member function
-     * will return true.
-     *
-     * If it returns false, you may want to send the document through
-     * xmllint to get the actual error messages.
-     *
-     * This member function will add the parsed DTD to this document as the
-     * external subset after the validation. If there is already an external
-     * DTD attached to this document it will be removed and deleted.
-     *
-     * @param dtdname A filename or URL for the DTD to use.
-     * @return True if the document is valid.
-     * @return False if there was a problem with the DTD or XML doc.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    bool validate (const char *dtdname);
+    /**
+        Get the XML version for this document. For generated documents, the
+        version will be the default. For parsed documents, this will be the
+        version from the XML processing instruction.
 
-    //####################################################################
-    /** 
-     * Returns the number of child nodes of this document. This will always
-     * be at least one, since all xmlwrapp documents must have a root node.
-     * This member function is useful to find out how many document children
-     * there are, including processing instructions, comments, etc.
-     *
-     * @return The number of children nodes that this document has.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    size_type size (void) const;
+        @return The XML version string for this document.
+        @author Peter Jones
+     */
+    const std::string& get_version() const;
 
-    //####################################################################
-    /** 
-     * Get an iterator to the first child node of this document. If what you
-     * really wanted was the root node (the first element) you should use
-     * the get_root_node() member function instead.
-     *
-     * @return A xml::node::iterator that points to the first child node.
-     * @return An end iterator if there are no children in this document
-     * @author Peter Jones
-    **/
-    //####################################################################
-    node::iterator begin (void);
+    /**
+        Set the XML version number for this document. This version string
+        will be used when generating the XML output.
 
-    //####################################################################
-    /** 
-     * Get a const_iterator to the first child node of this document. If
-     * what you really wanted was the root node (the first element) you
-     * should use the get_root_node() member function instead.
-     *
-     * @return A xml::node::const_iterator that points to the first child node.
-     * @return An end const_iterator if there are no children in this document.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    node::const_iterator begin (void) const;
+        @param version The version string to use, like "1.0".
+        @author Peter Jones
+     */
+    void set_version(const char *version);
 
-    //####################################################################
-    /** 
-     * Get an iterator that points one past the last child node for this
-     * document.
-     *
-     * @return An end xml::node::iterator.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    node::iterator end (void);
+    /**
+        Get the XML encoding for this document. The default encoding is
+        ISO-8859-1.
 
-    //####################################################################
-    /** 
-     * Get a const_iterator that points one past the last child node for
-     * this document.
-     *
-     * @return An end xml::node::const_iterator.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    node::const_iterator end (void) const;
+        @return The encoding string.
+        @author Peter Jones
+     */
+    const std::string& get_encoding() const;
 
-    //####################################################################
-    /** 
-     * Add a child xml::node to this document. You should not add a element
-     * type node, since there can only be one root node. This member
-     * function is only useful for adding processing instructions, comments,
-     * etc.. If you do try to add a node of type element, an exception will
-     * be thrown.
-     *
-     * @param child The child xml::node to add.
-     * @author Peter Jones
-    **/
-    //####################################################################
+    /**
+        Set the XML encoding string. If you don't set this, it will default
+        to ISO-8859-1.
+
+        @param encoding The XML encoding to use.
+        @author Peter Jones
+        @author Dmitriy Nikitinskiy
+     */
+    void set_encoding(const char *encoding);
+
+    /**
+        Find out if the current document is a standalone document. For
+        generated documents, this will be the default. For parsed documents
+        this will be set based on the XML processing instruction.
+
+        @return True if this document is standalone.
+        @return False if this document is not standalone.
+        @author Peter Jones
+     */
+    bool get_is_standalone() const;
+
+    /**
+        Set the standalone flag. This will show up in the XML output in the
+        correct processing instruction.
+
+        @param sa What to set the standalone flag to.
+        @author Peter Jones
+     */
+    void set_is_standalone(bool sa);
+
+    /**
+        Walk through the document and expand <xi:include> elements. For more
+        information, please see the w3c recomendation for XInclude.
+        http://www.w3.org/2001/XInclude.
+
+        The return value of this function may change to int after a bug has
+        been fixed in libxml2 (xmlXIncludeDoProcess).
+
+        @return False if there was an error with substitutions.
+        @return True if there were no errors (with or without substitutions).
+        @author Peter Jones
+        @author Daniel Evison
+     */
+    bool process_xinclude();
+
+    /**
+        Test to see if this document has an internal subset. That is, DTD
+        data that is declared within the XML document itself.
+
+        @return True if this document has an internal subset.
+        @return False otherwise.
+        @author Peter Jones
+     */
+    bool has_internal_subset() const;
+
+    /**
+        Test to see if this document has an external subset. That is, it
+        references a DTD from an external source, such as a file or URL.
+
+        @return True if this document has an external subset.
+        @return False otherwise.
+        @author Peter Jones
+     */
+    bool has_external_subset() const;
+
+    /**
+        Validate this document against the DTD that has been attached to it.
+        This would happen at parse time if there was a !DOCTYPE definition.
+        If the DTD is valid, and the document is valid, this member function
+        will return true.
+
+        If it returns false, you may want to send the document through
+        xmllint to get the actual error messages.
+
+        @return True if the document is valid.
+        @return False if there was a problem with the DTD or XML doc.
+        @author Peter Jones
+     */
+    bool validate();
+
+    /**
+        Parse the given DTD and try to validate this document against it. If
+        the DTD is valid, and the document is valid, this member function
+        will return true.
+
+        If it returns false, you may want to send the document through
+        xmllint to get the actual error messages.
+
+        This member function will add the parsed DTD to this document as the
+        external subset after the validation. If there is already an external
+        DTD attached to this document it will be removed and deleted.
+
+        @param dtdname A filename or URL for the DTD to use.
+        @return True if the document is valid.
+        @return False if there was a problem with the DTD or XML doc.
+        @author Peter Jones
+     */
+    bool validate(const char *dtdname);
+
+    /**
+        Returns the number of child nodes of this document. This will always
+        be at least one, since all xmlwrapp documents must have a root node.
+        This member function is useful to find out how many document children
+        there are, including processing instructions, comments, etc.
+
+        @return The number of children nodes that this document has.
+        @author Peter Jones
+     */
+    size_type size() const;
+
+    /**
+        Get an iterator to the first child node of this document. If what you
+        really wanted was the root node (the first element) you should use
+        the get_root_node() member function instead.
+
+        @return A xml::node::iterator that points to the first child node.
+        @return An end iterator if there are no children in this document
+        @author Peter Jones
+     */
+    node::iterator begin();
+
+    /**
+        Get a const_iterator to the first child node of this document. If
+        what you really wanted was the root node (the first element) you
+        should use the get_root_node() member function instead.
+
+        @return A xml::node::const_iterator that points to the first child node.
+        @return An end const_iterator if there are no children in this document.
+        @author Peter Jones
+     */
+    node::const_iterator begin() const;
+
+    /**
+        Get an iterator that points one past the last child node for this
+        document.
+
+        @return An end xml::node::iterator.
+        @author Peter Jones
+     */
+    node::iterator end();
+
+    /**
+        Get a const_iterator that points one past the last child node for
+        this document.
+
+        @return An end xml::node::const_iterator.
+        @author Peter Jones
+     */
+    node::const_iterator end() const;
+
+    /**
+        Add a child xml::node to this document. You should not add a element
+        type node, since there can only be one root node. This member
+        function is only useful for adding processing instructions, comments,
+        etc.. If you do try to add a node of type element, an exception will
+        be thrown.
+
+        @param child The child xml::node to add.
+        @author Peter Jones
+     */
     void push_back (const node &child);
 
-    //####################################################################
-    /** 
-     * Insert a new child node. The new node will be inserted at the end of
-     * the child list. This is similar to the xml::node::push_back member
-     * function except that an iterator to the inserted node is returned.
-     *
-     * The rules from the push_back member function apply here. Don't add a
-     * node of type element.
-     *
-     * @param n The node to insert as a child of this document.
-     * @return An iterator that points to the newly inserted node.
-     * @see xml::document::push_back
-     * @author Peter Jones
-    **/
-    //####################################################################
+    /**
+        Insert a new child node. The new node will be inserted at the end of
+        the child list. This is similar to the xml::node::push_back member
+        function except that an iterator to the inserted node is returned.
+
+        The rules from the push_back member function apply here. Don't add a
+        node of type element.
+
+        @param n The node to insert as a child of this document.
+        @return An iterator that points to the newly inserted node.
+        @see xml::document::push_back
+        @author Peter Jones
+     */
     node::iterator insert (const node &n);
 
-    //####################################################################
-    /** 
-     * Insert a new child node. The new node will be inserted before the
-     * node pointed to by the given iterator.
-     *
-     * The rules from the push_back member function apply here. Don't add a
-     * node of type element.
-     *
-     * @param position An iterator that points to the location where the new node should be inserted (before it).
-     * @param n The node to insert as a child of this document.
-     * @return An iterator that points to the newly inserted node.
-     * @see xml::document::push_back
-     * @author Peter Jones
-    **/
-    //####################################################################
-    node::iterator insert (node::iterator position, const node &n);
+    /**
+        Insert a new child node. The new node will be inserted before the
+        node pointed to by the given iterator.
 
-    //####################################################################
-    /** 
-     * Replace the node pointed to by the given iterator with another node.
-     * The old node will be removed, including all its children, and
-     * replaced with the new node. This will invalidate any iterators that
-     * point to the node to be replaced, or any pointers or references to
-     * that node.
-     *
-     * Do not replace this root node with this member function. The same
-     * rules that apply to push_back apply here. If you try to replace a
-     * node of type element, an exception will be thrown.
-     *
-     * @param old_node An iterator that points to the node that should be removed.
-     * @param new_node The node to put in old_node's place.
-     * @return An iterator that points to the new node.
-     * @see xml::document::push_back
-     * @author Peter Jones
-    **/
-    //####################################################################
-    node::iterator replace (node::iterator old_node, const node &new_node);
+        The rules from the push_back member function apply here. Don't add a
+        node of type element.
 
-    //####################################################################
-    /** 
-     * Erase the node that is pointed to by the given iterator. The node
-     * and all its children will be removed from this node. This will
-     * invalidate any iterators that point to the node to be erased, or any
-     * pointers or references to that node.
-     *
-     * Do not remove the root node using this member function. The same
-     * rules that apply to push_back apply here. If you try to erase the
-     * root node, an exception will be thrown.
-     *
-     * @param to_erase An iterator that points to the node to be erased.
-     * @return An iterator that points to the node after the one being erased.
-     * @see xml::document::push_back
-     * @author Peter Jones
-    **/
-    //####################################################################
-    node::iterator erase (node::iterator to_erase);
+        @param position An iterator that points to the location where the new node should be inserted (before it).
+        @param n The node to insert as a child of this document.
+        @return An iterator that points to the newly inserted node.
+        @see xml::document::push_back
+        @author Peter Jones
+     */
+    node::iterator insert(node::iterator position, const node &n);
 
-    //####################################################################
-    /** 
-     * Erase all nodes in the given range, from frist to last. This will
-     * invalidate any iterators that point to the nodes to be erased, or any
-     * pointers or references to those nodes.
-     *
-     * Do not remove the root node using this member function. The same
-     * rules that apply to push_back apply here. If you try to erase the
-     * root node, an exception will be thrown.
-     * 
-     * @param first The first node in the range to be removed.
-     * @param last An iterator that points one past the last node to erase. Think xml::node::end().
-     * @return An iterator that points to the node after the last one being erased.
-     * @see xml::document::push_back
-     * @author Peter Jones
-    **/
-    //####################################################################
-    node::iterator erase (node::iterator first, node::iterator last);
+    /**
+        Replace the node pointed to by the given iterator with another node.
+        The old node will be removed, including all its children, and
+        replaced with the new node. This will invalidate any iterators that
+        point to the node to be replaced, or any pointers or references to
+        that node.
 
-    //####################################################################
-    /** 
-     * Convert the XML document tree into XML text data and place it into
-     * the given string.
-     *
-     * @param s The string to place the XML text data.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    void save_to_string (std::string &s) const;
+        Do not replace this root node with this member function. The same
+        rules that apply to push_back apply here. If you try to replace a
+        node of type element, an exception will be thrown.
 
-    //####################################################################
-    /** 
-     * Convert the XML document tree into XML text data and place it into
-     * the given filename.
-     *
-     * @param filename The name of the file to place the XML text data into.
-     * @param compression_level 0 is no compression, 1-9 allowed, where 1 is for better speed, and 9 is for smaller size
-     * @return True if the data was saved successfully.
-     * @return False otherwise.
-     * @author Peter Jones
-    **/
-    //####################################################################
-    bool save_to_file (const char *filename, int compression_level=0) const;
+        @param old_node An iterator that points to the node that should be removed.
+        @param new_node The node to put in old_node's place.
+        @return An iterator that points to the new node.
+        @see xml::document::push_back
+        @author Peter Jones
+     */
+    node::iterator replace(node::iterator old_node, const node& new_node);
 
-    //####################################################################
-    /** 
-     * Convert the XML document tree into XML text data and then insert it
-     * into the given stream.
-     *
-     * @param stream The stream to insert the XML into.
-     * @param doc The document to insert.
-     * @return The stream from the first parameter.
-     * @author Peter Jones
-    **/
-    //####################################################################
+    /**
+        Erase the node that is pointed to by the given iterator. The node
+        and all its children will be removed from this node. This will
+        invalidate any iterators that point to the node to be erased, or any
+        pointers or references to that node.
+
+        Do not remove the root node using this member function. The same
+        rules that apply to push_back apply here. If you try to erase the
+        root node, an exception will be thrown.
+
+        @param to_erase An iterator that points to the node to be erased.
+        @return An iterator that points to the node after the one being erased.
+        @see xml::document::push_back
+        @author Peter Jones
+     */
+    node::iterator erase(node::iterator to_erase);
+
+    /**
+        Erase all nodes in the given range, from frist to last. This will
+        invalidate any iterators that point to the nodes to be erased, or any
+        pointers or references to those nodes.
+
+        Do not remove the root node using this member function. The same
+        rules that apply to push_back apply here. If you try to erase the
+        root node, an exception will be thrown.
+
+        @param first The first node in the range to be removed.
+        @param last An iterator that points one past the last node to erase. Think xml::node::end().
+        @return An iterator that points to the node after the last one being erased.
+        @see xml::document::push_back
+        @author Peter Jones
+     */
+    node::iterator erase(node::iterator first, node::iterator last);
+
+    /**
+        Convert the XML document tree into XML text data and place it into
+        the given string.
+
+        @param s The string to place the XML text data.
+        @author Peter Jones
+     */
+    void save_to_string(std::string& s) const;
+
+    /**
+        Convert the XML document tree into XML text data and place it into
+        the given filename.
+
+        @param filename The name of the file to place the XML text data into.
+        @param compression_level 0 is no compression, 1-9 allowed, where 1 is
+                                 for better speed, and 9 is for smaller size
+        @return True if the data was saved successfully.
+        @return False otherwise.
+        @author Peter Jones
+     */
+    bool save_to_file(const char *filename, int compression_level = 0) const;
+
+    /**
+        Convert the XML document tree into XML text data and then insert it
+        into the given stream.
+
+        @param stream The stream to insert the XML into.
+        @param doc The document to insert.
+        @return The stream from the first parameter.
+        @author Peter Jones
+     */
     friend std::ostream& operator<< (std::ostream &stream, const document &doc);
 
 private:
     impl::doc_impl *pimpl_;
+
     void set_doc_data (void *data);
     void set_doc_data_from_xslt (void *data, xslt::impl::result *xr);
-    void* get_doc_data (void);
-    void* get_doc_data_read_only (void) const;
-    void* release_doc_data (void);
+    void* get_doc_data();
+    void* get_doc_data_read_only() const;
+    void* release_doc_data();
 
     friend class tree_parser;
     friend class xslt::stylesheet;
-}; // end xml::document class
+};
 
-} // end xml namespace
-#endif
+} // namespace xml
+
+#endif // _xmlwrapp_document_h_

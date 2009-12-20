@@ -31,6 +31,7 @@
  */
 
 #include "utility.h"
+
 #include <cstdarg>
 #include <cstdlib>
 #include <cstring>
@@ -38,30 +39,33 @@
 
 // hack to pull in vsnprintf for MSVC
 #if defined(_MSC_VER) || (defined(__COMO__) && defined(__WIN32__))
-#  undef vsnprintf
-#  define vsnprintf _vsnprintf
+    #undef vsnprintf
+    #define vsnprintf _vsnprintf
 #endif
 
-namespace xml {
+namespace xml
+{
 
-namespace impl {
+namespace impl
+{
 
-    //####################################################################
-    void printf2string (std::string &s, const char *message, va_list ap) {
-	char buffer[512];
+void printf2string(std::string& s, const char *message, va_list ap)
+{
+    char buffer[512];
 
-	std::memset(buffer, 0, sizeof(buffer));
+    std::memset(buffer, 0, sizeof(buffer));
 
-	// XXX vsnprintf is non-standard
-	if (vsnprintf(buffer, sizeof(buffer), message, ap) > 0) {
-	    std::string::size_type size = std::strlen(buffer);
+    // XXX vsnprintf is non-standard
+    if (vsnprintf(buffer, sizeof(buffer), message, ap) > 0)
+    {
+        std::string::size_type size = std::strlen(buffer);
 
-	    if (buffer[size-1] == '\n') --size;
-	    s.assign(buffer, size);
-	}
+        if ( buffer[size-1] == '\n' )
+            --size;
+        s.assign(buffer, size);
     }
-    //####################################################################
+}
 
-} // end impl namespace
+} // namespace impl
 
-} // end xml namespace
+} // namespace xml

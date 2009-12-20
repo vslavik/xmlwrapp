@@ -31,10 +31,6 @@
  * SUCH DAMAGE.
  */
 
-/** @file
- * This file defines the xml::impl::node_iterator class for libxml2.
-**/
-
 #ifndef _xmlwrapp_node_iterator_h_
 #define _xmlwrapp_node_iterator_h_
 
@@ -44,9 +40,11 @@
 // libxml includes
 #include <libxml/tree.h>
 
-namespace xml {
+namespace xml
+{
 
-namespace impl {
+namespace impl
+{
 
 // helper to obtain the next node in "filtering" iterators (as used by
 // nodes_view and const_nodes_view)
@@ -81,27 +79,35 @@ private:
 };
 
 // base iterator class
-class node_iterator {
+class node_iterator
+{
 public:
-    node_iterator (void) : fake_node_(0), node_(0) {}
-    node_iterator (node &parent) : fake_node_(0), node_(reinterpret_cast<xmlNodePtr>(parent.get_node_data())) {}
-    node_iterator (xmlNodePtr xmlnode) : fake_node_(0), node_(xmlnode) {}
-    node_iterator (const node_iterator &other) : fake_node_(0), node_(other.node_) {}
-    node_iterator& operator= (const node_iterator &other) { node_ = other.node_; return *this;}
+    node_iterator() : fake_node_(0), node_(0) {}
 
-    node* get (void) const;
-    xmlNodePtr get_raw_node (void) { return node_; }
+    node_iterator(node &parent)
+        : fake_node_(0),
+          node_(reinterpret_cast<xmlNodePtr>(parent.get_node_data()))
+    {
+    }
+
+    node_iterator(xmlNodePtr xmlnode) : fake_node_(0), node_(xmlnode) {}
+    node_iterator(const node_iterator& other) : fake_node_(0), node_(other.node_) {}
+    node_iterator& operator=(const node_iterator& other)
+        { node_ = other.node_; return *this;}
+
+    node *get() const;
+    xmlNodePtr get_raw_node() { return node_; }
 
     void advance() { node_ = node_->next; }
     void advance(iter_advance_functor& next) { node_ = next(node_); }
 
-
 private:
     mutable node fake_node_;
     xmlNodePtr node_;
-}; // end xml::impl::node_iterator class
+};
 
-} // end impl namespace
+} // namespace impl
 
-} // end xml namespace
-#endif
+} // namespace xml
+
+#endif // _xmlwrapp_node_iterator_h_
