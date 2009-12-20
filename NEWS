@@ -1,4 +1,6 @@
 
+Version 0.6.2
+
     Fixed xml::tree_parser to fail on non-fatal parser errors.
 
     Added XMLWRAPP_CHECK_VERSION macro.
