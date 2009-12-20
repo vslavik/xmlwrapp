@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
+ * Copyright (C) 2009 Vaclav Slavik <vslavik@fastmail.fm>
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,16 +30,32 @@
  * SUCH DAMAGE.
  */
 
-#ifndef _xmlwrapp_xmlwrapp_h_
-#define _xmlwrapp_xmlwrapp_h_
+/**
+    @file
 
-#include "xmlwrapp/version.h"
-#include "xmlwrapp/init.h"
-#include "xmlwrapp/nodes_view.h"
-#include "xmlwrapp/node.h"
-#include "xmlwrapp/attributes.h"
-#include "xmlwrapp/document.h"
-#include "xmlwrapp/tree_parser.h"
-#include "xmlwrapp/event_parser.h"
+    This file contains the XMLWRAPP_CHECK_VERSION macro.
+ */
 
-#endif // _xmlwrapp_xmlwrapp_h_
+#ifndef _xmlwrapp_version_h_
+#define _xmlwrapp_version_h_
+
+#define XMLWRAPP_VERSION_MAJOR   0
+#define XMLWRAPP_VERSION_MINOR   6
+#define XMLWRAPP_VERSION_MICRO   2
+
+/**
+    Checks if xmlwrapp version is at least @a major.@a minor.@a micro.
+ */
+#define XMLWRAPP_CHECK_VERSION(major, minor, micro)           \
+        (                                                     \
+            XMLWRAPP_VERSION_MAJOR > (major)                  \
+            ||                                                \
+            (XMLWRAPP_VERSION_MAJOR == (major) &&             \
+             XMLWRAPP_VERSION_MINOR >= (minor))               \
+            ||                                                \
+            (XMLWRAPP_VERSION_MAJOR == (major) &&             \
+            (XMLWRAPP_VERSION_MINOR == (minor) &&             \
+             XMLWRAPP_VERSION_MICRO >= (micro))               \
+        )
+
+#endif // _xmlwrapp_version_h_
