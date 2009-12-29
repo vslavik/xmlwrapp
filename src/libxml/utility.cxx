@@ -30,6 +30,15 @@
  * SUCH DAMAGE.
  */
 
+#ifdef _MSC_VER
+    // using vsnprintf() under MSVC 2005 or later results in a warning C4996
+    // because the function may be used in unsafe ways -- as we do use it
+    // correctly here, disable the warning by predefining this symbol before
+    // any standard headers are included (we don't bother to test MSVC version
+    // here as defining it does no harm for the previous versions anyhow)
+    #define _CRT_SECURE_NO_WARNINGS
+#endif
+
 #include "utility.h"
 
 #include <cstdarg>
