@@ -35,6 +35,7 @@
 
 // standard includes
 #include <stdexcept>
+#include <string>
 
 // libxml includes
 #include <libxml/tree.h>
