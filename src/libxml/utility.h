@@ -33,6 +33,8 @@
 #ifndef _xmlwrapp_utility_h_
 #define _xmlwrapp_utility_h_
 
+#include <xmlwrapp/node.h>
+
 // standard includes
 #include <string>
 #include <cstdarg>
@@ -65,8 +67,21 @@ private:
 
 void printf2string(std::string& s, const char *message, va_list ap);
 
+// Sun CC uses ancient C++ standard library that doesn't have standard
+// std::distance(). Work around it here
+#if defined(__SUNPRO_CC) && !defined(_STLPORT_VERSION)
+inline size_t distance(xml::node::const_iterator a, xml::node::const_iterator b)
+{
+    size_t n = 0;
+    for ( ; a != b; ++a )
+        ++n;
+    return n;
+}
+#endif // defined(__SUNPRO_CC) && !defined(_STLPORT_VERSION)
+
 } // namespace impl
 
 } // namespace xml
+
 
 #endif // _xmlwrapp_utility_h_

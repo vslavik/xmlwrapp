@@ -519,7 +519,8 @@ void node::push_back (const node &child)
 
 node::size_type node::size() const
 {
-    return std::distance(begin(), end());
+    using namespace std;
+    return distance(begin(), end());
 }
 
 

@@ -413,6 +413,7 @@ BOOST_AUTO_TEST_CASE( save_to_file )
 }
 
 
+#ifndef __SUNPRO_CC // SunCC can't compile gzip_decompressor
 BOOST_AUTO_TEST_CASE( save_to_file_gzip )
 {
     xml::document doc("root");
@@ -432,6 +433,7 @@ BOOST_AUTO_TEST_CASE( save_to_file_gzip )
 
     remove(TEST_FILE);
 }
+#endif // !__SUNPRO_CC
 
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -335,7 +335,8 @@ bool document::validate(const char *dtdname)
 
 document::size_type document::size() const
 {
-    return std::distance(begin(), end());
+    using namespace std;
+    return distance(begin(), end());
 }
 
 
