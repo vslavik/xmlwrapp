@@ -34,10 +34,10 @@
 #include "ait_impl.h"
 #include "utility.h"
 #include "xmlwrapp/attributes.h"
+#include "xmlwrapp/exception.h"
 
 // standard includes
 #include <algorithm>
-#include <stdexcept>
 
 // libxml2 includes
 #include <libxml/tree.h>
@@ -354,7 +354,7 @@ const char* attributes::attr::get_name() const
         return name_.c_str(); // we were given a name not a node
 
     if (!node_ || !prop_)
-        throw std::runtime_error("access to invalid attributes::attr object!");
+        throw xml::exception("access to invalid attributes::attr object!");
 
     return reinterpret_cast<const char*>(static_cast<xmlAttrPtr>(prop_)->name);
 }
@@ -366,7 +366,7 @@ const char* attributes::attr::get_value() const
         return value_.c_str(); // we were given a value, not a node
 
     if (!node_ || !prop_)
-        throw std::runtime_error("access to invalid attributes::attr object!");
+        throw xml::exception("access to invalid attributes::attr object!");
 
     xmlChar *tmpstr = xmlNodeListGetString(reinterpret_cast<xmlNodePtr>(node_)->doc, reinterpret_cast<xmlAttrPtr>(prop_)->children, 1);
     if (tmpstr == 0)

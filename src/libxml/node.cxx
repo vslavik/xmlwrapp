@@ -35,6 +35,7 @@
 #include "xmlwrapp/node.h"
 #include "xmlwrapp/nodes_view.h"
 #include "xmlwrapp/attributes.h"
+#include "xmlwrapp/exception.h"
 #include "utility.h"
 #include "ait_impl.h"
 #include "node_manip.h"
@@ -477,7 +478,7 @@ xml::attributes& node::get_attributes()
 {
     if (pimpl_->xmlnode_->type != XML_ELEMENT_NODE)
     {
-        throw std::runtime_error("get_attributes called on non-element node");
+        throw xml::exception("get_attributes called on non-element node");
     }
 
     pimpl_->attrs_.set_data(pimpl_->xmlnode_);
@@ -489,7 +490,7 @@ const xml::attributes& node::get_attributes() const
 {
     if (pimpl_->xmlnode_->type != XML_ELEMENT_NODE)
     {
-        throw std::runtime_error("get_attributes called on non-element node");
+        throw xml::exception("get_attributes called on non-element node");
     }
 
     pimpl_->attrs_.set_data(pimpl_->xmlnode_);

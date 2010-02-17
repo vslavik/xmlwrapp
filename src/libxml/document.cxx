@@ -33,6 +33,8 @@
 // xmlwrapp includes
 #include "xmlwrapp/document.h"
 #include "xmlwrapp/node.h"
+#include "xmlwrapp/exception.h"
+
 #include "utility.h"
 #include "dtd_impl.h"
 #include "node_manip.h"
@@ -367,7 +369,7 @@ node::const_iterator document::end() const
 void document::push_back(const node& child)
 {
     if (child.get_type() == node::type_element)
-        throw std::runtime_error("xml::document::push_back can't take element type nodes");
+        throw xml::exception("xml::document::push_back can't take element type nodes");
 
     impl::node_insert
           (
@@ -381,7 +383,7 @@ void document::push_back(const node& child)
 node::iterator document::insert(const node& n)
 {
     if (n.get_type() == node::type_element)
-        throw std::runtime_error("xml::document::insert can't take element type nodes");
+        throw xml::exception("xml::document::insert can't take element type nodes");
 
     return node::iterator(xml::impl::node_insert(reinterpret_cast<xmlNodePtr>(pimpl_->doc_), 0, static_cast<xmlNodePtr>(const_cast<node&>(n).get_node_data())));
 }
@@ -390,7 +392,7 @@ node::iterator document::insert(const node& n)
 node::iterator document::insert(node::iterator position, const node& n)
 {
     if (n.get_type() == node::type_element)
-        throw std::runtime_error("xml::document::insert can't take element type nodes");
+        throw xml::exception("xml::document::insert can't take element type nodes");
 
     return node::iterator(xml::impl::node_insert(reinterpret_cast<xmlNodePtr>(pimpl_->doc_), static_cast<xmlNodePtr>(position.get_raw_node()), static_cast<xmlNodePtr>(const_cast<node&>(n).get_node_data())));
 }
@@ -400,7 +402,7 @@ node::iterator document::replace(node::iterator old_node, const node& new_node)
 {
     if (old_node->get_type() == node::type_element || new_node.get_type() == node::type_element)
     {
-        throw std::runtime_error("xml::document::replace can't replace element type nodes");
+        throw xml::exception("xml::document::replace can't replace element type nodes");
     }
 
     return node::iterator(xml::impl::node_replace(static_cast<xmlNodePtr>(old_node.get_raw_node()), static_cast<xmlNodePtr>(const_cast<node&>(new_node).get_node_data())));
@@ -410,7 +412,7 @@ node::iterator document::replace(node::iterator old_node, const node& new_node)
 node::iterator document::erase(node::iterator to_erase)
 {
     if (to_erase->get_type() == node::type_element)
-        throw std::runtime_error("xml::document::erase can't erase element type nodes");
+        throw xml::exception("xml::document::erase can't erase element type nodes");
     return node::iterator(xml::impl::node_erase(static_cast<xmlNodePtr>(to_erase.get_raw_node())));
 }
 

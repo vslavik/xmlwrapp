@@ -74,7 +74,7 @@ public:
         constructor will parse that file.
 
         There are two options for dealing with XML parsing errors. The
-        default it to throw an exception (std::runtime_error). The other
+        default it to throw an exception (xml::exception). The other
         option is to pass false for the allow_exceptions flag. This will
         prevent an exception from being thrown, instead, a flag will be set
         that you can test with the operator! member function.

@@ -33,6 +33,7 @@
 // xmlwrapp includes
 #include "xmlwrapp/tree_parser.h"
 #include "xmlwrapp/document.h"
+#include "xmlwrapp/exception.h"
 #include "utility.h"
 
 // libxml includes
@@ -160,7 +161,7 @@ tree_parser::tree_parser(const char *name, bool allow_exceptions)
             xmlFreeDoc(tmpdoc);
 
         if (allow_exceptions)
-            throw std::runtime_error(pimpl_->last_error_);
+            throw xml::exception(pimpl_->last_error_);
     }
 
     ap.release();
@@ -194,7 +195,7 @@ tree_parser::tree_parser(const char *data, size_type size, bool allow_exceptions
         pimpl_->okay_ = false;
 
         if (allow_exceptions)
-            throw std::runtime_error(pimpl_->last_error_);
+            throw xml::exception(pimpl_->last_error_);
 
         ap.release();
         return; // handle non-exception case

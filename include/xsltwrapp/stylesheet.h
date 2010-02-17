@@ -118,7 +118,7 @@ public:
     /**
         Apply this stylesheet to the given XML document. The results document
         is returned. If there is an error during transformation, this
-        function will throw a std::runtime_error exception.
+        function will throw a xml::exception exception.
 
         Each time you call this member function, the xml::document object
         that was returned from the last call becomes invalid. That is, of
@@ -133,7 +133,7 @@ public:
     /**
         Apply this stylesheet to the given XML document. The results document
         is returned. If there is an error during transformation, this
-        function will throw a std::runtime_error exception.
+        function will throw a xml::exception exception.
 
         Each time you call this member function, the xml::document object
         that was returned from the last call becomes invalid. That is, of
@@ -153,7 +153,7 @@ public:
 
         If you are using one of the apply member functions that throws
         exceptions, this function should not be used. The text message for
-        the transformation error will be given to the std::runtime_error
+        the transformation error will be given to the xml::exception
         constructor.
 
         @return The last error message.

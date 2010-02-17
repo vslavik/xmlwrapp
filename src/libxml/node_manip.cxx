@@ -31,6 +31,8 @@
  */
 
 // xmlwrapp includes
+#include "xmlwrapp/exception.h"
+
 #include "node_manip.h"
 
 // standard includes
@@ -53,7 +55,7 @@ xml::impl::node_insert(xmlNodePtr parent, xmlNodePtr before, xmlNodePtr to_add)
         if ( xmlAddChild(parent, new_xml_node) == 0 )
         {
             xmlFreeNode(new_xml_node);
-            throw std::runtime_error("failed to insert xml::node; xmlAddChild failed");
+            throw xml::exception("failed to insert xml::node; xmlAddChild failed");
         }
     }
     else
@@ -61,7 +63,7 @@ xml::impl::node_insert(xmlNodePtr parent, xmlNodePtr before, xmlNodePtr to_add)
         if ( xmlAddPrevSibling(before, new_xml_node) == 0 )
         {
             xmlFreeNode(new_xml_node);
-            throw std::runtime_error("failed to insert xml::node; xmlAddPrevSibling failed");
+            throw xml::exception("failed to insert xml::node; xmlAddPrevSibling failed");
         }
     }
 
@@ -83,7 +85,7 @@ xml::impl::node_replace(xmlNodePtr old_node, xmlNodePtr new_node)
     if ( copied_node->doc == reinterpret_cast<xmlDocPtr>(old_node) )
     {
         xmlFreeNode(copied_node);
-        throw std::runtime_error("failed to replace xml::node; xmlReplaceNode() failed");
+        throw xml::exception("failed to replace xml::node; xmlReplaceNode() failed");
     }
 
     xmlFreeNode(old_node);

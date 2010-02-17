@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
+ * Copyright (C) 2010 Vaclav Slavik <vslavik@fastmail.fm>
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -30,17 +30,39 @@
  * SUCH DAMAGE.
  */
 
-#ifndef _xmlwrapp_xmlwrapp_h_
-#define _xmlwrapp_xmlwrapp_h_
+/**
+    @file
 
-#include "xmlwrapp/version.h"
-#include "xmlwrapp/init.h"
-#include "xmlwrapp/nodes_view.h"
-#include "xmlwrapp/node.h"
-#include "xmlwrapp/attributes.h"
-#include "xmlwrapp/document.h"
-#include "xmlwrapp/tree_parser.h"
-#include "xmlwrapp/event_parser.h"
-#include "xmlwrapp/exception.h"
+    This file contains the definition of the xml::exception class.
+ */
 
-#endif // _xmlwrapp_xmlwrapp_h_
+#ifndef _xmlwrapp_exception_h_
+#define _xmlwrapp_exception_h_
+
+#include <stdexcept>
+#include <string>
+
+/// XML library namespace
+namespace xml
+{
+
+/**
+    This exception class is thrown by xmlwrapp for all runtime XML-related
+    errors.
+
+    @note C++ runtime may still thrown other errors when used from xmlwrapp.
+          Also, std::bad_alloc() is thrown in out-of-memory situations.
+
+    @since 0.7.0
+ */
+class exception : public std::runtime_error
+{
+public:
+    explicit exception(const std::string& what) : std::runtime_error(what)
+    {
+    }
+};
+
+} // namespace xml
+
+#endif // _xmlwrapp_exception_h_

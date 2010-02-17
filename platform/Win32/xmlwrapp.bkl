@@ -16,6 +16,7 @@
             include/xmlwrapp/_cbfo.h
             include/xmlwrapp/document.h
             include/xmlwrapp/event_parser.h
+            include/xmlwrapp/exception.h
             include/xmlwrapp/init.h
             include/xmlwrapp/node.h
             include/xmlwrapp/nodes_view.h

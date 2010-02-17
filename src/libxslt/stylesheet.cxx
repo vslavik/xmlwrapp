@@ -40,6 +40,7 @@
 #include "xsltwrapp/stylesheet.h"
 #include "xmlwrapp/document.h"
 #include "xmlwrapp/tree_parser.h"
+#include "xmlwrapp/exception.h"
 
 #include "result.h"
 #include "../libxml/utility.h"
@@ -51,7 +52,6 @@
 #include <libxslt/xsltutils.h>
 
 // standard includes
-#include <stdexcept>
 #include <memory>
 #include <string>
 #include <vector>
@@ -207,7 +207,7 @@ xslt::stylesheet::stylesheet(const char *filename)
         // TODO error_ can't get set yet. Need changes from libxslt first
         if (pimpl_->error_.empty())
             pimpl_->error_ = "unknown XSLT parser error";
-        throw std::runtime_error(pimpl_->error_);
+        throw xml::exception(pimpl_->error_);
     }
 
     // if we got this far, the xmldoc we gave to xsltParseStylesheetDoc is
@@ -227,7 +227,7 @@ xslt::stylesheet::stylesheet(xml::document doc)
         // TODO error_ can't get set yet. Need changes from libxslt first
         if (pimpl_->error_.empty())
             pimpl_->error_ = "unknown XSLT parser error";
-        throw std::runtime_error(pimpl_->error_);
+        throw xml::exception(pimpl_->error_);
     }
 
     // if we got this far, the xmldoc we gave to xsltParseStylesheetDoc is
@@ -282,7 +282,7 @@ xml::document& xslt::stylesheet::apply(const xml::document &doc)
     xmlDocPtr xmldoc = apply_stylesheet(pimpl_, input);
 
     if ( !xmldoc )
-        throw std::runtime_error(pimpl_->error_);
+        throw xml::exception(pimpl_->error_);
 
     pimpl_->doc_.set_doc_data_from_xslt(xmldoc, new result_impl(xmldoc, pimpl_->ss_));
     return pimpl_->doc_;
@@ -296,7 +296,7 @@ xml::document& xslt::stylesheet::apply(const xml::document &doc,
     xmlDocPtr xmldoc = apply_stylesheet(pimpl_, input, &with_params);
 
     if ( !xmldoc )
-        throw std::runtime_error(pimpl_->error_);
+        throw xml::exception(pimpl_->error_);
 
     pimpl_->doc_.set_doc_data_from_xslt(xmldoc, new result_impl(xmldoc, pimpl_->ss_));
     return pimpl_->doc_;
