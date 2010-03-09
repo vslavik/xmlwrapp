@@ -45,6 +45,8 @@
 #include <sstream>
 #include <cstring>
 
+typedef boost::test_tools::predicate_result predicate_result;
+
 // path to source directory, where test data files are located
 extern std::string srcdir;
 
@@ -69,25 +71,34 @@ inline std::string read_file_into_string(const std::string& filename)
     return read_file_into_string(f);
 }
 
-inline bool is_same_as_file(const std::string& data, const std::string& filename)
+inline predicate_result is_same_as_file(const std::string& data, const std::string& filename)
 
 {
-    return data == read_file_into_string(filename);
+    const std::string filedata = read_file_into_string(filename);
+    if ( data == filedata )
+        return true;
+
+    predicate_result res(false);
+    res.message() << "Expected output:\n";
+    res.message() << filedata;
+    res.message() << "\nActual output:\n";
+    res.message() << data;
+    return res;
 }
 
-inline bool is_same_as_file(const std::ostringstream& stream, const std::string& filename)
+inline predicate_result is_same_as_file(const std::ostringstream& stream, const std::string& filename)
 {
     return is_same_as_file(stream.str(), filename);
 }
 
-inline bool is_same_as_file(const xml::document& doc, const std::string& filename)
+inline predicate_result is_same_as_file(const xml::document& doc, const std::string& filename)
 {
     std::string xml;
     doc.save_to_string(xml);
     return is_same_as_file(xml, filename);
 }
 
-inline bool is_same_as_file(const xml::node& node, const std::string& filename)
+inline predicate_result is_same_as_file(const xml::node& node, const std::string& filename)
 {
     std::ostringstream ostr;
     ostr << node;
