@@ -165,8 +165,6 @@ public:
 
     /**
         Construct a new blank xml::node.
-
-        @author Peter Jones
      */
     node();
 
@@ -174,7 +172,6 @@ public:
         Construct a new xml::node and set the name of the node.
 
         @param name The name of the new node.
-        @author Peter Jones
      */
     explicit node(const char *name);
 
@@ -184,7 +181,6 @@ public:
 
         @param name The name of the new element.
         @param content The text that will be used to create a child node.
-        @author Peter Jones
      */
     node(const char *name, const char *content);
 
@@ -199,7 +195,6 @@ public:
 
         @param cdata_info A cdata struct that tells xml::node what the
                           content will be.
-        @author Peter Jones
      */
     explicit node(cdata cdata_info);
 
@@ -213,7 +208,6 @@ public:
         @endcode
 
         @param comment_info A comment struct that tells xml::node what the comment will be.
-        @author Peter Jones
      */
     explicit node(comment comment_info);
 
@@ -228,7 +222,6 @@ public:
         @endcode
 
         @param pi_info A pi struct that tells xml::node what the name and contents of the XML PI are.
-        @author Peter Jones
      */
     explicit node(pi pi_info);
 
@@ -242,7 +235,6 @@ public:
         @endcode
 
         @param text_info A text struct that tells xml::node what the text will be.
-        @author Vaclav Slavik
      */
     explicit node(text text_info);
 
@@ -250,7 +242,6 @@ public:
         Construct a new xml::node by copying another xml::node.
 
         @param other The other node to copy.
-        @author Peter Jones
      */
     node(const node& other);
 
@@ -259,14 +250,11 @@ public:
 
         @param other The other node to copy.
         @return A reference to this node.
-        @author Peter Jones
      */
     node& operator=(const node& other);
 
     /**
         Class destructor
-
-        @author Peter Jones
      */
     ~node();
 
@@ -274,7 +262,6 @@ public:
         Set the name of this xml::node.
 
         @param name The new name for this xml::node.
-        @author Peter Jones
      */
     void set_name(const char *name);
 
@@ -285,7 +272,6 @@ public:
         Feedback is welcome.
 
         @return The name of this node.
-        @author Peter Jones
      */
     const char* get_name() const;
 
@@ -295,7 +281,6 @@ public:
         with one text node set to the given string.
 
         @param content The content of the text node.
-        @author Peter Jones
      */
     void set_content(const char *content);
 
@@ -309,7 +294,6 @@ public:
         Feedback is welcome.
 
         @return The content or 0.
-        @author Peter Jones
      */
     const char* get_content() const;
 
@@ -318,7 +302,6 @@ public:
         can and cannot do with it.
 
         @return The node's type.
-        @author Peter Jones
      */
     node_type get_type() const;
 
@@ -328,7 +311,6 @@ public:
         to this returned object, to prevent a copy.
 
         @return The xml::attributes object for this node.
-        @author Peter Jones
      */
     xml::attributes& get_attributes();
 
@@ -338,7 +320,6 @@ public:
         returned object, to prevent a copy.
 
         @return The xml::attributes object for this node.
-        @author Peter Jones
      */
     const xml::attributes& get_attributes() const;
 
@@ -347,7 +328,6 @@ public:
 
         @return The namespace of this node or NULL if no namespace is
                 associated.
-        @author Vaclav Slavik
         @since  0.6.0
      */
     const char* get_namespace() const;
@@ -357,7 +337,6 @@ public:
         CDATA for example.
 
         @return True if this node is a text node; false otherwise.
-        @author Peter Jones
      */
     bool is_text() const;
 
@@ -365,7 +344,6 @@ public:
         Add a child xml::node to this node.
 
         @param child The child xml::node to add.
-        @author Peter Jones
      */
     void push_back(const node& child);
 
@@ -373,7 +351,6 @@ public:
         Swap this node with another one.
 
         @param other The other node to swap with.
-        @author Peter Jones
      */
     void swap(node& other);
 
@@ -475,7 +452,6 @@ public:
         xml::node::empty() instead.
 
         @return The number of children this node has.
-        @author Peter Jones
      */
     size_type size() const;
 
@@ -485,7 +461,6 @@ public:
 
         @return True if this node DOES NOT have any children.
         @return False if this node does have children.
-        @author Peter Jones
      */
     bool empty() const;
 
@@ -493,7 +468,6 @@ public:
         Get an iterator that points to the beginning of this node's children.
 
         @return An iterator that points to the beginning of the children.
-        @author Peter Jones
      */
     iterator begin();
 
@@ -502,7 +476,6 @@ public:
         children.
 
         @return A const_iterator that points to the beginning of the children.
-        @author Peter Jones
      */
     const_iterator begin() const;
 
@@ -510,7 +483,6 @@ public:
         Get an iterator that points one past the last child for this node.
 
         @return A "one past the end" iterator.
-        @author Peter Jones
      */
     iterator end() { return iterator(); }
 
@@ -519,7 +491,6 @@ public:
         node.
 
         @return A "one past the end" const_iterator
-        @author Peter Jones
      */
     const_iterator end() const { return const_iterator(); }
 
@@ -527,7 +498,6 @@ public:
         Get an iterator that points back at this node.
 
         @return An iterator that points at this node.
-        @author Peter Jones
      */
     iterator self();
 
@@ -535,7 +505,6 @@ public:
         Get a const_iterator that points back at this node.
 
         @return A const_iterator that points at this node.
-        @author Peter Jones
      */
     const_iterator self() const;
 
@@ -546,7 +515,6 @@ public:
 
         @return An iterator that points to this nodes parent.
         @return If no parent, returns the same iterator that xml::node::end() returns.
-        @author Peter Jones
      */
     iterator parent();
 
@@ -557,7 +525,6 @@ public:
 
         @return A const_iterator that points to this nodes parent.
         @return If no parent, returns the same const_iterator that xml::node::end() returns.
-        @author Peter Jones
      */
     const_iterator parent() const;
 
@@ -573,7 +540,6 @@ public:
         @param name The name of the node you want to find.
         @return An iterator that points to the node if found.
         @return An end() iterator if the node was not found.
-        @author Peter Jones
 
         @see elements(const char*), find(const char*, iterator)
      */
@@ -591,7 +557,6 @@ public:
         @param name The name of the node you want to find.
         @return A const_iterator that points to the node if found.
         @return An end() const_iterator if the node was not found.
-        @author Peter Jones
 
         @see elements(const char*) const,
              find(const char*, const_iterator) const
@@ -612,7 +577,6 @@ public:
         @param start Where to begin the search.
         @return An iterator that points to the node if found.
         @return An end() iterator if the node was not found.
-        @author Peter Jones
 
         @see elements(const char*)
      */
@@ -632,7 +596,6 @@ public:
         @param start Where to begin the search.
         @return A const_iterator that points to the node if found.
         @return An end() const_iterator if the node was not found.
-        @author Peter Jones
 
         @see elements(const char*) const
      */
@@ -652,7 +615,6 @@ public:
         @endcode
 
         @return View with all child elements or empty view if there aren't any.
-        @author Vaclav Slavik
         @since  0.6.0
 
         @see nodes_view
@@ -675,7 +637,6 @@ public:
         @endcode
 
         @return View with all child elements or empty view if there aren't any.
-        @author Vaclav Slavik
         @since  0.6.0
 
         @see const_nodes_view
@@ -697,7 +658,6 @@ public:
 
         @param  name Name of the elements to return.
         @return View that contains only elements @a name.
-        @author Vaclav Slavik
         @since  0.6.0
      */
     nodes_view elements(const char *name);
@@ -719,7 +679,6 @@ public:
 
         @param  name Name of the elements to return.
         @return View that contains only elements @a name.
-        @author Vaclav Slavik
         @since  0.6.0
      */
     const_nodes_view elements(const char *name) const;
@@ -731,7 +690,6 @@ public:
 
         @param n The node to insert as a child of this node.
         @return An iterator that points to the newly inserted node.
-        @author Peter Jones
      */
     iterator insert(const node& n);
 
@@ -742,7 +700,6 @@ public:
         @param position An iterator that points to the location where the new node should be inserted (before it).
         @param n The node to insert as a child of this node.
         @return An iterator that points to the newly inserted node.
-        @author Peter Jones
      */
     iterator insert(const iterator& position, const node& n);
 
@@ -756,7 +713,6 @@ public:
         @param old_node An iterator that points to the node that should be removed.
         @param new_node The node to put in old_node's place.
         @return An iterator that points to the new node.
-        @author Peter Jones
      */
     iterator replace(const iterator& old_node, const node& new_node);
 
@@ -768,8 +724,6 @@ public:
 
         @param to_erase An iterator that points to the node to be erased.
         @return An iterator that points to the node after the one being erased.
-        @author Peter Jones
-        @author Gary A. Passero
      */
     iterator erase(const iterator& to_erase);
 
@@ -781,7 +735,6 @@ public:
         @param first The first node in the range to be removed.
         @param last An iterator that points one past the last node to erase. Think xml::node::end().
         @return An iterator that points to the node after the last one being erased.
-        @author Peter Jones
      */
     iterator erase(iterator first, const iterator& last);
 
@@ -793,7 +746,6 @@ public:
 
         @param name The name of nodes to remove.
         @return The number of nodes removed.
-        @author Peter Jones
      */
     size_type erase(const char *name);
 
@@ -807,7 +759,6 @@ public:
 
         @param node_name The name of the nodes to sort.
         @param attr_name The attribute to sort on.
-        @author Peter Jones
      */
     void sort(const char *node_name, const char *attr_name);
 
@@ -817,7 +768,6 @@ public:
         sorting.
 
         @param compare The binary function object to call in order to sort all child nodes.
-        @author Peter Jones
      */
     template <typename T> void sort (T compare)
         { impl::sort_callback<T> cb(compare); sort_fo(cb); }
@@ -827,7 +777,6 @@ public:
         string to that text.
 
         @param xml The string to set the node's XML data to.
-        @author Peter Jones
      */
     void node_to_string(std::string& xml) const;
 
@@ -837,7 +786,6 @@ public:
         @param stream The stream to write the node as XML.
         @param n The node to write to the stream.
         @return The stream.
-        @author Peter Jones
      */
     friend std::ostream& operator<< (std::ostream &stream, const node &n);
 

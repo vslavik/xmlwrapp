@@ -84,8 +84,6 @@ public:
     /**
         Create a new XML document with the default settings. The new document
         will contain a root node with a name of "blank".
-
-        @author Peter Jones
      */
     document();
 
@@ -94,7 +92,6 @@ public:
         given text.
 
         @param root_name What to set the name of the root element to.
-        @author Peter Jones
      */
     explicit document(const char *root_name);
 
@@ -102,7 +99,6 @@ public:
         Create a new XML document and set the root node.
 
         @param n The node to use as the root node. n will be copied.
-        @author Peter Jones
      */
     explicit document(const node& n);
 
@@ -111,7 +107,6 @@ public:
         copy of the original.
 
         @param other The other document object to copy from.
-        @author Peter Jones
      */
     document(const document& other);
 
@@ -122,7 +117,6 @@ public:
 
         @param other The document to copy from.
         @return *this.
-        @author Peter Jones
      */
     document& operator=(const document& other);
 
@@ -130,14 +124,11 @@ public:
         Swap one xml::document object for another.
 
         @param other The other document to swap
-        @author Peter Jones
      */
     void swap(document& other);
 
     /**
         Clean up after an XML document object.
-
-        @author Peter Jones
      */
     ~document();
 
@@ -148,7 +139,6 @@ public:
         tree!
 
         @return A const reference to the root node.
-        @author Peter Jones
      */
     const node& get_root_node() const;
 
@@ -159,7 +149,6 @@ public:
         tree!
 
         @return A reference to the root node.
-        @author Peter Jones
      */
     node& get_root_node();
 
@@ -168,7 +157,6 @@ public:
         in the document object.
 
         @param n The new root node to use.
-        @author Peter Jones
      */
     void set_root_node(const node& n);
 
@@ -178,7 +166,6 @@ public:
         version from the XML processing instruction.
 
         @return The XML version string for this document.
-        @author Peter Jones
      */
     const std::string& get_version() const;
 
@@ -187,7 +174,6 @@ public:
         will be used when generating the XML output.
 
         @param version The version string to use, like "1.0".
-        @author Peter Jones
      */
     void set_version(const char *version);
 
@@ -196,7 +182,6 @@ public:
         ISO-8859-1.
 
         @return The encoding string.
-        @author Peter Jones
      */
     const std::string& get_encoding() const;
 
@@ -205,8 +190,6 @@ public:
         to ISO-8859-1.
 
         @param encoding The XML encoding to use.
-        @author Peter Jones
-        @author Dmitriy Nikitinskiy
      */
     void set_encoding(const char *encoding);
 
@@ -217,7 +200,6 @@ public:
 
         @return True if this document is standalone.
         @return False if this document is not standalone.
-        @author Peter Jones
      */
     bool get_is_standalone() const;
 
@@ -226,7 +208,6 @@ public:
         correct processing instruction.
 
         @param sa What to set the standalone flag to.
-        @author Peter Jones
      */
     void set_is_standalone(bool sa);
 
@@ -240,8 +221,6 @@ public:
 
         @return False if there was an error with substitutions.
         @return True if there were no errors (with or without substitutions).
-        @author Peter Jones
-        @author Daniel Evison
      */
     bool process_xinclude();
 
@@ -251,7 +230,6 @@ public:
 
         @return True if this document has an internal subset.
         @return False otherwise.
-        @author Peter Jones
      */
     bool has_internal_subset() const;
 
@@ -261,7 +239,6 @@ public:
 
         @return True if this document has an external subset.
         @return False otherwise.
-        @author Peter Jones
      */
     bool has_external_subset() const;
 
@@ -276,7 +253,6 @@ public:
 
         @return True if the document is valid.
         @return False if there was a problem with the DTD or XML doc.
-        @author Peter Jones
      */
     bool validate();
 
@@ -295,7 +271,6 @@ public:
         @param dtdname A filename or URL for the DTD to use.
         @return True if the document is valid.
         @return False if there was a problem with the DTD or XML doc.
-        @author Peter Jones
      */
     bool validate(const char *dtdname);
 
@@ -306,7 +281,6 @@ public:
         there are, including processing instructions, comments, etc.
 
         @return The number of children nodes that this document has.
-        @author Peter Jones
      */
     size_type size() const;
 
@@ -317,7 +291,6 @@ public:
 
         @return A xml::node::iterator that points to the first child node.
         @return An end iterator if there are no children in this document
-        @author Peter Jones
      */
     node::iterator begin();
 
@@ -328,7 +301,6 @@ public:
 
         @return A xml::node::const_iterator that points to the first child node.
         @return An end const_iterator if there are no children in this document.
-        @author Peter Jones
      */
     node::const_iterator begin() const;
 
@@ -337,7 +309,6 @@ public:
         document.
 
         @return An end xml::node::iterator.
-        @author Peter Jones
      */
     node::iterator end();
 
@@ -346,7 +317,6 @@ public:
         this document.
 
         @return An end xml::node::const_iterator.
-        @author Peter Jones
      */
     node::const_iterator end() const;
 
@@ -358,7 +328,6 @@ public:
         be thrown.
 
         @param child The child xml::node to add.
-        @author Peter Jones
      */
     void push_back (const node &child);
 
@@ -373,7 +342,6 @@ public:
         @param n The node to insert as a child of this document.
         @return An iterator that points to the newly inserted node.
         @see xml::document::push_back
-        @author Peter Jones
      */
     node::iterator insert (const node &n);
 
@@ -388,7 +356,6 @@ public:
         @param n The node to insert as a child of this document.
         @return An iterator that points to the newly inserted node.
         @see xml::document::push_back
-        @author Peter Jones
      */
     node::iterator insert(node::iterator position, const node &n);
 
@@ -407,7 +374,6 @@ public:
         @param new_node The node to put in old_node's place.
         @return An iterator that points to the new node.
         @see xml::document::push_back
-        @author Peter Jones
      */
     node::iterator replace(node::iterator old_node, const node& new_node);
 
@@ -424,7 +390,6 @@ public:
         @param to_erase An iterator that points to the node to be erased.
         @return An iterator that points to the node after the one being erased.
         @see xml::document::push_back
-        @author Peter Jones
      */
     node::iterator erase(node::iterator to_erase);
 
@@ -441,7 +406,6 @@ public:
         @param last An iterator that points one past the last node to erase. Think xml::node::end().
         @return An iterator that points to the node after the last one being erased.
         @see xml::document::push_back
-        @author Peter Jones
      */
     node::iterator erase(node::iterator first, node::iterator last);
 
@@ -450,7 +414,6 @@ public:
         the given string.
 
         @param s The string to place the XML text data.
-        @author Peter Jones
      */
     void save_to_string(std::string& s) const;
 
@@ -463,7 +426,6 @@ public:
                                  for better speed, and 9 is for smaller size
         @return True if the data was saved successfully.
         @return False otherwise.
-        @author Peter Jones
      */
     bool save_to_file(const char *filename, int compression_level = 0) const;
 
@@ -474,7 +436,6 @@ public:
         @param stream The stream to insert the XML into.
         @param doc The document to insert.
         @return The stream from the first parameter.
-        @author Peter Jones
      */
     friend std::ostream& operator<< (std::ostream &stream, const document &doc);
 

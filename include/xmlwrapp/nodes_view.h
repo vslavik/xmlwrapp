@@ -69,7 +69,6 @@ class iter_advance_functor;
     The nodes_view class implements the same container interface that
     xml::node does: it has begin() and end() methods.
 
-    @author Vaclav Slavik
     @since  0.6.0
 
     @see xml::node::elements(), xml::node::elements(const char *)
@@ -234,7 +233,6 @@ private:
 
     @see nodes_view
 
-    @author Vaclav Slavik
     @since  0.6.0
  */
 class const_nodes_view

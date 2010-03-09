@@ -62,8 +62,6 @@ namespace impl
     libxmlwrapp, on libxslt which should be only a dependency of libxsltwrapp
     as this precludes calling the XSLT functions which must be used with such
     "result" documents directly from xml::document code.
-
-    @author Vadim Zeitlin
  */
 class result
 {
