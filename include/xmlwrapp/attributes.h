@@ -75,8 +75,6 @@ public:
 
     /**
         Create a new xml::attributes object with no attributes.
-
-        @author Peter Jones
      */
     attributes();
 
@@ -84,7 +82,6 @@ public:
         Copy construct a xml::attributes object.
 
         @param other The xml::attributes object to copy from.
-        @author Peter Jones
      */
     attributes(const attributes& other);
 
@@ -92,8 +89,7 @@ public:
         Copy the given xml::attributes object into this one.
 
         @param other The xml::attributes object to copy from.
-        @return   this.
-        @author Peter Jones
+        @return   *this.
      */
     attributes& operator=(const attributes& other);
 
@@ -101,7 +97,6 @@ public:
         Swap this xml::attributes object with another one.
 
         @param other The other xml::attributes object to swap with.
-        @author Peter Jones
      */
     void swap(attributes& other);
 
@@ -121,7 +116,6 @@ public:
             Get the name of this attribute.
 
             @return The name for this attribute.
-            @author Peter Jones
          */
         const char *get_name() const;
 
@@ -129,7 +123,6 @@ public:
             Get the value of this attribute.
 
             @return The value for this attribute.
-            @author Peter Jones
          */
         const char* get_value() const;
 
@@ -239,7 +232,6 @@ public:
         @return An iterator equal to end() if there are no attributes.
         @see xml::attributes::iterator
         @see xml::attributes::attr
-        @author Peter Jones
      */
     iterator begin();
 
@@ -250,7 +242,6 @@ public:
         @return A const_iterator equal to end() if there are no attributes.
         @see xml::attributes::const_iterator
         @see xml::attributes::attr
-        @author Peter Jones
      */
     const_iterator begin() const;
 
@@ -258,7 +249,6 @@ public:
         Get an iterator that points one past the the last attribute.
 
         @return An "end" iterator.
-        @author Peter Jones
      */
     iterator end();
 
@@ -266,7 +256,6 @@ public:
         Get a const_iterator that points one past the last attribute.
 
         @return An "end" const_iterator.
-        @author Peter Jones
      */
     const_iterator end() const;
 
@@ -276,7 +265,6 @@ public:
 
         @param name The name of the attribute to add.
         @param value The value of the attribute to add.
-        @author Peter Jones
      */
     void insert(const char *name, const char *value);
 
@@ -290,7 +278,6 @@ public:
         @return If the attribute was not found, find will return end().
         @see xml::attributes::iterator
         @see xml::attributes::attr
-        @author Peter Jones
      */
     iterator find(const char *name);
 
@@ -304,7 +291,6 @@ public:
         @return If the attribute was not found, find will return end().
         @see xml::attributes::const_iterator
         @see xml::attributes::attr
-        @author Peter Jones
      */
     const_iterator find(const char *name) const;
 
@@ -317,7 +303,6 @@ public:
         @return An iterator that points to the attribute after the one to be erased.
         @see xml::attributes::iterator
         @see xml::attributes::attr
-        @author Peter Jones
      */
     iterator erase(iterator to_erase);
 
@@ -327,7 +312,6 @@ public:
         pointers or references to that attribute.
 
         @param name The name of the attribute to erase.
-        @author Peter Jones
      */
     void erase(const char *name);
 
@@ -336,7 +320,6 @@ public:
 
         @return True if there are no attributes.
         @return False if there is at least one attribute.
-        @author Peter Jones
      */
     bool empty() const;
 
@@ -345,7 +328,6 @@ public:
         object.
 
         @return The number of attributes in this xml::attributes object.
-        @author Peter Jones
      */
     size_type size() const;
 

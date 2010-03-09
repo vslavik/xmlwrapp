@@ -71,7 +71,6 @@ public:
         true.
 
         @param flag True to enable XInclusing processing; False otherwise.
-        @author Peter Jones
      */
     static void process_xincludes(bool flag);
 

@@ -84,7 +84,6 @@ public:
 
         @param filename The name of the file to parse.
         @param allow_exceptions Whether or not you want an exception for parsing errors.
-        @author Peter Jones
      */
     tree_parser(const char *filename, bool allow_exceptions = true);
 
@@ -97,7 +96,6 @@ public:
         @param size The size of the XML data to parse.
         @param allow_exceptions Whether or not you want an exception
                                 for parsing errors.
-        @author Peter Jones
      */
     tree_parser(const char *data, size_type size, bool allow_exceptions = true);
 
@@ -109,7 +107,6 @@ public:
         good XML node tree.
 
         @return True if the tree_parser is NOT VAILD; false if it is vaild.
-        @author Peter Jones
      */
     bool operator!() const;
 
@@ -119,7 +116,6 @@ public:
         generated during parsing.
 
         @return The error message generated durring XML parsing.
-        @author Peter Jones
      */
     const std::string& get_error_message() const;
 
@@ -131,7 +127,6 @@ public:
 
         @return True if there were any warnings.
         @return False if there were no warnings.
-        @author Peter Jones
      */
     bool had_warnings() const;
 
@@ -141,7 +136,6 @@ public:
         document to avoid a deep copy.
 
         @return A reference to the xml::document.
-        @author Peter Jones
      */
     xml::document& get_document();
 
@@ -151,7 +145,6 @@ public:
         document to avoid a deep copy.
 
         @return A const reference to the xml::document.
-        @author Peter Jones
      */
     const xml::document& get_document() const;
 

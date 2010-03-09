@@ -68,7 +68,6 @@ public:
         stylesheet in the given filename.
 
         @param filename The name of the file that contains the stylesheet.
-        @author Peter Jones
      */
     explicit stylesheet(const char *filename);
 
@@ -79,14 +78,11 @@ public:
         document and free it.
 
         @param doc The parsed stylesheet.
-        @author Peter Jones
      */
     explicit stylesheet(xml::document doc);
 
     /**
         Clean up after an xslt::stylesheet.
-
-        @author Peter Jones
      */
     ~stylesheet();
 
@@ -98,7 +94,6 @@ public:
         @param result The result tree after applying this stylesheet.
         @return True if the transformation was successful and the results placed in result.
         @return False if there was an error, result is not modified.
-        @author Peter Jones
      */
     bool apply(const xml::document& doc, xml::document& result);
 
@@ -111,7 +106,6 @@ public:
         @param with_params Override xsl:param elements using the given key/value map
         @return True if the transformation was successful and the results placed in result.
         @return False if there was an error, result is not modified.
-        @author Peter Jones
      */
     bool apply(const xml::document& doc, xml::document& result, const param_type& with_params);
 
@@ -126,7 +120,6 @@ public:
 
         @param doc The XML document to transform.
         @return A reference to the result tree.
-        @author Peter Jones
      */
     xml::document& apply(const xml::document& doc);
 
@@ -142,7 +135,6 @@ public:
         @param doc The XML document to transform.
         @param with_params Override xsl:param elements using the given key/value map
         @return A reference to the result tree.
-        @author Peter Jones
      */
     xml::document& apply(const xml::document& doc, const param_type& with_params);
 
@@ -157,7 +149,6 @@ public:
         constructor.
 
         @return The last error message.
-        @author Peter Jones
      */
     const std::string& get_error_message() const;
 

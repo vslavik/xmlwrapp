@@ -69,7 +69,6 @@ public:
         node tree. The default is true.
 
         @param flag True to turn on indenting, false to turn it off.
-        @author Peter Jones
      */
     static void indent_output(bool flag);
 
@@ -79,7 +78,6 @@ public:
         is false.
 
         @param flag True to remove whitespace, false to leave alone.
-        @author Peter Jones
      */
     static void remove_whitespace(bool flag);
 
@@ -88,7 +86,6 @@ public:
         substitute entities while parsing. The default is true.
 
         @param flag True to turn on substitution, false to turn off.
-        @author Peter Jones
      */
     static void substitute_entities(bool flag);
 
@@ -99,7 +96,6 @@ public:
         default is true.
 
         @param flag True to turn on loading, false to turn it off.
-        @author Peter Jones
      */
     static void load_external_subsets(bool flag);
 
@@ -109,7 +105,6 @@ public:
         is false.
 
         @return flag True to turn on validation, false to turn it off.
-        @author Peter Jones
      */
     static void validate_xml(bool flag);
 

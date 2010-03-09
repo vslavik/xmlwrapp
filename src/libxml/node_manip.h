@@ -59,7 +59,6 @@ namespace impl
     @param to_add The node to be copied and then inserted into the child list.
 
     @return The new node that was inserted into the child list.
-    @author Peter Jones
  */
 xmlNodePtr node_insert(xmlNodePtr parent, xmlNodePtr before, xmlNodePtr to_add);
 
@@ -74,7 +73,6 @@ xmlNodePtr node_insert(xmlNodePtr parent, xmlNodePtr before, xmlNodePtr to_add);
 
     @return The new node that was crated from copying @a new_node and inserted
             into the child list where @a old_node was.
-    @author Peter Jones
  */
 xmlNodePtr node_replace(xmlNodePtr old_node, xmlNodePtr new_node);
 
@@ -87,7 +85,6 @@ xmlNodePtr node_replace(xmlNodePtr old_node, xmlNodePtr new_node);
 
     @return The node that was after to_erase (may be 0 (null) if @a to_erase
             was the last node in the list)
-    @author Peter Jones
  */
 xmlNodePtr node_erase(xmlNodePtr to_erase);
 

@@ -80,7 +80,6 @@ public:
 
         @param filename The name of the file to parse.
         @return True if the file was successfully parsed; false otherwise.
-        @author Peter Jones
      */
     bool parse_file(const char *filename);
 
@@ -89,7 +88,6 @@ public:
 
         @param stream The stream to read data from.
         @return True if the stream was successfully parsed; false otherwise.
-        @author Peter Jones
      */
     bool parse_stream(std::istream& stream);
 
@@ -101,7 +99,6 @@ public:
         @param chunk The xml data chuck to parse.
         @param length The size of the given data chunk
         @return True if the chunk was parsed sucessfully; false otherwise.
-        @author Peter Jones
      */
     bool parse_chunk(const char *chunk, size_type length);
 
@@ -111,7 +108,6 @@ public:
         member function.
 
         @return True if all parsing was successful; false otherwise.
-        @author Peter Jones
      */
     bool parse_finish();
 
@@ -121,7 +117,6 @@ public:
         a message describing the error.
 
         @return A description of the XML parsing error.
-        @author Peter Jones
      */
     const std::string& get_error_message() const;
 
@@ -134,7 +129,6 @@ protected:
         @param name The name of the element
         @param attrs The element's attributes
         @return You should return true to continue parsing; false to stop.
-        @author Peter Jones
      */
     virtual bool start_element(const std::string& name, const attrs_type& attrs) = 0;
 
@@ -145,7 +139,6 @@ protected:
 
         @param name The name of the element that was closed.
         @return You should return true to continue parsing; false to stop.
-        @author Peter Jones
      */
     virtual bool end_element(const std::string& name) = 0;
 
@@ -155,7 +148,6 @@ protected:
 
         @param contents The contents of the text node.
         @return You should return true to continue parsing; false to stop.
-        @author Peter Jones
      */
     virtual bool text(const std::string& contents) = 0;
 
@@ -170,7 +162,6 @@ protected:
         @param contents The contents of the CDATA section.
         @return You should return true to continue parsing.
         @return Return false if you want to stop.
-        @author Peter Jones
      */
     virtual bool cdata(const std::string& contents);
 
@@ -186,7 +177,6 @@ protected:
         @param data The data of the processing instruction.
         @return You should return true to continue parsing.
         @return Return false if you want to stop.
-        @author Peter Jones
      */
     virtual bool processing_instruction(const std::string& target, const std::string& data);
 
@@ -200,7 +190,6 @@ protected:
         @param contents The contents of the XML comment.
         @return You should return true to continue parsing.
         @return Return false if you want to stop.
-        @author Peter Jones
      */
     virtual bool comment(const std::string& contents);
 
@@ -211,7 +200,6 @@ protected:
         @param message The warning message from the compiler.
         @return You should return true to continue parsing.
         @return Return false if you want to stop.
-        @author Peter Jones
      */
     virtual bool warning(const std::string& message);
 
@@ -222,7 +210,6 @@ protected:
         function, "Unknown Error" will be returned from get_error_message().
 
         @param message The message to return from get_error_message().
-        @author Peter Jones
      */
     void set_error_message(const char *message);
 
