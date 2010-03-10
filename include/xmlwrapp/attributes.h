@@ -41,6 +41,7 @@
 
 // xmlwrapp includes
 #include "xmlwrapp/init.h"
+#include "xmlwrapp/export.h"
 
 // standard includes
 #include <cstddef>
@@ -67,7 +68,7 @@ struct node_impl;
     The iterator classes allow you to access one XML attribute. This is done
     using the xml::attributes::attr class interface.
  */
-class attributes
+class XMLWRAPP_API attributes
 {
 public:
     /// size type
@@ -169,8 +170,8 @@ public:
         /// postfix increment (avoid if possible for better performance)
         iterator operator++(int);
 
-        friend bool operator==(const iterator& lhs, const iterator& rhs);
-        friend bool operator!=(const iterator& lhs, const iterator& rhs);
+        friend bool XMLWRAPP_API operator==(const iterator& lhs, const iterator& rhs);
+        friend bool XMLWRAPP_API operator!=(const iterator& lhs, const iterator& rhs);
 
     private:
         impl::ait_impl *pimpl_;
@@ -211,8 +212,8 @@ public:
         /// postfix increment (avoid if possible better for performance)
         const_iterator operator++ (int);
 
-        friend bool operator== (const const_iterator &lhs, const const_iterator &rhs);
-        friend bool operator!= (const const_iterator &lhs, const const_iterator &rhs);
+        friend bool XMLWRAPP_API operator== (const const_iterator &lhs, const const_iterator &rhs);
+        friend bool XMLWRAPP_API operator!= (const const_iterator &lhs, const const_iterator &rhs);
 
     private:
         impl::ait_impl *pimpl_;

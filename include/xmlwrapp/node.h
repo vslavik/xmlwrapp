@@ -42,6 +42,7 @@
 
 // xmlwrapp includes
 #include "xmlwrapp/init.h"
+#include "xmlwrapp/export.h"
 
 // hidden stuff
 #include "xmlwrapp/_cbfo.h"
@@ -82,7 +83,7 @@ struct node_cmp;
     ANY operation to the xml::node. If you need the data to stick around a
     little longer you should put it inside a std::string.
  */
-class node
+class XMLWRAPP_API node
 {
 public:
     /// size type
@@ -787,7 +788,7 @@ public:
         @param n The node to write to the stream.
         @return The stream.
      */
-    friend std::ostream& operator<< (std::ostream &stream, const node &n);
+    friend XMLWRAPP_API std::ostream& operator<< (std::ostream &stream, const node &n);
 
 private:
     impl::node_impl *pimpl_;

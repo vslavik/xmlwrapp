@@ -39,6 +39,9 @@
 #ifndef _xmlwrapp_init_h_
 #define _xmlwrapp_init_h_
 
+// xmlwrapp includes
+#include "xmlwrapp/export.h"
+
 /// XML library namespace
 namespace xml
 {
@@ -57,7 +60,7 @@ namespace xml
           use. This is no longer true: user code doesn't have to create any
           instances, but it @em can create as many instances as it wants.
  */
-class init
+class XMLWRAPP_API init
 {
 public:
     init();

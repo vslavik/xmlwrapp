@@ -95,6 +95,8 @@ if test "x$GCC" == "xyes"; then
     CXXFLAGS="$CXXFLAGS -W -Wall -Wcast-align -Wwrite-strings"
 fi
 
+dnl Check if the compiler supports symbols visibility:
+XMLWRAPP_VISIBILITY
 
 dnl === Generate output files ===
 

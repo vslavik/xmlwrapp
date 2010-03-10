@@ -39,6 +39,9 @@
 #ifndef _xmlwrapp_exception_h_
 #define _xmlwrapp_exception_h_
 
+// xmlwrapp includes
+#include "xmlwrapp/export.h"
+
 #include <stdexcept>
 #include <string>
 
@@ -55,7 +58,7 @@ namespace xml
 
     @since 0.7.0
  */
-class exception : public std::runtime_error
+class XMLWRAPP_API exception : public std::runtime_error
 {
 public:
     explicit exception(const std::string& what) : std::runtime_error(what)

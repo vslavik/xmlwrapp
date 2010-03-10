@@ -42,6 +42,7 @@
 
 // xmlwrapp includes
 #include "xmlwrapp/init.h"
+#include "xmlwrapp/export.h"
 
 // standard includes
 #include <iterator>
@@ -73,7 +74,7 @@ class iter_advance_functor;
 
     @see xml::node::elements(), xml::node::elements(const char *)
  */
-class nodes_view
+class XMLWRAPP_API nodes_view
 {
 public:
     nodes_view() : data_begin_(0), advance_func_(0) {}
@@ -235,7 +236,7 @@ private:
 
     @since  0.6.0
  */
-class const_nodes_view
+class XMLWRAPP_API const_nodes_view
 {
 public:
     const_nodes_view() : data_begin_(0), advance_func_(0) {}

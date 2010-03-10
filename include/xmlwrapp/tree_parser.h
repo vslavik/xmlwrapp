@@ -41,6 +41,7 @@
 
 // xmlwrapp includes
 #include "xmlwrapp/init.h"
+#include "xmlwrapp/export.h"
 
 // standard includes
 #include <cstddef>
@@ -64,7 +65,7 @@ struct tree_impl;
     After constructing a tree_parser, with either a file to parse or some in
     memory data to parse, you can walk the tree using the xml::node interface.
  */
-class tree_parser
+class XMLWRAPP_API tree_parser
 {
 public:
     typedef std::size_t size_type;

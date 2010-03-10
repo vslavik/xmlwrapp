@@ -42,6 +42,7 @@
 // xmlwrapp includes
 #include "xmlwrapp/init.h"
 #include "xmlwrapp/node.h"
+#include "xmlwrapp/export.h"
 
 // standard includes
 #include <iosfwd>
@@ -75,7 +76,7 @@ struct doc_impl;
     The xml::document class is used to hold the XML tree and various bits of
     information about it.
  */
-class document
+class XMLWRAPP_API document
 {
 public:
     /// size type
@@ -437,7 +438,7 @@ public:
         @param doc The document to insert.
         @return The stream from the first parameter.
      */
-    friend std::ostream& operator<< (std::ostream &stream, const document &doc);
+    friend XMLWRAPP_API std::ostream& operator<< (std::ostream &stream, const document &doc);
 
 private:
     impl::doc_impl *pimpl_;

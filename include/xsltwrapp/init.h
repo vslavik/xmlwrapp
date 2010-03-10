@@ -41,6 +41,7 @@
 
 // xmlwrapp includes
 #include "xmlwrapp/init.h"
+#include "xmlwrapp/export.h"
 
 /// XSLT library namespace
 namespace xslt
@@ -59,7 +60,7 @@ namespace xslt
           use. This is no longer true: user code doesn't have to create any
           instances, but it @em can create as many instances as it wants.
  */
-class init : public xml::init
+class XSLTWRAPP_API init : public xml::init
 {
 public:
     init();

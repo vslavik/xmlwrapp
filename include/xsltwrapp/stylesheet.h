@@ -42,6 +42,7 @@
 // xmlwrapp includes
 #include "xsltwrapp/init.h"
 #include "xmlwrapp/document.h"
+#include "xmlwrapp/export.h"
 
 // standard includes
 #include <map>
@@ -55,7 +56,7 @@ namespace xslt
     stylesheet. You can use it to load in a stylesheet and then use that
     stylesheet to transform an XML document to something else.
  */
-class stylesheet
+class XSLTWRAPP_API stylesheet
 {
 public:
     struct pimpl;

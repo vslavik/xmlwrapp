@@ -1,5 +1,5 @@
 
-AM_CPPFLAGS = -I$(top_srcdir)/include
+AM_CPPFLAGS = -I$(top_srcdir)/include $(CXXFLAGS_VISIBILITY)
 
 if WITH_XSLT
 lib_LTLIBRARIES = libxmlwrapp.la libxsltwrapp.la

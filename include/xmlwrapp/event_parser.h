@@ -41,6 +41,7 @@
 
 // xmlwrapp includes
 #include "xmlwrapp/init.h"
+#include "xmlwrapp/export.h"
 
 // standard includes
 #include <cstddef>
@@ -62,7 +63,7 @@ struct epimpl; // forward declaration of private implementation
     use this class you derive a sub-class from it and override the protected
     virtual functions.
  */
-class event_parser
+class XMLWRAPP_API event_parser
 {
 public:
     /// a type for holding XML node attributes
