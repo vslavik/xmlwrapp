@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
- * Copyright (C) 2009      Vaclav Slavik (vslavik@fastmail.fm)
+ * Copyright (C) 2009-2010 Vaclav Slavik (vslavik@fastmail.fm)
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -563,6 +563,52 @@ BOOST_AUTO_TEST_CASE( processing_instruction )
 {
     xml::node n(xml::node::pi("xslt", "stylesheet=\"test.xsl\""));
     BOOST_CHECK( is_same_as_file(n, "node/data/11.out") );
+}
+
+
+/*
+ * Test correct (expected) handling of text escaping.
+ */
+
+BOOST_AUTO_TEST_CASE( text_substitute_entities )
+{
+    xml::tree_parser parser(test_file_path("node/data/special_chars.xml").c_str());
+    xml::node &root = parser.get_document().get_root_node();
+
+    const std::string content = root.get_content();
+
+    BOOST_CHECK_EQUAL( content, "Marlow & Sons" );
+}
+
+
+BOOST_AUTO_TEST_CASE( escape_node_with_content )
+{
+    xml::node n("root", "Marlow & Sons");
+
+    BOOST_CHECK_EQUAL( n.get_content(), "Marlow & Sons" );
+    BOOST_CHECK( is_same_as_file(n, "node/data/special_chars.xml") );
+}
+
+
+BOOST_AUTO_TEST_CASE( escape_text_node )
+{
+    xml::node n("root");
+    n.push_back(xml::node(xml::node::text("Marlow & Sons")));
+
+    BOOST_CHECK_EQUAL( n.get_content(), "Marlow & Sons" );
+    BOOST_CHECK( is_same_as_file(n, "node/data/special_chars.xml") );
+}
+
+
+BOOST_AUTO_TEST_CASE( escape_set_content )
+{
+    xml::node n("root");
+    // Note that set_content() takes CDATA content as argument, so "&"
+    // has to be written as "&amp;".
+    n.set_content("Marlow &amp; Sons");
+
+    BOOST_CHECK_EQUAL( n.get_content(), "Marlow & Sons" );
+    BOOST_CHECK( is_same_as_file(n, "node/data/special_chars.xml") );
 }
 
 
