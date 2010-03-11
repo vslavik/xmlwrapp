@@ -1,4 +1,7 @@
 
+    Added xml::node::set_text_content() for setting unescaped textual
+    content.
+
     Added xml::exception class, derived from std::runtime_error. Xmlwrapp
     will throw only this or derived exception, with the exception of
     std::bad_alloc(), which is still thrown when appropriate.

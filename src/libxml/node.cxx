@@ -436,6 +436,16 @@ void node::set_content(const char *content)
 }
 
 
+void node::set_text_content(const char *content)
+{
+    xmlChar *escaped = xmlEncodeSpecialChars(pimpl_->xmlnode_->doc,
+                                             reinterpret_cast<const xmlChar*>(content));
+    xmlNodeSetContent(pimpl_->xmlnode_, escaped);
+    if ( escaped )
+        xmlFree(escaped);
+}
+
+
 const char* node::get_content() const
 {
     xmlchar_helper content(xmlNodeGetContent(pimpl_->xmlnode_));

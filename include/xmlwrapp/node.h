@@ -287,9 +287,30 @@ public:
               entity references, but XML special chars need to be escaped
               first. In particular, the '&' character @em must be escaped
               as "&amp;" unless it's part of entity reference. Not escaping
-              @a content may result in truncation of data.
+              @a content may result in truncation of data. Use
+              set_text_content() if @a content may contain special characters.
+
+        @see set_text_content()
      */
     void set_content(const char *content);
+
+    /**
+        Set the content of a node to given text.
+
+        In contrast to set_content(), @a content is raw text, so unescaped XML
+        special chars are allowed and entity references are not supported.
+
+        If this node is an element node, this function will remove all of its
+        children nodes and replace them with one text node set to the given
+        string.
+
+        @param content The content text.
+
+        @see set_content()
+
+        @since 0.7.0
+     */
+    void set_text_content(const char *content);
 
     /**
         Get the content for this text node. If this node is not a text node
