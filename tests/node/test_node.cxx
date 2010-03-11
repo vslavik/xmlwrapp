@@ -612,4 +612,14 @@ BOOST_AUTO_TEST_CASE( escape_set_content )
 }
 
 
+BOOST_AUTO_TEST_CASE( escape_set_text_content )
+{
+    xml::node n("root");
+    n.set_text_content("Marlow & Sons");
+
+    BOOST_CHECK_EQUAL( n.get_content(), "Marlow & Sons" );
+    BOOST_CHECK( is_same_as_file(n, "node/data/special_chars.xml") );
+}
+
+
 BOOST_AUTO_TEST_SUITE_END()
