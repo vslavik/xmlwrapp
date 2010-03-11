@@ -282,6 +282,12 @@ public:
         with one text node set to the given string.
 
         @param content The content of the text node.
+
+        @note @a content is supposed to be a piece of XML CDATA, so it allows
+              entity references, but XML special chars need to be escaped
+              first. In particular, the '&' character @em must be escaped
+              as "&amp;" unless it's part of entity reference. Not escaping
+              @a content may result in truncation of data.
      */
     void set_content(const char *content);
 
