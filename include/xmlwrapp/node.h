@@ -778,6 +778,13 @@ public:
     size_type erase(const char *name);
 
     /**
+        Erases all children nodes.
+
+        @since 0.7.0
+     */
+    void clear();
+
+    /**
         Sort all the children nodes of this node using one of thier
         attributes. Only nodes that are of xml::node::type_element will be
         sorted, and they must have the given node_name.

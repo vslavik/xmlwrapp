@@ -700,6 +700,19 @@ node::size_type node::erase(const char *name)
 }
 
 
+void node::clear()
+{
+    xmlNodePtr n = pimpl_->xmlnode_;
+
+    if ( !n->children )
+        return;
+
+    xmlFreeNodeList(n->children);
+    n->children =
+    n->last = NULL;
+}
+
+
 void node::sort(const char *node_name, const char *attr_name)
 {
     xmlNodePtr i(pimpl_->xmlnode_->children), next(0);

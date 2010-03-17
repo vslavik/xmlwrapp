@@ -8,6 +8,8 @@
 
     Fixed compilation with Sun Studio compiler.
 
+    Added xml::node::clear() method.
+
 Version 0.6.2
 
     Fixed xml::tree_parser to fail on non-fatal parser errors.

@@ -329,6 +329,21 @@ BOOST_AUTO_TEST_CASE( erase_returned_iter )
 }
 
 
+BOOST_AUTO_TEST_CASE( clear )
+{
+    xml::tree_parser parser(test_file_path("node/data/04.xml").c_str());
+
+    xml::node &root = parser.get_document().get_root_node();
+
+    BOOST_REQUIRE( root.size() > 0 );
+
+    root.clear();
+
+    BOOST_CHECK( root.empty() );
+    BOOST_CHECK( is_same_as_file(root, "node/data/04c.out") );
+}
+
+
 /*
  * These tests check xml::node::insert()
  */
