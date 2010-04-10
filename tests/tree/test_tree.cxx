@@ -108,7 +108,7 @@ BOOST_AUTO_TEST_CASE( bad_xml_throw )
     BOOST_CHECK_THROW
     (
         xml::tree_parser parser(test_file_path("tree/data/bad.xml").c_str()),
-        std::exception
+        xml::exception
     );
 }
 
@@ -135,7 +135,7 @@ BOOST_AUTO_TEST_CASE( bad_xml_data_throw )
     BOOST_CHECK_THROW
     (
         xml::tree_parser parser(XMLDATA_BAD.c_str(), XMLDATA_BAD.size()),
-        std::exception
+        xml::exception
     );
 }
 
@@ -203,7 +203,7 @@ BOOST_AUTO_TEST_CASE( bad_ns_xml_data_throw )
     BOOST_CHECK_THROW
     (
         xml::tree_parser parser( XMLDATA_BAD_NS.c_str(), XMLDATA_BAD_NS.size()),
-        std::exception
+        xml::exception
     );
 }
 

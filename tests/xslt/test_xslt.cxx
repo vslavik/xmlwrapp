@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE( creation_fail1 )
     BOOST_CHECK_THROW
     (
         xslt::stylesheet style1(test_file_path("xslt/data/01a.xsl").c_str()),
-        std::exception
+        xml::exception
     );
 }
 
@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE( creation_fail2 )
     BOOST_CHECK_THROW
     (
         xslt::stylesheet style1(test_file_path("xslt/data/01c.xsl").c_str()),
-        std::exception
+        xml::exception
     );
 }
 
@@ -152,7 +152,7 @@ BOOST_AUTO_TEST_CASE( xsl_with_errors_throw )
     BOOST_CHECK_THROW
     (
         style.apply(parser.get_document()),
-        std::exception
+        xml::exception
     );
 }
 

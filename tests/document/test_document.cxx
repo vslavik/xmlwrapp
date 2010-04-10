@@ -305,19 +305,19 @@ BOOST_AUTO_TEST_CASE( push_back_and_insert_throw )
     BOOST_CHECK_THROW
     (
         doc.push_back(xml::node("noway")),
-        std::exception
+        xml::exception
     );
 
     BOOST_CHECK_THROW
     (
         doc.insert(xml::node("noway")),
-        std::exception
+        xml::exception
     );
 
     BOOST_CHECK_THROW
     (
         doc.insert(doc.end(), xml::node("noway")),
-        std::exception
+        xml::exception
     );
 }
 
@@ -349,13 +349,13 @@ BOOST_AUTO_TEST_CASE( replace_throw )
     BOOST_CHECK_THROW
     (
         doc.replace(n, xml::node("noway")),
-        std::exception
+        xml::exception
     );
 
     BOOST_CHECK_THROW
     (
         doc.replace(doc.begin(), xml::node(xml::node::comment(" no way "))),
-        std::exception
+        xml::exception
     );
 }
 
@@ -388,7 +388,7 @@ BOOST_AUTO_TEST_CASE( cant_erase_root )
     BOOST_CHECK_THROW
     (
         doc.erase(doc.begin(), doc.end()),
-        std::exception
+        xml::exception
     );
 }
 
