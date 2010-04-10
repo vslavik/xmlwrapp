@@ -160,6 +160,8 @@ tree_parser::tree_parser(const char *name, bool allow_exceptions)
         if (tmpdoc)
             xmlFreeDoc(tmpdoc);
 
+        pimpl_->okay_ = false;
+
         if (allow_exceptions)
             throw xml::exception(pimpl_->last_error_);
     }
@@ -192,6 +194,7 @@ tree_parser::tree_parser(const char *data, size_type size, bool allow_exceptions
         ctxt->myDoc = 0;
         ctxt->sax = 0;
         xmlFreeParserCtxt(ctxt);
+
         pimpl_->okay_ = false;
 
         if (allow_exceptions)
