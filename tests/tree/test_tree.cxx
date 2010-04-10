@@ -144,6 +144,8 @@ BOOST_AUTO_TEST_CASE( bad_xml_data_throw )
 BOOST_AUTO_TEST_CASE( nonexistent_file )
 {
     xml::tree_parser parser("doesnt_exist.xml", false);
+    BOOST_CHECK_EQUAL( parser.get_error_message(),
+                       "failed to open file \"doesnt_exist.xml\"" );
     BOOST_CHECK( !parser ); // failed
 }
 

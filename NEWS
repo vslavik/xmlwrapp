@@ -1,6 +1,8 @@
 
     Fixed compilation with Sun Studio compiler.
 
+    Better error reporting when xml::tree_parser input file doesn't exist.
+
 Version 0.6.2
 
     Fixed xml::tree_parser to fail on non-fatal parser errors.
