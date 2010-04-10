@@ -45,6 +45,7 @@
 // standard includes
 #include <stdexcept>
 #include <cstring>
+#include <cstdio>
 #include <string>
 #include <memory>
 
@@ -156,6 +157,25 @@ tree_parser::tree_parser(const char *name, bool allow_exceptions)
     }
     else
     {
+        if ( pimpl_->last_error_ == DEFAULT_ERROR )
+        {
+            // Try to describe the problem better. A common issue is that
+            // a file couldn't be found, in which case "unknown XML parsing
+            // error" is more than unhelpful.
+            FILE *test = fopen(name, "r");
+            if ( !test )
+            {
+                pimpl_->last_error_ = "failed to open file \"";
+                pimpl_->last_error_ += name;
+                pimpl_->last_error_ += "\"";
+            }
+            else
+            {
+                // no such luck, the error is something else
+                fclose(test);
+            }
+        }
+
         // a problem appeared
         if (tmpdoc)
             xmlFreeDoc(tmpdoc);
