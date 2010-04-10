@@ -140,6 +140,23 @@ BOOST_AUTO_TEST_CASE( bad_xml_data_throw )
 }
 
 
+// test reporting of nonexistent files
+BOOST_AUTO_TEST_CASE( nonexistent_file )
+{
+    xml::tree_parser parser("doesnt_exist.xml", false);
+    BOOST_CHECK( !parser ); // failed
+}
+
+BOOST_AUTO_TEST_CASE( nonexistent_file_throw )
+{
+    BOOST_CHECK_THROW
+    (
+        xml::tree_parser parser("doesnt_exist.xml"),
+        std::exception
+    );
+}
+
+
 /*
  * this test should print out an outline of the input xml doc
  */
