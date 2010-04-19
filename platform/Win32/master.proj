@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <!-- configurable settings -->
+    <PropertyGroup>
+        <VCVersion>9</VCVersion>
+
+        <VersionZlib>1.2.3</VersionZlib>
+        <VersionIconv>1.9.2</VersionIconv>
+        <VersionLibxml2>2.7.6</VersionLibxml2>
+        <VersionLibxslt>1.1.26</VersionLibxslt>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <LibxmlWinSite>ftp://ftp.zlatkovic.com/libxml</LibxmlWinSite>
+        <DirZlib>zlib-$(VersionZlib).win32</DirZlib>
+        <DirIconv>iconv-$(VersionIconv).win32</DirIconv>
+        <DirLibxml2>libxml2-$(VersionLibxml2).win32</DirLibxml2>
+        <DirLibxslt>libxslt-$(VersionLibxslt).win32</DirLibxslt>
+        <ZipZlib>$(DirZlib).zip</ZipZlib>
+        <ZipIconv>$(DirIconv).zip</ZipIconv>
+        <ZipLibxml2>$(DirLibxml2).zip</ZipLibxml2>
+        <ZipLibxslt>$(DirLibxslt).zip</ZipLibxslt>
+    </PropertyGroup>
+
+    <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+
+    <Target Name="Build" DependsOnTargets="Deps" >
+        <Message Text="Building C++ library with Visual C++ $(VCVersion)..."/>
+        <ItemGroup>
+            <VCProjFiles Include="xmlwrapp_vc$(VCVersion)_*.vcproj"/>
+        </ItemGroup>
+        <VCBuild SolutionFile="xmlwrapp_vc$(VCVersion).sln"
+                 Projects="@(VCProjFiles)"
+                 Configuration="$(Configuration)"
+                 />
+    </Target>
+
+    <Target Name="Deps">
+        <MakeDir Directories="download"/>
+        <WebDownload Condition="!Exists('download\$(ZipZlib)')"
+                     FileName="download\$(ZipZlib)"
+                     FileUri="$(LibxmlWinSite)//$(ZipZlib)"/>
+        <WebDownload Condition="!Exists('download\$(ZipIconv)')"
+                     FileName="download\$(ZipIconv)"
+                     FileUri="$(LibxmlWinSite)//$(ZipIconv)"/>
+        <WebDownload Condition="!Exists('download\$(ZipLibxml2)')"
+                     FileName="download\$(ZipLibxml2)"
+                     FileUri="$(LibxmlWinSite)//$(ZipLibxml2)"/>
+        <WebDownload Condition="!Exists('download\$(ZipLibxslt)')"
+                     FileName="download\$(ZipLibxslt)"
+                     FileUri="$(LibxmlWinSite)//$(ZipLibxslt)"/>
+
+        <Unzip ZipFileName="download\$(ZipZlib)" TargetDirectory="download"/>
+        <Unzip ZipFileName="download\$(ZipIconv)" TargetDirectory="download"/>
+        <Unzip ZipFileName="download\$(ZipLibxml2)" TargetDirectory="download"/>
+        <Unzip ZipFileName="download\$(ZipLibxslt)" TargetDirectory="download"/>
+
+        <ItemGroup>
+            <BinFiles Include="download\*.win32\bin\*"/>
+            <LibFiles Include="download\*.win32\lib\*"/>
+            <IncludeFiles Include="download\*.win32\include\*"/>
+            <IncludeFilesLibxml Include="download\*.win32\include\libxml\*"/>
+            <IncludeFilesLibxslt Include="download\*.win32\include\libxslt\*"/>
+            <IncludeFilesLibexslt Include="download\*.win32\include\libexslt\*"/>
+        </ItemGroup>
+        <Copy SkipUnchangedFiles="true" SourceFiles="@(BinFiles)" DestinationFolder="bin"/>
+        <Copy SkipUnchangedFiles="true" SourceFiles="@(LibFiles)" DestinationFolder="lib"/>
+        <Copy SkipUnchangedFiles="true" SourceFiles="@(IncludeFiles)" DestinationFolder="include"/>
+        <Copy SkipUnchangedFiles="true" SourceFiles="@(IncludeFilesLibxml)" DestinationFolder="include\libxml"/>
+        <Copy SkipUnchangedFiles="true" SourceFiles="@(IncludeFilesLibxslt)" DestinationFolder="include\libxslt"/>
+        <Copy SkipUnchangedFiles="true" SourceFiles="@(IncludeFilesLibexslt)" DestinationFolder="include\libexslt"/>
+    </Target>
+
+    <Target Name="Clean">
+        <RemoveDir Directories="download;bin;include;lib;Debug;Release"/>
+    </Target>
+</Project>

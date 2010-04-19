@@ -1,3 +1,8 @@
 
 Please use Bakefile (http://www.bakefile.org) to generate Visual C++ project
 files.
+
+
+For convience, master.proj msbuild project is included. This downloads all
+dependencies. It requires MSBuild.Community.Tasks from
+http://msbuildtasks.tigris.org/ (just install the MSI package).
