@@ -25,7 +25,7 @@
 
     <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
 
-    <Target Name="Build" DependsOnTargets="Deps" >
+    <Target Name="Build" DependsOnTargets="Deps;BakefileGen" >
         <Message Text="Building C++ library with Visual C++ $(VCVersion)..."/>
         <ItemGroup>
             <VCProjFiles Include="xmlwrapp_vc$(VCVersion)_*.vcproj"/>
@@ -34,6 +34,11 @@
                  Projects="@(VCProjFiles)"
                  Configuration="$(Configuration)"
                  />
+    </Target>
+
+    <Target Name="BakefileGen" Condition="!Exists('xmlwrapp_vc$(VCVersion)_xmlwrapp.vcproj')">
+        <Message Text="Running Bakefile to generate project files..."/>
+        <Exec Command="bakefile_gen"/>
     </Target>
 
     <Target Name="Deps">
