@@ -9,7 +9,7 @@ endif
 
 libxmlwrapp_la_CPPFLAGS = $(AM_CPPFLAGS) $(LIBXML_CFLAGS)
 libxmlwrapp_la_LIBADD = $(LIBXML_LIBS)
-libxmlwrapp_la_LDFLAGS = -version-info 5:1:0
+libxmlwrapp_la_LDFLAGS = -version-info 6:0:1
 
 libxmlwrapp_la_SOURCES = \
 		libxml/ait_impl.cxx \
