@@ -30,23 +30,21 @@
  * SUCH DAMAGE.
  */
 
+#define BOOST_TEST_MAIN
 #include "test.h"
 
 #include <cstdlib>
 
 std::string srcdir = ".";
 
-bool init_unit_test()
+struct SrcdirConfig
 {
-    const char *s = std::getenv("srcdir");
-    if ( s )
-        srcdir = s;
+    SrcdirConfig()
+    {
+        const char *s = std::getenv("srcdir");
+        if ( s )
+            srcdir = s;
+    }
+};
 
-    return true;
-}
-
-int main(int argc, char *argv[])
-{
-    return boost::unit_test::unit_test_main(&init_unit_test, argc, argv);
-}
-
+BOOST_GLOBAL_FIXTURE(SrcdirConfig);
