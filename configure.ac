@@ -1,7 +1,7 @@
 dnl configure.ac script for xmlwrapp, process with autoconf to create configure
 dnl
-dnl Copyright (C) 2008 Vaclav Slavik <vslavik@fastmail.fm>,
-dnl               2008 Vadim Zeitlin <vadim@tt-solutions.com>
+dnl Copyright (C) 2008 Vaclav Slavik <vslavik@gmail.com>,
+dnl               2008 Vadim Zeitlin <vz-xmlwrapp@zeitlins.org>
 dnl All Rights Reserved
 dnl
 dnl Redistribution and use in source and binary forms, with or without
