@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 Vadim Zeitlin (vadim@zeitlins.org)
+ * Copyright (C) 2008 Vadim Zeitlin (vz-xmlwrapp@zeitlins.org)
  * All Rights Reserved
  *
  * Redistribution and use in source and binary forms, with or without

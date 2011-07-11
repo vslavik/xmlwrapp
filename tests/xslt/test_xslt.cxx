@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
- * Copyright (C) 2009      Vaclav Slavik (vslavik@fastmail.fm)
+ * Copyright (C) 2009      Vaclav Slavik (vslavik@gmail.com)
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
