@@ -60,6 +60,7 @@ class document;
 class attributes;
 class nodes_view;
 class const_nodes_view;
+class namespacedefinitions;
 
 namespace impl
 {
@@ -359,6 +360,13 @@ public:
         @since  0.6.0
      */
     const char* get_namespace() const;
+
+    /** 
+        Gets a list of namespaces defined on this xml::node (with xmlns:prefix - attribute).
+
+        @return The xml::namespacedefinitions object for this node.
+    */
+    xml::namespacedefinitions& get_namespace_definitions();
 
     /**
         Find out if this node is a text node or sometiming like a text node,

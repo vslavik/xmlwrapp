@@ -37,6 +37,7 @@
 #include "xmlwrapp/init.h"
 #include "xmlwrapp/nodes_view.h"
 #include "xmlwrapp/node.h"
+#include "xmlwrapp/namespaces.h"
 #include "xmlwrapp/attributes.h"
 #include "xmlwrapp/document.h"
 #include "xmlwrapp/tree_parser.h"

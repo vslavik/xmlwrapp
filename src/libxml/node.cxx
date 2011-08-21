@@ -35,6 +35,7 @@
 #include "xmlwrapp/node.h"
 #include "xmlwrapp/nodes_view.h"
 #include "xmlwrapp/attributes.h"
+#include "xmlwrapp/namespaces.h"
 #include "xmlwrapp/exception.h"
 #include "utility.h"
 #include "ait_impl.h"
@@ -72,7 +73,7 @@ namespace impl
 
 struct node_impl : public pimpl_base<xml::impl::node_impl>
 {
-    node_impl() : xmlnode_(0), owner_(true), attrs_(0) {}
+    node_impl() : xmlnode_(0), owner_(true), attrs_(0), nsdefs_(0) {}
     ~node_impl() { release(); }
 
     void release()
@@ -85,6 +86,7 @@ struct node_impl : public pimpl_base<xml::impl::node_impl>
     bool owner_;
     attributes attrs_;
     std::string tmp_string;
+    namespacedefinitions nsdefs_;
 };
 
 
@@ -515,6 +517,17 @@ const char *node::get_namespace() const
         : NULL;
 }
 
+
+xml::namespacedefinitions& node::get_namespace_definitions()
+{
+	if (pimpl_->xmlnode_->type != XML_ELEMENT_NODE) // is this correct? (thriqon)
+	{
+		throw xml::exception("get_namespace_definitions called on non-element node");
+	}
+
+	pimpl_->nsdefs_.set_data(pimpl_->xmlnode_);
+	return pimpl_->nsdefs_;
+}
 
 bool node::is_text() const
 {
