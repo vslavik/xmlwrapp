@@ -131,7 +131,12 @@ namespace xml
         impl = new impl::nsdef_it_impl (other.get_ns());
     }
 
-    //TODO: copy & assign
+    namespacedefinitions::iterator& namespacedefinitions::iterator::operator= (const namespacedefinitions::iterator& other)
+    {
+        delete impl;
+        impl = new impl::nsdef_it_impl (other.get_ns());
+        return *this;
+    }
 
     bool XMLWRAPP_API operator== (const namespacedefinitions::iterator& lhs, const namespacedefinitions::iterator& rhs)
     {
@@ -154,6 +159,9 @@ namespace xml
     namespacedefinitions::nsdef::nsdef(void* data)
     {
         set_data(data);
+    }
+    namespacedefinitions::nsdef::nsdef(const char* href, const char* prefix) : href(href), prefix(prefix)
+    {
     }
     namespacedefinitions::nsdef::~nsdef()
     {
@@ -215,6 +223,35 @@ namespace xml
         return impl->end();
     }
 
+    bool namespacedefinitions::empty() const
+    {
+        return (impl->node_->nsDef == NULL);
+    }
 
+    void namespacedefinitions::push_back(const nsdef& ns)
+    {
+        xmlNsPtr newns = xmlNewNs (impl->node_, reinterpret_cast<const xmlChar*> (ns.get_href()), reinterpret_cast<const xmlChar*> (ns.get_prefix()));
+	if (newns == NULL) throw xml::exception("creation of namespace failed");
+    }
 
+    namespacedefinitions::iterator namespacedefinitions::find (const char* prefix)
+    {
+        xmlNsPtr ns = xmlSearchNs (impl->node_->doc, impl->node_, reinterpret_cast<const xmlChar*> (prefix));
+        return iterator(ns);
+    }
+    namespacedefinitions::iterator namespacedefinitions::findHref (const char* href)
+    {
+        xmlNsPtr ns = xmlSearchNsByHref (impl->node_->doc, impl->node_, reinterpret_cast<const xmlChar*> (href));
+        return iterator(ns);
+    }
+    /*namespacedefinitions::iterator namespacedefinitions::erase (const namespacedefinitions::iterator& to_erase)
+    {
+        xmlNsPtr toeraseptr = to_erase.get_ns();
+        for (xmlNsPtr runner = impl->node_->nsDef; runner != NULL; runner = runner->next)
+        {
+            if (runner == toeraseptr)
+            {
+            }
+        }
+    }*/
 } // namespace xml

@@ -520,13 +520,29 @@ const char *node::get_namespace() const
 
 xml::namespacedefinitions& node::get_namespace_definitions()
 {
-	if (pimpl_->xmlnode_->type != XML_ELEMENT_NODE) // is this correct? (thriqon)
-	{
-		throw xml::exception("get_namespace_definitions called on non-element node");
-	}
+    if (pimpl_->xmlnode_->type != XML_ELEMENT_NODE) // is this correct? (thriqon)
+    {
+        throw xml::exception("get_namespace_definitions called on non-element node");
+    }
+    pimpl_->nsdefs_.set_data(pimpl_->xmlnode_);
+    return pimpl_->nsdefs_;
+}
 
-	pimpl_->nsdefs_.set_data(pimpl_->xmlnode_);
-	return pimpl_->nsdefs_;
+/*void node::set_namespace(const xml::namespacedefinitions::iterator& it)
+{
+    xmlSetNs (pimpl_->xmlnode, reinterpret_cast<xmlNsPtr> (it.get_ns()));
+}*/
+
+void node::set_namespace(const char* prefix)
+{
+    xml::namespacedefinitions::iterator it = this->get_namespace_definitions().find(prefix);
+    xmlSetNs (pimpl_->xmlnode_, reinterpret_cast<xmlNsPtr> (it.get_ns()));
+}
+
+void node::set_namespace_href(const char* href)
+{
+    xml::namespacedefinitions::iterator it = this->get_namespace_definitions().findHref(href);
+    xmlSetNs (pimpl_->xmlnode_, reinterpret_cast<xmlNsPtr> (it.get_ns()));
 }
 
 bool node::is_text() const

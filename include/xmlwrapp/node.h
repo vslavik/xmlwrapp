@@ -369,6 +369,16 @@ public:
     xml::namespacedefinitions& get_namespace_definitions();
 
     /**
+        Sets the namespace of the node by prefix.
+    */
+    void set_namespace(const char* prefix);
+    
+    /**
+        Sets the namespace of the node by href.
+    */
+    void set_namespace_href(const char* href);
+
+    /**
         Find out if this node is a text node or sometiming like a text node,
         CDATA for example.
 

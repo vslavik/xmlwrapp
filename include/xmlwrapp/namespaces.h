@@ -91,12 +91,14 @@ namespace xml
                 public:
                     const char* get_href() const;
                     const char* get_prefix() const;
+                    nsdef(const char* href, const char* prefix);
+                    
+                    ~nsdef();
                 private:
                     // handle to impl
                     impl::nsdef_impl* impl;
 
                     nsdef(void* data);
-                    ~nsdef();
                     void set_data(void* data);
 
                     std::string href; std::string prefix;
@@ -137,6 +139,8 @@ namespace xml
                 private:
                     iterator(void* ns);
                     friend class impl::nsdefs_impl;
+                    friend class namespacedefinitions;
+                    friend class xml::node;
 
                     impl::nsdef_it_impl* impl;
 
@@ -152,6 +156,14 @@ namespace xml
               Gets an iterator pointing past the end of namespace definitions.
              */
             iterator end();
+
+            /**
+              Puts a new namespace definition in the element.
+            */
+            void push_back(const nsdef& ns);
+
+            iterator find (const char* prefix);
+            iterator findHref (const char* href);
 
             /**
               Find out if there are namespace definitions in this element.
