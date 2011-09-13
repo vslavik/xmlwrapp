@@ -60,7 +60,10 @@ class document;
 class attributes;
 class nodes_view;
 class const_nodes_view;
-class namespacedefinitions;
+namespace namespaces
+{
+    class definitions;
+}
 
 namespace impl
 {
@@ -366,7 +369,7 @@ public:
 
         @return The xml::namespacedefinitions object for this node.
     */
-    xml::namespacedefinitions& get_namespace_definitions();
+    xml::namespaces::definitions& get_namespace_definitions();
 
     /**
         Sets the namespace of the node by prefix.

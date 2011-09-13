@@ -59,23 +59,23 @@ namespace xml
 
             void set_data(void* data) { node_ = reinterpret_cast<xmlNodePtr> (data); }
 
-            xml::namespacedefinitions::iterator begin()
+            xml::namespaces::definitions::iterator begin()
             {
                 if (node_ == NULL)
-                    return xml::namespacedefinitions::iterator(NULL);
+                    return xml::namespaces::definitions::iterator(NULL);
                 else
-                    return xml::namespacedefinitions::iterator(node_->nsDef);
+                    return xml::namespaces::definitions::iterator(node_->nsDef);
             }
-            xml::namespacedefinitions::iterator end()
+            xml::namespaces::definitions::iterator end()
             {
-                return xml::namespacedefinitions::iterator(NULL);
+                return xml::namespaces::definitions::iterator(NULL);
             }
         };
 
         struct nsdef_it_impl : public pimpl_base<nsdef_it_impl>
         {
             xmlNsPtr data;
-            xml::namespacedefinitions::nsdef myval;
+            xml::namespaces::ns myval;
 
             nsdef_it_impl(void* dt) : myval(dt)
             {
@@ -98,57 +98,58 @@ namespace xml
     // iterator
     //////
 
-    namespacedefinitions::iterator::iterator (void *ns)
+    namespaces::definitions::iterator::iterator (void *ns)
     {
         impl = new impl::nsdef_it_impl(ns);
     }
-    namespacedefinitions::iterator::~iterator()
+    namespaces::definitions::iterator::~iterator()
     {
         delete impl;
     }
 
-    namespacedefinitions::iterator::value_type& namespacedefinitions::iterator::operator*()
+    namespaces::definitions::iterator::value_type& namespaces::definitions::iterator::operator*()
     { return impl->myval; }
 
-    namespacedefinitions::iterator::value_type* namespacedefinitions::iterator::operator->()
+    namespaces::definitions::iterator::value_type* namespaces::definitions::iterator::operator->()
     { return &(impl->myval); }
 
-    namespacedefinitions::iterator& namespacedefinitions::iterator::operator++()
+    namespaces::definitions::iterator& namespaces::definitions::iterator::operator++()
     {
         impl->go_next();
         return *this;
     }
 
-    namespacedefinitions::iterator namespacedefinitions::iterator::operator++(int)
+    namespaces::definitions::iterator namespaces::definitions::iterator::operator++(int)
     {
         iterator tmp = *this;
         impl->go_next();
         return tmp;
     }
 
-    namespacedefinitions::iterator::iterator(const namespacedefinitions::iterator& other)
+    namespaces::definitions::iterator::iterator(const namespaces::definitions::iterator& other)
     {
         impl = new impl::nsdef_it_impl (other.get_ns());
     }
 
-    namespacedefinitions::iterator& namespacedefinitions::iterator::operator= (const namespacedefinitions::iterator& other)
+    namespaces::definitions::iterator& namespaces::definitions::iterator::operator= (const namespaces::definitions::iterator& other)
     {
         delete impl;
         impl = new impl::nsdef_it_impl (other.get_ns());
         return *this;
     }
 
-    bool XMLWRAPP_API operator== (const namespacedefinitions::iterator& lhs, const namespacedefinitions::iterator& rhs)
+namespace namespaces {
+    bool XMLWRAPP_API operator== (const xml::namespaces::definitions::iterator& lhs, const xml::namespaces::definitions::iterator& rhs)
     {
         return (lhs.get_ns() == rhs.get_ns());
     }
 
-    bool XMLWRAPP_API operator!=(const namespacedefinitions::iterator& lhs, const namespacedefinitions::iterator& rhs)
+    bool XMLWRAPP_API operator!=(const xml::namespaces::definitions::iterator& lhs, const xml::namespaces::definitions::iterator& rhs)
     {
         return (lhs.get_ns() != rhs.get_ns());
     }
-
-    void* namespacedefinitions::iterator::get_ns() const { return impl->get_data(); }
+}
+    void* namespaces::definitions::iterator::get_ns() const { return impl->get_data(); }
 
 
 
@@ -156,17 +157,17 @@ namespace xml
     // nsdef
     /////
 
-    namespacedefinitions::nsdef::nsdef(void* data)
+    namespaces::ns::ns(void* data)
     {
         set_data(data);
     }
-    namespacedefinitions::nsdef::nsdef(const char* href, const char* prefix) : href(href), prefix(prefix)
+    namespaces::ns::ns(const char* href, const char* prefix) : href(href), prefix(prefix)
     {
     }
-    namespacedefinitions::nsdef::~nsdef()
+    namespaces::ns::~ns()
     {
     }
-    void namespacedefinitions::nsdef::set_data(void* data)
+    void namespaces::ns::set_data(void* data)
     {
         if (data == NULL)
         {
@@ -182,69 +183,69 @@ namespace xml
         else
             prefix = "";
     }
-    const char* namespacedefinitions::nsdef::get_href() const
+    const char* namespaces::ns::get_href() const
     {
         return href.c_str();
     }
 
-    const char* namespacedefinitions::nsdef::get_prefix() const
+    const char* namespaces::ns::get_prefix() const
     {
         return prefix.c_str();
     }
 
 
 
-    namespacedefinitions::namespacedefinitions(int) : impl(NULL)
+    namespaces::definitions::definitions(int) : impl(NULL)
     {
     };
 
 
 
-    namespacedefinitions::~namespacedefinitions()
+    namespaces::definitions::~definitions()
     {
         if (impl != NULL)
             delete impl;
     }
 
-    void namespacedefinitions::set_data(void* data)
+    void namespaces::definitions::set_data(void* data)
     {
         if (impl == NULL)
             impl = new impl::nsdefs_impl();
         impl->set_data(data);
     }
 
-    namespacedefinitions::iterator namespacedefinitions::begin()
+    namespaces::definitions::iterator namespaces::definitions::begin()
     {
         return impl->begin();
     }
 
-    namespacedefinitions::iterator namespacedefinitions::end()
+    namespaces::definitions::iterator namespaces::definitions::end()
     {
         return impl->end();
     }
 
-    bool namespacedefinitions::empty() const
+    bool namespaces::definitions::empty() const
     {
         return (impl->node_->nsDef == NULL);
     }
 
-    void namespacedefinitions::push_back(const nsdef& ns)
+    void namespaces::definitions::push_back(const ns& ns)
     {
         xmlNsPtr newns = xmlNewNs (impl->node_, reinterpret_cast<const xmlChar*> (ns.get_href()), reinterpret_cast<const xmlChar*> (ns.get_prefix()));
 	if (newns == NULL) throw xml::exception("creation of namespace failed");
     }
 
-    namespacedefinitions::iterator namespacedefinitions::find (const char* prefix)
+    namespaces::definitions::iterator namespaces::definitions::find (const char* prefix)
     {
         xmlNsPtr ns = xmlSearchNs (impl->node_->doc, impl->node_, reinterpret_cast<const xmlChar*> (prefix));
         return iterator(ns);
     }
-    namespacedefinitions::iterator namespacedefinitions::findHref (const char* href)
+    namespaces::definitions::iterator namespaces::definitions::findHref (const char* href)
     {
         xmlNsPtr ns = xmlSearchNsByHref (impl->node_->doc, impl->node_, reinterpret_cast<const xmlChar*> (href));
         return iterator(ns);
     }
-    /*namespacedefinitions::iterator namespacedefinitions::erase (const namespacedefinitions::iterator& to_erase)
+    /*namespaces::definitions::iterator namespaces::definitions::erase (const namespaces::definitions::iterator& to_erase)
     {
         xmlNsPtr toeraseptr = to_erase.get_ns();
         for (xmlNsPtr runner = impl->node_->nsDef; runner != NULL; runner = runner->next)

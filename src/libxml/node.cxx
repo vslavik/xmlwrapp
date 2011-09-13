@@ -86,7 +86,7 @@ struct node_impl : public pimpl_base<xml::impl::node_impl>
     bool owner_;
     attributes attrs_;
     std::string tmp_string;
-    namespacedefinitions nsdefs_;
+    namespaces::definitions nsdefs_;
 };
 
 
@@ -518,7 +518,7 @@ const char *node::get_namespace() const
 }
 
 
-xml::namespacedefinitions& node::get_namespace_definitions()
+xml::namespaces::definitions& node::get_namespace_definitions()
 {
     if (pimpl_->xmlnode_->type != XML_ELEMENT_NODE) // is this correct? (thriqon)
     {
@@ -535,13 +535,13 @@ xml::namespacedefinitions& node::get_namespace_definitions()
 
 void node::set_namespace(const char* prefix)
 {
-    xml::namespacedefinitions::iterator it = this->get_namespace_definitions().find(prefix);
+    xml::namespaces::definitions::iterator it = this->get_namespace_definitions().find(prefix);
     xmlSetNs (pimpl_->xmlnode_, reinterpret_cast<xmlNsPtr> (it.get_ns()));
 }
 
 void node::set_namespace_href(const char* href)
 {
-    xml::namespacedefinitions::iterator it = this->get_namespace_definitions().findHref(href);
+    xml::namespaces::definitions::iterator it = this->get_namespace_definitions().findHref(href);
     xmlSetNs (pimpl_->xmlnode_, reinterpret_cast<xmlNsPtr> (it.get_ns()));
 }
 

@@ -44,10 +44,10 @@ BOOST_AUTO_TEST_CASE ( read_file_get_namespace_definitions )
     xml::document& doc = parser.get_document();
     xml::node& root = doc.get_root_node();
 
-    xml::namespacedefinitions& nsdefs = root.get_namespace_definitions();
+    xml::namespaces::definitions& nsdefs = root.get_namespace_definitions();
     BOOST_CHECK( !nsdefs.empty() );
 
-    xml::namespacedefinitions::iterator it = nsdefs.begin();
+    xml::namespaces::definitions::iterator it = nsdefs.begin();
     
     BOOST_CHECK( (std::string(it->get_prefix()) == std::string("a")) && (std::string(it->get_href()) == std::string("href_a")) );
 }
@@ -57,13 +57,13 @@ BOOST_AUTO_TEST_CASE ( read_file_get_namespace_definitions_iterate )
     xml::tree_parser parser(test_file_path("namespaces/data/02.xml").c_str());
     xml::node& root = parser.get_document().get_root_node();
 
-    xml::namespacedefinitions& nsdefs = root.get_namespace_definitions();
+    xml::namespaces::definitions& nsdefs = root.get_namespace_definitions();
 
-    xml::namespacedefinitions::iterator it = nsdefs.begin();
+    xml::namespaces::definitions::iterator it = nsdefs.begin();
 
     BOOST_CHECK( (std::string(it->get_prefix()) == std::string("a")) && (std::string(it->get_href()) == std::string("href_a")) );
 
-    xml::namespacedefinitions::iterator it2 = it;
+    xml::namespaces::definitions::iterator it2 = it;
     BOOST_CHECK ( it2 == it++ );
     
     BOOST_CHECK( (std::string(it->get_prefix()) == std::string("b")) && (std::string(it->get_href()) == std::string("href_b")) );
@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE ( read_file_get_namespace_definitions_iterate )
 
 BOOST_AUTO_TEST_CASE ( nsdef_getters )
 {
-    xml::namespacedefinitions::nsdef mynsdef ("href", "prefix");
+    xml::namespaces::ns mynsdef ("href", "prefix");
 
     BOOST_CHECK ( std::string(mynsdef.get_href()) == "href" && std::string(mynsdef.get_prefix()) == "prefix" );
 }
@@ -86,9 +86,9 @@ BOOST_AUTO_TEST_CASE ( read_file_add_namespace_definition )
     xml::tree_parser parser(test_file_path("namespaces/data/03.xml").c_str());
     xml::node& root = parser.get_document().get_root_node();
 
-    xml::namespacedefinitions& nsdefs = root.get_namespace_definitions();
+    xml::namespaces::definitions& nsdefs = root.get_namespace_definitions();
 
-    nsdefs.push_back (xml::namespacedefinitions::nsdef("href", "prefix"));
+    nsdefs.push_back (xml::namespaces::ns("href", "prefix"));
 
     std::ostringstream ostr;
     ostr << parser.get_document();
@@ -106,8 +106,8 @@ BOOST_AUTO_TEST_CASE ( find_namespaces )
     
     xml::node& child = *child_it;
 
-    xml::namespacedefinitions& nsdefs = child.get_namespace_definitions();
-    xml::namespacedefinitions::iterator res = nsdefs.find("p1");
+    xml::namespaces::definitions& nsdefs = child.get_namespace_definitions();
+    xml::namespaces::definitions::iterator res = nsdefs.find("p1");
     BOOST_CHECK ( std::string(res->get_href()) == std::string("href_1"));
 
     res = nsdefs.findHref("href_2");
