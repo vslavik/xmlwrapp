@@ -71,6 +71,9 @@ namespace xml
 				const char* get_prefix() const;
 				ns(const char* href, const char* prefix);
 
+				ns (const ns&);
+				ns& operator= (const ns& o);
+
 				~ns();
 			private:
 				// handle to impl
@@ -81,11 +84,9 @@ namespace xml
 
 				std::string href; std::string prefix;
 
-				// do not copy / assign
-				ns (const ns&);
-				ns& operator= (const ns& o);
 
 				friend class impl::nsdef_it_impl;
+                                friend class xml::node;
 
 		};
 

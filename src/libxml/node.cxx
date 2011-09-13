@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
  *               2009      Vaclav Slavik <vslavik@gmail.com>
+ *               2011      Jonas Weber <mail@jonasw.de>
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -528,10 +529,18 @@ xml::namespaces::definitions& node::get_namespace_definitions()
     return pimpl_->nsdefs_;
 }
 
-/*void node::set_namespace(const xml::namespacedefinitions::iterator& it)
+xml::namespaces::ns node::get_namespace_o() const
 {
-    xmlSetNs (pimpl_->xmlnode, reinterpret_cast<xmlNsPtr> (it.get_ns()));
-}*/
+    return xml::namespaces::ns(pimpl_->xmlnode_->ns);
+}
+
+void node::set_namespace(const xml::namespaces::ns& ns)
+{
+    xml::namespaces::definitions::iterator it = this->get_namespace_definitions().find(ns.get_prefix());
+    if (it == this->get_namespace_definitions().end() || strcmp(ns.get_href(), it->get_href()) != 0)
+        throw xml::exception(std::string("namespace not defined: ") + (it == this->get_namespace_definitions().end() ? "y" : "n"));
+    xmlSetNs (pimpl_->xmlnode_, reinterpret_cast<xmlNsPtr> (it.get_ns()));
+}
 
 void node::set_namespace(const char* prefix)
 {

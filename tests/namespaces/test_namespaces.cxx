@@ -153,7 +153,22 @@ BOOST_AUTO_TEST_CASE ( set_namespaces )
     ostr2 << parser.get_document();
     BOOST_CHECK ( is_same_as_file (ostr2, "namespaces/data/04_02.out"));
 
+
+    child.set_namespace(xml::namespaces::ns("href_1", "p1"));
+    std::ostringstream ostr3;
+    ostr3 << parser.get_document();
+    BOOST_CHECK ( is_same_as_file (ostr3, "namespaces/data/04_01.out"));
+
 }
 
+BOOST_AUTO_TEST_CASE ( get_namespaces )
+{
+    xml::tree_parser parser(test_file_path("namespaces/data/05.xml").c_str());
+    xml::node& root = parser.get_document().get_root_node();
+    
+    xml::namespaces::ns ns = root.get_namespace_o();
+    
+    BOOST_CHECK (std::string("p1") == ns.get_prefix() && std::string("href1") == ns.get_href());
+}
 
 BOOST_AUTO_TEST_SUITE_END()

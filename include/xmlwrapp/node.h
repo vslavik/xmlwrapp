@@ -63,6 +63,7 @@ class const_nodes_view;
 namespace namespaces
 {
     class definitions;
+    class ns;
 }
 
 namespace impl
@@ -364,12 +365,23 @@ public:
      */
     const char* get_namespace() const;
 
+    /**
+        Get the namespace of this xml::node as object.
+        @return The namespace-object of this element.
+    */
+    xml::namespaces::ns get_namespace_o() const;
+
     /** 
         Gets a list of namespaces defined on this xml::node (with xmlns:prefix - attribute).
 
         @return The xml::namespacedefinitions object for this node.
     */
     xml::namespaces::definitions& get_namespace_definitions();
+
+    /**
+        Sets the namespace of this element.
+    */
+    void set_namespace(const xml::namespaces::ns& ns);
 
     /**
         Sets the namespace of the node by prefix.
