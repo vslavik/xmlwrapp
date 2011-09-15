@@ -159,6 +159,9 @@ BOOST_AUTO_TEST_CASE ( set_namespaces )
     ostr3 << parser.get_document();
     BOOST_CHECK ( is_same_as_file (ostr3, "namespaces/data/04_01.out"));
 
+
+    BOOST_CHECK_THROW ( child.set_namespace(xml::namespaces::ns("href_1", "prefix_NE")), xml::exception );
+    BOOST_CHECK_THROW ( child.set_namespace(xml::namespaces::ns("href_NE", "p1")), xml::exception);
 }
 
 BOOST_AUTO_TEST_CASE ( get_namespaces )
@@ -169,6 +172,75 @@ BOOST_AUTO_TEST_CASE ( get_namespaces )
     xml::namespaces::ns ns = root.get_namespace_o();
     
     BOOST_CHECK (std::string("p1") == ns.get_prefix() && std::string("href1") == ns.get_href());
+}
+
+
+BOOST_AUTO_TEST_CASE ( get_namespace_attr )
+{
+    xml::tree_parser parser(test_file_path("namespaces/data/06.xml").c_str());
+    xml::node& root = parser.get_document().get_root_node();
+    
+    xml::namespaces::ns ns = root.get_attributes().begin()->get_namespace();
+
+    BOOST_CHECK ( std::string("p1") == ns.get_prefix() && std::string("href1") == ns.get_href());
+
+}
+
+BOOST_AUTO_TEST_CASE ( set_namespace_attr )
+{
+    xml::tree_parser parser(test_file_path("namespaces/data/06.xml").c_str());
+    xml::node& root = parser.get_document().get_root_node();
+
+    xml::attributes::attr& a = *(root.get_attributes().begin());
+
+    a.set_namespace(xml::namespaces::ns("href2", "p2"));
+    std::ostringstream str1;
+    str1 << parser.get_document();
+
+    BOOST_CHECK ( is_same_as_file(str1, "namespaces/data/06_01.out") );
+
+
+
+    BOOST_CHECK_THROW ( a.set_namespace(xml::namespaces::ns("href_NE", "prefix_NE")), xml::exception );
+
+    BOOST_CHECK_THROW ( a.set_namespace(xml::namespaces::ns("href_NE", "p2")), xml::exception );
+
+
+}
+
+BOOST_AUTO_TEST_CASE ( find_namespace_attr )
+{
+    xml::tree_parser parser(test_file_path("namespaces/data/07.xml").c_str());
+    xml::node& root = parser.get_document().get_root_node();
+
+    {
+        xml::attributes::iterator it = root.get_attributes().find("attr", xml::namespaces::ns("Href_Attr", "p"));
+
+        BOOST_CHECK ( std::string(it->get_value()) == "val" );
+    }
+    {
+        // and now with const
+        xml::attributes::const_iterator it = root.get_attributes().find("attr", xml::namespaces::ns("Href_Attr", "p"));
+    
+        BOOST_CHECK ( std::string(it->get_value()) == "val" );
+    }
+}
+
+BOOST_AUTO_TEST_CASE ( set_attr_namespace )
+{
+    xml::tree_parser parser(test_file_path("namespaces/data/08.xml").c_str());
+    xml::node& root = parser.get_document().get_root_node();
+
+    xml::namespaces::definitions::iterator p = root.get_namespace_definitions().find("p");
+    BOOST_CHECK(p != root.get_namespace_definitions().end());
+
+    root.get_attributes().insert("attr", "val", *p);
+
+    std::ostringstream str1;
+    str1 << parser.get_document();
+
+    BOOST_CHECK ( is_same_as_file (str1, "namespaces/data/08_01.out"));
+    
 }
 
 BOOST_AUTO_TEST_SUITE_END()

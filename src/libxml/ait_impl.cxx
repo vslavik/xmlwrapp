@@ -34,10 +34,12 @@
 #include "ait_impl.h"
 #include "utility.h"
 #include "xmlwrapp/attributes.h"
+#include "xmlwrapp/namespaces.h"
 #include "xmlwrapp/exception.h"
 
 // standard includes
 #include <algorithm>
+#include <string.h>
 
 // libxml2 includes
 #include <libxml/tree.h>
@@ -375,6 +377,20 @@ const char* attributes::attr::get_value() const
     xmlchar_helper helper(tmpstr);
     value_.assign(helper.get());
     return value_.c_str();
+}
+
+xml::namespaces::ns attributes::attr::get_namespace() const
+{
+    return xml::namespaces::ns(reinterpret_cast<xmlAttrPtr>(prop_)->ns);
+}
+
+void attributes::attr::set_namespace(const xml::namespaces::ns& ns)
+{
+    xmlNsPtr pns = xmlSearchNs(reinterpret_cast<xmlNodePtr>(node_)->doc, reinterpret_cast<xmlNodePtr>(node_), reinterpret_cast<const xmlChar*> (ns.get_prefix()));
+
+    if (pns == NULL || strcmp(reinterpret_cast<const char*>(pns->href), ns.get_href()) != 0) throw xml::exception("namespace not defined");
+
+    reinterpret_cast<xmlAttrPtr>(prop_)->ns = pns;
 }
 
 // ------------------------------------------------------------------------

@@ -60,6 +60,11 @@ class ait_impl;
 struct node_impl;
 }
 
+namespace namespaces
+{
+class ns;
+}
+
 /**
     The xml::attributes class is used to access all the attributes of one
     xml::node. You can add, find and erase attributes by name, and for some
@@ -126,6 +131,20 @@ public:
             @return The value for this attribute.
          */
         const char* get_value() const;
+
+        /**
+            Get namespace information of this attribute
+            
+            @return Namespace-information
+        */
+        xml::namespaces::ns get_namespace() const;
+
+        /**
+            Set namespace information of this attribute
+
+            @param ns Namespace-object.
+        */
+        void set_namespace(const xml::namespaces::ns& ns);
 
     private:
         void *node_;
@@ -270,6 +289,17 @@ public:
     void insert(const char *name, const char *value);
 
     /**
+        Add an attribute to the attributes list. If there is another
+        attribute with the same name, it will be replaced with this one.
+        The new attribute will be in the namespace specified by ns.
+
+        @param name The name of the attribute to add.
+        @param value The value of the attribute to add.
+        @param ns The namespace of the attribute.
+    */
+    void insert(const char* name, const char* value, const xml::namespaces::ns& ns);
+
+    /**
         Find the attribute with the given name. If the attribute is not found
         on the current node, the DTD will be searched for a default value.
         This is, of course, if there was a DTD parsed with the XML document.
@@ -283,6 +313,23 @@ public:
     iterator find(const char *name);
 
     /**
+        Find the attribute with the given name and namespace. 
+        If the attribute is not found on the current node, the DTD 
+        will be searched for a default value. This is, of course, if 
+        there was a DTD parsed with the XML document.
+        Additionally, the attribute must be in the namespace specified by ns.
+
+        @param name The name of the attribute to find.
+        @param ns   The namespace of the attribute to find.
+        @return An iterator that points to the attribute with the given name.
+        @return If the attribute was not found, find will return end().
+        @see xml::attributes::iterator
+        @see xml::attributes::attr
+        @see xml::namespaces::ns
+    */
+    iterator find(const char* name, const xml::namespaces::ns& ns);
+
+    /**
         Find the attribute with the given name. If the attribute is not found
         on the current node, the DTD will be searched for a default value.
         This is, of course, if there was a DTD parsed with the XML document.
@@ -294,6 +341,24 @@ public:
         @see xml::attributes::attr
      */
     const_iterator find(const char *name) const;
+
+    /**
+        Find the attribute with the given name and namespace. 
+        If the attribute is not found on the current node, the DTD 
+        will be searched for a default value. This is, of course, if 
+        there was a DTD parsed with the XML document.
+        Additionally, the attribute must be in the namespace specified by ns.
+
+        @param name The name of the attribute to find.
+        @param ns   The namespace of the attribute to find.
+        @return An iterator that points to the attribute with the given name.
+        @return If the attribute was not found, find will return end().
+        @see xml::attributes::iterator
+        @see xml::attributes::attr
+        @see xml::namespaces::ns
+    */
+    const_iterator find(const char* name, const xml::namespaces::ns& ns) const;
+    
 
     /**
         Erase the attribute that is pointed to by the given iterator. This

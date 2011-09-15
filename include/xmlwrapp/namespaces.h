@@ -40,6 +40,7 @@
 #define _xmlwrapp_namespaces_h_
 
 #include "xmlwrapp/node.h"
+#include "xmlwrapp/attributes.h"
 
 #include <string>
 
@@ -87,7 +88,7 @@ namespace xml
 
 				friend class impl::nsdef_it_impl;
                                 friend class xml::node;
-
+		                friend class xml::attributes::attr;
 		};
 
 		/**
