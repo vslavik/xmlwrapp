@@ -39,156 +39,217 @@
 #ifndef _xmlwrapp_namespaces_h_
 #define _xmlwrapp_namespaces_h_
 
-#include "xmlwrapp/node.h"
-#include "xmlwrapp/attributes.h"
+
+// xmlwrapp includes
+#include "xmlwrapp/init.h"
+#include "xmlwrapp/export.h"
+
+
+//#include "xmlwrapp/attributes.h"
 
 #include <string>
 
 namespace xml
 {
-	// Forward declarations
-	namespace impl
-	{
-		class nsdefs_impl;
-		class nsdef_impl;
-		struct nsdef_it_impl;
-		struct node_impl;
-	}
+    // Forward declarations
+    namespace impl
+    {
+        class nsdefs_impl;
+        class nsdef_impl;
+        struct nsdef_it_impl;
+        struct node_impl;
+    }
+    class node;
+    class attributes;
 
-	namespace namespaces
-	{
-		/** 
-		  Holds information about a specific namespace
+    class XMLWRAPP_API namespaces
+    {
+        public:
 
-		  @code
-		  <c:a />
-		  @endcode
-		 */
-		class XMLWRAPP_API ns
-		{
+            class definitions;
 
-			public:
-				const char* get_href() const;
-				const char* get_prefix() const;
-				ns(const char* href, const char* prefix);
+            /** 
+              Holds information about a specific namespace
 
-				ns (const ns&);
-				ns& operator= (const ns& o);
+              @code
+              <c:a />
+              @endcode
+             */
+            class XMLWRAPP_API ns
+            {
 
-				~ns();
-			private:
-				// handle to impl
-				impl::nsdef_impl* impl;
+                public:
+                    /**
+                      Gets the Href of this namespace,
+                      like http://www.w3.org/1999/xhtml .
+                      @return Temporary const char*.
+                     */
+                    const char* get_href() const;
 
-				ns(void* data);
-				void set_data(void* data);
+                    /**
+                      Gets the prefix of this namespace.
+                      @return Temporary const char*.
+                     */
+                    const char* get_prefix() const;
 
-				std::string href; std::string prefix;
+                    /**
+                      Constructs new namespace-object,
+                      for example to define on an element.
+                     */
+                    ns(const char* href, const char* prefix);
 
+                    ns (const ns&);
+                    ns& operator= (const ns& o);
 
-				friend class impl::nsdef_it_impl;
-                                friend class xml::node;
-		                friend class xml::attributes::attr;
-		};
+                    ~ns();
+                private:
+                    // handle to impl
+                    impl::nsdef_impl* impl;
 
-		/**
-		  Holds information about namespace-definitions on this element
+                    ns(void* data);
+                    void set_data(void* data);
 
-		  @code
-		  <a xmlns:b="http://example.org"><b:c /></a>
-		  @endcode
-		 */
-		class XMLWRAPP_API definitions
-		{
-			public:
-				/**
-				  Constructs a collection by node
-
-				  \param nod The parent node
-				 */
-				definitions (const node& nod);
+                    std::string href; std::string prefix;
 
 
-				/**
-				  Deconstructs the whole thing
-				 */
-				~definitions();
+                    friend class impl::nsdef_it_impl;
+                    friend class xml::node;
+                    friend class xml::attributes;
+                    friend class xml::namespaces;
+            };
+            /**
+              Allows to iterate over namespace-definitions
+             */
+            class XMLWRAPP_API iterator
+            { 
+                public:
+                    typedef xml::namespaces::ns value_type;
+
+                    value_type& operator*();
+                    value_type* operator->();
+
+                    iterator(); // empty
+                    iterator(const iterator& other);
+                    iterator& operator= (const iterator& other);
+                    ~iterator();
+
+                    // prefix increment
+                    iterator& operator++();
+
+                    // postfix increment (avoid!)
+                    iterator operator++(int);
+
+                    friend bool XMLWRAPP_API operator== (const iterator& lhs, const iterator& rhs);
+                    friend bool XMLWRAPP_API operator!= (const iterator& lhs, const iterator& rhs);
+
+                private:
+                    iterator(void* ns);
+                    friend class impl::nsdefs_impl;
+                    friend class xml::namespaces::definitions;
+                    friend class xml::node;
+                    friend class xml::namespaces;
+
+                    impl::nsdef_it_impl* impl;
+
+                    void* get_ns() const;
+            };
+
+            /**
+              Holds information about namespace-definitions on this element
+
+              @code
+              <a xmlns:b="http://example.org"><b:c /></a>
+              @endcode
+             */
+            class XMLWRAPP_API definitions
+            {
+                public:
+                    /*
+                       Constructs a collection by node
+
+                       \param nod The parent node
+                     */
+                    //definitions (const node& nod);
 
 
-				/**
-				  Allows to iterate over namespace-definitions
-				 */
-				class iterator
-				{ 
-					public:
-						typedef xml::namespaces::ns value_type;
+                    /**
+                      Deconstructs the whole thing
+                     */
+                    ~definitions();
 
-						value_type& operator*();
-						value_type* operator->();
 
-						iterator(); // empty
-						iterator(const iterator& other);
-						iterator& operator= (const iterator& other);
-						~iterator();
 
-						// prefix increment
-						iterator& operator++();
+                    /**
+                      Gets an iterator pointing to the start of namespace definitions.
+                     */
+                    iterator begin();
 
-						// postfix increment (avoid!)
-						iterator operator++(int);
+                    /**
+                      Gets an iterator pointing past the end of namespace definitions.
+                     */
+                    iterator end();
 
-						friend bool XMLWRAPP_API operator== (const iterator& lhs, const iterator& rhs);
-						friend bool XMLWRAPP_API operator!= (const iterator& lhs, const iterator& rhs);
+                    /**
+                      Puts a new namespace definition in the element.
+                     */
+                    void push_back(const xml::namespaces::ns& ns);
 
-					private:
-						iterator(void* ns);
-						friend class impl::nsdefs_impl;
-						friend class xml::namespaces::definitions;
-						friend class xml::node;
+                    iterator find (const char* prefix);
+                    iterator find_href (const char* href);
 
-						impl::nsdef_it_impl* impl;
+                    /**
+                      Find out if there are namespace definitions in this element.
 
-						void* get_ns() const;
-				};
+                      @return True there are no definitions
+                      @return False there are definitions
+                     */
+                    bool empty() const;
 
-				/**
-				  Gets an iterator pointing to the start of namespace definitions.
-				 */
-				iterator begin();
+                private:
+                    impl::nsdefs_impl* impl;
+                    friend class xml::impl::node_impl;
+                    friend class xml::node;
 
-				/**
-				  Gets an iterator pointing past the end of namespace definitions.
-				 */
-				iterator end();
+                    // empty init
+                    explicit definitions(int);
 
-				/**
-				  Puts a new namespace definition in the element.
-				 */
-				void push_back(const xml::namespaces::ns& ns);
+                    void set_data (void* data);
+            };
 
-				iterator find (const char* prefix);
-				iterator findHref (const char* href);
+            /** 
+              Find a namespace available on this element by prefix.
+              @param href The Href specified for this namespace.
+              @return An object containing information about this namespace.
+              @throws xml::exception If namespace is not found.
+             */
+            iterator find(const char* href);
 
-				/**
-				  Find out if there are namespace definitions in this element.
+            /**
+              Find a namespace available on this element by href.
+              @param prefix The prefix of this namespace.
+              @return An object containing information about this namespace.
+              @throws xml::exception If namespace is not found.
+             */
+            iterator find_prefix(const char* prefix);
 
-				  @return True there are no definitions
-				  @return False there are definitions
-				 */
-				bool empty() const;
 
-			private:
-				impl::nsdefs_impl* impl;
-				friend class xml::impl::node_impl;
-				friend class xml::node;
+            /**
+              Returns an iterator to the end of the list.
+              Its occurrence signals a missing/not defined namespace.
+            */
+            iterator end();
+        private:
+            explicit namespaces(const node& n);
+            namespaces(const namespaces&);
+            namespaces& operator=(const namespaces&);
+            explicit namespaces(int); // empty
+            void* data;
+            void set_data(void* d);
 
-				// empty init
-				explicit definitions(int);
 
-				void set_data (void* data);
-		};
-
-	} // namespace namespaces
+            friend class xml::node;
+            friend class xml::impl::node_impl;
+    };
 } // namespace xml
 
 #endif // _xmlwrapp_namespaces_h_

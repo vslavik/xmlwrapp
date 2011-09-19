@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE ( read_file_get_namespace_definitions )
     xml::namespaces::definitions& nsdefs = root.get_namespace_definitions();
     BOOST_CHECK( !nsdefs.empty() );
 
-    xml::namespaces::definitions::iterator it = nsdefs.begin();
+    xml::namespaces::iterator it = nsdefs.begin();
     
     BOOST_CHECK( (std::string(it->get_prefix()) == std::string("a")) && (std::string(it->get_href()) == std::string("href_a")) );
 }
@@ -59,11 +59,11 @@ BOOST_AUTO_TEST_CASE ( read_file_get_namespace_definitions_iterate )
 
     xml::namespaces::definitions& nsdefs = root.get_namespace_definitions();
 
-    xml::namespaces::definitions::iterator it = nsdefs.begin();
+    xml::namespaces::iterator it = nsdefs.begin();
 
     BOOST_CHECK( (std::string(it->get_prefix()) == std::string("a")) && (std::string(it->get_href()) == std::string("href_a")) );
 
-    xml::namespaces::definitions::iterator it2 = it;
+    xml::namespaces::iterator it2 = it;
     BOOST_CHECK ( it2 == it++ );
     
     BOOST_CHECK( (std::string(it->get_prefix()) == std::string("b")) && (std::string(it->get_href()) == std::string("href_b")) );
@@ -106,17 +106,17 @@ BOOST_AUTO_TEST_CASE ( find_namespaces )
     
     xml::node& child = *child_it;
 
-    xml::namespaces::definitions& nsdefs = child.get_namespace_definitions();
-    xml::namespaces::definitions::iterator res = nsdefs.find("p1");
+    xml::namespaces::definitions& nsdefs = root.get_namespace_definitions();
+    xml::namespaces::iterator res = nsdefs.find("p1");
     BOOST_CHECK ( std::string(res->get_href()) == std::string("href_1"));
 
-    res = nsdefs.findHref("href_2");
+    res = nsdefs.find_href("href_2");
     BOOST_CHECK ( std::string(res->get_prefix()) == std::string("p2"));
 
     res = nsdefs.find("pXXX");
     BOOST_CHECK ( res == nsdefs.end() );
 
-    res = nsdefs.findHref("href_XXX");
+    res = nsdefs.find_href("href_XXX");
     BOOST_CHECK ( res == nsdefs.end() );
 }
 
@@ -231,7 +231,7 @@ BOOST_AUTO_TEST_CASE ( set_attr_namespace )
     xml::tree_parser parser(test_file_path("namespaces/data/08.xml").c_str());
     xml::node& root = parser.get_document().get_root_node();
 
-    xml::namespaces::definitions::iterator p = root.get_namespace_definitions().find("p");
+    xml::namespaces::iterator p = root.get_namespace_definitions().find("p");
     BOOST_CHECK(p != root.get_namespace_definitions().end());
 
     root.get_attributes().insert("attr", "val", *p);

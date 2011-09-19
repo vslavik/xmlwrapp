@@ -74,7 +74,7 @@ namespace impl
 
 struct node_impl : public pimpl_base<xml::impl::node_impl>
 {
-    node_impl() : xmlnode_(0), owner_(true), attrs_(0), nsdefs_(0) {}
+    node_impl() : xmlnode_(0), owner_(true), attrs_(0), nsdefs_(0), nss_(0) {}
     ~node_impl() { release(); }
 
     void release()
@@ -88,6 +88,7 @@ struct node_impl : public pimpl_base<xml::impl::node_impl>
     attributes attrs_;
     std::string tmp_string;
     namespaces::definitions nsdefs_;
+    namespaces nss_;
 };
 
 
@@ -536,22 +537,28 @@ xml::namespaces::ns node::get_namespace_o() const
 
 void node::set_namespace(const xml::namespaces::ns& ns)
 {
-    xml::namespaces::definitions::iterator it = this->get_namespace_definitions().find(ns.get_prefix());
-    if (it == this->get_namespace_definitions().end() || strcmp(ns.get_href(), it->get_href()) != 0)
-        throw xml::exception(std::string("namespace not defined: ") + (it == this->get_namespace_definitions().end() ? "y" : "n"));
+    xml::namespaces::iterator it = this->get_namespaces().find_prefix(ns.get_prefix());
+    if (it == this->get_namespaces().end() || strcmp(ns.get_href(), it->get_href()) != 0)
+        throw xml::exception(std::string("namespace not defined: ") + (it == this->get_namespaces().end() ? "y" : "n"));
     xmlSetNs (pimpl_->xmlnode_, reinterpret_cast<xmlNsPtr> (it.get_ns()));
 }
 
 void node::set_namespace(const char* prefix)
 {
-    xml::namespaces::definitions::iterator it = this->get_namespace_definitions().find(prefix);
+    xml::namespaces::iterator it = this->get_namespaces().find_prefix(prefix);
     xmlSetNs (pimpl_->xmlnode_, reinterpret_cast<xmlNsPtr> (it.get_ns()));
 }
 
 void node::set_namespace_href(const char* href)
 {
-    xml::namespaces::definitions::iterator it = this->get_namespace_definitions().findHref(href);
+    xml::namespaces::iterator it = this->get_namespaces().find(href);
     xmlSetNs (pimpl_->xmlnode_, reinterpret_cast<xmlNsPtr> (it.get_ns()));
+}
+
+xml::namespaces& node::get_namespaces()
+{
+    pimpl_->nss_.set_data(pimpl_->xmlnode_);
+    return pimpl_->nss_;
 }
 
 bool node::is_text() const

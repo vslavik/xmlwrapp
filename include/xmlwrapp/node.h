@@ -43,6 +43,7 @@
 // xmlwrapp includes
 #include "xmlwrapp/init.h"
 #include "xmlwrapp/export.h"
+#include "xmlwrapp/namespaces.h"
 
 // hidden stuff
 #include "xmlwrapp/_cbfo.h"
@@ -60,11 +61,6 @@ class document;
 class attributes;
 class nodes_view;
 class const_nodes_view;
-namespace namespaces
-{
-    class definitions;
-    class ns;
-}
 
 namespace impl
 {
@@ -374,9 +370,15 @@ public:
     /** 
         Gets a list of namespaces defined on this xml::node (with xmlns:prefix - attribute).
 
-        @return The xml::namespacedefinitions object for this node.
+        @return The xml::namespaces::definitions object for this node.
     */
     xml::namespaces::definitions& get_namespace_definitions();
+
+    /**
+        Gets a list of namespaces available on this node (not necessarily defined here).
+        @return The xml::namespaces-object for this node.
+    */
+    xml::namespaces& get_namespaces();
 
     /**
         Sets the namespace of this element.

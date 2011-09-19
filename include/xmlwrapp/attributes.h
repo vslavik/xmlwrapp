@@ -42,6 +42,7 @@
 // xmlwrapp includes
 #include "xmlwrapp/init.h"
 #include "xmlwrapp/export.h"
+#include "xmlwrapp/namespaces.h"
 
 // standard includes
 #include <cstddef>
@@ -58,11 +59,6 @@ namespace impl
 {
 class ait_impl;
 struct node_impl;
-}
-
-namespace namespaces
-{
-class ns;
 }
 
 /**

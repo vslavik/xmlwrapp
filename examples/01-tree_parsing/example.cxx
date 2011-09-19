@@ -58,7 +58,7 @@ int main (int argc, char *argv[]) {
 
 	xml::namespaces::definitions& nsdefs = root.get_namespace_definitions();
 	std::cout << "EMPTY: " << nsdefs.empty() << std::endl;
-	for (xml::namespaces::definitions::iterator it = nsdefs.begin(); it != nsdefs.end(); ++it)
+	for (xml::namespaces::iterator it = nsdefs.begin(); it != nsdefs.end(); ++it)
 	{
 		std::cout << "ns: " << it->get_href() << " " << it->get_prefix() << std::endl;
 	}
