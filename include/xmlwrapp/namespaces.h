@@ -198,6 +198,11 @@ namespace xml
                     iterator find_href (const char* href);
 
                     /**
+                        Erases a namespace-definition on this element.
+                    */
+                    void erase(iterator it);
+
+                    /**
                       Find out if there are namespace definitions in this element.
 
                       @return True there are no definitions

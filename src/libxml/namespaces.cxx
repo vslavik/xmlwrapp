@@ -294,14 +294,28 @@ namespace xml
 //        xmlNsPtr ns = xmlSearchNsByHref (impl->node_->doc, impl->node_, reinterpret_cast<const xmlChar*> (href));
   //      return iterator(ns);
     }
-    /*namespaces::iterator namespaces::definitions::erase (const namespaces::iterator& to_erase)
+    void namespaces::definitions::erase (namespaces::iterator it)
     {
-        xmlNsPtr toeraseptr = to_erase.get_ns();
+        xmlNsPtr toeraseptr = reinterpret_cast<xmlNsPtr> (it.get_ns());
+
+        // Is it the first definition ?
+        if (impl->node_->nsDef == toeraseptr)
+        {
+            impl->node_->nsDef = toeraseptr->next;
+            xmlFreeNs(toeraseptr);
+            return;
+        }
+
+        // Nope, it isn't. Iterate
         for (xmlNsPtr runner = impl->node_->nsDef; runner != NULL; runner = runner->next)
         {
-            if (runner == toeraseptr)
+            if (runner->next == toeraseptr)
             {
+               runner->next = toeraseptr->next;
+               xmlFreeNs(toeraseptr);
+               return;
             }
         }
-    }*/
+        throw xml::exception("namespace not defined here");
+    }
 } // namespace xml

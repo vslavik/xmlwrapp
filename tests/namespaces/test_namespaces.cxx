@@ -106,18 +106,18 @@ BOOST_AUTO_TEST_CASE ( find_namespaces )
     
     xml::node& child = *child_it;
 
-    xml::namespaces::definitions& nsdefs = root.get_namespace_definitions();
-    xml::namespaces::iterator res = nsdefs.find("p1");
+    xml::namespaces& nss = child.get_namespaces();
+    xml::namespaces::iterator res = nss.find_prefix("p1");
     BOOST_CHECK ( std::string(res->get_href()) == std::string("href_1"));
 
-    res = nsdefs.find_href("href_2");
+    res = nss.find("href_2");
     BOOST_CHECK ( std::string(res->get_prefix()) == std::string("p2"));
 
-    res = nsdefs.find("pXXX");
-    BOOST_CHECK ( res == nsdefs.end() );
+    res = nss.find_prefix("pXXX");
+    BOOST_CHECK ( res == nss.end() );
 
-    res = nsdefs.find_href("href_XXX");
-    BOOST_CHECK ( res == nsdefs.end() );
+    res = nss.find("href_XXX");
+    BOOST_CHECK ( res == nss.end() );
 }
 
 BOOST_AUTO_TEST_CASE ( check_empty )
@@ -242,5 +242,35 @@ BOOST_AUTO_TEST_CASE ( set_attr_namespace )
     BOOST_CHECK ( is_same_as_file (str1, "namespaces/data/08_01.out"));
     
 }
+
+BOOST_AUTO_TEST_CASE ( erase_namespace_definitions_prefix )
+{
+    xml::tree_parser parser(test_file_path("namespaces/data/09.xml").c_str());
+    xml::node& root = parser.get_document().get_root_node();
+
+    xml::namespaces::iterator it = root.get_namespace_definitions().find("p");
+    root.get_namespace_definitions().erase(it);
+
+    std::ostringstream str1;
+    str1 << parser.get_document();
+    
+    BOOST_CHECK ( is_same_as_file (str1, "namespaces/data/09_01.out") );
+}
+
+BOOST_AUTO_TEST_CASE ( erase_namespace_definitions_href )
+{
+    xml::tree_parser parser(test_file_path("namespaces/data/09.xml").c_str());
+    xml::node& root = parser.get_document().get_root_node();
+
+    xml::namespaces::iterator it = root.get_namespace_definitions().find_href("href2");
+    root.get_namespace_definitions().erase(it);
+
+    std::ostringstream str1;
+    str1 << parser.get_document();
+    
+    BOOST_CHECK ( is_same_as_file (str1, "namespaces/data/09_02.out") );
+}
+    
+
 
 BOOST_AUTO_TEST_SUITE_END()
