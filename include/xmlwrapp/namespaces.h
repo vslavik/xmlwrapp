@@ -33,8 +33,8 @@
 /**
   @file
 
-  This files containts definitions for the xml::namespaces namespace.
- */
+  This files contains definitions for the xml::namespaces class.
+*/
 
 #ifndef _xmlwrapp_namespaces_h_
 #define _xmlwrapp_namespaces_h_
@@ -44,8 +44,6 @@
 #include "xmlwrapp/init.h"
 #include "xmlwrapp/export.h"
 
-
-//#include "xmlwrapp/attributes.h"
 
 #include <string>
 
@@ -62,6 +60,9 @@ namespace xml
     class node;
     class attributes;
 
+    /**
+        The xml::namespaces class and its subclasses are used to access XML-Namespaces.
+    */
     class XMLWRAPP_API namespaces
     {
         public:
@@ -70,10 +71,6 @@ namespace xml
 
             /** 
               Holds information about a specific namespace
-
-              @code
-              <c:a />
-              @endcode
              */
             class XMLWRAPP_API ns
             {
@@ -194,7 +191,18 @@ namespace xml
                      */
                     void push_back(const xml::namespaces::ns& ns);
 
+                    /**
+                        Finds a namespace-definition based on prefix.
+                        @return an iterator to the namespace
+                        @see xml::namespaces::find_prefix
+                    */
                     iterator find (const char* prefix);
+
+                    /**
+                        Finds a namespace-definition based on href.
+                        @return an iterator to the namespace
+                        @see xml::namespaces::find
+                    */
                     iterator find_href (const char* href);
 
                     /**
