@@ -386,6 +386,12 @@ xml::namespaces::ns attributes::attr::get_namespace() const
 
 void attributes::attr::set_namespace(const xml::namespaces::ns& ns)
 {
+    if (std::string(ns.get_prefix()) == "")
+    {
+        reinterpret_cast<xmlAttrPtr>(prop_)->ns = NULL;
+        return;
+    }
+
     xmlNsPtr pns = xmlSearchNs(reinterpret_cast<xmlNodePtr>(node_)->doc, reinterpret_cast<xmlNodePtr>(node_), reinterpret_cast<const xmlChar*> (ns.get_prefix()));
 
     if (pns == NULL || strcmp(reinterpret_cast<const char*>(pns->href), ns.get_href()) != 0) throw xml::exception("namespace not defined");

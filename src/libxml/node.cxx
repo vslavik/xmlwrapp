@@ -537,6 +537,12 @@ xml::namespaces::ns node::get_namespace_o() const
 
 void node::set_namespace(const xml::namespaces::ns& ns)
 {
+    if (std::string(ns.get_prefix()) == "")
+    {
+        xmlSetNs (pimpl_->xmlnode_, NULL);
+        return;
+    }
+
     xml::namespaces::iterator it = this->get_namespaces().find_prefix(ns.get_prefix());
     if (it == this->get_namespaces().end() || strcmp(ns.get_href(), it->get_href()) != 0)
         throw xml::exception(std::string("namespace not defined: ") + (it == this->get_namespaces().end() ? "y" : "n"));

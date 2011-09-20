@@ -243,6 +243,13 @@ namespace xml
               Its occurrence signals a missing/not defined namespace.
             */
             iterator end();
+
+
+            /**
+              Returns a definition for the empty namespace (no prefix, no url)
+            */
+            static ns get_default();
+
         private:
             explicit namespaces(const node& n);
             namespaces(const namespaces&);

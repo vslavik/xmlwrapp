@@ -200,8 +200,13 @@ namespace xml
     {
         set_data(data);
     }
-    namespaces::ns::ns(const char* href, const char* prefix) : href(href), prefix(prefix)
+    namespaces::ns::ns(const char* href, const char* prefix)
     {
+        if (prefix != NULL && href != NULL)
+        {
+            this->href = href;
+            this->prefix = prefix;
+        }
     }
     namespaces::ns::~ns()
     {
@@ -238,7 +243,10 @@ namespace xml
     {
     };
 
-
+    namespaces::ns namespaces::get_default()
+    {
+        return namespaces::ns(NULL, NULL);
+    }
 
     namespaces::definitions::~definitions()
     {
