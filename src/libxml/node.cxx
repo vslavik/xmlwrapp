@@ -512,14 +512,6 @@ const xml::attributes& node::get_attributes() const
 }
 
 
-const char *node::get_namespace() const
-{
-    return pimpl_->xmlnode_->ns
-        ? reinterpret_cast<const char*>(pimpl_->xmlnode_->ns->href)
-        : NULL;
-}
-
-
 xml::namespaces::definitions& node::get_namespace_definitions()
 {
     if (pimpl_->xmlnode_->type != XML_ELEMENT_NODE) // is this correct? (thriqon)
@@ -530,7 +522,7 @@ xml::namespaces::definitions& node::get_namespace_definitions()
     return pimpl_->nsdefs_;
 }
 
-xml::namespaces::ns node::get_namespace_o() const
+xml::namespaces::ns node::get_namespace() const
 {
     return xml::namespaces::ns(pimpl_->xmlnode_->ns);
 }

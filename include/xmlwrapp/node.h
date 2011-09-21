@@ -353,19 +353,11 @@ public:
     const xml::attributes& get_attributes() const;
 
     /**
-        Get the namespace of this xml::node.
-
-        @return The namespace of this node or NULL if no namespace is
-                associated.
-        @since  0.6.0
-     */
-    const char* get_namespace() const;
-
-    /**
         Get the namespace of this xml::node as object.
         @return The namespace-object of this element.
+        \note This object is auto-castable to a const char*. This is the same as get_href(). This is added for compatibility.
     */
-    xml::namespaces::ns get_namespace_o() const;
+    xml::namespaces::ns get_namespace() const;
 
     /** 
         Gets a list of namespaces defined on this xml::node (with xmlns:prefix - attribute).

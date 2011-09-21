@@ -174,9 +174,12 @@ BOOST_AUTO_TEST_CASE ( get_namespaces )
     xml::tree_parser parser(test_file_path("namespaces/data/05.xml").c_str());
     xml::node& root = parser.get_document().get_root_node();
     
-    xml::namespaces::ns ns = root.get_namespace_o();
+    xml::namespaces::ns ns = root.get_namespace();
     
     BOOST_CHECK (std::string("p1") == ns.get_prefix() && std::string("href1") == ns.get_href());
+
+    const char* thref = root.get_namespace(); // compat
+    BOOST_CHECK (std::string(ns.get_href()) == thref);
 }
 
 
@@ -283,6 +286,4 @@ BOOST_AUTO_TEST_CASE ( erase_namespace_definitions_href )
     BOOST_CHECK ( is_same_as_file (str1, "namespaces/data/09_02.out") );
 }
     
-
-
 BOOST_AUTO_TEST_SUITE_END()

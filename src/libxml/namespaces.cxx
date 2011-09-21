@@ -237,6 +237,10 @@ namespace xml
         return prefix.c_str();
     }
 
+    namespaces::ns::operator const char* () const
+    {
+        return href.c_str();
+    }
 
 
     namespaces::definitions::definitions(int) : impl(NULL)

@@ -99,6 +99,11 @@ namespace xml
                     ns& operator= (const ns& o);
 
                     ~ns();
+
+                    /**
+                      For compatibility: auto-convert to const char*, returning href
+                    */
+                    operator const char* () const;
                 private:
                     // handle to impl
                     impl::nsdef_impl* impl;
