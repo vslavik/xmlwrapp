@@ -46,6 +46,10 @@
 
 namespace xml
 {
+    namespace impl
+    {
+        struct xpitimpl;
+    }
 
     class node;
     class document;
@@ -64,7 +68,7 @@ namespace xml
           This class is neccessary because every namespace that is used
           in the query has to be registered (with prefix) in a context-class.
          */
-        class context
+        class XMLWRAPP_API context
         {
             public:
                 context(const xml::document& doc);
@@ -79,12 +83,6 @@ namespace xml
                 void registerNamespace(const char* prefix, const char* href);
 
                 /**
-                  Unregisters a namespace for this context.
-                  @see registerNamespace();
-                 */
-                void unregisterNamespace(const char* prefix);
-
-                /**
                   Executes a query, namely <tt>expr</tt>.
                   @return A Node-Set which can be iterated over
                  */
@@ -92,39 +90,50 @@ namespace xml
 
             private:
                 void* ctxtptr;
+                context(const context&); context operator=(context&);
         };
 
 
         /**
           A set of nodes being the result of an xpath-query
          */
-        class node_set
+        class XMLWRAPP_API node_set
         {
             public:
                 /**
                   An iterator to a xml::node in a xml::node_set
                  */
-                class iterator
+                class XMLWRAPP_API iterator
                 {
-                    xml::node& operator* ();
-                    xml::node* operator->();
+                    public:
+                        xml::node& operator* ();
+                        xml::node* operator->();
 
-                    /**
-                      increments the iterator
-                     */
-                    iterator& operator++();
+                        /**
+                          increments the iterator
+                         */
+                        iterator& operator++();
 
-                    /**
-                      postifx increment: increments the iterator (avoid if possible)
-                     */
-                    iterator operator++(int); // postfix -- avoid
+                        /**
+                          postifx increment: increments the iterator (avoid if possible)
+                         */
+                        iterator operator++(int); // postfix -- avoid
 
-                    // TODO: rly?
-                    iterator& operator--();
-                    iterator operator--(int); // postfix -- avoid
+                        // TODO: rly?
+                        iterator& operator--();
+                        iterator operator--(int); // postfix -- avoid
 
-                    friend bool operator==(const iterator& l, const iterator& r);
-                    friend bool operator!=(const iterator& l, const iterator& r);
+                        friend bool XMLWRAPP_API xml::xpath::operator==(const iterator& l, const iterator& r);
+                        friend bool XMLWRAPP_API xml::xpath::operator!=(const iterator& l, const iterator& r);
+
+                        iterator& operator=(iterator& i);
+                        iterator(const iterator& i);
+                        ~iterator();
+                    private:
+                        iterator(void* data, int pos);
+                        void* data; int pos;
+                        impl::xpitimpl* pimpl_;
+                        friend class node_set;
                 };
 
                 /**
@@ -152,8 +161,13 @@ namespace xml
                   Returns whether the result-set contains the node.
                  */
                 bool contains(const xml::node& node);
+
+                ~node_set();
             private:
-                void* nodesetptr;
+                void* data;
+                node_set(void* data);
+                //node_set(const node_set&); node_set& operator=(node_set&);
+                friend class context;
         };
 
     }
