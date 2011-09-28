@@ -147,6 +147,7 @@ AC_CONFIG_FILES([
     examples/02-event_parsing/Makefile
     examples/03-xml_generation/Makefile
     examples/04-xslt/Makefile
+    examples/05-xpath/Makefile
     tests/Makefile
 ])
 AC_OUTPUT

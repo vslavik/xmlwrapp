@@ -32,7 +32,8 @@ libxmlwrapp_la_SOURCES = \
 		libxml/schema.cxx \
 		libxml/tree_parser.cxx \
 		libxml/utility.cxx \
-		libxml/utility.h
+		libxml/utility.h \
+		libxml/xpath.cxx
 
 
 if WITH_XSLT
