@@ -67,6 +67,11 @@ namespace xml
 // forward declarations
 class tree_parser;
 
+namespace xpath
+{
+class context;
+}
+
 namespace impl
 {
 struct doc_impl;
@@ -451,6 +456,7 @@ private:
 
     friend class tree_parser;
     friend class xslt::stylesheet;
+    friend class xml::xpath::context;
 };
 
 } // namespace xml

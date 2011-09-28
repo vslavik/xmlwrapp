@@ -70,6 +70,7 @@ struct node_impl;
 struct doc_impl;
 struct nipimpl;
 struct node_cmp;
+struct xpitimpl;
 }
 
 /**
@@ -868,6 +869,7 @@ private:
     friend class document;
     friend struct impl::doc_impl;
     friend struct impl::node_cmp;
+    friend class xml::impl::xpitimpl;
 };
 
 } // namespace xml
