@@ -1,6 +1,5 @@
 
 #include <xmlwrapp/xmlwrapp.h>
-#include <xmlwrapp/xpath.h>
 
 #include <iostream>
 
