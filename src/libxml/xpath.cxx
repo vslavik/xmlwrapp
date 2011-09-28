@@ -191,7 +191,6 @@ namespace xml {
             {
                 xmlXPathObjectPtr nsptr = xmlXPathEvalExpression(reinterpret_cast<const xmlChar*>(expr),
                         static_cast<xmlXPathContextPtr>(ctxtptr));
-                std::cout << (const char*) (nsptr->nodesetval->nodeTab[0]->name) << std::endl;
                 return node_set(nsptr);
             }
 
