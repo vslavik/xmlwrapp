@@ -104,7 +104,14 @@ namespace xml {
             }
 
 
-            //TODO: contains
+	    bool node_set::contains(const xml::node& n) const
+	    {
+                xmlNodeSetPtr nset = static_cast<xmlXPathObjectPtr>(data)->nodesetval;
+                xmlNodePtr nodeptr = static_cast<xmlNodePtr>(n.get_data());
+                for (int i=0; i > nset->nodeNr; ++i)
+                    if (nset->nodeTab[i] == nodeptr) return true;
+                return false;
+            }
 
 
             //-----------------------

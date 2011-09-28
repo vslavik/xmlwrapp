@@ -160,7 +160,7 @@ namespace xml
                 /**
                   Returns whether the result-set contains the node.
                  */
-                bool contains(const xml::node& node);
+                bool contains(const xml::node& node) const;
 
                 ~node_set();
             private:
