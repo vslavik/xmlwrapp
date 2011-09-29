@@ -107,10 +107,9 @@ namespace xml {
 	    bool node_set::contains(const xml::node& n) const
 	    {
                 xmlNodeSetPtr nset = static_cast<xmlXPathObjectPtr>(data)->nodesetval;
-                xmlNodePtr nodeptr = static_cast<xmlNodePtr>(n.get_data());
-                for (int i=0; i > nset->nodeNr; ++i)
-                    if (nset->nodeTab[i] == nodeptr) return true;
-                return false;
+                xmlNodePtr nodeptr = static_cast<xmlNodePtr>(const_cast<xml::node&>(n).get_node_data());
+
+                return (xmlXPathNodeSetContains(nset, nodeptr) == 1);
             }
 
 

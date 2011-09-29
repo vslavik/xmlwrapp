@@ -71,6 +71,11 @@ struct nipimpl;
 struct node_cmp;
 struct xpitimpl;
 }
+namespace xpath
+{
+class node_set;
+}
+
 
 /**
     The xml::node class is used to hold information about one XML node.
@@ -837,6 +842,7 @@ private:
     friend struct impl::doc_impl;
     friend struct impl::node_cmp;
     friend class xml::impl::xpitimpl;
+    friend class xml::xpath::node_set;
 };
 
 // Comparison operators for xml::node iterators
