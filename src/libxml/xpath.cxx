@@ -154,11 +154,10 @@ namespace xml {
                 delete pimpl_;
             }
 
-            node_set::iterator& node_set::iterator::operator=(iterator& i)
+            node_set::iterator& node_set::iterator::operator=(const iterator& i)
             {
-                std::swap(pimpl_, i.pimpl_);
-                std::swap(data, i.data);
-                std::swap(pos, i.pos);
+                data = i.data;
+                pos = i.pos;
                 return *this;
             }
 
