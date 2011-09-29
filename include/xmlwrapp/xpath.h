@@ -126,7 +126,7 @@ namespace xml
                         friend bool XMLWRAPP_API xml::xpath::operator==(const iterator& l, const iterator& r);
                         friend bool XMLWRAPP_API xml::xpath::operator!=(const iterator& l, const iterator& r);
 
-                        iterator& operator=(iterator& i);
+                        iterator& operator=(const iterator& i);
                         iterator(const iterator& i);
                         ~iterator();
                     private:
