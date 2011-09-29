@@ -80,7 +80,7 @@ namespace xml
                   @param prefix The prefix used in the expression, not per se the same as in the document.
                   @param href The href of the namespace used in the document.
                  */
-                void registerNamespace(const char* prefix, const char* href);
+                void register_namespace(const char* prefix, const char* href);
 
                 /**
                   Executes a query, namely <tt>expr</tt>.

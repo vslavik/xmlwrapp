@@ -178,7 +178,7 @@ namespace xml {
                 xmlXPathFreeContext(static_cast<xmlXPathContextPtr>(ctxtptr));
             }
 
-            void context::registerNamespace(const char* prefix, const char* href)
+            void context::register_namespace(const char* prefix, const char* href)
             {
                 xmlXPathRegisterNs(static_cast<xmlXPathContextPtr>(ctxtptr),
                         reinterpret_cast<const xmlChar*>(prefix),
