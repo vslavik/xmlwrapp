@@ -94,5 +94,20 @@ BOOST_AUTO_TEST_CASE( node_set_iterators)
         BOOST_CHECK(it->get_name() != NULL && (*it).get_name() != NULL && strcmp((*it).get_name(), it->get_name()) == 0);
     }
 }
+BOOST_AUTO_TEST_CASE (node_set_contains)
+{
+    xml::tree_parser parser("xpath/data/02.xml");
+    xml::xpath::context ctxt(parser.get_document());
+
+    ctxt.registerNamespace("p", "href");
+
+    xml::xpath::node_set ns = ctxt.evaluate("//p:child");
+    assert(ns.count() == 3);
+
+    xml::node& root = parser.get_document().get_root_node();
+    xml::node::iterator it = root.begin(); ++it;
+    xml::node& nSC = *it;
+    BOOST_CHECK(ns.contains(nSC));
+}
 
 BOOST_AUTO_TEST_SUITE_END()
