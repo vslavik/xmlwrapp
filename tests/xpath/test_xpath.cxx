@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE( evaluate_with_ns )
     xml::xpath::node_set ns1 = ctxt.evaluate("//child");
     BOOST_CHECK(ns1.empty());
 
-    ctxt.registerNamespace("p", "href");
+    ctxt.register_namespace("p", "href");
     xml::xpath::node_set ns2 = ctxt.evaluate("//p:child");
     BOOST_CHECK(!ns2.empty());
 
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE( node_set_iterators)
 {
     xml::tree_parser parser("xpath/data/02.xml");
     xml::xpath::context ctxt(parser.get_document());
-    ctxt.registerNamespace("p", "href");
+    ctxt.register_namespace("p", "href");
     xml::xpath::node_set ns = ctxt.evaluate("//p:child");
 
     BOOST_CHECK(ns.begin() == ns.begin());
@@ -99,7 +99,7 @@ BOOST_AUTO_TEST_CASE (node_set_contains)
     xml::tree_parser parser("xpath/data/02.xml");
     xml::xpath::context ctxt(parser.get_document());
 
-    ctxt.registerNamespace("p", "href");
+    ctxt.register_namespace("p", "href");
 
     xml::xpath::node_set ns = ctxt.evaluate("//p:child");
     assert(ns.count() == 3);
@@ -109,5 +109,7 @@ BOOST_AUTO_TEST_CASE (node_set_contains)
     xml::node& nSC = *it;
     BOOST_CHECK(ns.contains(nSC));
 }
+
+
 
 BOOST_AUTO_TEST_SUITE_END()
