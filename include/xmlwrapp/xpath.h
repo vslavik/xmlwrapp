@@ -119,10 +119,6 @@ namespace xml
                          */
                         iterator operator++(int); // postfix -- avoid
 
-                        // TODO: rly?
-                        iterator& operator--();
-                        iterator operator--(int); // postfix -- avoid
-
                         friend bool XMLWRAPP_API xml::xpath::operator==(const iterator& l, const iterator& r);
                         friend bool XMLWRAPP_API xml::xpath::operator!=(const iterator& l, const iterator& r);
 
