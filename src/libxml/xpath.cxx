@@ -34,6 +34,7 @@
 #include "xmlwrapp/xpath.h"
 #include "xmlwrapp/document.h"
 #include "xmlwrapp/node.h"
+#include "xmlwrapp/exception.h"
 
 // libxml includes
 #include <libxml/tree.h>
@@ -78,12 +79,16 @@ namespace xml {
 
             node_set::~node_set()
             {
-                xmlXPathFreeObject(static_cast<xmlXPathObjectPtr>(data));
+                if (data != NULL)
+                    xmlXPathFreeObject(static_cast<xmlXPathObjectPtr>(data));
             }
 
             int node_set::count() const
             {
-                return static_cast<xmlXPathObjectPtr>(data)->nodesetval->nodeNr;
+                if (data != NULL && static_cast<xmlXPathObjectPtr>(data)->nodesetval != NULL)
+                    return static_cast<xmlXPathObjectPtr>(data)->nodesetval->nodeNr;
+                else
+                    return 0;
             }
 
             bool node_set::empty() const
@@ -93,14 +98,29 @@ namespace xml {
 
             node_set::iterator node_set::begin()
             {
-                xmlNodeSetPtr nset = static_cast<xmlXPathObjectPtr>(data)->nodesetval;
-                return node_set::iterator(nset, 0);
+		if (data != NULL && static_cast<xmlXPathObjectPtr>(data)->nodesetval != NULL)
+                {
+                    xmlNodeSetPtr nset = static_cast<xmlXPathObjectPtr>(data)->nodesetval;
+                    return node_set::iterator(nset, 0);
+                } else {
+                    return node_set::iterator(NULL, 0);
+                }
             }
 
             node_set::iterator node_set::end()
             {
-                xmlNodeSetPtr nset = static_cast<xmlXPathObjectPtr>(data)->nodesetval;
-                return iterator(nset, nset->nodeNr);
+                if (data != NULL && static_cast<xmlXPathObjectPtr>(data)->nodesetval != NULL)
+                {
+                    xmlNodeSetPtr nset = static_cast<xmlXPathObjectPtr>(data)->nodesetval;
+                    if (nset == 0)
+                    {
+                        return iterator(nset, 0);
+                    } else {
+                        return iterator(nset, nset->nodeNr);
+                    }
+                } else {
+                    return iterator(NULL, 0);
+                }
             }
 
 
@@ -124,7 +144,7 @@ namespace xml {
 
             node_set::iterator& node_set::iterator::operator++()
             {
-                if (pos < static_cast<xmlNodeSetPtr>(data)->nodeNr)
+                if (data != NULL && pos < static_cast<xmlNodeSetPtr>(data)->nodeNr)
                     ++pos;
 
                 return *this;
@@ -138,13 +158,17 @@ namespace xml {
             }
             xml::node& xml::xpath::node_set::iterator::operator*()
             {
-                pimpl_->set_data((static_cast<xmlNodeSetPtr>(data)->nodeTab)[pos]);
+                xmlNodeSetPtr nodeset = static_cast<xmlNodeSetPtr>(data);
+                if (data == NULL || nodeset->nodeNr == pos) throw xml::exception("dereferencing end");
+                pimpl_->set_data((nodeset->nodeTab)[pos]);
                 return pimpl_->get();
             }
 
             xml::node* xml::xpath::node_set::iterator::operator->()
             {
-                pimpl_->set_data((static_cast<xmlNodeSetPtr>(data)->nodeTab)[pos]);
+                xmlNodeSetPtr nodeset = static_cast<xmlNodeSetPtr>(data);
+                if (data == NULL || nodeset->nodeNr == pos) throw xml::exception("dereferencing end");
+                pimpl_->set_data((nodeset->nodeTab)[pos]);
                 return &(pimpl_->get());
             }
 
