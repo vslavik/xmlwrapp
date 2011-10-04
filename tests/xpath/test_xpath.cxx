@@ -110,6 +110,15 @@ BOOST_AUTO_TEST_CASE (node_set_contains)
     BOOST_CHECK(ns.contains(nSC));
 }
 
+BOOST_AUTO_TEST_CASE (illegal_xpath)
+{
+    xml::tree_parser parser("xpath/data/02.xml");
+    xml::xpath::context ctxt(parser.get_document());
+    
+    xml::xpath::node_set ns = ctxt.evaluate("ILLEGAL XPATH-QUERY");
+
+    BOOST_CHECK(ns.begin() == ns.end());
+}
 
 
 BOOST_AUTO_TEST_SUITE_END()

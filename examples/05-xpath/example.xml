@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
-<root>
+<root xmlns:a="http://example.com/a">
  <child/>
  <child/>
- <child/>
+ <child attrib="value">
+  <a:subchild/>
+ </child>
 </root>
