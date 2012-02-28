@@ -5,9 +5,9 @@
     <PropertyGroup>
         <VCVersion>9</VCVersion>
 
-        <VersionZlib>1.2.3</VersionZlib>
+        <VersionZlib>1.2.5</VersionZlib>
         <VersionIconv>1.9.2</VersionIconv>
-        <VersionLibxml2>2.7.6</VersionLibxml2>
+        <VersionLibxml2>2.7.8</VersionLibxml2>
         <VersionLibxslt>1.1.26</VersionLibxslt>
     </PropertyGroup>
 
