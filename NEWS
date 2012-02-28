@@ -1,4 +1,7 @@
 
+    Changed the xml::node::node(name, content) constructor so that it doesn't
+    create a child text node if the content is empty.
+
     Added xml::node::set_text_content() for setting unescaped textual
     content.
 

@@ -299,14 +299,17 @@ node::node (const char *name, const char *content)
     if (!pimpl_->xmlnode_)
         throw std::bad_alloc();
 
-    xmlNodePtr content_node = xmlNewText(reinterpret_cast<const xmlChar*>(content));
-    if (!content_node)
-        throw std::bad_alloc();
-
-    if (!xmlAddChild(pimpl_->xmlnode_, content_node))
+    if (std::strlen(content))
     {
-        xmlFreeNode(content_node);
-        throw std::bad_alloc();
+        xmlNodePtr content_node = xmlNewText(reinterpret_cast<const xmlChar*>(content));
+        if (!content_node)
+            throw std::bad_alloc();
+
+        if (!xmlAddChild(pimpl_->xmlnode_, content_node))
+        {
+            xmlFreeNode(content_node);
+            throw std::bad_alloc();
+        }
     }
 
     ap.release();

@@ -177,8 +177,10 @@ public:
     explicit node(const char *name);
 
     /**
-        Construct a new xml::node given a name and content. The content will
-        be used to create a new child text node.
+        Construct a new xml::node given a name and content.
+
+        The content, if it's not an empty string, will be used to create a new
+        child text node.
 
         @param name The name of the new element.
         @param content The text that will be used to create a child node.
