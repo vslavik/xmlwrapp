@@ -3,8 +3,8 @@ TESTS = test
 
 AM_CPPFLAGS = -I$(top_srcdir)/include
 LIBS = $(top_builddir)/src/libxmlwrapp.la \
-	   -lboost_unit_test_framework \
-	   -lboost_iostreams
+	   $(BOOST_UNIT_TEST_FRAMEWORK_LIBS) $(BOOST_UNIT_TEST_FRAMEWORK_LDFLAGS) \
+	   $(BOOST_IOSTREAMS_LIBS) $(BOOST_IOSTREAMS_LDFLAGS)
 
 noinst_PROGRAMS = test
 
