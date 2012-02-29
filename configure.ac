@@ -86,7 +86,11 @@ fi
 
 
 AC_HEADER_ASSERT
-AC_CHECK_HEADERS([boost/pool/singleton_pool.hpp])
+
+BOOST_REQUIRE
+BOOST_FIND_HEADER([boost/pool/singleton_pool.hpp])
+BOOST_IOSTREAMS
+BOOST_TEST
 
 dnl === Compiler-specific stuff ===
 
