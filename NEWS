@@ -1,7 +1,12 @@
 
-    Fixed compilation with Sun Studio compiler.
+Version 0.6.3
+
+    Fixed compilation with Sun Studio compiler; miscellaneous other build
+    related fixes.
 
     Better error reporting when xml::tree_parser input file doesn't exist.
+
+    Added convenience script for getting dependencies on Windows.
 
 Version 0.6.2
 
