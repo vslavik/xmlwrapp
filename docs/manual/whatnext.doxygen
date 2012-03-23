@@ -15,8 +15,10 @@ manual.
 
 @section whatnext_help Getting Help
 
-If you need specific help using xmlwrapp, you can try the
-<a href="http://sourceforge.net/mail/?group_id=142403">xmlwrapp-users</a>
-mailing list.
+Additional resources, bug reports, latest sources etc. can be found on the
+<a href="https://github.com/vslavik/xmlwrapp">project page</a>.
+
+If you need help or want to discuss xmlwrapp, feel free to join the
+<a href="http://groups.google.com/group/xmlwrapp">xmlwrapp mailing list</a>.
 
 */
