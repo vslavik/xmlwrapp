@@ -9,11 +9,16 @@
     will throw only this or derived exception, with the exception of
     std::bad_alloc(), which is still thrown when appropriate.
 
-    Fixed compilation with Sun Studio compiler.
-
     Added xml::node::clear() method.
 
+Version 0.6.3
+
+    Fixed compilation with Sun Studio compiler; miscellaneous other build
+    related fixes.
+
     Better error reporting when xml::tree_parser input file doesn't exist.
+
+    Added convenience script for getting dependencies on Windows.
 
 Version 0.6.2
 
