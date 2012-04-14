@@ -62,12 +62,12 @@
         <Unzip ZipFileName="download\$(ZipLibxslt)" TargetDirectory="download"/>
 
         <ItemGroup>
-            <BinFiles Include="download\*.win32\bin\*"/>
-            <LibFiles Include="download\*.win32\lib\*"/>
-            <IncludeFiles Include="download\*.win32\include\*"/>
-            <IncludeFilesLibxml Include="download\*.win32\include\libxml\*"/>
-            <IncludeFilesLibxslt Include="download\*.win32\include\libxslt\*"/>
-            <IncludeFilesLibexslt Include="download\*.win32\include\libexslt\*"/>
+            <BinFiles Include="download\*\bin\*"/>
+            <LibFiles Include="download\*\lib\*"/>
+            <IncludeFiles Include="download\*\include\*"/>
+            <IncludeFilesLibxml Include="download\*\include\libxml\*"/>
+            <IncludeFilesLibxslt Include="download\*\include\libxslt\*"/>
+            <IncludeFilesLibexslt Include="download\*\include\libexslt\*"/>
         </ItemGroup>
         <Copy SkipUnchangedFiles="true" SourceFiles="@(BinFiles)" DestinationFolder="bin"/>
         <Copy SkipUnchangedFiles="true" SourceFiles="@(LibFiles)" DestinationFolder="lib"/>
