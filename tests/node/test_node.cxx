@@ -148,6 +148,8 @@ BOOST_AUTO_TEST_CASE( elements )
     xml::node &root = parser.get_document().get_root_node();
     xml::nodes_view persons(root.elements("person"));
 
+    BOOST_CHECK_EQUAL( persons.size(), 3 );
+
     std::ostringstream ostr;
 
     for (xml::nodes_view::const_iterator i = persons.begin(); i != persons.end(); ++i)
@@ -169,6 +171,8 @@ BOOST_AUTO_TEST_CASE( elements_const )
 
     const xml::node &root = parser.get_document().get_root_node();
     xml::const_nodes_view persons(root.elements("person"));
+
+    BOOST_CHECK_EQUAL( persons.size(), 3 );
 
     std::ostringstream ostr;
 

@@ -37,6 +37,9 @@
 // definition include
 #include "node_iterator.h"
 #include "pimpl_base.h"
+#include "utility.h"
+
+using namespace xml::impl;
 
 namespace xml
 {
@@ -100,6 +103,13 @@ const_nodes_view& const_nodes_view::operator=(const nodes_view& other)
 }
 
 
+const_nodes_view::size_type const_nodes_view::size() const
+{
+    using namespace std;
+    return distance(begin(), end());
+}
+
+
 // ------------------------------------------------------------------------
 // xml::nodes_view
 // ------------------------------------------------------------------------
@@ -132,6 +142,13 @@ nodes_view& nodes_view::operator=(const nodes_view& other)
         advance_func_->inc_ref();
 
     return *this;
+}
+
+
+nodes_view::size_type nodes_view::size() const
+{
+    using namespace std;
+    return distance(begin(), end());
 }
 
 } // namespace xml

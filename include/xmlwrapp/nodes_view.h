@@ -77,6 +77,9 @@ class iter_advance_functor;
 class XMLWRAPP_API nodes_view
 {
 public:
+    /// Size type.
+    typedef std::size_t size_type;
+
     nodes_view() : data_begin_(0), advance_func_(0) {}
     nodes_view(const nodes_view& other);
     ~nodes_view();
@@ -210,6 +213,9 @@ public:
      */
     const_iterator end() const { return const_iterator(); }
 
+    /// Returns the number of nodes in this view.
+    size_type size() const;
+
     /// Is the view empty?
     bool empty() const { return !data_begin_; }
 
@@ -239,6 +245,9 @@ private:
 class XMLWRAPP_API const_nodes_view
 {
 public:
+    /// Size type.
+    typedef std::size_t size_type;
+
     const_nodes_view() : data_begin_(0), advance_func_(0) {}
     const_nodes_view(const const_nodes_view& other);
     const_nodes_view(const nodes_view& other);
@@ -265,6 +274,9 @@ public:
         @return A "one past the end" iterator.
      */
     const_iterator end() const { return const_iterator(); }
+
+    /// Returns the number of nodes in this view.
+    size_type size() const;
 
     /// Is the view empty?
     bool empty() const { return !data_begin_; }
