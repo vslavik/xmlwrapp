@@ -183,34 +183,16 @@ public:
         friend class nodes_view;
     };
 
-    /**
-        Get an iterator that points to the beginning of this node's
-        children.
-
-        @return An iterator that points to the beginning of the children.
-     */
+    /// Get an iterator that points to the beginning of this view's nodes.
     iterator begin() { return iterator(data_begin_, advance_func_); }
 
-    /**
-        Get an iterator that points to the beginning of this node's
-        children.
-
-        @return An iterator that points to the beginning of the children.
-     */
+    /// Get an iterator that points to the beginning of this view's nodes.
     const_iterator begin() const { return const_iterator(data_begin_, advance_func_); }
 
-    /**
-        Get an iterator that points one past the last child for this node.
-
-        @return A "one past the end" iterator.
-     */
+    /// Get an iterator that points one past the last child for this view.
     iterator end() { return iterator(); }
 
-    /**
-        Get an iterator that points one past the last child for this node.
-
-        @return A "one past the end" iterator.
-     */
+    /// Get an iterator that points one past the last child for this view.
     const_iterator end() const { return const_iterator(); }
 
     /// Returns the number of nodes in this view.
@@ -259,20 +241,11 @@ public:
     typedef nodes_view::const_iterator iterator;
     typedef nodes_view::const_iterator const_iterator;
 
-    /**
-        Get an iterator that points to the beginning of this node's
-        children.
-
-        @return An iterator that points to the beginning of the children.
-     */
+    /// Get an iterator that points to the beginning of this view's nodes.
     const_iterator begin() const
         { return const_iterator(data_begin_, advance_func_); }
 
-    /**
-        Get an iterator that points one past the last child for this node.
-
-        @return A "one past the end" iterator.
-     */
+    /// Get an iterator that points one past the last child for this view.
     const_iterator end() const { return const_iterator(); }
 
     /// Returns the number of nodes in this view.
