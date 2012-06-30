@@ -1,69 +1,76 @@
-<?xml version="1.0" ?>
+//
+// Bakefile for xmlwrapp Windows builds. This file needs to be processed with
+// Bakefile 1.x, see http://www.bakefile.org.
+//
 
-<makefile>
-    <set-srcdir>../..</set-srcdir>
+srcdir ../..;
+toolsets = vs2003 vs2005 vs2008 vs2010;
 
-    <include file="presets/simple.bkl"/>
+WIN32_DIR = platform/Win32;
 
-    <template id="xmlwrapp_lib" template="simple">
-        <include>../../include</include>
-        <include>include</include>
-    </template>
+vs2003.solutionfile = $(WIN32_DIR)/VC7/xmlwrapp.sln;
+vs2005.solutionfile = $(WIN32_DIR)/VC8/xmlwrapp.sln;
+vs2008.solutionfile = $(WIN32_DIR)/VC9/xmlwrapp.sln;
+vs2010.solutionfile = $(WIN32_DIR)/VC10/xmlwrapp.sln;
 
-
-    <lib id="xmlwrapp" template="xmlwrapp_lib">
-        <headers>
-            include/xmlwrapp/attributes.h
-            include/xmlwrapp/_cbfo.h
-            include/xmlwrapp/document.h
-            include/xmlwrapp/event_parser.h
-            include/xmlwrapp/exception.h
-            include/xmlwrapp/init.h
-            include/xmlwrapp/node.h
-            include/xmlwrapp/nodes_view.h
-            include/xmlwrapp/tree_parser.h
-            include/xmlwrapp/xmlwrapp.h
-
-            <!-- private headers -->
-            src/libxml/ait_impl.h
-            src/libxml/dtd_impl.h
-            src/libxml/node_iterator.h
-            src/libxml/node_manip.h
-            src/libxml/pimpl_base.h
-            src/libxml/utility.h
-        </headers>
-
-        <sources>
-            src/libxml/ait_impl.cxx
-            src/libxml/attributes.cxx
-            src/libxml/document.cxx
-            src/libxml/dtd_impl.cxx
-            src/libxml/event_parser.cxx
-            src/libxml/init.cxx
-            src/libxml/node.cxx
-            src/libxml/node_iterator.cxx
-            src/libxml/node_manip.cxx
-            src/libxml/nodes_view.cxx
-            src/libxml/tree_parser.cxx
-            src/libxml/utility.cxx
-        </sources>
-    </lib>
+includedirs += include;
+includedirs += $(WIN32_DIR)/include;
+libdirs += $(WIN32_DIR)/lib;
 
 
-    <lib id="xsltwrapp" template="xmlwrapp_lib">
-        <headers>
-            include/xsltwrapp/init.h
-            include/xsltwrapp/stylesheet.h
-            include/xsltwrapp/xsltwrapp.h
+library xmlwrapp {
+    headers {
+        include/xmlwrapp/attributes.h
+        include/xmlwrapp/_cbfo.h
+        include/xmlwrapp/document.h
+        include/xmlwrapp/event_parser.h
+        include/xmlwrapp/exception.h
+        include/xmlwrapp/init.h
+        include/xmlwrapp/node.h
+        include/xmlwrapp/nodes_view.h
+        include/xmlwrapp/tree_parser.h
+        include/xmlwrapp/xmlwrapp.h
 
-            <!-- private headers -->
-            src/libxslt/result.h
-        </headers>
+        // private headers:
+        src/libxml/ait_impl.h
+        src/libxml/dtd_impl.h
+        src/libxml/node_iterator.h
+        src/libxml/node_manip.h
+        src/libxml/pimpl_base.h
+        src/libxml/utility.h
+    }
 
-        <sources>
-            src/libxslt/init.cxx
-            src/libxslt/stylesheet.cxx
-        </sources>
-    </lib>
+    sources {
+        src/libxml/ait_impl.cxx
+        src/libxml/attributes.cxx
+        src/libxml/document.cxx
+        src/libxml/dtd_impl.cxx
+        src/libxml/event_parser.cxx
+        src/libxml/init.cxx
+        src/libxml/node.cxx
+        src/libxml/node_iterator.cxx
+        src/libxml/node_manip.cxx
+        src/libxml/nodes_view.cxx
+        src/libxml/tree_parser.cxx
+        src/libxml/utility.cxx
+    }
+}
 
-</makefile>
+
+library xsltwrapp {
+    deps = xmlwrapp;
+
+    headers {
+        include/xsltwrapp/init.h
+        include/xsltwrapp/stylesheet.h
+        include/xsltwrapp/xsltwrapp.h
+
+        // private headers:
+        src/libxslt/result.h
+    }
+
+    sources {
+        src/libxslt/init.cxx
+        src/libxslt/stylesheet.cxx
+    }
+}

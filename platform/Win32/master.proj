@@ -28,17 +28,21 @@
     <Target Name="Build" DependsOnTargets="Deps;BakefileGen" >
         <Message Text="Building C++ library with Visual C++ $(VCVersion)..."/>
         <ItemGroup>
-            <VCProjFiles Include="xmlwrapp_vc$(VCVersion)_*.vcproj"/>
+            <VCProjFiles Include="VC$(VCVersion)/*.vcproj"/>
         </ItemGroup>
-        <VCBuild SolutionFile="xmlwrapp_vc$(VCVersion).sln"
+        <VCBuild Condition=" $(VCVersion) &lt; 10 "
+                 SolutionFile="VC$(VCVersion)/xmlwrapp.sln"
                  Projects="@(VCProjFiles)"
                  Configuration="$(Configuration)"
                  />
+        <MSBuild Condition=" $(VCVersion) &gt;= 10 "
+                 Projects="VC$(VCVersion)/xmlwrapp.sln"
+                 />
     </Target>
 
-    <Target Name="BakefileGen" Condition="!Exists('xmlwrapp_vc$(VCVersion)_xmlwrapp.vcproj')">
+    <Target Name="BakefileGen" Condition="!Exists('VC$(VCVersion)/xmlwrapp.sln')">
         <Message Text="Running Bakefile to generate project files..."/>
-        <Exec Command="bakefile_gen"/>
+        <Exec Command="bkl xmlwrapp.bkl"/>
     </Target>
 
     <Target Name="Deps">

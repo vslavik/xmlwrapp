@@ -1,14 +1,13 @@
 /BUILD-*
 docs/html
 
-.bakefile_gen.state
 *.vcproj
 *.vcproj.*
+*.vcxproj
+*.vcxproj.*
 *.sln
 *.ncb
 *.suo
-*.dsp
-*.dsw
 Debug/
 Release/
 platform/Win32/bin/

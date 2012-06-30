@@ -15,9 +15,8 @@ EXTRA_DIST = \
 		LICENSE bootstrap \
 		$(srcdir)/platform/Win32/README \
 		$(srcdir)/platform/Win32/*.dsp \
-		$(srcdir)/platform/Win32/Bakefiles.bkgen \
+		$(srcdir)/platform/Win32/*.dsw \
 		$(srcdir)/platform/Win32/*.bkl
 
 dist-hook:
-	(cd $(distdir)/platform/Win32 ; bakefile_gen)
-	rm -f $(distdir)/platform/Win32/.bakefile_gen.state
+	(cd $(distdir)/platform/Win32 ; bkl xmlwrapp.bkl)
