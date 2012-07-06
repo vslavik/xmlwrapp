@@ -679,7 +679,7 @@ public:
 
         Example:
         @code
-        xml::nodes_view persons(root.elements("person"));
+        xml::nodes_view view(root.elements("person"));
         for (xml::nodes_view::iterator i = view.begin(); i != view.end(); ++i)
         {
           ...
@@ -698,7 +698,7 @@ public:
 
         Example:
         @code
-        xml::const_nodes_view persons(root.elements("person"));
+        xml::const_nodes_view view(root.elements("person"));
         for (xml::const_nodes_view::const_iterator i = view.begin();
              i != view.end();
              ++i)
