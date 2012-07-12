@@ -16,7 +16,10 @@ EXTRA_DIST = \
 		$(srcdir)/platform/Win32/README \
 		$(srcdir)/platform/Win32/*.dsp \
 		$(srcdir)/platform/Win32/*.dsw \
-		$(srcdir)/platform/Win32/*.bkl
+		$(srcdir)/platform/Win32/*.bkl \
+		$(srcdir)/platform/Win32/*proj* \
+		$(srcdir)/platform/Win32/*/*proj* \
+		$(srcdir)/platform/Win32/*/*.sln
 
 dist-hook:
 	(cd $(distdir)/platform/Win32 ; bkl xmlwrapp.bkl)
