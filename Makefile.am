@@ -20,6 +20,3 @@ EXTRA_DIST = \
 		$(srcdir)/platform/Win32/*proj* \
 		$(srcdir)/platform/Win32/*/*proj* \
 		$(srcdir)/platform/Win32/*/*.sln
-
-dist-hook:
-	(cd $(distdir)/platform/Win32 ; bkl xmlwrapp.bkl)
