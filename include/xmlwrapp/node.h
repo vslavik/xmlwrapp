@@ -363,7 +363,7 @@ public:
     const char* get_namespace() const;
 
     /**
-        Find out if this node is a text node or sometiming like a text node,
+        Find out if this node is a text node or something like a text node,
         CDATA for example.
 
         @return True if this node is a text node; false otherwise.
@@ -477,7 +477,7 @@ public:
     };
 
     /**
-        Returns the number of childer this nodes has. If you just want to
+        Returns the number of children this nodes has. If you just want to
         know how if this node has children or not, you should use
         xml::node::empty() instead.
 
@@ -758,7 +758,7 @@ public:
     iterator erase(const iterator& to_erase);
 
     /**
-        Erase all nodes in the given range, from frist to last. This will
+        Erase all nodes in the given range, from first to last. This will
         invalidate any iterators that point to the nodes to be erased, or any
         pointers or references to those nodes.
 
@@ -787,7 +787,7 @@ public:
     void clear();
 
     /**
-        Sort all the children nodes of this node using one of thier
+        Sort all the children nodes of this node using one of their
         attributes. Only nodes that are of xml::node::type_element will be
         sorted, and they must have the given node_name.
 

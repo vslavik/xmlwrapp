@@ -103,11 +103,11 @@ public:
     ~tree_parser();
 
     /**
-        Check to see if a xml::tree_parser class is vaild. That is, check to
+        Check to see if a xml::tree_parser class is valid. That is, check to
         see if parsing XML data was successful and the tree_parser holds a
         good XML node tree.
 
-        @return True if the tree_parser is NOT VAILD; false if it is vaild.
+        @return True if the tree_parser is NOT VALID; false if it is valid.
      */
     bool operator!() const;
 
@@ -116,7 +116,7 @@ public:
         you can use this member function to get the error message that was
         generated during parsing.
 
-        @return The error message generated durring XML parsing.
+        @return The error message generated during XML parsing.
      */
     const std::string& get_error_message() const;
 

@@ -114,7 +114,7 @@ public:
     /**
         Copy another document object into this one using the assignment
         operator. This document object will be an exact copy of the other
-        document after the assignement.
+        document after the assignment.
 
         @param other The document to copy from.
         @return *this.
@@ -214,7 +214,7 @@ public:
 
     /**
         Walk through the document and expand <xi:include> elements. For more
-        information, please see the w3c recomendation for XInclude.
+        information, please see the w3c recommendation for XInclude.
         http://www.w3.org/2001/XInclude.
 
         The return value of this function may change to int after a bug has
@@ -395,7 +395,7 @@ public:
     node::iterator erase(node::iterator to_erase);
 
     /**
-        Erase all nodes in the given range, from frist to last. This will
+        Erase all nodes in the given range, from first to last. This will
         invalidate any iterators that point to the nodes to be erased, or any
         pointers or references to those nodes.
 

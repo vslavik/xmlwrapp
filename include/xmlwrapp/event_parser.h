@@ -99,7 +99,7 @@ public:
 
         @param chunk The xml data chuck to parse.
         @param length The size of the given data chunk
-        @return True if the chunk was parsed sucessfully; false otherwise.
+        @return True if the chunk was parsed successfully; false otherwise.
      */
     bool parse_chunk(const char *chunk, size_type length);
 
@@ -153,7 +153,7 @@ protected:
     virtual bool text(const std::string& contents) = 0;
 
     /**
-        Override this member function to receive the cdata mesage. This
+        Override this member function to receive the cdata message. This
         member function is called when the parser encounters a <![CDATA[]]>
         section in the XML data.
 
@@ -167,7 +167,7 @@ protected:
     virtual bool cdata(const std::string& contents);
 
     /**
-        Override this member function to receive the procesing_instruction
+        Override this member function to receive the processing_instruction
         message. This member function will be called when the XML parser
         encounters a processing instruction <?target data?>.
 
@@ -195,7 +195,7 @@ protected:
     virtual bool comment(const std::string& contents);
 
     /**
-        Override this memeber function to receive parser warnings. The
+        Override this member function to receive parser warnings. The
         default behaviour is to ignore warnings.
 
         @param message The warning message from the compiler.
@@ -207,7 +207,7 @@ protected:
     /**
         Set the error message that will be returned from the
         get_error_message() member function. If one of your callback
-        functions returns false and does not first call this memeber
+        functions returns false and does not first call this member
         function, "Unknown Error" will be returned from get_error_message().
 
         @param message The message to return from get_error_message().
