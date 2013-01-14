@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
+ * Copyright (C) 2013 Vaclav Slavik <vslavik@gmail.com>
  * All Rights Reserved
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,17 +30,10 @@
  * SUCH DAMAGE.
  */
 
-#ifndef _xmlwrapp_utility_h_
-#define _xmlwrapp_utility_h_
+#ifndef _xmlwrapp_errors_impl_h_
+#define _xmlwrapp_errors_impl_h_
 
-#include <xmlwrapp/node.h>
-
-// standard includes
-#include <string>
-#include <cstdarg>
-
-// libxml2 includes
-#include <libxml/tree.h>
+#include <xmlwrapp/errors.h>
 
 namespace xml
 {
@@ -48,50 +41,25 @@ namespace xml
 namespace impl
 {
 
-// exception safe wrapper around xmlChar*s that are returned from some
-// of the libxml functions that the user must free.
-class xmlchar_helper
+// This handler collects all error & warning messages from libxml2 callbacks,
+// without throwing any exceptions, and then replays them, in order, to the
+// "real" error handler.
+class errors_collector : public error_messages
 {
 public:
-    xmlchar_helper(xmlChar *ptr) : ptr_(ptr) {}
-
-    ~xmlchar_helper()
-        { if (ptr_) xmlFree(ptr_); }
-
-    const char* get() const
-        { return reinterpret_cast<const char*>(ptr_); }
-
-private:
-    xmlChar *ptr_;
+    // replay all errors into target handler
+    void replay(error_handler& dest);
 };
 
-// Formats given message with arguments into a std::string
-void printf2string(std::string& s, const char *message, va_list ap);
-
-// Helper macro to use printf2string()
-#define PRINTF_TO_STRING(output, message)               \
-    va_list ap;                                         \
-    va_start(ap, message);                              \
-    xml::impl::printf2string(output, message, ap);      \
-    va_end(ap)
-
-
-// Sun CC uses ancient C++ standard library that doesn't have standard
-// std::distance(). Work around it here
-#if defined(__SUNPRO_CC) && !defined(_STLPORT_VERSION)
-template<typename T>
-inline size_t distance(T a, const T&b)
-{
-    size_t n = 0;
-    for ( ; a != b; ++a )
-        ++n;
-    return n;
-}
-#endif // defined(__SUNPRO_CC) && !defined(_STLPORT_VERSION)
+// These functions can be used as error callbacks in various libxml2 functions.
+// They collect messages into errors_collector structure.
+// Usage: pass the pointer to errors_collector as libxml2's void* ctx argument
+extern "C" void cb_messages_warning(void *out, const char *message, ...);
+extern "C" void cb_messages_error(void *out, const char *message, ...);
 
 } // namespace impl
 
 } // namespace xml
 
 
-#endif // _xmlwrapp_utility_h_
+#endif // _xmlwrapp_errors_impl_h_

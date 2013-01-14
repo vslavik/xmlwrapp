@@ -35,6 +35,7 @@ library xmlwrapp {
         // private headers:
         src/libxml/ait_impl.h
         src/libxml/dtd_impl.h
+        src/libxml/errors_impl.h
         src/libxml/node_iterator.h
         src/libxml/node_manip.h
         src/libxml/pimpl_base.h
@@ -47,6 +48,7 @@ library xmlwrapp {
         src/libxml/document.cxx
         src/libxml/dtd_impl.cxx
         src/libxml/event_parser.cxx
+        src/libxml/errors.cxx
         src/libxml/init.cxx
         src/libxml/node.cxx
         src/libxml/node_iterator.cxx

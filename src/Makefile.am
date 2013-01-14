@@ -19,6 +19,8 @@ libxmlwrapp_la_SOURCES = \
 		libxml/dtd_impl.cxx \
 		libxml/dtd_impl.h \
 		libxml/event_parser.cxx \
+		libxml/errors.cxx \
+		libxml/errors_impl.h \
 		libxml/init.cxx \
 		libxml/node.cxx \
 		libxml/nodes_view.cxx \
