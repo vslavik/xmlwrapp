@@ -11,6 +11,8 @@
 
     Added xml::node::clear() method.
 
+    Added xml::schema class for XML Schema validation.
+
 Version 0.6.3
 
     Fixed compilation with Sun Studio compiler; miscellaneous other build

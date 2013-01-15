@@ -65,6 +65,7 @@ namespace xml
 {
 
 // forward declarations
+class schema;
 class tree_parser;
 
 namespace impl
@@ -450,6 +451,7 @@ private:
     void* release_doc_data();
 
     friend class tree_parser;
+    friend class schema;
     friend class xslt::stylesheet;
 };
 

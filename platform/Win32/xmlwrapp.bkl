@@ -29,6 +29,7 @@ library xmlwrapp {
         include/xmlwrapp/init.h
         include/xmlwrapp/node.h
         include/xmlwrapp/nodes_view.h
+        include/xmlwrapp/schema.h
         include/xmlwrapp/tree_parser.h
         include/xmlwrapp/xmlwrapp.h
 
@@ -54,6 +55,7 @@ library xmlwrapp {
         src/libxml/node_iterator.cxx
         src/libxml/node_manip.cxx
         src/libxml/nodes_view.cxx
+        src/libxml/schema.cxx
         src/libxml/tree_parser.cxx
         src/libxml/utility.cxx
     }
