@@ -36,8 +36,8 @@
     This file contains the definition of the xml::exception class.
  */
 
-#ifndef _xmlwrapp_exception_h_
-#define _xmlwrapp_exception_h_
+#ifndef _xmlwrapp_errors_h_
+#define _xmlwrapp_errors_h_
 
 // xmlwrapp includes
 #include "xmlwrapp/export.h"
@@ -68,4 +68,4 @@ public:
 
 } // namespace xml
 
-#endif // _xmlwrapp_exception_h_
+#endif // _xmlwrapp_errors_h_

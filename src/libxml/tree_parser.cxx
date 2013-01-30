@@ -33,7 +33,7 @@
 // xmlwrapp includes
 #include "xmlwrapp/tree_parser.h"
 #include "xmlwrapp/document.h"
-#include "xmlwrapp/exception.h"
+#include "xmlwrapp/errors.h"
 #include "utility.h"
 
 // libxml includes

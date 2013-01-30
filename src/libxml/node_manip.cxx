@@ -31,7 +31,7 @@
  */
 
 // xmlwrapp includes
-#include "xmlwrapp/exception.h"
+#include "xmlwrapp/errors.h"
 
 #include "node_manip.h"
 

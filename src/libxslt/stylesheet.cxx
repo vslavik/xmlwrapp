@@ -40,7 +40,7 @@
 #include "xsltwrapp/stylesheet.h"
 #include "xmlwrapp/document.h"
 #include "xmlwrapp/tree_parser.h"
-#include "xmlwrapp/exception.h"
+#include "xmlwrapp/errors.h"
 
 #include "result.h"
 #include "../libxml/utility.h"

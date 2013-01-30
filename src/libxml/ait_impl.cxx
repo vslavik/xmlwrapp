@@ -34,7 +34,7 @@
 #include "ait_impl.h"
 #include "utility.h"
 #include "xmlwrapp/attributes.h"
-#include "xmlwrapp/exception.h"
+#include "xmlwrapp/errors.h"
 
 // standard includes
 #include <algorithm>

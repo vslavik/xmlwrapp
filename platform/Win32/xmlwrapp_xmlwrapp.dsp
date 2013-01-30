@@ -161,7 +161,7 @@ SOURCE=..\..\include\xmlwrapp\event_parser.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\include\xmlwrapp\exception.h
+SOURCE=..\..\include\xmlwrapp\errors.h
 # End Source File
 # Begin Source File
 

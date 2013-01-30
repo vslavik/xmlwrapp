@@ -33,7 +33,7 @@
 // xmlwrapp includes
 #include "xmlwrapp/document.h"
 #include "xmlwrapp/node.h"
-#include "xmlwrapp/exception.h"
+#include "xmlwrapp/errors.h"
 
 #include "utility.h"
 #include "dtd_impl.h"

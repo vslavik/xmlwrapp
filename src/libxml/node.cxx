@@ -35,7 +35,7 @@
 #include "xmlwrapp/node.h"
 #include "xmlwrapp/nodes_view.h"
 #include "xmlwrapp/attributes.h"
-#include "xmlwrapp/exception.h"
+#include "xmlwrapp/errors.h"
 #include "utility.h"
 #include "ait_impl.h"
 #include "node_manip.h"

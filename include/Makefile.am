@@ -5,7 +5,7 @@ xmlwrapp_include_HEADERS = \
 		xmlwrapp/_cbfo.h \
 		xmlwrapp/document.h \
 		xmlwrapp/event_parser.h \
-		xmlwrapp/exception.h \
+		xmlwrapp/errors.h \
 		xmlwrapp/export.h \
 		xmlwrapp/init.h \
 		xmlwrapp/node.h \
