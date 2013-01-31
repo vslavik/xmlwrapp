@@ -1,0 +1,10 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="AAA">
+    <xsd:complexType mixed="false">
+      <xsd:sequence minOccurs="1" maxOccurs="1">
+        <xsd:element name="BBB" type="xsd:string"/>
+        <xsd:element name="CCC" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

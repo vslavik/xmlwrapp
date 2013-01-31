@@ -15,7 +15,8 @@ test_SOURCES = \
 		document/test_document.cxx \
 		event/test_event.cxx \
 		node/test_node.cxx \
-		tree/test_tree.cxx
+		tree/test_tree.cxx \
+		schema/test_schema.cxx
 
 if WITH_XSLT
 LIBS += $(top_builddir)/src/libxsltwrapp.la
@@ -26,5 +27,6 @@ EXTRA_DIST = \
 		$(srcdir)/*/data/*.out \
 		$(srcdir)/*/data/*.xml \
 		$(srcdir)/*/data/*.xsl \
+		$(srcdir)/*/data/*.xsd \
 		$(srcdir)/*/data/*.dtd \
 		$(srcdir)/*/data/output
