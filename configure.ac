@@ -88,9 +88,28 @@ fi
 AC_HEADER_ASSERT
 
 BOOST_REQUIRE
-BOOST_FIND_HEADER([boost/pool/singleton_pool.hpp])
 BOOST_IOSTREAMS
 BOOST_TEST
+
+BOOST_FIND_HEADER([boost/pool/singleton_pool.hpp],
+                  [],
+                  [
+                    AC_MSG_CHECKING([if boost::singleton_pool is header only])
+                    AC_LINK_IFELSE(
+                       [AC_LANG_PROGRAM(
+                            [#include <boost/pool/singleton_pool.hpp>],
+                            [
+                                struct tag {};
+                                boost::singleton_pool<tag,10>::malloc();
+                            ]
+                       )],
+                       [
+                         AC_DEFINE(HAVE_BOOST_POOL_SINGLETON_POOL_HPP)
+                         AC_MSG_RESULT(yes)
+                       ],
+                       [AC_MSG_RESULT(no)]
+                       )
+                  ])
 
 dnl === Compiler-specific stuff ===
 
