@@ -69,19 +69,21 @@ std::string error_messages::print() const
     {
         if (k != begin)
             buffer += "\n";
-        switch (k->type())
-        {
-            case error_message::type_error:
-                buffer += "error: ";
-                break;
-            case error_message::type_warning:
-                buffer += "warning: ";
-                break;
-        }
-        buffer += k->message();
+        buffer += format_for_print(*k);
     }
 
     return buffer;
+}
+
+std::string error_messages::format_for_print(const error_message& msg) const
+{
+    switch (msg.type())
+    {
+        case error_message::type_error:
+            return "error: " + msg.message();
+        case error_message::type_warning:
+            return "warning: " + msg.message();
+    }
 }
 
 // ------------------------------------------------------------------------

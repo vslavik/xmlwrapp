@@ -219,6 +219,10 @@ public:
     void on_warning(const std::string& msg)
         { messages_.push_back(error_message(msg, error_message::type_warning)); }
 
+protected:
+    /// Called by print() to format a single message.
+    virtual std::string format_for_print(const error_message& msg) const;
+
 private:
     bool has_messages_of_type(error_message::message_type type) const;
 
