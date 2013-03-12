@@ -76,7 +76,8 @@ BOOST_AUTO_TEST_CASE( apply1 )
     xml::tree_parser parser(test_file_path("xslt/data/input.xml").c_str());
 
     xml::document result;
-    BOOST_CHECK( style.apply(parser.get_document(), result) );
+    xml::error_messages errors;
+    BOOST_CHECK( style.apply(parser.get_document(), result, errors) );
 
     BOOST_CHECK( is_same_as_file(result, "xslt/data/02a.out") );
 }
@@ -109,7 +110,8 @@ BOOST_AUTO_TEST_CASE( apply2 )
     params["foo"] = "'bar'";
 
     xml::document result;
-    BOOST_CHECK( style.apply(parser.get_document(), result, params) );
+    xml::error_messages errors;
+    BOOST_CHECK( style.apply(parser.get_document(), result, params, errors) );
     BOOST_CHECK( is_same_as_file(result, "xslt/data/03a.out") );
 }
 
@@ -141,7 +143,8 @@ BOOST_AUTO_TEST_CASE( xsl_with_errors )
     xml::tree_parser parser(test_file_path("xslt/data/input.xml").c_str());
 
     xml::document result;
-    BOOST_CHECK( !style.apply(parser.get_document(), result) );
+    xml::error_messages errors;
+    BOOST_CHECK( !style.apply(parser.get_document(), result, errors) );
 }
 
 BOOST_AUTO_TEST_CASE( xsl_with_errors_throw )
