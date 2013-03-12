@@ -46,17 +46,16 @@ error_handler_throw_on_error_or_warning  throw_on_error_or_warning;
 // xml::error_messages
 // ------------------------------------------------------------------------
 
-bool error_messages::has_messages_of_type(error_message::message_type type) const
+void error_messages::on_error(const std::string& msg)
 {
-    for ( messages_type::const_iterator i = messages_.begin();
-          i != messages_.end();
-          ++i )
-    {
-        if (i->type() == type)
-            return true;
-    }
+    messages_.push_back(error_message(msg, error_message::type_error));
+    has_errors_ = true;
+}
 
-    return false;
+void error_messages::on_warning(const std::string& msg)
+{
+    messages_.push_back(error_message(msg, error_message::type_warning));
+    has_warnings_ = true;
 }
 
 std::string error_messages::print() const

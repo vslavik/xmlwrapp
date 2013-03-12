@@ -172,6 +172,8 @@ public:
     /// A type to store multiple messages
     typedef std::list<error_message> messages_type;
 
+    error_messages() : has_errors_(false), has_warnings_(false) {}
+
     /// Get the error messages.
     const messages_type& messages() const { return messages_; }
 
@@ -189,18 +191,12 @@ public:
         @return true if there is at least one warning in the error messages.
                 It does not consider errors.
      */
-    bool has_warnings() const
-    {
-        return has_messages_of_type(error_message::type_warning);
-    }
+    bool has_warnings() const { return has_warnings_; }
 
     /**
         Check if there are any errors.
      */
-    bool has_errors() const
-    {
-        return has_messages_of_type(error_message::type_error);
-    }
+    bool has_errors() const { return has_errors_; }
 
 
     /**
@@ -212,21 +208,19 @@ public:
     std::string print() const;
 
 
-    // Implementation of error_handler methods:
-    void on_error(const std::string& msg)
-        { messages_.push_back(error_message(msg, error_message::type_error)); }
 
-    void on_warning(const std::string& msg)
-        { messages_.push_back(error_message(msg, error_message::type_warning)); }
+    // Implementation of error_handler methods:
+    void on_error(const std::string& msg);
+    void on_warning(const std::string& msg);
 
 protected:
     /// Called by print() to format a single message.
     virtual std::string format_for_print(const error_message& msg) const;
 
 private:
-    bool has_messages_of_type(error_message::message_type type) const;
-
     messages_type messages_;
+    bool          has_errors_;
+    bool          has_warnings_;
 };
 
 
