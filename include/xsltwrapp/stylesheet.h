@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
+ * Copyright (C) 2013 Vaclav Slavik <vslavik@gmail.com>
  * All Rights Reserved
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,6 +44,7 @@
 #include "xsltwrapp/init.h"
 #include "xmlwrapp/document.h"
 #include "xmlwrapp/export.h"
+#include "xmlwrapp/errors.h"
 
 // standard includes
 #include <map>
@@ -68,9 +70,16 @@ public:
         Create a new xslt::stylesheet object and load and parse the
         stylesheet in the given filename.
 
+        Errors are handled by @a on_error handler; by default, xml::exception
+        is thrown on errors. If there's a fatal error that prevents the schema
+        from being loaded and the error handler doesn't throw an exception, the
+        constructor will throw xml::exception anyway.
+
         @param filename The name of the file that contains the stylesheet.
+        @param on_error Handler called to process errors and warnings (since 0.7.0).
      */
-    explicit stylesheet(const char *filename);
+    explicit stylesheet(const char *filename,
+                        xml::error_handler& on_error = xml::throw_on_error);
 
     /**
         Create a new xslt::stylesheet object from an xml::document object
@@ -78,9 +87,16 @@ public:
         passed by value. This is needed because the stylesheet will own the
         document and free it.
 
+        Errors are handled by @a on_error handler; by default, xml::exception
+        is thrown on errors. If there's a fatal error that prevents the schema
+        from being loaded and the error handler doesn't throw an exception, the
+        constructor will throw xml::exception anyway.
+
         @param doc The parsed stylesheet.
+        @param on_error Handler called to process errors and warnings (since 0.7.0).
      */
-    explicit stylesheet(xml::document doc);
+    explicit stylesheet(xml::document doc,
+                        xml::error_handler& on_error = xml::throw_on_error);
 
     /**
         Clean up after an xslt::stylesheet.
@@ -93,10 +109,13 @@ public:
 
         @param doc The XML document to transform.
         @param result The result tree after applying this stylesheet.
+
         @return True if the transformation was successful and the results placed in result.
         @return False if there was an error, result is not modified.
+
+        @deprecated Use the form that takes xml::error_handler argument.
      */
-    bool apply(const xml::document& doc, xml::document& result);
+    XMLWRAPP_DEPRECATED bool apply(const xml::document& doc, xml::document& result);
 
     /**
         Apply this stylesheet to the given XML document. The result document
@@ -105,10 +124,45 @@ public:
         @param doc The XML document to transform.
         @param result The result tree after applying this stylesheet.
         @param with_params Override xsl:param elements using the given key/value map
+
+        @return True if the transformation was successful and the results placed in result.
+        @return False if there was an error, result is not modified.
+
+        @deprecated Use the form that takes xml::error_handler argument.
+     */
+    XMLWRAPP_DEPRECATED bool apply(const xml::document& doc, xml::document& result, const param_type& with_params);
+
+    /**
+        Apply this stylesheet to the given XML document. The result document
+        is placed in the second document parameter.
+
+        @param doc The XML document to transform.
+        @param result The result tree after applying this stylesheet.
+        @param on_error Handler called to process errors and warnings (since 0.7.0).
+
         @return True if the transformation was successful and the results placed in result.
         @return False if there was an error, result is not modified.
      */
-    bool apply(const xml::document& doc, xml::document& result, const param_type& with_params);
+    bool apply(const xml::document& doc,
+               xml::document& result,
+               xml::error_handler& on_error);
+
+    /**
+        Apply this stylesheet to the given XML document. The result document
+        is placed in the second document parameter.
+
+        @param doc The XML document to transform.
+        @param result The result tree after applying this stylesheet.
+        @param with_params Override xsl:param elements using the given key/value map
+        @param on_error Handler called to process errors and warnings (since 0.7.0).
+
+        @return True if the transformation was successful and the results placed in result.
+        @return False if there was an error, result is not modified.
+     */
+    bool apply(const xml::document& doc,
+               xml::document& result,
+               const param_type& with_params,
+               xml::error_handler& on_error);
 
     /**
         Apply this stylesheet to the given XML document. The results document
@@ -120,9 +174,12 @@ public:
         course, unless you copied it first.
 
         @param doc The XML document to transform.
+        @param on_error Handler called to process errors and warnings (since 0.7.0).
+
         @return A reference to the result tree.
      */
-    xml::document& apply(const xml::document& doc);
+    xml::document& apply(const xml::document& doc,
+                         xml::error_handler& on_error = xml::throw_on_error);
 
     /**
         Apply this stylesheet to the given XML document. The results document
@@ -135,9 +192,13 @@ public:
 
         @param doc The XML document to transform.
         @param with_params Override xsl:param elements using the given key/value map
+        @param on_error Handler called to process errors and warnings (since 0.7.0).
+
         @return A reference to the result tree.
      */
-    xml::document& apply(const xml::document& doc, const param_type& with_params);
+    xml::document& apply(const xml::document& doc,
+                         const param_type& with_params,
+                         xml::error_handler& on_error = xml::throw_on_error);
 
     /**
         If you used one of the xslt::stylesheet::apply member functions that
@@ -150,8 +211,13 @@ public:
         constructor.
 
         @return The last error message.
+
+        @deprecated Use apply() variants that take xml::error_handler argument.
      */
-    const std::string& get_error_message() const;
+    XMLWRAPP_DEPRECATED const std::string& get_error_message() const;
+
+private:
+    void init(xml::document& doc, xml::error_handler& on_error);
 
 private:
     pimpl *pimpl_;

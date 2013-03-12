@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
+ * Copyright (C) 2013 Vaclav Slavik <vslavik@gmail.com>
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -35,6 +36,7 @@
 #include "xmlwrapp/document.h"
 #include "xmlwrapp/errors.h"
 #include "utility.h"
+#include "errors_impl.h"
 
 // libxml includes
 #include <libxml/parser.h>
@@ -71,9 +73,11 @@ struct impl::tree_impl
 
     document doc_;
     xmlSAXHandler sax_;
-    std::string last_error_;
-    bool warnings_;
+    errors_collector messages_;
     bool okay_;
+
+    // for backward compatibility only, to be removed
+    std::string get_error_message_cache_;
 };
 
 namespace
@@ -83,37 +87,24 @@ const char DEFAULT_ERROR[] = "unknown XML parsing error";
 
 extern "C" void cb_tree_error(void *v, const char *message, ...)
 {
-    try
-    {
-        xmlParserCtxtPtr ctxt = static_cast<xmlParserCtxtPtr>(v);
-        tree_impl *p = static_cast<tree_impl*>(ctxt->_private);
-        if (!p)
-            return; // handle bug in older versions of libxml
+    xmlParserCtxtPtr ctxt = static_cast<xmlParserCtxtPtr>(v);
+    tree_impl *p = static_cast<tree_impl*>(ctxt->_private);
+    if (!p)
+        return; // handle bug in older versions of libxml
 
-        p->okay_ = false;
-
-        va_list ap;
-        va_start(ap, message);
-        printf2string(p->last_error_, message, ap);
-        va_end(ap);
-
-        xmlStopParser(ctxt);
-    }
-    catch (...) {}
+    xmlStopParser(ctxt);
+    p->okay_ = false;
+    CALL_CB_MESSAGES_ERROR(&p->messages_, message);
 }
 
-extern "C" void cb_tree_warning(void *v, const char *, ...)
+extern "C" void cb_tree_warning(void *v, const char *message, ...)
 {
-    try
-    {
-        xmlParserCtxtPtr ctxt = static_cast<xmlParserCtxtPtr>(v);
-        tree_impl *p = static_cast<tree_impl*>(ctxt->_private);
-        if (!p)
-            return; // handle bug in older versions of libxml
+    xmlParserCtxtPtr ctxt = static_cast<xmlParserCtxtPtr>(v);
+    tree_impl *p = static_cast<tree_impl*>(ctxt->_private);
+    if (!p)
+        return; // handle bug in older versions of libxml
 
-        p->warnings_ = true;
-    }
-    catch (...) {}
+    CALL_CB_MESSAGES_WARNING(&p->messages_, message);
 }
 
 
@@ -124,8 +115,7 @@ extern "C" void cb_tree_ignore(void*, const xmlChar*, int)
 } // anonymous namespace
 
 
-impl::tree_impl::tree_impl()
-    : last_error_(DEFAULT_ERROR), warnings_(false), okay_(false)
+impl::tree_impl::tree_impl() : okay_(false)
 {
     std::memset(&sax_, 0, sizeof(sax_));
     initxmlDefaultSAXHandler(&sax_, 0);
@@ -145,6 +135,16 @@ impl::tree_impl::tree_impl()
 
 tree_parser::tree_parser(const char *name, bool allow_exceptions)
 {
+    init(name, allow_exceptions ? &throw_on_error : NULL);
+}
+
+tree_parser::tree_parser(const char *name, error_handler& on_error)
+{
+    init(name, &on_error);
+}
+
+void tree_parser::init(const char *name, error_handler *on_error)
+{
     std::auto_ptr<tree_impl> ap(pimpl_ = new tree_impl);
 
     pimpl_->okay_ = true;
@@ -157,7 +157,7 @@ tree_parser::tree_parser(const char *name, bool allow_exceptions)
     }
     else
     {
-        if ( pimpl_->last_error_ == DEFAULT_ERROR )
+        if ( !pimpl_->messages_.has_errors() )
         {
             // Try to describe the problem better. A common issue is that
             // a file couldn't be found, in which case "unknown XML parsing
@@ -165,14 +165,16 @@ tree_parser::tree_parser(const char *name, bool allow_exceptions)
             FILE *test = fopen(name, "r");
             if ( !test )
             {
-                pimpl_->last_error_ = "failed to open file \"";
-                pimpl_->last_error_ += name;
-                pimpl_->last_error_ += "\"";
+                std::string msg = "failed to open file \"";
+                msg += name;
+                msg += "\"";
+                pimpl_->messages_.on_error(msg);
             }
             else
             {
                 // no such luck, the error is something else
                 fclose(test);
+                pimpl_->messages_.on_error(DEFAULT_ERROR);
             }
         }
 
@@ -182,8 +184,8 @@ tree_parser::tree_parser(const char *name, bool allow_exceptions)
 
         pimpl_->okay_ = false;
 
-        if (allow_exceptions)
-            throw xml::exception(pimpl_->last_error_);
+        if (on_error)
+            pimpl_->messages_.replay(*on_error);
     }
 
     ap.release();
@@ -191,6 +193,16 @@ tree_parser::tree_parser(const char *name, bool allow_exceptions)
 
 
 tree_parser::tree_parser(const char *data, size_type size, bool allow_exceptions)
+{
+    init(data, size, allow_exceptions ? &throw_on_error : NULL);
+}
+
+tree_parser::tree_parser(const char *data, size_type size, error_handler& on_error)
+{
+    init(data, size, &on_error);
+}
+
+void tree_parser::init(const char *data, size_type size, error_handler *on_error)
 {
     std::auto_ptr<tree_impl> ap(pimpl_ = new tree_impl);
     xmlParserCtxtPtr ctxt;
@@ -217,8 +229,8 @@ tree_parser::tree_parser(const char *data, size_type size, bool allow_exceptions
 
         pimpl_->okay_ = false;
 
-        if (allow_exceptions)
-            throw xml::exception(pimpl_->last_error_);
+        if (on_error)
+            pimpl_->messages_.replay(*on_error);
 
         ap.release();
         return; // handle non-exception case
@@ -241,19 +253,31 @@ tree_parser::~tree_parser()
 
 bool tree_parser::operator!() const
 {
-    return !pimpl_->okay_;
+    return messages().has_errors();
+}
+
+const error_messages& tree_parser::messages() const
+{
+    return pimpl_->messages_;
 }
 
 
 const std::string& tree_parser::get_error_message() const
 {
-    return pimpl_->last_error_;
+    if ( pimpl_->get_error_message_cache_.empty() )
+    {
+        if ( messages().has_errors() )
+            pimpl_->get_error_message_cache_ = messages().print();
+        else
+            pimpl_->get_error_message_cache_ = DEFAULT_ERROR;
+    }
+    return pimpl_->get_error_message_cache_;
 }
 
 
 bool tree_parser::had_warnings() const
 {
-    return pimpl_->warnings_;
+    return messages().has_warnings();
 }
 
 

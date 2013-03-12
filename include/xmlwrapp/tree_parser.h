@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
+ * Copyright (C) 2013 Vaclav Slavik <vslavik@gmail.com>
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -42,6 +43,7 @@
 // xmlwrapp includes
 #include "xmlwrapp/init.h"
 #include "xmlwrapp/export.h"
+#include "xmlwrapp/errors.h"
 
 // standard includes
 #include <cstddef>
@@ -64,11 +66,36 @@ struct tree_impl;
 
     After constructing a tree_parser, with either a file to parse or some in
     memory data to parse, you can walk the tree using the xml::node interface.
+
+    @note You probably don't need to use this class directly anymore and
+          can just use the corresponding xml::document constructors.
  */
 class XMLWRAPP_API tree_parser
 {
 public:
     typedef std::size_t size_type;
+    /**
+        xml::tree_parser class constructor. Given the name of a file, this
+        constructor will parse that file.
+
+        @param filename The name of the file to parse.
+        @param on_error Handler called to process errors and warnings.
+
+        @since 0.7.0
+     */
+    tree_parser(const char *filename, error_handler& on_error = throw_on_error);
+
+    /**
+        xml::tree_parser class constructor. Given some data and the size of
+        that data, parse that data as XML.
+
+        @param data The XML data to parse.
+        @param size The size of the XML data to parse.
+        @param on_error Handler called to process errors and warnings.
+
+        @since 0.7.0
+     */
+    tree_parser(const char *data, size_type size, error_handler& on_error = throw_on_error);
 
     /**
         xml::tree_parser class constructor. Given the name of a file, this
@@ -86,7 +113,7 @@ public:
         @param filename The name of the file to parse.
         @param allow_exceptions Whether or not you want an exception for parsing errors.
      */
-    tree_parser(const char *filename, bool allow_exceptions = true);
+    tree_parser(const char *filename, bool allow_exceptions);
 
     /**
         xml::tree_parser class constructor. Given some data and the size of
@@ -98,9 +125,17 @@ public:
         @param allow_exceptions Whether or not you want an exception
                                 for parsing errors.
      */
-    tree_parser(const char *data, size_type size, bool allow_exceptions = true);
+    tree_parser(const char *data, size_type size, bool allow_exceptions);
 
     ~tree_parser();
+
+    /**
+        Return error_messages object with errors and warnings collected
+        during parsing.
+
+        @since 0.7.0
+     */
+    const error_messages& messages() const;
 
     /**
         Check to see if a xml::tree_parser class is valid. That is, check to
@@ -117,8 +152,10 @@ public:
         generated during parsing.
 
         @return The error message generated during XML parsing.
+
+        @deprecated Use messages() instead.
      */
-    const std::string& get_error_message() const;
+    XMLWRAPP_DEPRECATED const std::string& get_error_message() const;
 
     /**
         Check to see if there were any warnings from the parser while
@@ -150,6 +187,9 @@ public:
     const xml::document& get_document() const;
 
 private:
+    void init(const char *filename, error_handler *on_error);
+    void init(const char *data, size_type size, error_handler *on_error);
+
     impl::tree_impl *pimpl_; // private implementation
 
     // Don't allow anyone to copy construct a xml::tree_parser or allow the

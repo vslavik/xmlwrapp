@@ -44,18 +44,41 @@ namespace impl
 // This handler collects all error & warning messages from libxml2 callbacks,
 // without throwing any exceptions, and then replays them, in order, to the
 // "real" error handler.
-class errors_collector : public error_messages
+class XMLWRAPP_API errors_collector : public error_messages
 {
 public:
     // replay all errors into target handler
     void replay(error_handler& dest);
+
+protected:
+    virtual std::string format_for_print(const error_message& msg) const;
 };
 
 // These functions can be used as error callbacks in various libxml2 functions.
 // They collect messages into errors_collector structure.
 // Usage: pass the pointer to errors_collector as libxml2's void* ctx argument
-extern "C" void cb_messages_warning(void *out, const char *message, ...);
-extern "C" void cb_messages_error(void *out, const char *message, ...);
+extern "C"
+{
+
+XMLWRAPP_API void cb_messages_warning(void *out, const char *message, ...);
+XMLWRAPP_API void cb_messages_error(void *out, const char *message, ...);
+
+XMLWRAPP_API void cb_messages_warning_v(void *out, const char *message, va_list ap);
+XMLWRAPP_API void cb_messages_error_v(void *out, const char *message, va_list ap);
+
+#define CALL_CB_MESSAGES(cb, out, message)        \
+    va_list ap;                                   \
+    va_start(ap, message);                        \
+    cb(out, message, ap);                         \
+    va_end(ap)
+
+#define CALL_CB_MESSAGES_ERROR(out, message) \
+    CALL_CB_MESSAGES(cb_messages_error_v, out, message)
+
+#define CALL_CB_MESSAGES_WARNING(out, message) \
+    CALL_CB_MESSAGES(cb_messages_warning_v, out, message)
+
+} // extern "C"
 
 } // namespace impl
 

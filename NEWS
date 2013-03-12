@@ -9,6 +9,10 @@
     will throw only this or derived exception, with the exception of
     std::bad_alloc(), which is still thrown when appropriate.
 
+    Added xml::error_handler and related classes for collecting multiple errors
+    and warnings. Added appropriate forms of constructors and functions to other
+    classes.
+
     Added xml::node::clear() method.
 
     Added xml::schema class for XML Schema validation.

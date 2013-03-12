@@ -114,30 +114,40 @@ namespace impl
 // desirable). So we collect the errors and "replay" them after returning from
 // C code.
 
-extern "C" void cb_messages_warning(void *out, const char *message, ...)
+extern "C" void cb_messages_warning_v(void *out, const char *message, va_list ap)
 {
     try
     {
         error_messages *err = static_cast<error_messages*>(out);
 
         std::string text;
-        PRINTF_TO_STRING(text, message);
+        printf2string(text, message, ap);
         err->on_warning(text);
     }
     catch (...) {}
 }
 
-extern "C" void cb_messages_error(void *out, const char *message, ...)
+extern "C" void cb_messages_error_v(void *out, const char *message, va_list ap)
 {
     try
     {
         error_messages *err = static_cast<error_messages*>(out);
 
         std::string text;
-        PRINTF_TO_STRING(text, message);
+        printf2string(text, message, ap);
         err->on_error(text);
     }
     catch (...) {}
+}
+
+extern "C" void cb_messages_warning(void *out, const char *message, ...)
+{
+    CALL_CB_MESSAGES_WARNING(out, message);
+}
+
+extern "C" void cb_messages_error(void *out, const char *message, ...)
+{
+    CALL_CB_MESSAGES_ERROR(out, message);
 }
 
 
@@ -158,6 +168,23 @@ void errors_collector::replay(error_handler& dest)
                 dest.on_warning(i->message());
                 break;
         }
+    }
+}
+
+std::string errors_collector::format_for_print(const error_message& msg) const
+{
+    // The errors_collector class is also used to provide backward
+    // compatibility errors reporting in tree_parser and xslt::stylesheet. The
+    // "error: " prefix wasn't included there, so don't add it now either so
+    // that we don't break user UI output. On the other hand, include "warning:
+    // " to make it clear these aren't errors.
+
+    switch (msg.type())
+    {
+        case error_message::type_error:
+            return msg.message();
+        case error_message::type_warning:
+            return "warning: " + msg.message();
     }
 }
 

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
+ * Copyright (C) 2013 Vaclav Slavik <vslavik@gmail.com>
  * All Rights Reserved
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +45,7 @@
 
 #include "result.h"
 #include "../libxml/utility.h"
+#include "../libxml/errors_impl.h"
 
 // libxslt includes
 #include <libxslt/xslt.h>
@@ -64,7 +66,7 @@ struct xslt::stylesheet::pimpl
 
     xsltStylesheetPtr ss_;
     xml::document doc_;
-    std::string error_;
+    std::string get_error_message_cache_;
     bool errors_occured_;
 };
 
@@ -121,37 +123,25 @@ void make_vector_param(std::vector<const char*> &v,
 }
 
 
-extern "C"
+class xslt_errors_collector : public xml::impl::errors_collector
 {
+public:
+    xslt_errors_collector(xsltTransformContextPtr c) : ctxt_(c) {}
 
-static void error_cb(void *c, const char *message, ...)
-{
-    xsltTransformContextPtr ctxt = static_cast<xsltTransformContextPtr>(c);
-    xslt::stylesheet::pimpl *impl = static_cast<xslt::stylesheet::pimpl*>(ctxt->_private);
+    virtual void on_error(const std::string& msg)
+    {
+        xml::impl::errors_collector::on_error(msg);
 
-    impl->errors_occured_ = true;
+        // tell the processor to stop when it gets a chance:
+        if ( ctxt_->state == XSLT_STATE_OK )
+            ctxt_->state = XSLT_STATE_STOPPED;
+    }
 
-    // tell the processor to stop when it gets a chance:
-    if ( ctxt->state == XSLT_STATE_OK )
-        ctxt->state = XSLT_STATE_STOPPED;
-
-    // concatenate all error messages:
-    if ( impl->errors_occured_ )
-        impl->error_.append("\n");
-
-    std::string formatted;
-
-    va_list ap;
-    va_start(ap, message);
-    xml::impl::printf2string(formatted, message, ap);
-    va_end(ap);
-
-    impl->error_.append(formatted);
-}
-
-} // extern "C"
+    xsltTransformContextPtr ctxt_;
+};
 
 xmlDocPtr apply_stylesheet(xslt::stylesheet::pimpl *impl,
+                           xml::error_handler& on_error,
                            xmlDocPtr doc,
                            const xslt::stylesheet::param_type *p = NULL)
 {
@@ -163,10 +153,9 @@ xmlDocPtr apply_stylesheet(xslt::stylesheet::pimpl *impl,
 
     xsltTransformContextPtr ctxt = xsltNewTransformContext(style, doc);
     ctxt->_private = impl;
-    xsltSetTransformErrorFunc(ctxt, ctxt, error_cb);
 
-    // clear the error flag before applying the stylesheet
-    impl->errors_occured_ = false;
+    xslt_errors_collector err(ctxt);
+    xsltSetTransformErrorFunc(ctxt, &err, xml::impl::cb_messages_error);
 
     xmlDocPtr result =
         xsltApplyStylesheetUser(style, doc, p ? &v[0] : 0, NULL, NULL, ctxt);
@@ -175,49 +164,42 @@ xmlDocPtr apply_stylesheet(xslt::stylesheet::pimpl *impl,
 
     // it's possible there was an error that didn't prevent creation of some
     // (incorrect) document
-    if ( result && impl->errors_occured_ )
+    if ( result && err.has_errors() )
     {
         xmlFreeDoc(result);
+        err.replay(on_error);
         return NULL;
     }
 
     if ( !result )
     {
         // set generic error message if nothing more specific is known
-        if ( impl->error_.empty() )
-            impl->error_ = "unknown XSLT transformation error";
+        if ( !err.has_errors() )
+            err.on_error("unknown XSLT transformation error");
+        err.replay(on_error);
         return NULL;
     }
 
+    err.replay(on_error);
     return result;
 }
 
 } // end of anonymous namespace
 
 
-xslt::stylesheet::stylesheet(const char *filename)
+xslt::stylesheet::stylesheet(const char *filename, xml::error_handler& on_error)
 {
-    std::auto_ptr<pimpl> ap(pimpl_ = new pimpl);
-
-    xml::tree_parser parser(filename);
-    xmlDocPtr xmldoc = static_cast<xmlDocPtr>(parser.get_document().get_doc_data());
-
-    if ( (pimpl_->ss_ = xsltParseStylesheetDoc(xmldoc)) == 0)
-    {
-        // TODO error_ can't get set yet. Need changes from libxslt first
-        if (pimpl_->error_.empty())
-            pimpl_->error_ = "unknown XSLT parser error";
-        throw xml::exception(pimpl_->error_);
-    }
-
-    // if we got this far, the xmldoc we gave to xsltParseStylesheetDoc is
-    // now owned by the stylesheet and will be cleaned up in our destructor.
-    parser.get_document().release_doc_data();
-    ap.release();
+    xml::document doc(filename, on_error);
+    init(doc, on_error);
 }
 
 
-xslt::stylesheet::stylesheet(xml::document doc)
+xslt::stylesheet::stylesheet(xml::document doc, xml::error_handler& on_error)
+{
+    init(doc, on_error);
+}
+
+void xslt::stylesheet::init(xml::document& doc, xml::error_handler& on_error)
 {
     xmlDocPtr xmldoc = static_cast<xmlDocPtr>(doc.get_doc_data());
     std::auto_ptr<pimpl> ap(pimpl_ = new pimpl);
@@ -225,9 +207,8 @@ xslt::stylesheet::stylesheet(xml::document doc)
     if ( (pimpl_->ss_ = xsltParseStylesheetDoc(xmldoc)) == 0)
     {
         // TODO error_ can't get set yet. Need changes from libxslt first
-        if (pimpl_->error_.empty())
-            pimpl_->error_ = "unknown XSLT parser error";
-        throw xml::exception(pimpl_->error_);
+        on_error.on_error("unknown XSLT parser error");
+        throw xml::exception("unknown XSLT parser error");
     }
 
     // if we got this far, the xmldoc we gave to xsltParseStylesheetDoc is
@@ -247,15 +228,10 @@ xslt::stylesheet::~stylesheet()
 
 bool xslt::stylesheet::apply(const xml::document &doc, xml::document &result)
 {
-    xmlDocPtr input = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
-    xmlDocPtr xmldoc = apply_stylesheet(pimpl_, input);
-
-    if (xmldoc)
-    {
-        result.set_doc_data_from_xslt(xmldoc, new result_impl(xmldoc, pimpl_->ss_));
+    xml::impl::errors_collector err;
+    if (apply(doc, result, err))
         return true;
-    }
-
+    pimpl_->get_error_message_cache_ = err.print();
     return false;
 }
 
@@ -263,8 +239,20 @@ bool xslt::stylesheet::apply(const xml::document &doc, xml::document &result)
 bool xslt::stylesheet::apply(const xml::document &doc, xml::document &result,
                             const param_type &with_params)
 {
+    xml::impl::errors_collector err;
+    if (apply(doc, result, with_params, err))
+        return true;
+    pimpl_->get_error_message_cache_ = err.print();
+    return false;
+}
+
+
+bool xslt::stylesheet::apply(const xml::document &doc,
+                             xml::document &result,
+                             xml::error_handler& on_error)
+{
     xmlDocPtr input = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
-    xmlDocPtr xmldoc = apply_stylesheet(pimpl_, input, &with_params);
+    xmlDocPtr xmldoc = apply_stylesheet(pimpl_, on_error, input);
 
     if (xmldoc)
     {
@@ -276,13 +264,29 @@ bool xslt::stylesheet::apply(const xml::document &doc, xml::document &result,
 }
 
 
-xml::document& xslt::stylesheet::apply(const xml::document &doc)
+bool xslt::stylesheet::apply(const xml::document &doc,
+                             xml::document &result,
+                             const param_type &with_params,
+                             xml::error_handler& on_error)
 {
     xmlDocPtr input = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
-    xmlDocPtr xmldoc = apply_stylesheet(pimpl_, input);
+    xmlDocPtr xmldoc = apply_stylesheet(pimpl_, on_error, input, &with_params);
 
-    if ( !xmldoc )
-        throw xml::exception(pimpl_->error_);
+    if (xmldoc)
+    {
+        result.set_doc_data_from_xslt(xmldoc, new result_impl(xmldoc, pimpl_->ss_));
+        return true;
+    }
+
+    return false;
+}
+
+
+xml::document& xslt::stylesheet::apply(const xml::document &doc,
+                                       xml::error_handler& on_error)
+{
+    xmlDocPtr input = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
+    xmlDocPtr xmldoc = apply_stylesheet(pimpl_, on_error, input);
 
     pimpl_->doc_.set_doc_data_from_xslt(xmldoc, new result_impl(xmldoc, pimpl_->ss_));
     return pimpl_->doc_;
@@ -290,13 +294,11 @@ xml::document& xslt::stylesheet::apply(const xml::document &doc)
 
 
 xml::document& xslt::stylesheet::apply(const xml::document &doc,
-                                       const param_type &with_params)
+                                       const param_type &with_params,
+                                       xml::error_handler& on_error)
 {
     xmlDocPtr input = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
-    xmlDocPtr xmldoc = apply_stylesheet(pimpl_, input, &with_params);
-
-    if ( !xmldoc )
-        throw xml::exception(pimpl_->error_);
+    xmlDocPtr xmldoc = apply_stylesheet(pimpl_, on_error, input, &with_params);
 
     pimpl_->doc_.set_doc_data_from_xslt(xmldoc, new result_impl(xmldoc, pimpl_->ss_));
     return pimpl_->doc_;
@@ -305,5 +307,5 @@ xml::document& xslt::stylesheet::apply(const xml::document &doc,
 
 const std::string& xslt::stylesheet::get_error_message() const
 {
-    return pimpl_->error_;
+    return pimpl_->get_error_message_cache_;
 }

@@ -68,14 +68,6 @@ private:
 // Formats given message with arguments into a std::string
 void printf2string(std::string& s, const char *message, va_list ap);
 
-// Helper macro to use printf2string()
-#define PRINTF_TO_STRING(output, message)               \
-    va_list ap;                                         \
-    va_start(ap, message);                              \
-    xml::impl::printf2string(output, message, ap);      \
-    va_end(ap)
-
-
 // Sun CC uses ancient C++ standard library that doesn't have standard
 // std::distance(). Work around it here
 #if defined(__SUNPRO_CC) && !defined(_STLPORT_VERSION)

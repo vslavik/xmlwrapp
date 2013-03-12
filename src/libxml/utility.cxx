@@ -58,8 +58,7 @@ namespace xml
 namespace impl
 {
 
-// this function is used by libxsltwrapp too, so we must export it
-XMLWRAPP_API void printf2string(std::string& s, const char *message, va_list ap)
+void printf2string(std::string& s, const char *message, va_list ap)
 {
     char buffer[512];
 
