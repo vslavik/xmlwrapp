@@ -26,3 +26,5 @@ admin/depcomp
 admin/ltmain.sh
 admin/missing
 autom4te.cache
+
+/admin/test-driver
