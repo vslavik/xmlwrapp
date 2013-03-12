@@ -74,7 +74,7 @@ struct schema_impl
             err.replay(on_error);
             // if the handler didn't throw, do it ourselves -- it's the only
             // way to signal fatal errors from a ctor:
-            throw exception(err.print());
+            throw exception(err);
         }
     }
 

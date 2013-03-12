@@ -43,6 +43,18 @@ error_handler_throw_on_error             throw_on_error;
 error_handler_throw_on_error_or_warning  throw_on_error_or_warning;
 
 // ------------------------------------------------------------------------
+// xml::exception
+// ------------------------------------------------------------------------
+
+exception::exception(const std::string& what) : std::runtime_error(what)
+{
+}
+
+exception::exception(const error_messages& what) : std::runtime_error(what.print())
+{
+}
+
+// ------------------------------------------------------------------------
 // xml::error_messages
 // ------------------------------------------------------------------------
 
