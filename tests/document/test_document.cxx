@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE( default_ctor )
 
 BOOST_AUTO_TEST_CASE( ctor_root_name )
 {
-    xml::document doc("root");
+    xml::document doc(xml::node("root"));
     BOOST_CHECK( is_same_as_file( doc, "document/data/03.out") );
 }
 
@@ -175,7 +175,7 @@ BOOST_AUTO_TEST_CASE( get_version )
 
 BOOST_AUTO_TEST_CASE( set_version )
 {
-    xml::document doc("root");
+    xml::document doc(xml::node("root"));
     doc.set_version("1.1");
 
     BOOST_CHECK( is_same_as_file( doc, "document/data/10.out") );
@@ -200,7 +200,7 @@ BOOST_AUTO_TEST_CASE( get_encoding )
 
 BOOST_AUTO_TEST_CASE( set_encoding )
 {
-    xml::document doc("root");
+    xml::document doc(xml::node("root"));
     doc.set_encoding("UTF-8");
 
     BOOST_CHECK( is_same_as_file( doc, "document/data/12.out") );
@@ -227,11 +227,11 @@ BOOST_AUTO_TEST_CASE( get_is_standalone )
 
 BOOST_AUTO_TEST_CASE( set_is_standalone )
 {
-    xml::document doc1("root");
+    xml::document doc1(xml::node("root"));
     doc1.set_is_standalone(true);
     BOOST_CHECK( is_same_as_file( doc1, "document/data/13a.out") );
 
-    xml::document doc2("root");
+    xml::document doc2(xml::node("root"));
     doc2.set_is_standalone(false);
     BOOST_CHECK( is_same_as_file( doc2, "document/data/13b.out") );
 }
@@ -255,7 +255,7 @@ BOOST_AUTO_TEST_CASE( process_xinclude )
 
 BOOST_AUTO_TEST_CASE( size )
 {
-    xml::document doc_01("root");
+    xml::document doc_01(xml::node("root"));
     BOOST_CHECK_EQUAL( doc_01.size(), 1 );
 
     doc_01.push_back(xml::node(xml::node::comment("This is a comment")));
@@ -279,7 +279,7 @@ BOOST_AUTO_TEST_CASE( size )
 
 BOOST_AUTO_TEST_CASE( push_back_and_insert )
 {
-    xml::document doc("root");
+    xml::document doc(xml::node("root"));
 
     doc.push_back(xml::node(xml::node::comment(" Comment From push_back ")));
 
@@ -300,7 +300,7 @@ BOOST_AUTO_TEST_CASE( push_back_and_insert )
 
 BOOST_AUTO_TEST_CASE( push_back_and_insert_throw )
 {
-    xml::document doc("root");
+    xml::document doc(xml::node("root"));
 
     BOOST_CHECK_THROW
     (
@@ -328,7 +328,7 @@ BOOST_AUTO_TEST_CASE( push_back_and_insert_throw )
 
 BOOST_AUTO_TEST_CASE( replace )
 {
-    xml::document doc("root");
+    xml::document doc(xml::node("root"));
 
     xml::node::iterator n(doc.insert(xml::node(xml::node::comment(" To Be Replaced "))));
     doc.replace(n, xml::node(xml::node::comment(" This is the replacement comment ")));
@@ -343,7 +343,7 @@ BOOST_AUTO_TEST_CASE( replace )
 
 BOOST_AUTO_TEST_CASE( replace_throw )
 {
-    xml::document doc("root");
+    xml::document doc(xml::node("root"));
     xml::node::iterator n(doc.insert(xml::node(xml::node::comment(" To Be Replaced "))));
 
     BOOST_CHECK_THROW
@@ -366,7 +366,7 @@ BOOST_AUTO_TEST_CASE( replace_throw )
 
 BOOST_AUTO_TEST_CASE( erase )
 {
-    xml::document doc("root");
+    xml::document doc(xml::node("root"));
     doc.push_back(xml::node(xml::node::comment(" Comment from push_back ")));
 
     xml::node::iterator n(doc.insert(xml::node(xml::node::comment(" You should not see me "))));
@@ -382,7 +382,7 @@ BOOST_AUTO_TEST_CASE( erase )
 
 BOOST_AUTO_TEST_CASE( cant_erase_root )
 {
-    xml::document doc("root");
+    xml::document doc(xml::node("root"));
     doc.push_back(xml::node(xml::node::comment(" Comment from push_back ")));
 
     BOOST_CHECK_THROW
@@ -401,7 +401,7 @@ static const char *TEST_FILE = "test_temp_file";
 
 BOOST_AUTO_TEST_CASE( save_to_file )
 {
-    xml::document doc("root");
+    xml::document doc(xml::node("root"));
     doc.get_root_node().push_back(xml::node("child"));
 
     doc.save_to_file(TEST_FILE);
@@ -416,7 +416,7 @@ BOOST_AUTO_TEST_CASE( save_to_file )
 #ifndef __SUNPRO_CC // SunCC can't compile gzip_decompressor
 BOOST_AUTO_TEST_CASE( save_to_file_gzip )
 {
-    xml::document doc("root");
+    xml::document doc(xml::node("root"));
     doc.get_root_node().push_back(xml::node("child"));
 
     doc.save_to_file(TEST_FILE, 9);
