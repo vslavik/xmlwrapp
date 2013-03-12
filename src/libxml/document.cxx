@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
+ * Copyright (C) 2013 Vaclav Slavik <vslavik@gmail.com>
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -34,6 +35,7 @@
 #include "xmlwrapp/document.h"
 #include "xmlwrapp/node.h"
 #include "xmlwrapp/errors.h"
+#include "xmlwrapp/tree_parser.h"
 
 #include "utility.h"
 #include "dtd_impl.h"
@@ -193,6 +195,23 @@ document::document(const node& n)
     ap.release();
 }
 
+document::document(const char *filename, error_handler& on_error)
+{
+    pimpl_ = new doc_impl;
+    tree_parser p(filename, on_error);
+    if ( !p )
+        throw exception(p.messages());
+    swap(p.get_document());
+}
+
+document::document(const char *data, size_type size, error_handler& on_error)
+{
+    pimpl_ = new doc_impl;
+    tree_parser p(data, size, on_error);
+    if ( !p )
+        throw exception(p.messages());
+    swap(p.get_document());
+}
 
 document::document(const document& other)
 {

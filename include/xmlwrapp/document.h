@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
+ * Copyright (C) 2013 Vaclav Slavik <vslavik@gmail.com>
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -43,6 +44,7 @@
 #include "xmlwrapp/init.h"
 #include "xmlwrapp/node.h"
 #include "xmlwrapp/export.h"
+#include "xmlwrapp/errors.h"
 
 // standard includes
 #include <iosfwd>
@@ -94,8 +96,10 @@ public:
         given text.
 
         @param root_name What to set the name of the root element to.
+
+        @deprecated Use the node-taking constructor.
      */
-    explicit document(const char *root_name);
+    XMLWRAPP_DEPRECATED explicit document(const char *root_name);
 
     /**
         Create a new XML document and set the root node.
@@ -103,6 +107,38 @@ public:
         @param n The node to use as the root node. n will be copied.
      */
     explicit document(const node& n);
+
+    /**
+        Load XML document from given file.
+
+        Errors are handled by @a on_error handler; if you pass
+        xml::throw_on_error, xml::exception is thrown on errors. If there's a
+        fatal error that prevents the document from being loaded and the error
+        handler doesn't throw an exception, the constructor will throw
+        xml::exception anyway.
+
+        @param filename The name of the file to parse.
+        @param on_error Handler called to process errors and warnings.
+
+        @since 0.7.0
+     */
+    explicit document(const char *filename, error_handler& on_error);
+
+    /**
+        Load XML document from given data.
+
+        Errors are handled by @a on_error handler; by default, xml::exception
+        is thrown on errors. If there's a fatal error that prevents the document
+        from being loaded and the error handler doesn't throw an exception, the
+        constructor will throw xml::exception anyway.
+
+        @param data The XML data to parse.
+        @param size The size of the XML data to parse.
+        @param on_error Handler called to process errors and warnings.
+
+        @since 0.7.0
+     */
+    explicit document(const char *data, size_type size, error_handler& on_error = throw_on_error);
 
     /**
         Copy construct a new XML document. The new document will be an exact

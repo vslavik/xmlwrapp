@@ -17,6 +17,9 @@
 
     Added xml::schema class for XML Schema validation.
 
+    Added xml::document(filename) and xml::document(data, size) constructors
+    for convenient document creation without the need to use tree_parser.
+
 Version 0.6.3
 
     Fixed compilation with Sun Studio compiler; miscellaneous other build
