@@ -97,9 +97,10 @@ public:
 
         @param root_name What to set the name of the root element to.
 
-        @deprecated Use the node-taking constructor.
+        @deprecated Use `xml::document(xml::node(root_name))` constructor instead.
      */
-    XMLWRAPP_DEPRECATED explicit document(const char *root_name);
+    XMLWRAPP_DEPRECATED("use xml::document(xml::node(root_name)) instead")
+    explicit document(const char *root_name);
 
     /**
         Create a new XML document and set the root node.

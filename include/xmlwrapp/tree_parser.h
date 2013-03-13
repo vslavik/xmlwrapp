@@ -155,7 +155,8 @@ public:
 
         @deprecated Use messages() instead.
      */
-    XMLWRAPP_DEPRECATED const std::string& get_error_message() const;
+    XMLWRAPP_DEPRECATED("use messages() instead")
+    const std::string& get_error_message() const;
 
     /**
         Check to see if there were any warnings from the parser while

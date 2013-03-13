@@ -115,7 +115,8 @@ public:
 
         @deprecated Use the form that takes xml::error_handler argument.
      */
-    XMLWRAPP_DEPRECATED bool apply(const xml::document& doc, xml::document& result);
+    XMLWRAPP_DEPRECATED("use the form that takes error_handler argument")
+    bool apply(const xml::document& doc, xml::document& result);
 
     /**
         Apply this stylesheet to the given XML document. The result document
@@ -130,7 +131,8 @@ public:
 
         @deprecated Use the form that takes xml::error_handler argument.
      */
-    XMLWRAPP_DEPRECATED bool apply(const xml::document& doc, xml::document& result, const param_type& with_params);
+    XMLWRAPP_DEPRECATED("use the form that takes error_handler argument")
+    bool apply(const xml::document& doc, xml::document& result, const param_type& with_params);
 
     /**
         Apply this stylesheet to the given XML document. The result document
@@ -214,7 +216,8 @@ public:
 
         @deprecated Use apply() variants that take xml::error_handler argument.
      */
-    XMLWRAPP_DEPRECATED const std::string& get_error_message() const;
+    XMLWRAPP_DEPRECATED("use apply() variants that take error_handler argument")
+    const std::string& get_error_message() const;
 
 private:
     void init(xml::document& doc, xml::error_handler& on_error);

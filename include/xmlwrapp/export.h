@@ -41,12 +41,18 @@
     #define XSLTWRAPP_API
 #endif
 
-#if defined(__GNUC__)
-    #define XMLWRAPP_DEPRECATED __attribute__((deprecated))
+#if defined(__clang__)
+    #if defined(__has_extension) && __has_extension(attribute_deprecated_with_message)
+        #define XMLWRAPP_DEPRECATED(msg) __attribute__((deprecated(msg)))
+    #else
+        #define XMLWRAPP_DEPRECATED(msg) __attribute__((deprecated))
+    #endif
+#elif defined(__GNUC__)
+    #define XMLWRAPP_DEPRECATED(msg) __attribute__((deprecated))
 #elif defined(__VISUALC__) && (__VISUALC__ >= 1300)
-    #define XMLWRAPP_DEPRECATED __declspec(deprecated)
+    #define XMLWRAPP_DEPRECATED(msg) __declspec(deprecated)
 #else
-    #define XMLWRAPP_DEPRECATED
+    #define XMLWRAPP_DEPRECATED(msg)
 #endif
 
 #endif // _xmlwrapp_export_h_
