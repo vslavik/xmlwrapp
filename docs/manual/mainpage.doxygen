@@ -40,6 +40,9 @@
   - @subpage attr_it
   - @subpage attr_add
   - @subpage attr_remove
+- @subpage xmlnamespaces
+  - @subpage xmlnamespaces_about
+  - @subpage xmlnamespaces_usage
 - @subpage xslt
   - @subpage xslt_init
   - @subpage xslt_stylesheet

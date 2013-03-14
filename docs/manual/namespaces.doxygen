@@ -1,0 +1,78 @@
+/**
+
+@page xmlnamespaces
+
+@section xmlnamespaces_about About XML-Namespaces
+
+There are XML-Documents, which are composed of multiple
+document types. You can see the problem in the following examples:
+
+@code
+<table>
+ <tr>
+  <td>1</td>
+  <td>2</td>
+ </tr>
+</table>
+@endcode
+
+@code
+<table>
+ <material>wood</material>
+</table>
+@endcode
+
+Obviously, these two <tt>&lt;table&gt;</tt>-elements are not the
+same. To separate these two element types, namespaces are used.
+
+
+Namespaces are identified by an URI (Uniform Resource Identifier).
+There is no need to have a document available with this URI,
+but it has to be unique (in the usage-context). Big players
+like the W3C use something like "http://w3.org/1999/XSL/Transform".
+
+
+@section xmlnamespaces_usage Usage
+
+Like in the rest of this library, namespaces are exposed like containers.
+You can iterator over them, insert new ones, erase old ones. But there is 
+a difference, e.g. compared to attributes:
+They are defined on one element, but are also available on its descendants.
+Because of this, xml::namespaces::definitions exists. Only with this class
+you can define new namespaces and delete old ones.
+
+\note There is no need to define all namespaces on the root node. You can
+define them on every node in the document, but they are only defined on the
+descendants.
+
+@subsection xmlnamespaces_usage_examples Examples
+
+
+Setting the namespace of the root node:
+@code
+[...]
+xml::node& root = document.get_root_node();
+
+xml::namespaces::definitions& nsdefs = root.get_namespaces_definitions();
+
+xml::namespaces::iterator it = nsdefs.insert(xml::namespaces::ns("http://example.com/cool_namespace", "p"));
+
+
+root.set_namespace(*it);
+
+@endcode
+
+
+Getting the namespace of an attribute of the root node:
+@code
+[...]
+xml::node& root = document.get_root_node();
+
+xml::namespace ns = root.get_attributes().find("attr").get_namespace();
+
+std::cout << "Namespace-URI: " << ns.get_href() << std::endl;
+@endcode
+
+For further examples see the tests, they should cover everything.
+
+*/

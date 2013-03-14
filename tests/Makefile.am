@@ -15,7 +15,8 @@ test_SOURCES = \
 		document/test_document.cxx \
 		event/test_event.cxx \
 		node/test_node.cxx \
-		tree/test_tree.cxx
+		tree/test_tree.cxx \
+		namespaces/test_namespaces.cxx
 
 if WITH_XSLT
 LIBS += $(top_builddir)/src/libxsltwrapp.la

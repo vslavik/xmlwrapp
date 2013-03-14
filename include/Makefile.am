@@ -12,6 +12,7 @@ xmlwrapp_include_HEADERS = \
 		xmlwrapp/nodes_view.h \
 		xmlwrapp/tree_parser.h \
 		xmlwrapp/version.h \
+		xmlwrapp/namespaces.h \
 		xmlwrapp/xmlwrapp.h
 
 if WITH_XSLT
