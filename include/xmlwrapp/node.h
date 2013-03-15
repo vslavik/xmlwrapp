@@ -414,11 +414,6 @@ public:
         /// postfix increment (avoid if possible for better performance)
         iterator  operator++ (int);
 
-        bool operator==(const iterator& other) const
-            { return get_raw_node() == other.get_raw_node(); }
-        bool operator!=(const iterator& other) const
-            { return !(*this == other); }
-
     private:
         impl::nipimpl *pimpl_;
 
@@ -429,6 +424,7 @@ public:
         friend class node;
         friend class document;
         friend class const_iterator;
+        friend bool XMLWRAPP_API operator==(const iterator& lhs, const iterator& rhs);
     };
 
     /**
@@ -460,11 +456,6 @@ public:
         /// postfix increment (avoid if possible for better performance)
         const_iterator  operator++ (int);
 
-        bool operator==(const const_iterator& other) const
-            { return get_raw_node() == other.get_raw_node(); }
-        bool operator!=(const const_iterator& other) const
-            { return !(*this == other); }
-
     private:
         impl::nipimpl *pimpl_;
 
@@ -474,6 +465,7 @@ public:
 
         friend class document;
         friend class node;
+        friend bool XMLWRAPP_API operator==(const const_iterator& lhs, const const_iterator& rhs);
     };
 
     /**
@@ -844,6 +836,22 @@ private:
     friend struct impl::doc_impl;
     friend struct impl::node_cmp;
 };
+
+// Comparison operators for xml::node iterators
+
+inline bool XMLWRAPP_API operator==(const node::iterator& lhs,
+                                    const node::iterator& rhs)
+    { return lhs.get_raw_node() == rhs.get_raw_node(); }
+inline bool XMLWRAPP_API operator!=(const node::iterator& lhs,
+                                    const node::iterator& rhs)
+    { return !(lhs == rhs); }
+
+inline bool XMLWRAPP_API operator==(const node::const_iterator& lhs,
+                                    const node::const_iterator& rhs)
+    { return lhs.get_raw_node() == rhs.get_raw_node(); }
+inline bool XMLWRAPP_API operator!=(const node::const_iterator& lhs,
+                                    const node::const_iterator& rhs)
+    { return !(lhs == rhs); }
 
 } // namespace xml
 

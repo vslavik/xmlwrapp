@@ -641,4 +641,71 @@ BOOST_AUTO_TEST_CASE( escape_set_text_content )
 }
 
 
+BOOST_AUTO_TEST_CASE( compare_node_iterators )
+{
+    xml::node n("root");
+    xml::node::iterator i = n.begin();
+    xml::node::const_iterator ci = n.begin();
+
+    BOOST_CHECK( i == i );
+    BOOST_CHECK( !(i != i) );
+    BOOST_CHECK( ci == ci );
+    BOOST_CHECK( !(ci != ci) );
+    BOOST_CHECK( i == ci );
+    BOOST_CHECK( !(i != ci) );
+    BOOST_CHECK( ci == i );
+    BOOST_CHECK( !(ci != i) );
+}
+
+
+BOOST_AUTO_TEST_CASE( compare_nodes_view_iterators )
+{
+    xml::node n("root");
+    xml::nodes_view view(n.elements("foo"));
+    xml::const_nodes_view cview(n.elements("foo"));
+
+    xml::nodes_view::iterator i = view.begin();
+    xml::nodes_view::const_iterator ci = view.begin();
+
+    xml::const_nodes_view::iterator i2 = cview.begin();
+    xml::const_nodes_view::const_iterator ci2 = cview.begin();
+
+    BOOST_CHECK( i == i );
+    BOOST_CHECK( !(i != i) );
+    BOOST_CHECK( ci == ci );
+    BOOST_CHECK( !(ci != ci) );
+    BOOST_CHECK( i == ci );
+    BOOST_CHECK( !(i != ci) );
+    BOOST_CHECK( ci == i );
+    BOOST_CHECK( !(ci != i) );
+
+    BOOST_CHECK( i2 == i2 );
+    BOOST_CHECK( !(i2 != i2) );
+    BOOST_CHECK( ci2 == ci2 );
+    BOOST_CHECK( !(ci2 != ci2) );
+    BOOST_CHECK( i2 == ci2 );
+    BOOST_CHECK( !(i2 != ci2) );
+    BOOST_CHECK( ci2 == i2 );
+    BOOST_CHECK( !(ci2 != i2) );
+
+    BOOST_CHECK( i2 == i );
+    BOOST_CHECK( !(i2 != i) );
+    BOOST_CHECK( ci2 == ci );
+    BOOST_CHECK( !(ci2 != ci) );
+    BOOST_CHECK( i2 == ci );
+    BOOST_CHECK( !(i2 != ci) );
+    BOOST_CHECK( ci2 == i );
+    BOOST_CHECK( !(ci2 != i) );
+
+    BOOST_CHECK( i == i2 );
+    BOOST_CHECK( !(i != i2) );
+    BOOST_CHECK( ci == ci2 );
+    BOOST_CHECK( !(ci != ci2) );
+    BOOST_CHECK( i == ci2 );
+    BOOST_CHECK( !(i != ci2) );
+    BOOST_CHECK( ci == i2 );
+    BOOST_CHECK( !(ci != i2) );
+}
+
+
 BOOST_AUTO_TEST_SUITE_END()

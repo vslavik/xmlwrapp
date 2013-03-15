@@ -114,11 +114,6 @@ public:
         iterator& operator++();
         iterator  operator++(int);
 
-        bool operator==(const iterator& other) const
-            { return get_raw_node() == other.get_raw_node(); }
-        bool operator!=(const iterator& other) const
-            { return !(*this == other); }
-
     private:
         explicit iterator(void *data, impl::iter_advance_functor *advance_func);
         void* get_raw_node() const;
@@ -132,6 +127,7 @@ public:
 
         friend class nodes_view;
         friend class const_iterator;
+        friend bool XMLWRAPP_API operator==(const iterator& lhs, const iterator& rhs);
     };
 
     /**
@@ -163,11 +159,6 @@ public:
         const_iterator& operator++();
         const_iterator  operator++(int);
 
-        bool operator==(const const_iterator& other) const
-            { return get_raw_node() == other.get_raw_node(); }
-        bool operator!=(const const_iterator& other) const
-            { return !(*this == other); }
-
     private:
         explicit const_iterator(void *data, impl::iter_advance_functor *advance_func);
         void* get_raw_node() const;
@@ -181,6 +172,7 @@ public:
 
         friend class const_nodes_view;
         friend class nodes_view;
+        friend bool XMLWRAPP_API operator==(const const_iterator& lhs, const const_iterator& rhs);
     };
 
     /// Get an iterator that points to the beginning of this view's nodes.
@@ -265,6 +257,22 @@ private:
 
     friend class node;
 };
+
+// Comparison operators for xml::[const_]nodes_view iterators
+
+inline bool XMLWRAPP_API operator==(const nodes_view::iterator& lhs,
+                                    const nodes_view::iterator& rhs)
+    { return lhs.get_raw_node() == rhs.get_raw_node(); }
+inline bool XMLWRAPP_API operator!=(const nodes_view::iterator& lhs,
+                                    const nodes_view::iterator& rhs)
+    { return !(lhs == rhs); }
+
+inline bool XMLWRAPP_API operator==(const nodes_view::const_iterator& lhs,
+                                    const nodes_view::const_iterator& rhs)
+    { return lhs.get_raw_node() == rhs.get_raw_node(); }
+inline bool XMLWRAPP_API operator!=(const nodes_view::const_iterator& lhs,
+                                    const nodes_view::const_iterator& rhs)
+    { return !(lhs == rhs); }
 
 } // end xml namespace
 

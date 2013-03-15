@@ -286,3 +286,22 @@ BOOST_AUTO_TEST_CASE( attr_size )
     BOOST_CHECK_EQUAL( do_get_attr_size("attributes/data/07c.xml"), 2 );
     BOOST_CHECK_EQUAL( do_get_attr_size("attributes/data/07d.xml"), 3 );
 }
+
+
+BOOST_AUTO_TEST_CASE( compare_attr_iterators )
+{
+    xml::node n("root");
+    xml::attributes& attrs = n.get_attributes();
+
+    xml::attributes::iterator i = attrs.begin();
+    xml::attributes::const_iterator ci = attrs.begin();
+
+    BOOST_CHECK( i == i );
+    BOOST_CHECK( !(i != i) );
+    BOOST_CHECK( ci == ci );
+    BOOST_CHECK( !(ci != ci) );
+    BOOST_CHECK( i == ci );
+    BOOST_CHECK( !(i != ci) );
+    BOOST_CHECK( ci == i );
+    BOOST_CHECK( !(ci != i) );
+}
