@@ -22,31 +22,37 @@
 
 
         <ul>
-          <li><a href="https://github.com/vslavik/xmlwrapp/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/vslavik/xmlwrapp/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="http://sourceforge.net/projects/xmlwrapp/files/xmlwrapp/0.7.0/xmlwrapp-0.7.0.tar.gz/download">
+                 Download<strong>0.7 release</strong>
+          </a></li>
+          <li><a href="https://github.com/vslavik/xmlwrapp/tarball/master">Get latest<strong>snapshot</strong></a></li>
           <li><a href="https://github.com/vslavik/xmlwrapp">View On <strong>GitHub</strong></a></li>
         </ul>
       </header>
       <section>
-        <h2>0. Introduction</h2>
+        <h2>About</h2>
 
-<p>xmlwrapp is a modern style C++ library for working with XML data, built atop
+<p><b>xmlwrapp</b> is a modern style C++ library for working with XML data, built atop
 the venerable libxml2 C library.</p>
 
 <p>Additional resources, bug reports, latest sources etc. can be found on the
 project page at <a href="https://github.com/vslavik/xmlwrapp">https://github.com/vslavik/xmlwrapp</a></p>
 
+<p>Packages tarballs can be downloaded from
+<a href="https://sourceforge.net/projects/xmlwrapp/files/xmlwrapp/">https://sourceforge.net/projects/xmlwrapp/files/xmlwrapp/</a></p>
+
+
 <p>If you need help or want to discuss xmlwrapp, feel free to join the discussion
 group hosted at <a href="http://groups.google.com/group/xmlwrapp">http://groups.google.com/group/xmlwrapp</a> or email directly to
 <a href="mailto:xmlwrapp@googlegroups.com">xmlwrapp@googlegroups.com</a>.</p>
 
-<h2>1. Requirements</h2>
+<h3>Requirements</h3>
 
 <p>In order to build xmlwrapp, you need libxml2 version 2.4.28 or newer. When
 building with XSLT support, libxslt 1.1.6 or newer is required. Both libraries
 are available from <a href="http://xmlsoft.org">http://xmlsoft.org</a>.</p>
 
-<h2>2. Building on Unix</h2>
+<h3>Building on Unix</h3>
 
 <p>On Unix, the usual Autotools-based build system is used. Building xmlwrapp is
 usually as simple as running the following three commands:</p>
@@ -57,14 +63,14 @@ usually as simple as running the following three commands:</p>
 
 <p>See the output of <code>./configure --help</code> for additional settings and options.</p>
 
-<h2>3. Building on Windows</h2>
+<h3>Building on Windows</h3>
 
 <p>At this time, only building with Visual C++ compiler is supported. The required
 project files are located in platform/Win32 directory. You will need libxml
 and libxslt libraries built for Windows, e.g. the binaries from
 <a href="http://www.zlatkovic.com/libxml.en.html">http://www.zlatkovic.com/libxml.en.html</a>.</p>
 
-<h2>4. Using xmlwrapp</h2>
+<h3>Using xmlwrapp</h3>
 
 <p>On Unix, you should use pkg-config to get compiler flags for xmlwrapp or
 xsltwrapp libraries:</p>
