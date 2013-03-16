@@ -9,7 +9,7 @@ endif
 
 libxmlwrapp_la_CPPFLAGS = $(AM_CPPFLAGS) $(LIBXML_CFLAGS)
 libxmlwrapp_la_LIBADD = $(LIBXML_LIBS)
-libxmlwrapp_la_LDFLAGS = -version-info 6:0:1 -no-undefined
+libxmlwrapp_la_LDFLAGS = -version-info 6:0:0 -no-undefined
 
 libxmlwrapp_la_SOURCES = \
 		libxml/ait_impl.cxx \
@@ -39,7 +39,7 @@ if WITH_XSLT
 
 libxsltwrapp_la_CPPFLAGS = $(AM_CPPFLAGS) $(LIBEXSLT_CFLAGS) $(LIBXSLT_CFLAGS)
 libxsltwrapp_la_LIBADD = libxmlwrapp.la $(LIBEXSLT_LIBS) $(LIBXSLT_LIBS)
-libxsltwrapp_la_LDFLAGS = -version-info 3:1:0 -no-undefined
+libxsltwrapp_la_LDFLAGS = -version-info 4:0:0 -no-undefined
 
 libxsltwrapp_la_SOURCES = \
 		libxslt/init.cxx \
