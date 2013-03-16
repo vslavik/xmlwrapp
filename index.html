@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>xmlwrapp by vslavik</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>xmlwrapp</h1>
+        <p>Lightweight C++ XML parsing library</p>
+
+        <p class="view"><a href="https://github.com/vslavik/xmlwrapp">View the Project on GitHub <small>vslavik/xmlwrapp</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/vslavik/xmlwrapp/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/vslavik/xmlwrapp/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/vslavik/xmlwrapp">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2>0. Introduction</h2>
+
+<p>xmlwrapp is a modern style C++ library for working with XML data, built atop
+the venerable libxml2 C library.</p>
+
+<p>Additional resources, bug reports, latest sources etc. can be found on the
+project page at <a href="https://github.com/vslavik/xmlwrapp">https://github.com/vslavik/xmlwrapp</a></p>
+
+<p>If you need help or want to discuss xmlwrapp, feel free to join the discussion
+group hosted at <a href="http://groups.google.com/group/xmlwrapp">http://groups.google.com/group/xmlwrapp</a> or email directly to
+<a href="mailto:xmlwrapp@googlegroups.com">xmlwrapp@googlegroups.com</a>.</p>
+
+<h2>1. Requirements</h2>
+
+<p>In order to build xmlwrapp, you need libxml2 version 2.4.28 or newer. When
+building with XSLT support, libxslt 1.1.6 or newer is required. Both libraries
+are available from <a href="http://xmlsoft.org">http://xmlsoft.org</a>.</p>
+
+<h2>2. Building on Unix</h2>
+
+<p>On Unix, the usual Autotools-based build system is used. Building xmlwrapp is
+usually as simple as running the following three commands:</p>
+
+<p>./configure
+  make
+  make install</p>
+
+<p>See the output of <code>./configure --help</code> for additional settings and options.</p>
+
+<h2>3. Building on Windows</h2>
+
+<p>At this time, only building with Visual C++ compiler is supported. The required
+project files are located in platform/Win32 directory. You will need libxml
+and libxslt libraries built for Windows, e.g. the binaries from
+<a href="http://www.zlatkovic.com/libxml.en.html">http://www.zlatkovic.com/libxml.en.html</a>.</p>
+
+<h2>4. Using xmlwrapp</h2>
+
+<p>On Unix, you should use pkg-config to get compiler flags for xmlwrapp or
+xsltwrapp libraries:</p>
+
+<p>c++ -c <code>pkg-config --cflags xmlwrapp</code> ...
+   c++ -o ... <code>pkg-config --libs xmlwrapp</code></p>
+
+<p>On Windows, you need to link against xmlwrapp libraries and add the include/
+directory to compiler's headers search path.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/vslavik">vslavik</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
