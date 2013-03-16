@@ -1,3 +1,4 @@
+Version 0.7.0
 
     Changed the xml::node::node(name, content) constructor so that it doesn't
     create a child text node if the content is empty.
