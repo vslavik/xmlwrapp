@@ -95,6 +95,8 @@ std::string error_messages::format_for_print(const error_message& msg) const
         case error_message::type_warning:
             return "warning: " + msg.message();
     }
+
+    return msg.message(); // silence bogus gcc warning
 }
 
 // ------------------------------------------------------------------------
@@ -186,6 +188,8 @@ std::string errors_collector::format_for_print(const error_message& msg) const
         case error_message::type_warning:
             return "warning: " + msg.message();
     }
+
+    return msg.message(); // silence bogus gcc warning
 }
 
 } // namespace impl
