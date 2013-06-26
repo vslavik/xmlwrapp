@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
  *               2009      Vaclav Slavik <vslavik@gmail.com>
+ *               2011      Jonas Weber <mail@jonasw.de>
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +36,9 @@
 #include "xmlwrapp/node.h"
 #include "xmlwrapp/nodes_view.h"
 #include "xmlwrapp/attributes.h"
+#include "xmlwrapp/namespaces.h"
 #include "xmlwrapp/errors.h"
+
 #include "utility.h"
 #include "ait_impl.h"
 #include "node_manip.h"
@@ -72,7 +75,7 @@ namespace impl
 
 struct node_impl : public pimpl_base<xml::impl::node_impl>
 {
-    node_impl() : xmlnode_(0), owner_(true), attrs_(0) {}
+    node_impl() : xmlnode_(0), owner_(true), attrs_(0), nsdefs_(0), nss_(0) {}
     ~node_impl() { release(); }
 
     void release()
@@ -85,6 +88,8 @@ struct node_impl : public pimpl_base<xml::impl::node_impl>
     bool owner_;
     attributes attrs_;
     std::string tmp_string;
+    namespaces::definitions nsdefs_;
+    namespaces nss_;
 };
 
 
@@ -511,13 +516,52 @@ const xml::attributes& node::get_attributes() const
 }
 
 
-const char *node::get_namespace() const
+xml::namespaces::definitions& node::get_namespace_definitions()
 {
-    return pimpl_->xmlnode_->ns
-        ? reinterpret_cast<const char*>(pimpl_->xmlnode_->ns->href)
-        : NULL;
+    if (pimpl_->xmlnode_->type != XML_ELEMENT_NODE) // is this correct? (thriqon)
+    {
+        throw xml::exception("get_namespace_definitions called on non-element node");
+    }
+    pimpl_->nsdefs_.set_data(pimpl_->xmlnode_);
+    return pimpl_->nsdefs_;
 }
 
+xml::namespaces::ns node::get_namespace() const
+{
+    return xml::namespaces::ns(pimpl_->xmlnode_->ns);
+}
+
+void node::set_namespace(const xml::namespaces::ns& ns)
+{
+    if (std::string(ns.get_prefix()) == "")
+    {
+        xmlSetNs (pimpl_->xmlnode_, NULL);
+        return;
+    }
+
+    xml::namespaces::iterator it = this->get_namespaces().find_prefix(ns.get_prefix());
+    if (it == this->get_namespaces().end() || strcmp(ns.get_href(), it->get_href()) != 0)
+        throw xml::exception(std::string("namespace not defined: ") + (it == this->get_namespaces().end() ? "y" : "n"));
+    xmlSetNs (pimpl_->xmlnode_, reinterpret_cast<xmlNsPtr> (it.get_ns()));
+}
+
+void node::set_namespace(const char* prefix)
+{
+    xml::namespaces::iterator it = this->get_namespaces().find_prefix(prefix);
+    xmlSetNs (pimpl_->xmlnode_, reinterpret_cast<xmlNsPtr> (it.get_ns()));
+}
+
+void node::set_namespace_href(const char* href)
+{
+    xml::namespaces::iterator it = this->get_namespaces().find(href);
+    xmlSetNs (pimpl_->xmlnode_, reinterpret_cast<xmlNsPtr> (it.get_ns()));
+}
+
+xml::namespaces& node::get_namespaces()
+{
+    pimpl_->nss_.set_data(pimpl_->xmlnode_);
+    return pimpl_->nss_;
+}
 
 bool node::is_text() const
 {

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2001-2003 Peter J Jones (pjones@pmade.org)
+ *               2011      Jonas Weber (mail@jonasw.de)
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -32,12 +33,15 @@
 
 // xmlwrapp includes
 #include "xmlwrapp/attributes.h"
+#include "xmlwrapp/exception.h"
+#include "xmlwrapp/namespaces.h"
 #include "ait_impl.h"
 #include "pimpl_base.h"
 
 // standard includes
 #include <new>
 #include <algorithm>
+#include <string.h>
 
 // libxml2 includes
 #include <libxml/tree.h>
@@ -191,6 +195,18 @@ void attributes::insert(const char *name, const char *value)
                reinterpret_cast<const xmlChar*>(value));
 }
 
+void attributes::insert(const char *name, const char *value, const xml::namespaces::ns& ns)
+{
+    xmlNsPtr rns = xmlSearchNs(pimpl_->xmlnode_->doc, pimpl_->xmlnode_, reinterpret_cast<const xmlChar*> (ns.get_prefix()));
+    if (rns == NULL || strcmp(reinterpret_cast<const char*> (rns->href), ns.get_href()) != 0)
+        throw xml::exception("namespace not defined");
+
+    xmlSetNsProp(pimpl_->xmlnode_,
+               rns,
+               reinterpret_cast<const xmlChar*>(name),
+               reinterpret_cast<const xmlChar*>(value));
+}
+
 
 attributes::iterator attributes::find(const char *name)
 {
@@ -205,6 +221,16 @@ attributes::iterator attributes::find(const char *name)
     return iterator();
 }
 
+attributes::iterator attributes::find(const char* name, const xml::namespaces::ns& ns)
+{
+    xmlAttrPtr prop = xmlHasNsProp(pimpl_->xmlnode_, reinterpret_cast<const xmlChar*> (name), reinterpret_cast<const xmlChar*> (ns.get_href()));
+
+    if (prop != 0)
+        return iterator(pimpl_->xmlnode_, prop);
+
+    return iterator();
+}
+    
 
 attributes::const_iterator attributes::find(const char *name) const
 {
@@ -222,6 +248,15 @@ attributes::const_iterator attributes::find(const char *name) const
     return const_iterator();
 }
 
+attributes::const_iterator attributes::find(const char* name, const xml::namespaces::ns& ns) const
+{
+    xmlAttrPtr prop = xmlHasNsProp(pimpl_->xmlnode_, reinterpret_cast<const xmlChar*> (name), reinterpret_cast<const xmlChar*> (ns.get_href()));
+
+    if (prop != 0)
+        return const_iterator(pimpl_->xmlnode_, prop);
+
+    return const_iterator();
+}
 
 attributes::iterator attributes::erase (iterator to_erase)
 {

@@ -28,6 +28,7 @@ libxmlwrapp_la_SOURCES = \
 		libxml/node_iterator.h \
 		libxml/node_manip.cxx \
 		libxml/node_manip.h \
+		libxml/namespaces.cxx \
 		libxml/pimpl_base.h \
 		libxml/schema.cxx \
 		libxml/tree_parser.cxx \

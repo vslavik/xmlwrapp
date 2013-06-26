@@ -43,6 +43,7 @@
 // xmlwrapp includes
 #include "xmlwrapp/init.h"
 #include "xmlwrapp/export.h"
+#include "xmlwrapp/namespaces.h"
 
 // hidden stuff
 #include "xmlwrapp/_cbfo.h"
@@ -354,13 +355,39 @@ public:
     const xml::attributes& get_attributes() const;
 
     /**
-        Get the namespace of this xml::node.
+        Get the namespace of this xml::node as object.
+        @return The namespace-object of this element.
+        \note This object is auto-castable to a const char*. This is the same as get_href(). This is added for compatibility.
+    */
+    xml::namespaces::ns get_namespace() const;
 
-        @return The namespace of this node or NULL if no namespace is
-                associated.
-        @since  0.6.0
-     */
-    const char* get_namespace() const;
+    /** 
+        Gets a list of namespaces defined on this xml::node (with xmlns:prefix - attribute).
+
+        @return The xml::namespaces::definitions object for this node.
+    */
+    xml::namespaces::definitions& get_namespace_definitions();
+
+    /**
+        Gets a list of namespaces available on this node (not necessarily defined here).
+        @return The xml::namespaces-object for this node.
+    */
+    xml::namespaces& get_namespaces();
+
+    /**
+        Sets the namespace of this element.
+    */
+    void set_namespace(const xml::namespaces::ns& ns);
+
+    /**
+        Sets the namespace of the node by prefix.
+    */
+    void set_namespace(const char* prefix);
+    
+    /**
+        Sets the namespace of the node by href.
+    */
+    void set_namespace_href(const char* href);
 
     /**
         Find out if this node is a text node or something like a text node,
