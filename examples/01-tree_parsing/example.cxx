@@ -56,25 +56,11 @@ int main (int argc, char *argv[]) {
 	xml::node &root = parser.get_document().get_root_node();
 	std::cout << "root node is '" << root.get_name() << "'\n";
 
-	xml::namespaces::definitions& nsdefs = root.get_namespace_definitions();
-	std::cout << "EMPTY: " << nsdefs.empty() << std::endl;
-	for (xml::namespaces::iterator it = nsdefs.begin(); it != nsdefs.end(); ++it)
-	{
-		std::cout << "ns: " << it->get_href() << " " << it->get_prefix() << std::endl;
-	}
-
-	nsdefs.push_back (xml::namespaces::ns ("href", "prefix"));
-
-	xml::node::iterator child(root.begin()), child_end(root.end());
+	xml::node::const_iterator child(root.begin()), child_end(root.end());
 	for (; child != child_end; ++child) {
 	    if (child->is_text()) continue;
 	    std::cout << "child node '" << child->get_name() << "'\n";
-            std::cout << "child node: find prefix=p. href=" << child->get_namespace_definitions().find("p")->get_href() << std::endl;
-            std::cout << "assigning namespace: " << std::endl; child->set_namespace("prefix");
 	}
-
-	std::cout << root << std::endl;
-
 
     } catch (std::exception &e) {
 	std::cerr << argv[0] << ": " << e.what() << "\n";
