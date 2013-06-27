@@ -52,8 +52,8 @@ namespace xml
     // Forward declarations
     namespace impl
     {
-        class nsdefs_impl;
-        class nsdef_impl;
+        struct nsdefs_impl;
+        struct nsdef_impl;
         struct nsdef_it_impl;
         struct node_impl;
     }
@@ -114,7 +114,7 @@ namespace xml
                     std::string href; std::string prefix;
 
 
-                    friend class impl::nsdef_it_impl;
+                    friend struct impl::nsdef_it_impl;
                     friend class xml::node;
                     friend class xml::attributes;
                     friend class xml::namespaces;
@@ -146,7 +146,7 @@ namespace xml
 
                 private:
                     iterator(void* ns);
-                    friend class impl::nsdefs_impl;
+                    friend struct impl::nsdefs_impl;
                     friend class xml::namespaces::definitions;
                     friend class xml::node;
                     friend class xml::namespaces;
@@ -225,7 +225,7 @@ namespace xml
 
                 private:
                     impl::nsdefs_impl* impl;
-                    friend class xml::impl::node_impl;
+                    friend struct xml::impl::node_impl;
                     friend class xml::node;
 
                     // empty init
@@ -273,7 +273,7 @@ namespace xml
 
 
             friend class xml::node;
-            friend class xml::impl::node_impl;
+            friend struct xml::impl::node_impl;
     };
 } // namespace xml
 
