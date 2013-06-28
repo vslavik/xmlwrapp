@@ -533,25 +533,25 @@ xml::namespaces::ns node::get_namespace() const
 
 void node::set_namespace(const xml::namespaces::ns& ns)
 {
-    if (std::string(ns.get_prefix()) == "")
+    if (std::string(ns.prefix()) == "")
     {
         xmlSetNs (pimpl_->xmlnode_, NULL);
         return;
     }
 
-    xml::namespaces::iterator it = this->get_namespaces().find_prefix(ns.get_prefix());
-    if (it == this->get_namespaces().end() || strcmp(ns.get_href(), it->get_href()) != 0)
+    xml::namespaces::iterator it = this->get_namespaces().find_prefix(ns.prefix());
+    if (it == this->get_namespaces().end() || ns.href() != it->href())
         throw xml::exception(std::string("namespace not defined: ") + (it == this->get_namespaces().end() ? "y" : "n"));
     xmlSetNs (pimpl_->xmlnode_, reinterpret_cast<xmlNsPtr> (it.get_ns()));
 }
 
-void node::set_namespace(const char* prefix)
+void node::set_namespace(const std::string& prefix)
 {
     xml::namespaces::iterator it = this->get_namespaces().find_prefix(prefix);
     xmlSetNs (pimpl_->xmlnode_, reinterpret_cast<xmlNsPtr> (it.get_ns()));
 }
 
-void node::set_namespace_href(const char* href)
+void node::set_namespace_href(const std::string& href)
 {
     xml::namespaces::iterator it = this->get_namespaces().find(href);
     xmlSetNs (pimpl_->xmlnode_, reinterpret_cast<xmlNsPtr> (it.get_ns()));

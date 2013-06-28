@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE ( read_file_get_namespace_definitions )
 
     xml::namespaces::iterator it = nsdefs.begin();
     
-    BOOST_CHECK( (std::string(it->get_prefix()) == std::string("a")) && (std::string(it->get_href()) == std::string("href_a")) );
+    BOOST_CHECK( (std::string(it->prefix()) == std::string("a")) && (std::string(it->href()) == std::string("href_a")) );
 }
 
 BOOST_AUTO_TEST_CASE ( read_file_get_namespace_definitions_iterate )
@@ -61,12 +61,12 @@ BOOST_AUTO_TEST_CASE ( read_file_get_namespace_definitions_iterate )
 
     xml::namespaces::iterator it = nsdefs.begin();
 
-    BOOST_CHECK( (std::string(it->get_prefix()) == std::string("a")) && (std::string(it->get_href()) == std::string("href_a")) );
+    BOOST_CHECK( (std::string(it->prefix()) == std::string("a")) && (std::string(it->href()) == std::string("href_a")) );
 
     xml::namespaces::iterator it2 = it;
     BOOST_CHECK ( it2 == it++ );
     
-    BOOST_CHECK( (std::string(it->get_prefix()) == std::string("b")) && (std::string(it->get_href()) == std::string("href_b")) );
+    BOOST_CHECK( (std::string(it->prefix()) == std::string("b")) && (std::string(it->href()) == std::string("href_b")) );
 
     it2 = it;
     BOOST_CHECK ( it2 != ++it );
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE ( nsdef_getters )
 {
     xml::namespaces::ns mynsdef ("href", "prefix");
 
-    BOOST_CHECK ( std::string(mynsdef.get_href()) == "href" && std::string(mynsdef.get_prefix()) == "prefix" );
+    BOOST_CHECK ( std::string(mynsdef.href()) == "href" && std::string(mynsdef.prefix()) == "prefix" );
 }
 
 BOOST_AUTO_TEST_CASE ( read_file_add_namespace_definition )
@@ -108,10 +108,10 @@ BOOST_AUTO_TEST_CASE ( find_namespaces )
 
     xml::namespaces& nss = child.get_namespaces();
     xml::namespaces::iterator res = nss.find_prefix("p1");
-    BOOST_CHECK ( std::string(res->get_href()) == std::string("href_1"));
+    BOOST_CHECK ( std::string(res->href()) == std::string("href_1"));
 
     res = nss.find("href_2");
-    BOOST_CHECK ( std::string(res->get_prefix()) == std::string("p2"));
+    BOOST_CHECK ( std::string(res->prefix()) == std::string("p2"));
 
     res = nss.find_prefix("pXXX");
     BOOST_CHECK ( res == nss.end() );
@@ -176,10 +176,10 @@ BOOST_AUTO_TEST_CASE ( get_namespaces )
     
     xml::namespaces::ns ns = root.get_namespace();
     
-    BOOST_CHECK (std::string("p1") == ns.get_prefix() && std::string("href1") == ns.get_href());
+    BOOST_CHECK (std::string("p1") == ns.prefix() && std::string("href1") == ns.href());
 
-    const std::string thref = root.get_namespace().get_href();
-    BOOST_CHECK (std::string(ns.get_href()) == thref);
+    const std::string thref = root.get_namespace().href();
+    BOOST_CHECK (std::string(ns.href()) == thref);
 }
 
 
@@ -190,7 +190,7 @@ BOOST_AUTO_TEST_CASE ( get_namespace_attr )
     
     xml::namespaces::ns ns = root.get_attributes().begin()->get_namespace();
 
-    BOOST_CHECK ( std::string("p1") == ns.get_prefix() && std::string("href1") == ns.get_href());
+    BOOST_CHECK ( std::string("p1") == ns.prefix() && std::string("href1") == ns.href());
 
 }
 

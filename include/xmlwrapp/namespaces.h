@@ -44,7 +44,6 @@
 #include "xmlwrapp/init.h"
 #include "xmlwrapp/export.h"
 
-
 #include <string>
 
 namespace xml
@@ -79,31 +78,24 @@ namespace xml
                     /**
                       Gets the Href of this namespace,
                       like http://www.w3.org/1999/xhtml .
-                      @return Temporary const char*.
                      */
-                    const char* get_href() const;
+                    const std::string& href() const {  return href_; }
 
                     /**
                       Gets the prefix of this namespace.
-                      @return Temporary const char*.
                      */
-                    const char* get_prefix() const;
+                    const std::string& prefix() const { return prefix_; }
 
                     /**
                       Constructs new namespace-object,
                       for example to define on an element.
                      */
-                    ns(const char* href, const char* prefix);
+                    ns(const std::string& href, const std::string& prefix)
+                        : href_(href), prefix_(prefix) {}
 
                     ns (const ns&);
                     ns& operator= (const ns& o);
 
-                    ~ns();
-
-                    /**
-                      For compatibility: auto-convert to const char*, returning href
-                    */
-                    operator const char* () const;
                 private:
                     // handle to impl
                     impl::nsdef_impl* impl;
@@ -111,8 +103,8 @@ namespace xml
                     ns(void* data);
                     void set_data(void* data);
 
-                    std::string href; std::string prefix;
-
+                    std::string href_;
+                    std::string prefix_;
 
                     friend struct impl::nsdef_it_impl;
                     friend class xml::node;
@@ -201,14 +193,14 @@ namespace xml
                         @return an iterator to the namespace
                         @see xml::namespaces::find_prefix
                     */
-                    iterator find (const char* prefix);
+                    iterator find(const std::string& prefix);
 
                     /**
                         Finds a namespace-definition based on href.
                         @return an iterator to the namespace
                         @see xml::namespaces::find
                     */
-                    iterator find_href (const char* href);
+                    iterator find_href(const std::string& href);
 
                     /**
                         Erases a namespace-definition on this element.
@@ -240,7 +232,7 @@ namespace xml
               @return An object containing information about this namespace.
               @throws xml::exception If namespace is not found.
              */
-            iterator find(const char* href);
+            iterator find(const std::string& href);
 
             /**
               Find a namespace available on this element by href.
@@ -248,7 +240,7 @@ namespace xml
               @return An object containing information about this namespace.
               @throws xml::exception If namespace is not found.
              */
-            iterator find_prefix(const char* prefix);
+            iterator find_prefix(const std::string& prefix);
 
 
             /**

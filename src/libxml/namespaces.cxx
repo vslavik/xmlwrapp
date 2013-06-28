@@ -167,18 +167,18 @@ namespace xml
     {
     }
 
-    namespaces::iterator namespaces::find(const char* href)
+    namespaces::iterator namespaces::find(const std::string& href)
     {
         xmlNodePtr n = reinterpret_cast<xmlNodePtr>(data);
-        xmlNsPtr p = xmlSearchNsByHref(n->doc, n, reinterpret_cast<const xmlChar*>(href));
+        xmlNsPtr p = xmlSearchNsByHref(n->doc, n, reinterpret_cast<const xmlChar*>(href.c_str()));
         
         return namespaces::iterator(p);
     }
 
-    namespaces::iterator namespaces::find_prefix(const char* prefix)
+    namespaces::iterator namespaces::find_prefix(const std::string& prefix)
     {
         xmlNodePtr n = reinterpret_cast<xmlNodePtr>(data);
-        xmlNsPtr p = xmlSearchNs(n->doc, n, reinterpret_cast<const xmlChar*>(prefix));
+        xmlNsPtr p = xmlSearchNs(n->doc, n, reinterpret_cast<const xmlChar*>(prefix.c_str()));
  
         return namespaces::iterator(p);
     }
@@ -200,48 +200,23 @@ namespace xml
     {
         set_data(data);
     }
-    namespaces::ns::ns(const char* href, const char* prefix)
-    {
-        if (prefix != NULL && href != NULL)
-        {
-            this->href = href;
-            this->prefix = prefix;
-        }
-    }
-    namespaces::ns::~ns()
-    {
-    }
+
     void namespaces::ns::set_data(void* data)
     {
         if (data == NULL)
         {
-            href = "";
-            prefix = "";
+            href_ = "";
+            prefix_ = "";
             return;
         }
         xmlNsPtr ns = reinterpret_cast<xmlNsPtr> (data);
 
-        href = reinterpret_cast<const char*> (ns->href);
+        href_ = reinterpret_cast<const char*> (ns->href);
         if (ns->prefix != NULL)
-            prefix = reinterpret_cast<const char*> (ns->prefix);
+            prefix_ = reinterpret_cast<const char*> (ns->prefix);
         else
-            prefix = "";
+            prefix_ = "";
     }
-    const char* namespaces::ns::get_href() const
-    {
-        return href.c_str();
-    }
-
-    const char* namespaces::ns::get_prefix() const
-    {
-        return prefix.c_str();
-    }
-
-    namespaces::ns::operator const char* () const
-    {
-        return href.c_str();
-    }
-
 
     namespaces::definitions::definitions(int) : impl(NULL)
     {
@@ -249,7 +224,7 @@ namespace xml
 
     namespaces::ns namespaces::get_default()
     {
-        return namespaces::ns(NULL, NULL);
+        return namespaces::ns(NULL);
     }
 
     namespaces::definitions::~definitions()
@@ -282,24 +257,27 @@ namespace xml
 
     void namespaces::definitions::push_back(const ns& ns)
     {
-        xmlNsPtr newns = xmlNewNs (impl->node_, reinterpret_cast<const xmlChar*> (ns.get_href()), reinterpret_cast<const xmlChar*> (ns.get_prefix()));
-	if (newns == NULL) throw xml::exception("creation of namespace failed");
+        xmlNsPtr newns = xmlNewNs(impl->node_,
+                                  reinterpret_cast<const xmlChar*>(ns.href().c_str()),
+                                  reinterpret_cast<const xmlChar*> (ns.prefix().c_str()));
+        if (newns == NULL)
+            throw xml::exception("creation of namespace failed");
     }
 
-    namespaces::iterator namespaces::definitions::find (const char* prefix)
+    namespaces::iterator namespaces::definitions::find(const std::string& prefix)
     {
         for (xmlNsPtr r = impl->node_->nsDef; r != NULL; r = r->next)
         {
-            if (strcmp(reinterpret_cast<const char*> (r->prefix), prefix) == 0)
+            if (strcmp(reinterpret_cast<const char*> (r->prefix), prefix.c_str()) == 0)
                 return iterator(r);
         }
         return iterator();
     }
-    namespaces::iterator namespaces::definitions::find_href (const char* href)
+    namespaces::iterator namespaces::definitions::find_href(const std::string& href)
     {
         for (xmlNsPtr r = impl->node_->nsDef; r != NULL; r = r->next)
         {
-            if (strcmp(reinterpret_cast<const char*> (r->href), href) == 0)
+            if (strcmp(reinterpret_cast<const char*> (r->href), href.c_str()) == 0)
                 return iterator(r);
         }
         return iterator();

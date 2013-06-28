@@ -357,7 +357,7 @@ public:
     /**
         Get the namespace of this xml::node as object.
         @return The namespace-object of this element.
-        \note This object is auto-castable to a const char*. This is the same as get_href(). This is added for compatibility.
+        \note This object is auto-castable to a const char*. This is the same as href(). This is added for compatibility.
     */
     xml::namespaces::ns get_namespace() const;
 
@@ -382,12 +382,12 @@ public:
     /**
         Sets the namespace of the node by prefix.
     */
-    void set_namespace(const char* prefix);
+    void set_namespace(const std::string& prefix);
     
     /**
         Sets the namespace of the node by href.
     */
-    void set_namespace_href(const char* href);
+    void set_namespace_href(const std::string& href);
 
     /**
         Find out if this node is a text node or something like a text node,

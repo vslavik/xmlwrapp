@@ -70,7 +70,7 @@ xml::node& root = document.get_root_node();
 
 xml::namespace ns = root.get_attributes().find("attr").get_namespace();
 
-std::cout << "Namespace-URI: " << ns.get_href() << std::endl;
+std::cout << "Namespace-URI: " << ns.href() << std::endl;
 @endcode
 
 For further examples see the tests, they should cover everything.

@@ -197,8 +197,8 @@ void attributes::insert(const char *name, const char *value)
 
 void attributes::insert(const char *name, const char *value, const xml::namespaces::ns& ns)
 {
-    xmlNsPtr rns = xmlSearchNs(pimpl_->xmlnode_->doc, pimpl_->xmlnode_, reinterpret_cast<const xmlChar*> (ns.get_prefix()));
-    if (rns == NULL || strcmp(reinterpret_cast<const char*> (rns->href), ns.get_href()) != 0)
+    xmlNsPtr rns = xmlSearchNs(pimpl_->xmlnode_->doc, pimpl_->xmlnode_, reinterpret_cast<const xmlChar*> (ns.prefix().c_str()));
+    if (rns == NULL || strcmp(reinterpret_cast<const char*> (rns->href), ns.href().c_str()) != 0)
         throw xml::exception("namespace not defined");
 
     xmlSetNsProp(pimpl_->xmlnode_,
@@ -223,7 +223,7 @@ attributes::iterator attributes::find(const char *name)
 
 attributes::iterator attributes::find(const char* name, const xml::namespaces::ns& ns)
 {
-    xmlAttrPtr prop = xmlHasNsProp(pimpl_->xmlnode_, reinterpret_cast<const xmlChar*> (name), reinterpret_cast<const xmlChar*> (ns.get_href()));
+    xmlAttrPtr prop = xmlHasNsProp(pimpl_->xmlnode_, reinterpret_cast<const xmlChar*> (name), reinterpret_cast<const xmlChar*> (ns.href().c_str()));
 
     if (prop != 0)
         return iterator(pimpl_->xmlnode_, prop);
@@ -250,7 +250,7 @@ attributes::const_iterator attributes::find(const char *name) const
 
 attributes::const_iterator attributes::find(const char* name, const xml::namespaces::ns& ns) const
 {
-    xmlAttrPtr prop = xmlHasNsProp(pimpl_->xmlnode_, reinterpret_cast<const xmlChar*> (name), reinterpret_cast<const xmlChar*> (ns.get_href()));
+    xmlAttrPtr prop = xmlHasNsProp(pimpl_->xmlnode_, reinterpret_cast<const xmlChar*> (name), reinterpret_cast<const xmlChar*> (ns.href().c_str()));
 
     if (prop != 0)
         return const_iterator(pimpl_->xmlnode_, prop);
