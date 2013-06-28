@@ -34,7 +34,7 @@
 #include "xmlwrapp/xpath.h"
 #include "xmlwrapp/document.h"
 #include "xmlwrapp/node.h"
-#include "xmlwrapp/exception.h"
+#include "xmlwrapp/errors.h"
 
 // libxml includes
 #include <libxml/tree.h>
