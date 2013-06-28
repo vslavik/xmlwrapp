@@ -211,7 +211,7 @@ namespace xml {
 
             node_set context::evaluate(const char* expr)
             {
-                xmlXPathObjectPtr nsptr = xmlXPathEvalExpression(reinterpret_cast<const xmlChar*>(expr),
+                xmlXPathObjectPtr nsptr = xmlXPathEval(reinterpret_cast<const xmlChar*>(expr),
                         static_cast<xmlXPathContextPtr>(ctxtptr));
                 return node_set(nsptr);
             }
