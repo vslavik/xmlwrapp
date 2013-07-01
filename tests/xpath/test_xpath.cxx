@@ -40,13 +40,13 @@ BOOST_AUTO_TEST_SUITE( xpath )
 BOOST_AUTO_TEST_CASE ( create_context )
 {
     xml::tree_parser parser(test_file_path("xpath/data/01.xml").c_str());
-    xml::xpath::context ctxt(parser.get_document());
+    xml::xpath_context ctxt(parser.get_document());
 }
 
 BOOST_AUTO_TEST_CASE ( evaluate )
 {
     xml::tree_parser parser(test_file_path("xpath/data/01.xml").c_str());
-    xml::xpath::context ctxt(parser.get_document());
+    xml::xpath_context ctxt(parser.get_document());
     xml::const_nodes_view ns = ctxt.evaluate("//child");
 
     BOOST_CHECK(!ns.empty());
@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE ( evaluate )
 BOOST_AUTO_TEST_CASE( evaluate_with_ns )
 {
     xml::tree_parser parser(test_file_path("xpath/data/02.xml").c_str());
-    xml::xpath::context ctxt(parser.get_document());
+    xml::xpath_context ctxt(parser.get_document());
     
     xml::const_nodes_view ns1 = ctxt.evaluate("//child");
     BOOST_CHECK(ns1.empty());
@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE( evaluate_with_ns )
 BOOST_AUTO_TEST_CASE( node_set_iterators)
 {
     xml::tree_parser parser(test_file_path("xpath/data/02.xml").c_str());
-    xml::xpath::context ctxt(parser.get_document());
+    xml::xpath_context ctxt(parser.get_document());
     ctxt.register_namespace("p", "href");
     xml::const_nodes_view ns = ctxt.evaluate("//p:child");
 
@@ -93,7 +93,7 @@ BOOST_AUTO_TEST_CASE( node_set_iterators)
 BOOST_AUTO_TEST_CASE (node_set_contains)
 {
     xml::tree_parser parser(test_file_path("xpath/data/02.xml").c_str());
-    xml::xpath::context ctxt(parser.get_document());
+    xml::xpath_context ctxt(parser.get_document());
 
     ctxt.register_namespace("p", "href");
 
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE (node_set_contains)
 BOOST_AUTO_TEST_CASE (illegal_xpath)
 {
     xml::tree_parser parser(test_file_path("xpath/data/02.xml").c_str());
-    xml::xpath::context ctxt(parser.get_document());
+    xml::xpath_context ctxt(parser.get_document());
     
     xml::const_nodes_view ns = ctxt.evaluate("ILLEGAL XPATH-QUERY");
 

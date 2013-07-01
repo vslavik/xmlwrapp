@@ -53,11 +53,6 @@ namespace xml
 class node;
 class const_nodes_view;
 
-namespace xpath
-{
-    class context;
-}
-
 namespace impl
 {
 
@@ -261,7 +256,7 @@ private:
     impl::iter_advance_functor *advance_func_;
 
     friend class node;
-    friend class xpath::context;
+    friend class xpath_context;
 };
 
 // Comparison operators for xml::[const_]nodes_view iterators

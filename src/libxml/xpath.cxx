@@ -45,7 +45,8 @@
 
 #include <map>
 
-namespace xml {
+namespace xml
+{
 
 namespace
 {
@@ -85,48 +86,43 @@ private:
 
 } // anonymous namespace
 
-    namespace xpath {
-            //-----------------
-            // xpath::context
-            //-----------------
 
-            context::context(const xml::document& doc)
-            {
-                ctxtptr = xmlXPathNewContext(static_cast<xmlDocPtr>(doc.get_doc_data_read_only()));
-            }
-
-            context::~context()
-            {
-                xmlXPathFreeContext(static_cast<xmlXPathContextPtr>(ctxtptr));
-            }
-
-            void context::register_namespace(const char* prefix, const char* href)
-            {
-                xmlXPathRegisterNs(static_cast<xmlXPathContextPtr>(ctxtptr),
-                        reinterpret_cast<const xmlChar*>(prefix),
-                        reinterpret_cast<const xmlChar*>(href));
-            }
-
-            const_nodes_view context::evaluate(const char* expr)
-            {
-                // TODO: use auto ptr for this
-                xmlXPathObjectPtr nsptr = xmlXPathEval(reinterpret_cast<const xmlChar*>(expr),
-                        static_cast<xmlXPathContextPtr>(ctxtptr));
-
-                if ( !nsptr )
-                    return const_nodes_view();
-                if ( xmlXPathNodeSetIsEmpty(nsptr->nodesetval) )
-                {
-                    xmlXPathFreeObject(nsptr);
-                    return const_nodes_view();
-                }
-
-                return const_nodes_view
-                       (
-                           nsptr->nodesetval->nodeTab[0],
-                           new nodeset_next_functor(nsptr)
-                       );
-            }
-
-        }
+xpath_context::xpath_context(const xml::document& doc)
+{
+    ctxtptr = xmlXPathNewContext(static_cast<xmlDocPtr>(doc.get_doc_data_read_only()));
 }
+
+xpath_context::~xpath_context()
+{
+    xmlXPathFreeContext(static_cast<xmlXPathContextPtr>(ctxtptr));
+}
+
+void xpath_context::register_namespace(const char* prefix, const char* href)
+{
+    xmlXPathRegisterNs(static_cast<xmlXPathContextPtr>(ctxtptr),
+            reinterpret_cast<const xmlChar*>(prefix),
+            reinterpret_cast<const xmlChar*>(href));
+}
+
+const_nodes_view xpath_context::evaluate(const char* expr)
+{
+    // TODO: use auto ptr for this
+    xmlXPathObjectPtr nsptr = xmlXPathEval(reinterpret_cast<const xmlChar*>(expr),
+            static_cast<xmlXPathContextPtr>(ctxtptr));
+
+    if ( !nsptr )
+        return const_nodes_view();
+    if ( xmlXPathNodeSetIsEmpty(nsptr->nodesetval) )
+    {
+        xmlXPathFreeObject(nsptr);
+        return const_nodes_view();
+    }
+
+    return const_nodes_view
+           (
+               nsptr->nodesetval->nodeTab[0],
+               new nodeset_next_functor(nsptr)
+           );
+}
+
+} // namespace xml

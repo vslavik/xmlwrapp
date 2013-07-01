@@ -836,7 +836,6 @@ private:
     friend class document;
     friend struct impl::doc_impl;
     friend struct impl::node_cmp;
-    friend struct xml::impl::xpitimpl;
     friend class xml::const_nodes_view;
 };
 

@@ -34,7 +34,7 @@
 /**
   @file
 
-  This files contains definitions for the xml::xpath namespace.
+  This files contains definitions for XPath-related classes.
  */
 
 #ifndef _xmlwrapp_xpath_h__
@@ -48,54 +48,43 @@
 
 namespace xml
 {
-    namespace impl
-    {
-        struct xpitimpl;
-    }
 
-    class node;
-    class document;
+class node;
+class document;
+
+/**
+    A context in which XPath expressions can be evaluated.
+
+    @since 0.8.0
+ */
+class XMLWRAPP_API xpath_context
+{
+public:
+    xpath_context(const xml::document& doc);
+
+    ~xpath_context();
 
     /**
-      Contains classes to use XPath
+      Registers a namespace with prefix.
+      @param prefix The prefix used in the expression, not per se the same as in the document.
+      @param href The href of the namespace used in the document.
      */
-    namespace xpath
-    {
+    void register_namespace(const char* prefix, const char* href);
 
-        class node_set;
+    /**
+      Executes a query, namely <tt>expr</tt>.
+      @return A Node-Set which can be iterated over
+     */
+    const_nodes_view evaluate(const char* expr);
 
-        /**
-          A context in which XPath-Expressions can be evaluated.
+private:
+    // no copying
+    xpath_context(const xpath_context&);
+    xpath_context& operator=(const xpath_context&);
 
-          This class is neccessary because every namespace that is used
-          in the query has to be registered (with prefix) in a context-class.
-         */
-        class XMLWRAPP_API context
-        {
-            public:
-                context(const xml::document& doc);
+    void* ctxtptr;
+};
 
-                ~context();
-
-                /**
-                  Registers a namespace with prefix.
-                  @param prefix The prefix used in the expression, not per se the same as in the document.
-                  @param href The href of the namespace used in the document.
-                 */
-                void register_namespace(const char* prefix, const char* href);
-
-                /**
-                  Executes a query, namely <tt>expr</tt>.
-                  @return A Node-Set which can be iterated over
-                 */
-                const_nodes_view evaluate(const char* expr);
-
-            private:
-                void* ctxtptr;
-                context(const context&); context operator=(context&);
-        };
-
-    }
-}
+} // namespace xml
 
 #endif // _xmlwrapp_xpath_h_

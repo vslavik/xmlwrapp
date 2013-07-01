@@ -13,7 +13,7 @@ int main(int, char *argv[])
     // namespaces are registered here
     // with prefix and href.
     // see documentation for details
-    xml::xpath::context ctxt(parser.get_document());
+    xml::xpath_context ctxt(parser.get_document());
 
     // execute the query //child (finds all "child"-nodes)
     xml::const_nodes_view children = ctxt.evaluate("//child");
