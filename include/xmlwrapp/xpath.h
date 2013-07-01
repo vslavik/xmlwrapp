@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2011 Jonas Weber (mail@jonasw.de)
+ *               2013 Vaclav Slavik <vslavik@gmail.com>
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -43,6 +44,7 @@
 // xmlwrapp includes
 #include "xmlwrapp/init.h"
 #include "xmlwrapp/export.h"
+#include "xmlwrapp/nodes_view.h"
 
 namespace xml
 {
@@ -86,88 +88,14 @@ namespace xml
                   Executes a query, namely <tt>expr</tt>.
                   @return A Node-Set which can be iterated over
                  */
-                node_set evaluate(const char* expr);
+                const_nodes_view evaluate(const char* expr);
 
             private:
                 void* ctxtptr;
                 context(const context&); context operator=(context&);
         };
 
-
-        /**
-          A set of nodes being the result of an xpath-query
-         */
-        class XMLWRAPP_API node_set
-        {
-            public:
-                /**
-                  An iterator to a xml::node in a xml::node_set
-                 */
-                class XMLWRAPP_API iterator
-                {
-                    public:
-                        xml::node& operator* ();
-                        xml::node* operator->();
-
-                        /**
-                          increments the iterator
-                         */
-                        iterator& operator++();
-
-                        /**
-                          postifx increment: increments the iterator (avoid if possible)
-                         */
-                        iterator operator++(int); // postfix -- avoid
-
-                        friend bool XMLWRAPP_API xml::xpath::operator==(const iterator& l, const iterator& r);
-                        friend bool XMLWRAPP_API xml::xpath::operator!=(const iterator& l, const iterator& r);
-
-                        iterator& operator=(const iterator& i);
-                        iterator(const iterator& i);
-                        ~iterator();
-                    private:
-                        iterator(void* data, int pos);
-                        void* data; int pos;
-                        impl::xpitimpl* pimpl_;
-                        friend class node_set;
-                };
-
-                /**
-                  Returns an iterator which points to the first element in the list.
-                 */
-                iterator begin();
-
-                /**
-                  Returns an iterator which points past the last element in the list.
-                 */
-                iterator end();
-
-                /**
-                  Returns whether the set contains elements
-                 */
-                bool empty() const;
-
-                /**
-                  Returns the number of elements in the set.
-                  @see empty()
-                 */
-                int count() const;
-
-                /**
-                  Returns whether the result-set contains the node.
-                 */
-                bool contains(const xml::node& node) const;
-
-                ~node_set();
-            private:
-                void* data;
-                node_set(void* data);
-                //node_set(const node_set&); node_set& operator=(node_set&);
-                friend class context;
-        };
-
     }
-
 }
 
 #endif // _xmlwrapp_xpath_h_

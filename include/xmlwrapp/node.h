@@ -69,11 +69,6 @@ struct node_impl;
 struct doc_impl;
 struct nipimpl;
 struct node_cmp;
-struct xpitimpl;
-}
-namespace xpath
-{
-class node_set;
 }
 
 
@@ -841,8 +836,8 @@ private:
     friend class document;
     friend struct impl::doc_impl;
     friend struct impl::node_cmp;
-    friend class xml::impl::xpitimpl;
-    friend class xml::xpath::node_set;
+    friend struct xml::impl::xpitimpl;
+    friend class xml::const_nodes_view;
 };
 
 // Comparison operators for xml::node iterators

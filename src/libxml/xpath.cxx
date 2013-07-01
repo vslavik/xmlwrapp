@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2011 Jonas Weber (mail@jonasw.de)
+ *               2013 Vaclav Slavik <vslavik@gmail.com>
  * All Rights Reserved
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -34,160 +35,57 @@
 #include "xmlwrapp/xpath.h"
 #include "xmlwrapp/document.h"
 #include "xmlwrapp/node.h"
-#include "xmlwrapp/errors.h"
+
+#include "node_iterator.h"
 
 // libxml includes
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
 
-#include <iostream>
+#include <map>
 
 namespace xml {
+
+namespace
+{
+
+// Function for iterating over a libxml nodeset.
+// Takes ownership of the path object passed to it
+class nodeset_next_functor : public impl::iter_advance_functor
+{
+public:
+    nodeset_next_functor(xmlXPathObjectPtr pathobj)
+    {
+        // TODO: This isn't efficient, it would be better if node_iterator was
+        //       able to use a functor that remembers the index.
+
+        const size_t length = pathobj->nodesetval->nodeNr;
+        const xmlNodePtr *table = pathobj->nodesetval->nodeTab;
+
+        for ( size_t i = 0; i < length-1; i++ )
+            m_next[table[i]] = table[i+1];
+
+        xmlXPathFreeObject(pathobj);
+    }
+
+    virtual xmlNodePtr operator()(xmlNodePtr node) const
+    {
+        const NextNodeMap::const_iterator i = m_next.find(node);
+        if ( i == m_next.end() )
+            return NULL;
+        else
+            return i->second;
+    }
+
+private:
+    typedef std::map<xmlNodePtr, xmlNodePtr> NextNodeMap;
+    NextNodeMap m_next;
+};
+
+} // anonymous namespace
+
     namespace xpath {
-        bool XMLWRAPP_API operator==(const xml::xpath::node_set::iterator& l, const xml::xpath::node_set::iterator& r)
-        {
-            return ((l.pos == r.pos) && (l.data == r.data));
-        }
-
-        bool XMLWRAPP_API operator!=(const xml::xpath::node_set::iterator& l, const xml::xpath::node_set::iterator& r)
-        {
-            return ((l.pos != r.pos) || (l.data != r.data));
-        }}
-
-        namespace impl
-        {
-            struct xpitimpl
-            {
-                xml::node node;
-                xpitimpl() : node(0) { };
-                void set_data(xmlNodePtr n) { node.set_node_data(n); };
-                xml::node& get() { return node; }
-            };
-        }
-
-        namespace xpath
-        {
-
-            //------------------------
-            // node_set
-            //------------------------
-            //[data] is xmlXPathObjectPtr
-            node_set::node_set(void* data) : data(data)
-            {
-            }
-
-            node_set::~node_set()
-            {
-                if (data != NULL)
-                    xmlXPathFreeObject(static_cast<xmlXPathObjectPtr>(data));
-            }
-
-            int node_set::count() const
-            {
-                if (data != NULL && static_cast<xmlXPathObjectPtr>(data)->nodesetval != NULL)
-                    return static_cast<xmlXPathObjectPtr>(data)->nodesetval->nodeNr;
-                else
-                    return 0;
-            }
-
-            bool node_set::empty() const
-            {
-                return (count() == 0); // TODO: best way?
-            }
-
-            node_set::iterator node_set::begin()
-            {
-		if (data != NULL && static_cast<xmlXPathObjectPtr>(data)->nodesetval != NULL)
-                {
-                    xmlNodeSetPtr nset = static_cast<xmlXPathObjectPtr>(data)->nodesetval;
-                    return node_set::iterator(nset, 0);
-                } else {
-                    return node_set::iterator(NULL, 0);
-                }
-            }
-
-            node_set::iterator node_set::end()
-            {
-                if (data != NULL && static_cast<xmlXPathObjectPtr>(data)->nodesetval != NULL)
-                {
-                    xmlNodeSetPtr nset = static_cast<xmlXPathObjectPtr>(data)->nodesetval;
-                    if (nset == 0)
-                    {
-                        return iterator(nset, 0);
-                    } else {
-                        return iterator(nset, nset->nodeNr);
-                    }
-                } else {
-                    return iterator(NULL, 0);
-                }
-            }
-
-
-	    bool node_set::contains(const xml::node& n) const
-	    {
-                xmlNodeSetPtr nset = static_cast<xmlXPathObjectPtr>(data)->nodesetval;
-                xmlNodePtr nodeptr = static_cast<xmlNodePtr>(const_cast<xml::node&>(n).get_node_data());
-
-                return (xmlXPathNodeSetContains(nset, nodeptr) == 1);
-            }
-
-
-            //-----------------------
-            //node_set::iterator
-            //----------------------
-
-            node_set::iterator::iterator (void* data, int pos) : data(data), pos(pos)
-            {
-                pimpl_ = new xml::impl::xpitimpl();
-            }
-
-            node_set::iterator& node_set::iterator::operator++()
-            {
-                if (data != NULL && pos < static_cast<xmlNodeSetPtr>(data)->nodeNr)
-                    ++pos;
-
-                return *this;
-            }
-
-            node_set::iterator node_set::iterator::operator++(int)
-            {
-                node_set::iterator tmp = *this;
-                ++(*this);
-                return tmp;
-            }
-            xml::node& xml::xpath::node_set::iterator::operator*()
-            {
-                xmlNodeSetPtr nodeset = static_cast<xmlNodeSetPtr>(data);
-                if (data == NULL || nodeset->nodeNr == pos) throw xml::exception("dereferencing end");
-                pimpl_->set_data((nodeset->nodeTab)[pos]);
-                return pimpl_->get();
-            }
-
-            xml::node* xml::xpath::node_set::iterator::operator->()
-            {
-                xmlNodeSetPtr nodeset = static_cast<xmlNodeSetPtr>(data);
-                if (data == NULL || nodeset->nodeNr == pos) throw xml::exception("dereferencing end");
-                pimpl_->set_data((nodeset->nodeTab)[pos]);
-                return &(pimpl_->get());
-            }
-
-            node_set::iterator::~iterator()
-            {
-                delete pimpl_;
-            }
-
-            node_set::iterator& node_set::iterator::operator=(const iterator& i)
-            {
-                data = i.data;
-                pos = i.pos;
-                return *this;
-            }
-
-            node_set::iterator::iterator(const node_set::iterator& i) : data(i.data), pos(i.pos), pimpl_(new impl::xpitimpl)
-            {
-            }
-
             //-----------------
             // xpath::context
             //-----------------
@@ -209,11 +107,25 @@ namespace xml {
                         reinterpret_cast<const xmlChar*>(href));
             }
 
-            node_set context::evaluate(const char* expr)
+            const_nodes_view context::evaluate(const char* expr)
             {
+                // TODO: use auto ptr for this
                 xmlXPathObjectPtr nsptr = xmlXPathEval(reinterpret_cast<const xmlChar*>(expr),
                         static_cast<xmlXPathContextPtr>(ctxtptr));
-                return node_set(nsptr);
+
+                if ( !nsptr )
+                    return const_nodes_view();
+                if ( xmlXPathNodeSetIsEmpty(nsptr->nodesetval) )
+                {
+                    xmlXPathFreeObject(nsptr);
+                    return const_nodes_view();
+                }
+
+                return const_nodes_view
+                       (
+                           nsptr->nodesetval->nodeTab[0],
+                           new nodeset_next_functor(nsptr)
+                       );
             }
 
         }
