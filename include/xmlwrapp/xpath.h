@@ -46,43 +46,93 @@
 #include "xmlwrapp/export.h"
 #include "xmlwrapp/nodes_view.h"
 
+#include <string>
+
 namespace xml
 {
 
 class node;
 class document;
 
+namespace impl
+{
+struct xpath_context_impl;
+}
+
 /**
-    A context in which XPath expressions can be evaluated.
+    Context in which XPath expressions can be evaluated.
+
+    The context object can (and indeed, should) be reused for multiple XPath
+    queries on the same document.
 
     @since 0.8.0
  */
 class XMLWRAPP_API xpath_context
 {
 public:
+    /**
+        Create XPath context for the given document.
+
+        @param doc  Document for the context to work with. The lifetime
+                    of the document must be greater than the context object's.
+     */
     xpath_context(const xml::document& doc);
 
     ~xpath_context();
 
     /**
-      Registers a namespace with prefix.
-      @param prefix The prefix used in the expression, not per se the same as in the document.
-      @param href The href of the namespace used in the document.
+        Register a namespace with prefix.
+
+        This function has to be called in order to be able to evaluate XPath
+        expressions that match nodes in a non-default namespace. Must be
+        called before evaluate().
+
+        @param prefix  The prefix used in XPath expressions for the namespace.
+                       (Notice that it doesn't have to be the same prefix as
+                       used in the XML document.)
+        @param href    URI of the namespace used in the document.
      */
-    void register_namespace(const char* prefix, const char* href);
+    void register_namespace(const std::string& prefix, const std::string& href);
 
     /**
-      Executes a query, namely <tt>expr</tt>.
-      @return A Node-Set which can be iterated over
+        Execute an XPath query in the document scope.
+
+        Notice that the returned view is const; if you need to modify nodes in
+        the returned set, use the non-const overload that takes xml::node&
+        argument and pass xml::document::get_root_node() result to it.
+
+        @param  expr  XPath expression.
+
+        @return Const set of matching nodes.
      */
-    const_nodes_view evaluate(const char* expr);
+    const_nodes_view evaluate(const std::string& expr);
+
+    /**
+        Execute an XPath query in the scope of XML node @a n.
+
+        @param  expr  XPath expression.
+        @param  n     The context node for the expression.
+
+        @return Const set of matching nodes.
+     */
+    const_nodes_view evaluate(const std::string& expr, const xml::node& n);
+
+    /**
+        Execute an XPath query in the scope of XML node @a n.
+
+        @param  expr  XPath expression.
+        @param  n     The context node for the expression.
+
+        @return Set of matching nodes.
+     */
+    nodes_view evaluate(const std::string& expr, xml::node& n);
 
 private:
     // no copying
     xpath_context(const xpath_context&);
     xpath_context& operator=(const xpath_context&);
 
-    void* ctxtptr;
+    impl::xpath_context_impl *pimpl_;
 };
 
 } // namespace xml

@@ -69,6 +69,7 @@ struct node_impl;
 struct doc_impl;
 struct nipimpl;
 struct node_cmp;
+struct xpath_context_impl;
 }
 
 
@@ -837,6 +838,7 @@ private:
     friend struct impl::doc_impl;
     friend struct impl::node_cmp;
     friend class xml::const_nodes_view;
+    friend struct impl::xpath_context_impl;
 };
 
 // Comparison operators for xml::node iterators

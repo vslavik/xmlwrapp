@@ -48,7 +48,7 @@
 namespace xml
 {
 
-namespace
+namespace impl
 {
 
 // Function for iterating over a libxml nodeset.
@@ -56,7 +56,7 @@ namespace
 class nodeset_next_functor : public impl::iter_advance_functor
 {
 public:
-    nodeset_next_functor(xmlXPathObjectPtr pathobj)
+    explicit nodeset_next_functor(xmlXPathObjectPtr pathobj)
     {
         // TODO: This isn't efficient, it would be better if node_iterator was
         //       able to use a functor that remembers the index.
@@ -84,45 +84,86 @@ private:
     NextNodeMap m_next;
 };
 
-} // anonymous namespace
 
-
-xpath_context::xpath_context(const xml::document& doc)
+struct xpath_context_impl
 {
-    ctxtptr = xmlXPathNewContext(static_cast<xmlDocPtr>(doc.get_doc_data_read_only()));
+    explicit xpath_context_impl(const document& doc) : doc_(doc)
+    {
+        ctxt_ = xmlXPathNewContext(static_cast<xmlDocPtr>(doc.get_doc_data_read_only()));
+    }
+
+    ~xpath_context_impl()
+    {
+        if (ctxt_)
+            xmlXPathFreeContext(ctxt_);
+    }
+
+    template<typename NodesView>
+    NodesView evaluate(const std::string& expr, node& n)
+    {
+        // TODO: use auto ptr for this
+        xmlXPathObjectPtr nsptr =
+            xmlXPathNodeEval(reinterpret_cast<xmlNodePtr>(n.get_node_data()),
+                             reinterpret_cast<const xmlChar*>(expr.c_str()),
+                             ctxt_);
+
+        if ( !nsptr )
+            return NodesView();
+
+        if ( xmlXPathNodeSetIsEmpty(nsptr->nodesetval) )
+        {
+            xmlXPathFreeObject(nsptr);
+            return NodesView();
+        }
+
+        return NodesView(nsptr->nodesetval->nodeTab[0],
+                         new nodeset_next_functor(nsptr));
+    }
+
+    const document&    doc_;
+    xmlXPathContextPtr ctxt_;
+
+private:
+    // non-copyable
+    xpath_context_impl(const xpath_context_impl&);
+    xpath_context_impl& operator=(const xpath_context_impl&);
+};
+
+} // namespace impl
+
+
+xpath_context::xpath_context(const document& doc)
+{
+    pimpl_ = new impl::xpath_context_impl(doc);
 }
 
 xpath_context::~xpath_context()
 {
-    xmlXPathFreeContext(static_cast<xmlXPathContextPtr>(ctxtptr));
+    delete pimpl_;
 }
 
-void xpath_context::register_namespace(const char* prefix, const char* href)
+void xpath_context::register_namespace(const std::string& prefix, const std::string& href)
 {
-    xmlXPathRegisterNs(static_cast<xmlXPathContextPtr>(ctxtptr),
-            reinterpret_cast<const xmlChar*>(prefix),
-            reinterpret_cast<const xmlChar*>(href));
+    xmlXPathRegisterNs(pimpl_->ctxt_,
+                       reinterpret_cast<const xmlChar*>(prefix.c_str()),
+                       reinterpret_cast<const xmlChar*>(href.c_str()));
 }
 
-const_nodes_view xpath_context::evaluate(const char* expr)
+const_nodes_view xpath_context::evaluate(const std::string& expr)
 {
-    // TODO: use auto ptr for this
-    xmlXPathObjectPtr nsptr = xmlXPathEval(reinterpret_cast<const xmlChar*>(expr),
-            static_cast<xmlXPathContextPtr>(ctxtptr));
+    return pimpl_->evaluate<const_nodes_view>(
+                expr,
+                const_cast<document&>(pimpl_->doc_).get_root_node());
+}
 
-    if ( !nsptr )
-        return const_nodes_view();
-    if ( xmlXPathNodeSetIsEmpty(nsptr->nodesetval) )
-    {
-        xmlXPathFreeObject(nsptr);
-        return const_nodes_view();
-    }
+const_nodes_view xpath_context::evaluate(const std::string& expr, const node& n)
+{
+    return pimpl_->evaluate<const_nodes_view>(expr, const_cast<node&>(n));
+}
 
-    return const_nodes_view
-           (
-               nsptr->nodesetval->nodeTab[0],
-               new nodeset_next_functor(nsptr)
-           );
+nodes_view xpath_context::evaluate(const std::string& expr, node& n)
+{
+    return pimpl_->evaluate<nodes_view>(expr, n);
 }
 
 } // namespace xml
