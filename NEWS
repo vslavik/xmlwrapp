@@ -1,3 +1,6 @@
+
+    Add xml::xpath_context class for evaluating XPath expressions.
+
 Version 0.7.0
 
     Changed the xml::node::node(name, content) constructor so that it doesn't
