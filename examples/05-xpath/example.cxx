@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-int main(int, char *argv[])
+int main(int argc, char *argv[])
 {
     // parse an example file
     xml::tree_parser parser("example.xml");
@@ -19,7 +19,7 @@ int main(int, char *argv[])
     xml::const_nodes_view children = ctxt.evaluate("//child");
 
     // as you can see, node_set supports a standard set of
-    // functions to iterator over the result-nodes.
+    // functions to iterate over the result-nodes.
     // a dereferenced iterator is a xml::node-reference.
     for (xml::const_nodes_view::iterator it = children.begin(); it != children.end(); ++it)
     {
@@ -37,8 +37,8 @@ int main(int, char *argv[])
 
     ctxt.register_namespace("p", "http://example.com/a");
 
-    xml::const_nodes_view subchildren = ctxt.evaluate(argv[1]);
-//("/child/p:subchild");
+    const char *xpath = argc > 1 ? argv[1] : "/child/p:subchild";
+    xml::const_nodes_view subchildren = ctxt.evaluate(xpath);
     for (xml::const_nodes_view::iterator it = subchildren.begin(); it != subchildren.end(); ++it)
     {
         std::cout << "/child/p:subchild : " << it->get_name() << std::endl;

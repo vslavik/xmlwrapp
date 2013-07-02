@@ -87,7 +87,9 @@ BOOST_AUTO_TEST_CASE( node_set_iterators)
 
     for (it = ns.begin(); it != ns.end(); ++it)
     {
-        BOOST_CHECK(it->get_name() != NULL && (*it).get_name() != NULL && strcmp((*it).get_name(), it->get_name()) == 0);
+        BOOST_CHECK(it->get_name() != NULL);
+        BOOST_CHECK((*it).get_name() != NULL);
+        BOOST_CHECK(strcmp((*it).get_name(), it->get_name()) == 0);
     }
 }
 BOOST_AUTO_TEST_CASE (node_set_contains)
