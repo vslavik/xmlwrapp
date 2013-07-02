@@ -44,5 +44,6 @@
 #include "xmlwrapp/event_parser.h"
 #include "xmlwrapp/errors.h"
 #include "xmlwrapp/schema.h"
+#include "xmlwrapp/xpath.h"
 
 #endif // _xmlwrapp_xmlwrapp_h_

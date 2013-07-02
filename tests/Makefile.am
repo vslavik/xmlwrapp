@@ -16,7 +16,8 @@ test_SOURCES = \
 		event/test_event.cxx \
 		node/test_node.cxx \
 		tree/test_tree.cxx \
-		schema/test_schema.cxx
+		schema/test_schema.cxx \
+        xpath/test_xpath.cxx
 
 if WITH_XSLT
 LIBS += $(top_builddir)/src/libxsltwrapp.la

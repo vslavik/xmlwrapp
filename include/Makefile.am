@@ -13,7 +13,8 @@ xmlwrapp_include_HEADERS = \
 		xmlwrapp/schema.h \
 		xmlwrapp/tree_parser.h \
 		xmlwrapp/version.h \
-		xmlwrapp/xmlwrapp.h
+		xmlwrapp/xmlwrapp.h \
+		xmlwrapp/xpath.h
 
 if WITH_XSLT
 xsltwrapp_includedir= $(includedir)/xsltwrapp
