@@ -708,4 +708,23 @@ BOOST_AUTO_TEST_CASE( compare_nodes_view_iterators )
 }
 
 
+BOOST_AUTO_TEST_CASE( get_namespace )
+{
+    xml::tree_parser parser(test_file_path("node/data/namespace.xml").c_str());
+
+    BOOST_CHECK_EQUAL( parser.get_document().get_root_node().get_namespace(),
+                       "http://pmade.org/namespace/test" );
+}
+
+BOOST_AUTO_TEST_CASE( set_namespace )
+{
+    xml::tree_parser parser(test_file_path("node/data/namespace.xml").c_str());
+    xml::document doc(parser.get_document());
+
+    doc.get_root_node().set_namespace("http://pmade.org/namespace/newOne");
+
+    BOOST_CHECK( is_same_as_file(doc, "node/data/namespace.out") );
+}
+
+
 BOOST_AUTO_TEST_SUITE_END()
