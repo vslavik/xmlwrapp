@@ -69,8 +69,6 @@ public:
 
         for ( size_t i = 0; i < length-1; i++ )
             m_next[table[i]] = table[i+1];
-
-        xmlXPathFreeObject(pathobj);
     }
 
     virtual xmlNodePtr operator()(xmlNodePtr node) const
@@ -104,20 +102,16 @@ struct xpath_context_impl
     template<typename NodesView>
     NodesView evaluate(const std::string& expr, node& n)
     {
-        // TODO: use auto ptr for this
-        xmlXPathObjectPtr nsptr =
+        xml_scoped_ptr<xmlXPathObjectPtr, xmlXPathFreeObject> nsptr(
             xmlXPathNodeEval(reinterpret_cast<xmlNodePtr>(n.get_node_data()),
-                             ctxt_);
                              xml_string(expr),
+                             ctxt_));
 
         if ( !nsptr )
             return NodesView();
 
         if ( xmlXPathNodeSetIsEmpty(nsptr->nodesetval) )
-        {
-            xmlXPathFreeObject(nsptr);
             return NodesView();
-        }
 
         return NodesView(nsptr->nodesetval->nodeTab[0],
                          new nodeset_next_functor(nsptr));

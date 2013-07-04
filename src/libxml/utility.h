@@ -48,6 +48,27 @@ namespace xml
 namespace impl
 {
 
+// Helper for holding libxml objects with guaranteed freeing
+template<typename TPtr, void (*FreeFunc)(TPtr)>
+class xml_scoped_ptr
+{
+public:
+    explicit xml_scoped_ptr(TPtr ptr) : ptr_(ptr) {}
+
+    ~xml_scoped_ptr()
+    {
+        if (ptr_)
+            FreeFunc(ptr_);
+    }
+
+    TPtr operator->() const { return ptr_; }
+    TPtr get() const { return ptr_; }
+    operator TPtr() const { return ptr_; }
+
+private:
+    TPtr ptr_;
+};
+
 // exception safe wrapper around xmlChar*s that are returned from some
 // of the libxml functions that the user must free.
 class xmlchar_helper
