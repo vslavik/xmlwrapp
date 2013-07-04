@@ -194,6 +194,37 @@ public:
     /// Is the view empty?
     bool empty() const { return !data_begin_; }
 
+    /**
+        Erase the node that is pointed to by the given iterator.
+
+        The node and all its children will be removed from its parent node.
+        This will invalidate any iterators that point to the node to be erased,
+        or any pointers or references to that node (but not any other iterators).
+
+        @param to_erase An iterator that points to the node to be erased.
+        @return An iterator that points to the next node in this view
+                after the one being erased or end() if there are none.
+
+        @since 0.8.0
+     */
+    iterator erase(const iterator& to_erase);
+
+    /**
+        Erase all nodes in the given range, from first to last.
+
+        This will invalidate any iterators that point to the nodes to be
+        erased, or any pointers or references to those nodes.
+
+        @param first The first node in the range to be removed.
+        @param last An iterator that points one past the last node to erase. Think xml::node::end().
+
+        @return An iterator that points to the next node in this view
+                after the ones being erased or end() if there are none.
+
+        @since 0.8.0
+     */
+    iterator erase(iterator first, const iterator& last);
+
 private:
     explicit nodes_view(void *data_begin, impl::iter_advance_functor *advance_func)
         : data_begin_(data_begin), advance_func_(advance_func) {}

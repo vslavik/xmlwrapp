@@ -36,6 +36,7 @@
 
 // definition include
 #include "node_iterator.h"
+#include "node_manip.h"
 #include "pimpl_base.h"
 #include "utility.h"
 
@@ -149,6 +150,24 @@ nodes_view::size_type nodes_view::size() const
 {
     using namespace std;
     return distance(begin(), end());
+}
+
+
+nodes_view::iterator nodes_view::erase(const nodes_view::iterator& to_erase)
+{
+    iterator next(to_erase);
+    ++next;
+    xml::impl::node_erase(static_cast<xmlNodePtr>(to_erase.get_raw_node()));
+    return next;
+}
+
+
+nodes_view::iterator nodes_view::erase(nodes_view::iterator first,
+                                       const nodes_view::iterator& last)
+{
+    while (first != last)
+        first = erase(first);
+    return first;
 }
 
 } // namespace xml

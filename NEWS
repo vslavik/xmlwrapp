@@ -1,6 +1,7 @@
 
     Added xml::node::set_namespace().
-    Add xml::xpath_context class for evaluating XPath expressions.
+    Added xml::xpath_context class for evaluating XPath expressions.
+    Added xml::nodes_view::erase() analogous to node::erase9).
 
 Version 0.7.0
 
