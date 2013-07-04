@@ -65,6 +65,11 @@ private:
     xmlChar *ptr_;
 };
 
+inline const xmlChar* xml_string(const std::string& s)
+{
+    return reinterpret_cast<const xmlChar*>(s.c_str());
+}
+
 // Formats given message with arguments into a std::string
 void printf2string(std::string& s, const char *message, va_list ap);
 

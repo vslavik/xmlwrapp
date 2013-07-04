@@ -37,6 +37,7 @@
 #include "xmlwrapp/node.h"
 
 #include "node_iterator.h"
+#include "utility.h"
 
 // libxml includes
 #include <libxml/tree.h>
@@ -44,6 +45,8 @@
 #include <libxml/xpathInternals.h>
 
 #include <map>
+
+using namespace xml::impl;
 
 namespace xml
 {
@@ -104,8 +107,8 @@ struct xpath_context_impl
         // TODO: use auto ptr for this
         xmlXPathObjectPtr nsptr =
             xmlXPathNodeEval(reinterpret_cast<xmlNodePtr>(n.get_node_data()),
-                             reinterpret_cast<const xmlChar*>(expr.c_str()),
                              ctxt_);
+                             xml_string(expr),
 
         if ( !nsptr )
             return NodesView();
@@ -144,9 +147,7 @@ xpath_context::~xpath_context()
 
 void xpath_context::register_namespace(const std::string& prefix, const std::string& href)
 {
-    xmlXPathRegisterNs(pimpl_->ctxt_,
-                       reinterpret_cast<const xmlChar*>(prefix.c_str()),
-                       reinterpret_cast<const xmlChar*>(href.c_str()));
+    xmlXPathRegisterNs(pimpl_->ctxt_, xml_string(prefix), xml_string(href));
 }
 
 const_nodes_view xpath_context::evaluate(const std::string& expr)
