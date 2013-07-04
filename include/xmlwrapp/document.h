@@ -73,6 +73,7 @@ class tree_parser;
 namespace impl
 {
 struct doc_impl;
+struct xpath_context_impl;
 }
 
 /**
@@ -490,6 +491,7 @@ private:
     friend class tree_parser;
     friend class schema;
     friend class xslt::stylesheet;
+    friend struct impl::xpath_context_impl;
 };
 
 } // namespace xml

@@ -58,6 +58,7 @@ namespace impl
 
 struct nipimpl;
 class iter_advance_functor;
+struct xpath_context_impl;
 
 } // namespace impl
 
@@ -203,6 +204,7 @@ private:
     impl::iter_advance_functor *advance_func_;
 
     friend class node;
+    friend struct impl::xpath_context_impl;
     friend class const_nodes_view;
 };
 
@@ -256,6 +258,7 @@ private:
     impl::iter_advance_functor *advance_func_;
 
     friend class node;
+    friend struct impl::xpath_context_impl;
 };
 
 // Comparison operators for xml::[const_]nodes_view iterators

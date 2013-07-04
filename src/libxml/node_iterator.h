@@ -75,6 +75,11 @@ protected:
     virtual ~iter_advance_functor() {}
 
 private:
+    // no copy ctor or assignment
+    iter_advance_functor(const iter_advance_functor& other);
+    iter_advance_functor& operator=(const iter_advance_functor& other);
+
+private:
     int refcnt_;
 };
 
