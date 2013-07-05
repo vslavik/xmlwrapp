@@ -519,6 +519,36 @@ const char *node::get_namespace() const
 }
 
 
+void node::set_namespace(const std::string& href)
+{
+    const xmlChar *xmlHref = reinterpret_cast<const xmlChar*>(href.c_str());
+
+    if (pimpl_->xmlnode_->type != XML_ELEMENT_NODE)
+        throw xml::exception("set_namespace called on non-element node");
+
+    xmlNsPtr ns = xmlNewNs(pimpl_->xmlnode_, xmlHref, NULL);
+
+    if ( !ns )
+    {
+        // Looks like the default namespace already exists on this node,
+        // we must change its URI.
+        for ( ns = pimpl_->xmlnode_->nsDef; ns; ns = ns->next )
+        {
+            if ( ns->prefix == NULL )
+            {
+                xmlFree((void*)ns->href);
+                ns->href = xmlStrdup(xmlHref);
+                break;
+            }
+        }
+        if ( !ns )
+            throw xml::exception("set_namespace failed to create namespace object");
+    }
+
+    xmlSetNs(pimpl_->xmlnode_, ns);
+}
+
+
 bool node::is_text() const
 {
     return xmlNodeIsText(pimpl_->xmlnode_) != 0;

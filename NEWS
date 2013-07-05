@@ -1,4 +1,5 @@
 
+    Added xml::node::set_namespace().
     Add xml::xpath_context class for evaluating XPath expressions.
 
 Version 0.7.0

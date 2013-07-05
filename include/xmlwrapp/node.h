@@ -365,6 +365,23 @@ public:
     const char* get_namespace() const;
 
     /**
+        Set the default namespace of this xml::node.
+
+        If the default namespace is already set on this node, it is changed.
+
+        Example:
+
+        @code
+        // n is <foo/>
+        n.set_namespace("http://example.com")
+        // n is <foo xmlns="http://example.com"/>
+        @endcode
+
+        @since 0.8.0
+     */
+    void set_namespace(const std::string& href);
+
+    /**
         Find out if this node is a text node or something like a text node,
         CDATA for example.
 
