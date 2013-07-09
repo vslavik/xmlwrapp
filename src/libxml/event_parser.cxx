@@ -386,7 +386,7 @@ bool event_parser::parse_stream(std::istream& stream)
 
     while (pimpl_->parser_status_ && (stream.read(buffer, BUFFER_SIZE) || stream.gcount()))
     {
-        pimpl_->parser_status_ = parse_chunk(buffer, stream.gcount());
+        pimpl_->parser_status_ = parse_chunk(buffer, static_cast<size_type>(stream.gcount()));
     }
 
     if (!pimpl_->parser_status_)
