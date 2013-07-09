@@ -118,10 +118,14 @@ struct xpath_context_impl
     template<typename NodesView>
     NodesView evaluate(const std::string& expr, node& n)
     {
+        xmlNodePtr xmlnode = reinterpret_cast<xmlNodePtr>(n.get_node_data());
+        if ( xmlnode->doc != ctxt_->doc )
+        {
+            throw xml::exception("node doesn't belong to context's document");
+        }
+
         xml_scoped_ptr<xmlXPathObjectPtr, xmlXPathFreeObject> nsptr(
-            xmlXPathNodeEval(reinterpret_cast<xmlNodePtr>(n.get_node_data()),
-                             xml_string(expr),
-                             ctxt_));
+            xmlXPathNodeEval(xmlnode, xml_string(expr), ctxt_));
 
         if ( !nsptr )
             return NodesView();
