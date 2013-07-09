@@ -40,6 +40,7 @@
 #include "utility.h"
 
 // libxml includes
+#include <libxml/xmlversion.h>
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
@@ -47,6 +48,21 @@
 #include <map>
 
 using namespace xml::impl;
+
+namespace
+{
+
+// xmlXPathNodeEval was introduced in 2.9.1, use a helper reimplementation
+// with older versions:
+#if LIBXML_VERSION < 20901
+xmlXPathObjectPtr xmlXPathNodeEval(xmlNodePtr node, const xmlChar *str, xmlXPathContextPtr ctx)
+{
+    ctx->node = node;
+    return xmlXPathEval(str, ctx);
+}
+#endif // LIBXML_VERSION < 20901
+
+} // anonymous namespace
 
 namespace xml
 {
