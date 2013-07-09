@@ -18,6 +18,13 @@ includedirs += include;
 includedirs += $(WIN32_DIR)/include;
 libdirs += $(WIN32_DIR)/lib;
 
+// Disable many warnings about the deprecated standard functions for all
+// MSVS versions since 2005 that introduced them.
+defines += _CRT_SECURE_NO_DEPRECATE
+           _CRT_SECURE_NO_WARNINGS
+           _CRT_NONSTDC_NO_WARNINGS
+           _SCL_SECURE_NO_WARNINGS;
+
 
 library xmlwrapp {
     headers {
