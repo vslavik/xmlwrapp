@@ -42,11 +42,10 @@ if [ ! -f configure.ac -o ! -f Makefile.am -o ! -f xmlwrapp.pc.in ]; then
     exit 2
 fi
 
-if [ "${OSTYPE:0:6}" = "darwin" ]; then
-    LIBTOOLIZE=glibtoolize
-else
-    LIBTOOLIZE=libtoolize
-fi
+case "$(uname -s)" in
+    Darwin*)  LIBTOOLIZE=glibtoolize ;;
+    *)        LIBTOOLIZE=libtoolize ;;
+esac
 
 # use --foreign with automake because we lack standard GNU NEWS and AUTHOR
 # files, if they're added we can "upgrade" to (default) GNU strictness. Use
