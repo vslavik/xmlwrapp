@@ -41,7 +41,7 @@ AC_INIT(xmlwrapp, 0.7.0, [xmlwrapp@googlegroups.com])
 AC_CONFIG_SRCDIR([xmlwrapp.pc.in])
 AC_CONFIG_AUX_DIR([admin])
 
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([subdir-objects])
 AM_MAINTAINER_MODE
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
