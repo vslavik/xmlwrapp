@@ -47,6 +47,17 @@ case "$(uname -s)" in
     *)        LIBTOOLIZE=libtoolize ;;
 esac
 
+run_optional_tool() {
+    dir=$1
+    tool=$2
+    shift 2
+    if command -v $tool >/dev/null 2>&1 ; then
+        (cd $dir && $tool $*)
+    else
+        echo "   (skipped, $tool not available)"
+    fi
+}
+
 # use --foreign with automake because we lack standard GNU NEWS and AUTHOR
 # files, if they're added we can "upgrade" to (default) GNU strictness. Use
 # --copy to allow simultaneous use on windows under mingw and cygwin platforms.
@@ -56,8 +67,8 @@ echo " - aclocal " && aclocal -I admin && \
 echo " - libtoolize " && $LIBTOOLIZE --copy --automake && \
 echo " - autoconf " && autoconf && \
 echo " - automake " && automake --add-missing --copy --foreign && \
-echo " - doxygen " && (cd docs && doxygen) && \
-echo " - bakefile " && (cd platform/Win32 ; bkl xmlwrapp.bkl) && \
+echo " - doxygen "  && run_optional_tool docs doxygen && \
+echo " - bakefile " && run_optional_tool platform/Win32 bkl xmlwrapp.bkl && \
 echo "Build setup successful, type \"configure\" to configure xmlwrapp now." && \
 exit 0
 
