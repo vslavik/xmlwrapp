@@ -28,3 +28,4 @@ admin/missing
 autom4te.cache
 
 /admin/test-driver
+/admin/compile
