@@ -3,6 +3,10 @@
     Added xml::xpath_context class for evaluating XPath expressions.
     Added xml::nodes_view::erase() analogous to node::erase9).
 
+Version 0.7.1
+
+    Various compilation and build fixes.
+
 Version 0.7.0
 
     Changed the xml::node::node(name, content) constructor so that it doesn't

@@ -6,10 +6,10 @@ xmlwrapp is a modern style C++ library for working with XML data, built atop
 the venerable libxml2 C library.
 
 Additional resources, bug reports, latest sources etc. can be found on the
-project page at http://vslavik.github.com/xmlwrapp/
+project page at http://vslavik.github.io/xmlwrapp/
 
-Packages tarballs can be downloaded from
-https://sourceforge.net/projects/xmlwrapp/files/xmlwrapp/
+Packages tarballs can be downloaded from the same location or from
+https://github.com/vslavik/xmlwrapp/releases
 
 If you need help or want to discuss xmlwrapp, feel free to join the discussion
 group hosted at http://groups.google.com/group/xmlwrapp or email directly to
