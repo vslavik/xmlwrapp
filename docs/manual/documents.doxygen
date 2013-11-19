@@ -49,7 +49,7 @@ an external subset. This is the most common type of subset.
 
 @section documents_valid Validating the Document
 
-@subsection documents_valid_inside"><title>Validating with DOCTYPE</title>
+@subsection documents_valid_inside Validating with DOCTYPE
 
 If the XML document contains either an internal or external subset, you can use
 the xml::document::validate() member function to validate the XML document
