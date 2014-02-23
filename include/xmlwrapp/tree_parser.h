@@ -73,7 +73,7 @@ struct tree_impl;
 class XMLWRAPP_API tree_parser
 {
 public:
-    typedef std::size_t size_type;
+    typedef int size_type;
     /**
         xml::tree_parser class constructor. Given the name of a file, this
         constructor will parse that file.

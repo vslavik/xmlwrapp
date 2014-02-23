@@ -84,7 +84,7 @@ class XMLWRAPP_API document
 {
 public:
     /// size type
-    typedef std::size_t size_type;
+    typedef int size_type;
 
     /**
         Create a new XML document with the default settings. The new document
