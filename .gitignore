@@ -19,6 +19,7 @@ platform/Win32/lib/
 # Platform: Apple
 .DS_Store
 xcuserdata/
+*.xccheckout
 
 Makefile
 Makefile.in
