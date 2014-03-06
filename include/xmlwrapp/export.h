@@ -48,9 +48,19 @@
         #define XMLWRAPP_DEPRECATED(msg) __attribute__((deprecated))
     #endif
 #elif defined(__GNUC__)
-    #define XMLWRAPP_DEPRECATED(msg) __attribute__((deprecated))
-#elif defined(__VISUALC__) && (__VISUALC__ >= 1300)
-    #define XMLWRAPP_DEPRECATED(msg) __declspec(deprecated)
+    #if __GNUC__ > 4  || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5)
+        #define XMLWRAPP_DEPRECATED(msg) __attribute__((deprecated(msg)))
+    #else
+        #define XMLWRAPP_DEPRECATED(msg) __attribute__((deprecated))
+    #endif
+#elif defined(_MSC_VER)
+    #if _MSC_VER >= 1400
+        #define XMLWRAPP_DEPRECATED(msg) __declspec(deprecated("deprecated: " msg))
+    #elif _MSC_VER >= 1300
+        #define XMLWRAPP_DEPRECATED(msg) __declspec(deprecated)
+	#else
+		#define XMLWRAPP_DEPRECATED(msg)
+	#endif
 #else
     #define XMLWRAPP_DEPRECATED(msg)
 #endif
