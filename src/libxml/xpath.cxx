@@ -102,6 +102,13 @@ private:
 };
 
 
+// Need the wrapper with C++ linkage as extern "C" xmlXPathFreeObject itself
+// can't be used as xml_scoped_ptr template parameter.
+inline void wrap_xmlXPathFreeObject(xmlXPathObjectPtr ptr)
+{
+    xmlXPathFreeObject(ptr);
+}
+
 struct xpath_context_impl
 {
     explicit xpath_context_impl(const document& doc) : doc_(doc)
@@ -124,7 +131,7 @@ struct xpath_context_impl
             throw xml::exception("node doesn't belong to context's document");
         }
 
-        xml_scoped_ptr<xmlXPathObjectPtr, xmlXPathFreeObject> nsptr(
+        xml_scoped_ptr<xmlXPathObjectPtr, wrap_xmlXPathFreeObject> nsptr(
             xmlXPathNodeEval(xmlnode, xml_string(expr), ctxt_));
 
         if ( !nsptr )
