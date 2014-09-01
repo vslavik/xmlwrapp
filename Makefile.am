@@ -1,5 +1,8 @@
+if WITH_TESTS
+maybe_tests = tests
+endif
 
-SUBDIRS = include src examples tests docs
+SUBDIRS = include src examples $(maybe_tests) docs
 
 pkgconfigdir=$(libdir)/pkgconfig
 

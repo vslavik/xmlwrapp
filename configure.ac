@@ -52,6 +52,17 @@ AC_CANONICAL_HOST
 
 dnl === Command line options ===
 
+AC_ARG_ENABLE(tests,
+             [AC_HELP_STRING([--disable-tests],
+                             [don't build the tests])],
+             [case "x${enableval}" in
+                   x) build_tests=no ;;
+                xyes) build_tests=yes ;;
+                 xno) build_tests=no ;;
+                   *) AC_MSG_ERROR(bad value ${enableval} for --enable-tests) ;;
+             esac],
+             [build_tests=yes])
+
 AC_ARG_ENABLE(xslt,
              [AC_HELP_STRING([--disable-xslt],
                              [don't build libxsltwrapp library])],
@@ -88,8 +99,11 @@ fi
 AC_HEADER_ASSERT
 
 BOOST_REQUIRE
-BOOST_IOSTREAMS
-BOOST_TEST
+
+if test "x$build_tests" = "xyes" ; then
+    BOOST_IOSTREAMS
+    BOOST_TEST
+fi
 
 BOOST_FIND_HEADER([boost/pool/singleton_pool.hpp],
                   [],
@@ -132,6 +146,7 @@ if test "x$build_xslt" = "xyes" ; then
 fi
 AC_SUBST(LEGACY_LINK_FLAGS)
 
+AM_CONDITIONAL(WITH_TESTS, [ test "x$build_tests" = "xyes" ])
 AM_CONDITIONAL(WITH_XSLT, [ test "x$build_xslt" = "xyes" ])
 
 AC_CONFIG_FILES([
