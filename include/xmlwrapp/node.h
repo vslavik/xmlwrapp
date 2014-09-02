@@ -403,6 +403,25 @@ public:
      */
     void swap(node& other);
 
+    /**
+        Move this node under another parent.
+
+        This node will become the last child of @a new_parent. Notice that this
+        node must not be an ancestor of @a new_parent, in particular it
+        shouldn't be the document root.
+
+        Currently this method can only be used to move nodes inside the same
+        document.
+
+        All iterators pointing to this node are invalidated after the move.
+
+        @param new_parent The new parent for the node.
+
+        @since 0.7.2
+     */
+    void move_under(node& new_parent);
+
+
     class const_iterator; // forward declaration
 
     /**

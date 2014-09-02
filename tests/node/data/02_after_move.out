@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<root>
+  <person>
+    <name>Isaac</name>
+    <state>CA</state>
+  </person>
+  <unrelated_element>
+    <person>
+      <name>Peter</name>
+      <state>CO</state>
+    </person>
+  </unrelated_element>
+  <person>
+    <name>Albert</name>
+    <state>AZ</state>
+  </person>
+</root>
