@@ -1,4 +1,5 @@
 
+    Added xml::node::move_under().
     Added xml::node::set_namespace().
     Added xml::xpath_context class for evaluating XPath expressions.
     Added xml::nodes_view::erase() analogous to node::erase().

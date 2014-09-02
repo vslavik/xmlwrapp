@@ -394,6 +394,58 @@ void node::swap(node& other)
 }
 
 
+void node::move_under(node& new_parent)
+{
+    xmlNodePtr& this_node = pimpl_->xmlnode_;
+    xmlNodePtr& new_parent_node = new_parent.pimpl_->xmlnode_;
+
+    if (this_node->parent == new_parent_node)
+        return;
+
+    // If we wanted to support inter document moves, we would need to deal with
+    // the namespaces, e.g. we could need to define the namespace of this node
+    // in the new document. While this should be possible, currently this is
+    // not implemented.
+    if (this_node->doc != new_parent_node->doc)
+        throw xml::exception("moving nodes between documents not supported");
+
+    // Check that we're not moving the node under itself, loops are not allowed
+    // in XML trees.
+    for (xmlNodePtr p = new_parent_node; p; p = p->parent)
+    {
+        if (p == this_node)
+            throw xml::exception("can't move a node under itself");
+    }
+
+    // Note that this must be non-NULL as we're not the tree root, otherwise
+    // the new parent would have been our child and we would have thrown above.
+    xmlNodePtr& old_parent_node = this_node->parent;
+
+    // Remove the node from the old parent children list.
+    if (this_node->prev)
+        this_node->prev->next = this_node->next;
+    else
+        old_parent_node->children = this_node->next;
+
+    if (this_node->next)
+        this_node->next->prev = this_node->prev;
+    else
+        old_parent_node->last = this_node->prev;
+
+    // Update the pointers inside this node itself.
+    this_node->parent = new_parent_node;
+    this_node->prev = new_parent_node->last;
+    this_node->next = NULL;
+
+    // And update the new parent too.
+    if (this_node->prev)
+        this_node->prev->next = this_node;
+    else
+        new_parent_node->children = this_node;
+    new_parent_node->last = this_node;
+}
+
+
 node::~node()
 {
     delete pimpl_;
