@@ -409,6 +409,27 @@ BOOST_AUTO_TEST_CASE( insert_in_front_returned_iter )
 
 
 /*
+ * This test checks xml::node::move_under()
+ */
+BOOST_AUTO_TEST_CASE( node_move_under )
+{
+    xml::tree_parser parser(test_file_path("node/data/02.xml").c_str());
+    xml::document doc(parser.get_document());
+
+    xml::node& root = doc.get_root_node();
+
+    xml::nodes_view::iterator i = root.elements().begin();
+
+    // Check that moving the node under itself doesn't work.
+    BOOST_CHECK_THROW(i->move_under(*i->find("name")), xml::exception);
+
+    i->move_under(*root.find("unrelated_element"));
+
+    BOOST_CHECK( is_same_as_file(doc, "node/data/02_after_move.out") );
+}
+
+
+/*
  * This test checks xml::node::empty()
  */
 
