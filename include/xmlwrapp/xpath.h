@@ -37,7 +37,7 @@
   This files contains definitions for XPath-related classes.
  */
 
-#ifndef _xmlwrapp_xpath_h__
+#ifndef _xmlwrapp_xpath_h_
 #define _xmlwrapp_xpath_h_
 
 
