@@ -75,7 +75,11 @@ xslt::init::~init(void)
 
 void xslt::init::init_library()
 {
+    // xsltInit() was added after 1.1.15 release, so don't use it with the
+    // ancient libxslt version (which is the only one we have under Solaris).
+#if LIBXSLT_VERSION > 10115
     xsltInit();
+#endif
 
     // set some defautls
     process_xincludes(true);
