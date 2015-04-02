@@ -42,12 +42,40 @@
 // libxml includes
 #include <libxml/tree.h>
 
+namespace
+{
+
+// Make a copy of the given node with its contents and children which is meant
+// to be added under the specified parent.
+//
+// The returned pointer is never null (but this function may throw) and must be
+// freed with xmlFreeNode().
+xmlNodePtr copy_node_under_parent(xmlNodePtr parent, xmlNodePtr orig_node)
+{
+    xmlNodePtr new_xml_node = xmlCopyNode(orig_node, 1);
+    if ( !new_xml_node )
+        throw std::bad_alloc();
+
+    // The new node should inherit the namespace of its parent, unless it
+    // already has a custom namespace, for consistency with how tree
+    // construction works in libxml2.
+    if ( !new_xml_node->ns )
+    {
+        // Check that we really have a parent as this could also be xmlDoc
+        // masquerading as xmlNode when inserting the root element itself.
+        if ( parent->type != XML_DOCUMENT_NODE )
+            new_xml_node->ns = parent->ns;
+    }
+
+    return new_xml_node;
+}
+
+} // anonymous namespace
+
 xmlNodePtr
 xml::impl::node_insert(xmlNodePtr parent, xmlNodePtr before, xmlNodePtr to_add)
 {
-    xmlNodePtr new_xml_node = xmlCopyNode(to_add, 1);
-    if ( !new_xml_node )
-        throw std::bad_alloc();
+    xmlNodePtr const new_xml_node = copy_node_under_parent(parent, to_add);
 
     if ( before == 0 )
     {
@@ -74,9 +102,7 @@ xml::impl::node_insert(xmlNodePtr parent, xmlNodePtr before, xmlNodePtr to_add)
 xmlNodePtr
 xml::impl::node_replace(xmlNodePtr old_node, xmlNodePtr new_node)
 {
-    xmlNodePtr copied_node = xmlCopyNode(new_node, 1);
-    if ( !copied_node )
-        throw std::bad_alloc();
+    xmlNodePtr const copied_node = copy_node_under_parent(old_node->parent, new_node);
 
     // hack to see if xmlReplaceNode was successful
     copied_node->doc = reinterpret_cast<xmlDocPtr>(old_node);
