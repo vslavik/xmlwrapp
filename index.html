@@ -75,8 +75,9 @@ and libxslt libraries built for Windows, e.g. the binaries from
 <p>On Unix, you should use pkg-config to get compiler flags for xmlwrapp or
 xsltwrapp libraries:</p>
 
-<p>c++ -c <code>pkg-config --cflags xmlwrapp</code> ...
-   c++ -o ... <code>pkg-config --libs xmlwrapp</code></p>
+<pre><code>c++ -c $(pkg-config --cflags xmlwrapp) ...
+c++ -o ... $(pkg-config --libs xmlwrapp)
+</code></pre>
 
 <p>On Windows, you need to link against xmlwrapp libraries and add the include/
 directory to compiler's headers search path.</p>
