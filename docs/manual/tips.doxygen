@@ -54,4 +54,17 @@ other xml::node objects. This is why the lifetime of the xml::node is
 limited to the lifetime of the xml::node::iterator.
 </pre>
 
+@section tips_debugging Debugging
+
+Any xml::node object can be easily examined by dumping it to a string using its
+<code>note_to_string()</code> method or by outputting it into any standard
+stream:
+@code
+    xml::node n = ...;
+    std::cout << "Contents of the node: " << n;
+@endcode
+
+Notice that the note_to_string() function can even be called from a debugger to
+see the contents of the node during a debugging session.
+
 */

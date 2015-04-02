@@ -849,7 +849,7 @@ void node::sort_fo(cbfo_node_compare& cb)
 }
 
 
-void node::node_to_string(std::string& xml) const
+std::string node::node_to_string() const
 {
     node2doc n2d(pimpl_->xmlnode_);
     xmlDocPtr doc = n2d.get_doc();
@@ -860,16 +860,16 @@ void node::node_to_string(std::string& xml) const
     xmlDocDumpFormatMemory(doc, &xml_string, &xml_string_length, 1);
 
     xmlchar_helper helper(xml_string);
+    std::string xml;
     if (xml_string_length)
         xml.assign(helper.get(), xml_string_length);
+    return xml;
 }
 
 
 std::ostream& operator<<(std::ostream &stream, const xml::node& n)
 {
-    std::string xmldata;
-    n.node_to_string(xmldata);
-    stream << xmldata;
+    stream << n.node_to_string();
     return stream;
 }
 
