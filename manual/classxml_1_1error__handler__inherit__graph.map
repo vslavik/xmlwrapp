@@ -1,0 +1,5 @@
+<map id="xml::error_handler" name="xml::error_handler">
+<area shape="rect" id="node2" href="$classxml_1_1error__handler__throw__on__error.html" title="Specialization of error_handler that throws on any error. " alt="" coords="35,80,161,121"/>
+<area shape="rect" id="node4" href="$classxml_1_1error__messages.html" title="The xml::error_messages class is used to store all the error messages which are collected while parsi..." alt="" coords="186,87,330,114"/>
+<area shape="rect" id="node3" href="$classxml_1_1error__handler__throw__on__error__or__warning.html" title="Specialization of error_handler that throws on any error or warning. " alt="" coords="5,169,191,211"/>
+</map>

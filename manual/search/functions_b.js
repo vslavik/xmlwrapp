@@ -1,0 +1,5 @@
+var searchData=
+[
+  ['node',['node',['../classxml_1_1node.html#a36262413721060030db06031e6932233',1,'xml::node::node()'],['../classxml_1_1node.html#a53e68e8305a47f686b22a2b39f60c5cb',1,'xml::node::node(const char *name)'],['../classxml_1_1node.html#a5cfe3254a9552e9d398053c67bea42de',1,'xml::node::node(const char *name, const char *content)'],['../classxml_1_1node.html#addc8f567fa1ec7ced116ed4fc2cd0c4d',1,'xml::node::node(cdata cdata_info)'],['../classxml_1_1node.html#aac5cf010b25c9f0ea2415ae99c6610bc',1,'xml::node::node(comment comment_info)'],['../classxml_1_1node.html#aad1a164e7c81012e4a721531c34d6ba5',1,'xml::node::node(pi pi_info)'],['../classxml_1_1node.html#aaf2aa7ee2a4fee030e7c9bb0f64db859',1,'xml::node::node(text text_info)'],['../classxml_1_1node.html#a7a362154201ae3c6aa4213d4c8319e05',1,'xml::node::node(const node &amp;other)']]],
+  ['node_5fto_5fstring',['node_to_string',['../classxml_1_1node.html#a6c9f7512131665800d1ec4f2e4f71b8b',1,'xml::node']]]
+];

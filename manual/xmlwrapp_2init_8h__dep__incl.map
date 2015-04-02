@@ -1,0 +1,14 @@
+<map id="xmlwrapp/init.h" name="xmlwrapp/init.h">
+<area shape="rect" id="node2" href="$attributes_8h.html" title="This file contains the definition of the xml::attributes class. " alt="" coords="197,155,344,181"/>
+<area shape="rect" id="node3" href="$xmlwrapp_8h_source.html" title="xmlwrapp/xmlwrapp.h" alt="" coords="543,229,692,256"/>
+<area shape="rect" id="node5" href="$document_8h.html" title="This file contains the definition of the xml::document class. " alt="" coords="830,155,981,181"/>
+<area shape="rect" id="node7" href="$event__parser_8h.html" title="This file contains the definition of the xml::event_parser class. " alt="" coords="5,155,173,181"/>
+<area shape="rect" id="node8" href="$node_8h.html" title="This file contains the definition of the xml::node class. " alt="" coords="813,80,934,107"/>
+<area shape="rect" id="node9" href="$nodes__view_8h.html" title="This file contains the definition of the xml::nodes_view and xml::const_nodes_view classes..." alt="" coords="177,80,340,107"/>
+<area shape="rect" id="node10" href="$xpath_8h.html" title="This files contains definitions for XPath&#45;related classes. " alt="" coords="419,155,544,181"/>
+<area shape="rect" id="node11" href="$schema_8h.html" title="This file contains the definition of the xml::schema class. " alt="" coords="415,80,553,107"/>
+<area shape="rect" id="node12" href="$tree__parser_8h.html" title="This file contains the definition of the xml::tree_parser class. " alt="" coords="578,80,737,107"/>
+<area shape="rect" id="node13" href="$xsltwrapp_2init_8h.html" title="This file contains the definition of the xslt::init class. " alt="" coords="1005,155,1115,181"/>
+<area shape="rect" id="node4" href="$xsltwrapp_8h_source.html" title="xsltwrapp/xsltwrapp.h" alt="" coords="840,304,989,331"/>
+<area shape="rect" id="node6" href="$stylesheet_8h.html" title="This file contains the definition of the xslt::stylesheet class. " alt="" coords="838,229,991,256"/>
+</map>

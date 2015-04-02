@@ -1,0 +1,4 @@
+<map id="xml::error_handler_throw_on_error" name="xml::error_handler_throw_on_error">
+<area shape="rect" id="node3" href="$classxml_1_1error__handler__throw__on__error__or__warning.html" title="Specialization of error_handler that throws on any error or warning. " alt="" coords="5,169,191,211"/>
+<area shape="rect" id="node2" href="$classxml_1_1error__handler.html" title="The xml::error_handler class is used to handle libxml2 errors and warnings emitted during parsing..." alt="" coords="35,5,161,32"/>
+</map>
