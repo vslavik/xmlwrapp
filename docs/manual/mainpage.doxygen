@@ -47,6 +47,7 @@
   - @subpage xslt_apply_we
 - @subpage tips
   - @subpage tips_lifetime
+  - @subpage tips_debugging
 - @subpage whatnext
 
 

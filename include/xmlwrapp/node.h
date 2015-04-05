@@ -840,12 +840,21 @@ public:
         { impl::sort_callback<T> cb(compare); sort_fo(cb); }
 
     /**
+        Convert the node and all its children into XML text and return the
+        string containing them.
+
+        @since 0.8.0
+     */
+    std::string node_to_string() const;
+
+    /**
         Convert the node and all its children into XML text and set the given
         string to that text.
 
         @param xml The string to set the node's XML data to.
      */
-    void node_to_string(std::string& xml) const;
+    void node_to_string(std::string& xml) const
+        { xml = node_to_string(); }
 
     /**
         Write a node and all of its children to the given stream.
