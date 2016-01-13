@@ -111,9 +111,10 @@ BOOST_FIND_HEADER([boost/pool/singleton_pool.hpp],
                     AC_MSG_CHECKING([if boost::singleton_pool is header only])
                     AC_LINK_IFELSE(
                        [AC_LANG_PROGRAM(
-                            [#include <boost/pool/singleton_pool.hpp>],
+                            [#include <boost/pool/singleton_pool.hpp>
+                             struct tag {};
+                            ],
                             [
-                                struct tag {};
                                 boost::singleton_pool<tag,10>::malloc();
                             ]
                        )],
