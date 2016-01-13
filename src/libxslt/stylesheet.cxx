@@ -44,6 +44,7 @@
 #include "xmlwrapp/errors.h"
 
 #include "result.h"
+#include "../libxml/cpp11.h"
 #include "../libxml/utility.h"
 #include "../libxml/errors_impl.h"
 
@@ -202,7 +203,7 @@ xslt::stylesheet::stylesheet(xml::document doc, xml::error_handler& on_error)
 void xslt::stylesheet::init(xml::document& doc, xml::error_handler& on_error)
 {
     xmlDocPtr xmldoc = static_cast<xmlDocPtr>(doc.get_doc_data());
-    std::auto_ptr<pimpl> ap(pimpl_ = new pimpl);
+    xml::impl::auto_ptr<pimpl> ap(pimpl_ = new pimpl);
 
     if ( (pimpl_->ss_ = xsltParseStylesheetDoc(xmldoc)) == 0)
     {

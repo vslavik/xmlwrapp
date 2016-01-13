@@ -111,6 +111,11 @@ AC_HEADER_ASSERT
 
 BOOST_REQUIRE
 
+dnl The macro above only defines BOOST_CPPFLAGS, we need to actually take it
+dnl into account when building, so add it to CXXFLAGS (CPPFLAGS would be wrong
+dnl if we ever have any C code as Boost is for C++ only).
+CXXFLAGS="$CXXFLAGS $BOOST_CPPFLAGS"
+
 if test "x$build_tests" = "xyes" ; then
     BOOST_IOSTREAMS
     BOOST_TEST
@@ -122,9 +127,10 @@ BOOST_FIND_HEADER([boost/pool/singleton_pool.hpp],
                     AC_MSG_CHECKING([if boost::singleton_pool is header only])
                     AC_LINK_IFELSE(
                        [AC_LANG_PROGRAM(
-                            [#include <boost/pool/singleton_pool.hpp>],
+                            [#include <boost/pool/singleton_pool.hpp>
+                             struct tag {};
+                            ],
                             [
-                                struct tag {};
                                 boost::singleton_pool<tag,10>::malloc();
                             ]
                        )],

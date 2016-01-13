@@ -38,6 +38,7 @@
 #include "xmlwrapp/tree_parser.h"
 
 #include "utility.h"
+#include "cpp11.h"
 #include "dtd_impl.h"
 #include "node_manip.h"
 
@@ -190,7 +191,7 @@ document::document(const char *root_name)
 
 document::document(const node& n)
 {
-    std::auto_ptr<doc_impl> ap(pimpl_ = new doc_impl);
+    xml::impl::auto_ptr<doc_impl> ap(pimpl_ = new doc_impl);
     pimpl_->set_root_node(n);
     ap.release();
 }

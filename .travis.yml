@@ -4,6 +4,10 @@ compiler:
   - gcc
   - clang
 
+env:
+  - CONFIGURE_OPTS="CXXFLAGS=-std=c++11"
+  - CONFIGURE_OPTS=""
+
 before_install:
   - sudo apt-get update -qq
 
@@ -12,7 +16,7 @@ install:
   - sudo apt-get install -qq libxml2-dev libxslt1-dev libboost-dev libboost-iostreams-dev libboost-test-dev
 
 script:
-  - ./bootstrap && ./configure && make && make check
+  - ./bootstrap && ./configure $(CONFIGURE_OPTS) && make && make check
 
 git:
   submodules: false
