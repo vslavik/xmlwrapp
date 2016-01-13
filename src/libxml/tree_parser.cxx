@@ -35,6 +35,7 @@
 #include "xmlwrapp/tree_parser.h"
 #include "xmlwrapp/document.h"
 #include "xmlwrapp/errors.h"
+#include "cpp11.h"
 #include "utility.h"
 #include "errors_impl.h"
 
@@ -145,7 +146,7 @@ tree_parser::tree_parser(const char *name, error_handler& on_error)
 
 void tree_parser::init(const char *name, error_handler *on_error)
 {
-    std::auto_ptr<tree_impl> ap(pimpl_ = new tree_impl);
+    xml::impl::auto_ptr<tree_impl> ap(pimpl_ = new tree_impl);
 
     pimpl_->okay_ = true;
     xmlDocPtr tmpdoc = xmlSAXParseFileWithData(&(pimpl_->sax_), name, 0, pimpl_);
@@ -204,7 +205,7 @@ tree_parser::tree_parser(const char *data, size_type size, error_handler& on_err
 
 void tree_parser::init(const char *data, size_type size, error_handler *on_error)
 {
-    std::auto_ptr<tree_impl> ap(pimpl_ = new tree_impl);
+    xml::impl::auto_ptr<tree_impl> ap(pimpl_ = new tree_impl);
     xmlParserCtxtPtr ctxt;
 
     if ( (ctxt = xmlCreateMemoryParserCtxt(data, size)) == 0)
