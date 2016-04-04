@@ -60,9 +60,12 @@
 #endif // XMLWRAPP_CPP11
 
 // Additionally, some compilers support some C++11 features even though they
-// don't have the full C++11 support, notably earlier versions of MSVS.
+// don't have the full C++11 support, notably earlier versions of MSVS (but
+// notice that we need not only unique_ptr<> itself but also alias templates
+// support, so while the former is available since MSVS 2010, we only use it
+// with MSVS 2013+ which also has the latter).
 #if defined(XMLWRAPP_CPP11) || \
-    (defined(_MSC_VER) && _MSC_VER >= 1600)
+    (defined(_MSC_VER) && _MSC_VER >= 1800)
     #define XMLWRAPP_CPP11_MEMORY
 #endif
 
