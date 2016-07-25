@@ -289,6 +289,12 @@ xml::document& xslt::stylesheet::apply(const xml::document &doc,
     xmlDocPtr input = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
     xmlDocPtr xmldoc = apply_stylesheet(pimpl_, on_error, input);
 
+    if (!xmldoc)
+    {
+        // More detailed error information is available from on_error.
+        throw xml::exception("applying style sheet failed");
+    }
+
     pimpl_->doc_.set_doc_data_from_xslt(xmldoc, new result_impl(xmldoc, pimpl_->ss_));
     return pimpl_->doc_;
 }
@@ -300,6 +306,12 @@ xml::document& xslt::stylesheet::apply(const xml::document &doc,
 {
     xmlDocPtr input = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
     xmlDocPtr xmldoc = apply_stylesheet(pimpl_, on_error, input, &with_params);
+
+    if (!xmldoc)
+    {
+        // More detailed error information is available from on_error.
+        throw xml::exception("applying style sheet failed");
+    }
 
     pimpl_->doc_.set_doc_data_from_xslt(xmldoc, new result_impl(xmldoc, pimpl_->ss_));
     return pimpl_->doc_;
