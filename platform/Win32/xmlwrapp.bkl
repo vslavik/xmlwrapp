@@ -28,6 +28,8 @@ defines += _CRT_SECURE_NO_DEPRECATE
            _SCL_SECURE_NO_WARNINGS;
 
 
+warnings = all;
+
 library xmlwrapp {
     headers {
         include/xmlwrapp/attributes.h

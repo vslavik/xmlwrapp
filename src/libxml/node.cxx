@@ -688,7 +688,7 @@ node::const_iterator node::find(const char *name) const
 node::iterator node::find(const char *name, const iterator& start)
 {
     xmlNodePtr n = static_cast<xmlNodePtr>(start.get_raw_node());
-    if ( (n = find_element(name, n)))
+    if ((n = find_element(name, n)) != NULL)
         return iterator(n);
     return end();
 }
@@ -697,7 +697,7 @@ node::iterator node::find(const char *name, const iterator& start)
 node::const_iterator node::find(const char *name, const const_iterator& start) const
 {
     xmlNodePtr n = static_cast<xmlNodePtr>(start.get_raw_node());
-    if ( (n = find_element(name, n)))
+    if ((n = find_element(name, n)) != NULL)
         return const_iterator(n);
     return end();
 }
