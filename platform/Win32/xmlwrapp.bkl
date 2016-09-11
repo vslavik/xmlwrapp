@@ -90,3 +90,31 @@ library xsltwrapp {
         src/libxslt/stylesheet.cxx
     }
 }
+
+program test {
+    includedirs = include;
+
+    // zlib is not always available under Windows, so don't use it by default,
+    // it's only used by a single test and it's not worth the trouble.
+    defines += XMLWRAPP_NO_ZLIB;
+
+    deps = xmlwrapp xsltwrapp;
+
+    libs = libexslt libxslt libxml2;
+
+    headers {
+        tests/test.h
+    }
+
+    sources {
+        tests/test_main.cxx
+        tests/attributes/test_attributes.cxx
+        tests/document/test_document.cxx
+        tests/event/test_event.cxx
+        tests/node/test_node.cxx
+        tests/schema/test_schema.cxx
+        tests/tree/test_tree.cxx
+        tests/xpath/test_xpath.cxx
+        tests/xslt/test_xslt.cxx
+    }
+}
