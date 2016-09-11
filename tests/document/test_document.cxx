@@ -34,7 +34,17 @@
 #include "../test.h"
 
 #include <boost/iostreams/filtering_stream.hpp>
-#include <boost/iostreams/filter/gzip.hpp>
+
+// Allow disabling the test using zlib if it's not available.
+// Also never compile this test with Sun CC as it fails to compile
+// gzip_decompressor() anyhow.
+#if !defined(XMLWRAPP_NO_ZLIB) && !defined(__SUNPRO_CC)
+    #define XMLWRAPP_USE_ZLIB
+#endif
+
+#ifdef XMLWRAPP_USE_ZLIB
+    #include <boost/iostreams/filter/gzip.hpp>
+#endif
 
 BOOST_AUTO_TEST_SUITE( document )
 
@@ -413,7 +423,7 @@ BOOST_AUTO_TEST_CASE( save_to_file )
 }
 
 
-#ifndef __SUNPRO_CC // SunCC can't compile gzip_decompressor
+#ifdef XMLWRAPP_USE_ZLIB
 BOOST_AUTO_TEST_CASE( save_to_file_gzip )
 {
     xml::document doc(xml::node("root"));
@@ -433,7 +443,7 @@ BOOST_AUTO_TEST_CASE( save_to_file_gzip )
 
     remove(TEST_FILE);
 }
-#endif // !__SUNPRO_CC
+#endif // XMLWRAPP_USE_ZLIB
 
 
 BOOST_AUTO_TEST_SUITE_END()
