@@ -266,20 +266,20 @@ BOOST_AUTO_TEST_CASE( process_xinclude )
 BOOST_AUTO_TEST_CASE( size )
 {
     xml::document doc_01(xml::node("root"));
-    BOOST_CHECK_EQUAL( doc_01.size(), 1 );
+    BOOST_CHECK_EQUAL( doc_01.size(), 1u );
 
     doc_01.push_back(xml::node(xml::node::comment("This is a comment")));
-    BOOST_CHECK_EQUAL( doc_01.size(), 2 );
+    BOOST_CHECK_EQUAL( doc_01.size(), 2u );
 
     xml::document doc_02(doc_01);
-    BOOST_CHECK_EQUAL( doc_02.size(), 2 );
+    BOOST_CHECK_EQUAL( doc_02.size(), 2u );
 
     xml::document doc_03;
-    BOOST_CHECK_EQUAL( doc_03.size(), 1 );
+    BOOST_CHECK_EQUAL( doc_03.size(), 1u );
 
     xml::node n("root");
     xml::document doc_04(n);
-    BOOST_CHECK_EQUAL( doc_04.size(), 1 );
+    BOOST_CHECK_EQUAL( doc_04.size(), 1u );
 }
 
 
