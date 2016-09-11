@@ -198,7 +198,7 @@ document::document(const node& n)
 
 document::document(const char *filename, error_handler& on_error)
 {
-    pimpl_ = new doc_impl;
+    pimpl_ = NULL;
     tree_parser p(filename, on_error);
     if ( !p )
         throw exception(p.messages());
@@ -207,7 +207,7 @@ document::document(const char *filename, error_handler& on_error)
 
 document::document(const char *data, size_type size, error_handler& on_error)
 {
-    pimpl_ = new doc_impl;
+    pimpl_ = NULL;
     tree_parser p(data, size, on_error);
     if ( !p )
         throw exception(p.messages());
