@@ -107,10 +107,15 @@ BOOST_AUTO_TEST_CASE (illegal_xpath)
 {
     xml::tree_parser parser(test_file_path("xpath/data/02.xml").c_str());
     xml::xpath_context ctxt(parser.get_document());
-    
-    xml::const_nodes_view ns = ctxt.evaluate("ILLEGAL XPATH-QUERY");
 
+    xml::const_nodes_view ns = ctxt.evaluate("ILLEGAL XPATH-QUERY");
     BOOST_CHECK(ns.begin() == ns.end());
+
+    BOOST_CHECK_THROW
+    (
+        ctxt.evaluate("ANOTHER ILLEGAL QUERY", xml::throw_on_error),
+        xml::exception
+    );
 }
 
 

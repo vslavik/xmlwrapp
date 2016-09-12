@@ -37,6 +37,7 @@
 #include "xmlwrapp/errors.h"
 #include "xmlwrapp/tree_parser.h"
 
+#include "errors_impl.h"
 #include "utility.h"
 #include "cpp11.h"
 #include "dtd_impl.h"
@@ -445,41 +446,68 @@ node::iterator document::erase(node::iterator first, node::iterator last)
 }
 
 
-void document::save_to_string(std::string& s) const
+void document::save_to_string(std::string& s, error_handler& on_error) const
 {
-    xmlChar *xml_string;
-    int xml_string_length;
+    impl::global_errors_collector err;
 
     if (pimpl_->xslt_result_ != 0)
     {
         pimpl_->xslt_result_->save_to_string(s);
-        return;
+    }
+    else
+    {
+        xmlChar *xml_string;
+        int xml_string_length;
+
+        const char *enc = pimpl_->encoding_.empty() ? 0 : pimpl_->encoding_.c_str();
+        xmlDocDumpFormatMemoryEnc(pimpl_->doc_, &xml_string, &xml_string_length, enc, 1);
+
+        xmlchar_helper helper(xml_string);
+        if (xml_string_length)
+            s.assign(helper.get(), xml_string_length);
     }
 
-    const char *enc = pimpl_->encoding_.empty() ? 0 : pimpl_->encoding_.c_str();
-    xmlDocDumpFormatMemoryEnc(pimpl_->doc_, &xml_string, &xml_string_length, enc, 1);
-
-    xmlchar_helper helper(xml_string);
-    if (xml_string_length)
-        s.assign(helper.get(), xml_string_length);
+    err.replay(on_error);
 }
 
 
-bool document::save_to_file(const char *filename, int compression_level) const
+bool document::save_to_file(const char *filename, int compression_level, error_handler& on_error) const
 {
-    std::swap(pimpl_->doc_->compression, compression_level);
+    impl::global_errors_collector err;
 
+    // Helper to temporarily change document compression parameter.
+    class set_compression_in_scope
+    {
+    public:
+        set_compression_in_scope(xmlDocPtr doc, int compression_level) :
+            doc_(doc),
+            compression_level_orig_(doc_->compression)
+        {
+            doc_->compression = compression_level;
+        }
+
+        ~set_compression_in_scope()
+        {
+            doc_->compression = compression_level_orig_;
+        }
+
+    private:
+        const xmlDocPtr doc_;
+        const int compression_level_orig_;
+    } set_compression(pimpl_->doc_, compression_level);
+
+    bool rc;
     if (pimpl_->xslt_result_ != 0)
     {
-        bool rc = pimpl_->xslt_result_->save_to_file(filename, compression_level);
-        std::swap(pimpl_->doc_->compression, compression_level);
-
-        return rc;
+        rc = pimpl_->xslt_result_->save_to_file(filename, compression_level);
+    }
+    else
+    {
+        const char *enc = pimpl_->encoding_.empty() ? 0 : pimpl_->encoding_.c_str();
+        rc = xmlSaveFormatFileEnc(filename, pimpl_->doc_, enc, 1) > 0;
     }
 
-    const char *enc = pimpl_->encoding_.empty() ? 0 : pimpl_->encoding_.c_str();
-    bool rc = xmlSaveFormatFileEnc(filename, pimpl_->doc_, enc, 1) > 0;
-    std::swap(pimpl_->doc_->compression, compression_level);
+    err.replay(on_error);
 
     return rc;
 }

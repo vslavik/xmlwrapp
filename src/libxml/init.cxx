@@ -39,16 +39,6 @@
 #include <libxml/xmlerror.h>
 #include <libxml/parser.h>
 
-extern "C"
-{
-
-static void xml_error(void *, const char*, ...)
-{
-    // don't do anything
-}
-
-} // extern "C"
-
 namespace xml
 {
 
@@ -76,9 +66,6 @@ void init::init_library()
     substitute_entities(true);
     load_external_subsets(true);
     validate_xml(false);
-
-    // keep libxml2 from using stderr
-    xmlSetGenericErrorFunc(0, xml_error);
 
     // init the parser (keeps libxml2 thread safe)
     xmlInitParser();
