@@ -448,6 +448,27 @@ BOOST_AUTO_TEST_CASE( save_to_file )
 }
 
 
+BOOST_AUTO_TEST_CASE( save_throws_on_failure )
+{
+    xml::document doc(xml::node("root"));
+    doc.get_root_node().push_back(xml::node(xml::node::text("invalid character: \x7")));
+
+    std::string s;
+    BOOST_CHECK_THROW
+    (
+        doc.save_to_string(s),
+        xml::exception
+    );
+
+    temp_test_file test_file;
+    BOOST_CHECK_THROW
+    (
+        doc.save_to_file(test_file.get_name()),
+        xml::exception
+    );
+}
+
+
 #ifdef XMLWRAPP_USE_ZLIB
 BOOST_AUTO_TEST_CASE( save_to_file_gzip )
 {
