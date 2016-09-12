@@ -148,6 +148,12 @@ void tree_parser::init(const char *name, error_handler *on_error)
 {
     xml::impl::auto_ptr<tree_impl> ap(pimpl_ = new tree_impl);
 
+    // Errors happening before the document is parsed, e.g. IO errors, are
+    // logged using the global function and not the SAX handler callbacks, so
+    // it's important to install our sink as global one in order to receive
+    // these messages too.
+    impl::global_errors_installer install_as_global(pimpl_->messages_);
+
     pimpl_->okay_ = true;
     xmlDocPtr tmpdoc = xmlSAXParseFileWithData(&(pimpl_->sax_), name, 0, pimpl_);
 
@@ -160,23 +166,8 @@ void tree_parser::init(const char *name, error_handler *on_error)
     {
         if ( !pimpl_->messages_.has_errors() )
         {
-            // Try to describe the problem better. A common issue is that
-            // a file couldn't be found, in which case "unknown XML parsing
-            // error" is more than unhelpful.
-            FILE *test = fopen(name, "r");
-            if ( !test )
-            {
-                std::string msg = "failed to open file \"";
-                msg += name;
-                msg += "\"";
-                pimpl_->messages_.on_error(msg);
-            }
-            else
-            {
-                // no such luck, the error is something else
-                fclose(test);
-                pimpl_->messages_.on_error(DEFAULT_ERROR);
-            }
+            // Provide at least some error message.
+            pimpl_->messages_.on_error(DEFAULT_ERROR);
         }
 
         // a problem appeared

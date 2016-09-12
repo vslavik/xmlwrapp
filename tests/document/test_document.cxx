@@ -393,7 +393,33 @@ BOOST_AUTO_TEST_CASE( cant_erase_root )
 }
 
 
-static const char *TEST_FILE = "test_temp_file";
+// Simple RAII helper to remove a temporary test file.
+class temp_test_file
+{
+public:
+    temp_test_file() :
+        used_(false)
+    {
+    }
+
+    ~temp_test_file()
+    {
+        if (used_)
+            remove(get_name());
+    }
+
+    const char *get_name()
+    {
+        used_ = true;
+        return "test_temp_file";
+    }
+
+private:
+    bool used_;
+
+    temp_test_file(const temp_test_file&);
+    temp_test_file& operator=(const temp_test_file&);
+};
 
 /*
  * These tests check xml::docment::save_to_file()
@@ -404,12 +430,32 @@ BOOST_AUTO_TEST_CASE( save_to_file )
     xml::document doc(xml::node("root"));
     doc.get_root_node().push_back(xml::node("child"));
 
-    doc.save_to_file(TEST_FILE);
+    temp_test_file test_file;
+    doc.save_to_file(test_file.get_name());
 
-    std::ifstream stream(TEST_FILE);
+    std::ifstream stream(test_file.get_name());
     BOOST_CHECK( is_same_as_file(read_file_into_string(stream), "document/data/15.out") );
+}
 
-    remove(TEST_FILE);
+
+BOOST_AUTO_TEST_CASE( save_throws_on_failure )
+{
+    xml::document doc(xml::node("root"));
+    doc.get_root_node().push_back(xml::node(xml::node::text("invalid character: \x7")));
+
+    std::string s;
+    BOOST_CHECK_THROW
+    (
+        doc.save_to_string(s),
+        xml::exception
+    );
+
+    temp_test_file test_file;
+    BOOST_CHECK_THROW
+    (
+        doc.save_to_file(test_file.get_name()),
+        xml::exception
+    );
 }
 
 
@@ -419,19 +465,18 @@ BOOST_AUTO_TEST_CASE( save_to_file_gzip )
     xml::document doc(xml::node("root"));
     doc.get_root_node().push_back(xml::node("child"));
 
-    doc.save_to_file(TEST_FILE, 9);
+    temp_test_file test_file;
+    doc.save_to_file(test_file.get_name(), 9);
 
     // verify that the file was can be read back as compressed
-    std::ifstream stream(TEST_FILE);
+    std::ifstream stream(test_file.get_name());
     boost::iostreams::filtering_stream<boost::iostreams::input> filter;
     filter.push(boost::iostreams::gzip_decompressor());
     filter.push(stream);
     BOOST_CHECK( is_same_as_file(read_file_into_string(filter), "document/data/15.out") );
 
     // ...and by libxml2 directly too
-    xml::tree_parser parser(TEST_FILE);
-
-    remove(TEST_FILE);
+    xml::tree_parser parser(test_file.get_name());
 }
 #endif // !__SUNPRO_CC
 

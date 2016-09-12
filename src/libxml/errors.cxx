@@ -39,6 +39,7 @@
 namespace xml
 {
 
+error_handler_ignore_errors              ignore_errors;
 error_handler_throw_on_error             throw_on_error;
 error_handler_throw_on_error_or_warning  throw_on_error_or_warning;
 
@@ -190,6 +191,22 @@ std::string errors_collector::format_for_print(const error_message& msg) const
     }
 
     return msg.message(); // silence bogus gcc warning
+}
+
+// ----------------------------------------------------------------------------
+// global_errors_installer
+// ----------------------------------------------------------------------------
+
+global_errors_installer::global_errors_installer(error_messages& on_error) :
+    xml_error_orig_(xmlGenericError),
+    xml_error_context_orig_(xmlGenericErrorContext)
+{
+    xmlSetGenericErrorFunc(&on_error, cb_messages_error);
+}
+
+global_errors_installer::~global_errors_installer()
+{
+    xmlSetGenericErrorFunc(xml_error_context_orig_, xml_error_orig_);
 }
 
 } // namespace impl
