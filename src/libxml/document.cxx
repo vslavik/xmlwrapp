@@ -467,21 +467,34 @@ void document::save_to_string(std::string& s) const
 
 bool document::save_to_file(const char *filename, int compression_level) const
 {
-    std::swap(pimpl_->doc_->compression, compression_level);
+    // Helper to temporarily change document compression parameter.
+    class set_compression_in_scope
+    {
+    public:
+        set_compression_in_scope(xmlDocPtr doc, int compression_level) :
+            doc_(doc),
+            compression_level_orig_(doc_->compression)
+        {
+            doc_->compression = compression_level;
+        }
+
+        ~set_compression_in_scope()
+        {
+            doc_->compression = compression_level_orig_;
+        }
+
+    private:
+        const xmlDocPtr doc_;
+        const int compression_level_orig_;
+    } set_compression(pimpl_->doc_, compression_level);
 
     if (pimpl_->xslt_result_ != 0)
     {
-        bool rc = pimpl_->xslt_result_->save_to_file(filename, compression_level);
-        std::swap(pimpl_->doc_->compression, compression_level);
-
-        return rc;
+        return pimpl_->xslt_result_->save_to_file(filename, compression_level);
     }
 
     const char *enc = pimpl_->encoding_.empty() ? 0 : pimpl_->encoding_.c_str();
-    bool rc = xmlSaveFormatFileEnc(filename, pimpl_->doc_, enc, 1) > 0;
-    std::swap(pimpl_->doc_->compression, compression_level);
-
-    return rc;
+    return xmlSaveFormatFileEnc(filename, pimpl_->doc_, enc, 1) > 0;
 }
 
 
