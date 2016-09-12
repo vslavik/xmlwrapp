@@ -56,21 +56,40 @@ protected:
     virtual std::string format_for_print(const error_message& msg) const;
 };
 
+// RAII helper installing the given error collector as the global error sink
+// for libxml2 error messages.
+class XMLWRAPP_API global_errors_installer
+{
+public:
+    // The object given as argument must have lifetime greater than that of
+    // this object itself.
+    explicit global_errors_installer(error_messages& on_error);
+    ~global_errors_installer();
+
+private:
+    global_errors_installer(const global_errors_installer&);
+    global_errors_installer& operator=(const global_errors_installer&);
+
+    xmlGenericErrorFunc xml_error_orig_;
+    void *xml_error_context_orig_;
+};
+
 // This class behaves like error_collector but also installs itself as handler
 // for global libxml2 errors, i.e. those that happen outside of any other
 // context.
-class global_errors_collector : public errors_collector
+class global_errors_collector :
+    public errors_collector,
+    private global_errors_installer
 {
 public:
-    global_errors_collector();
-    virtual ~global_errors_collector();
+    global_errors_collector() :
+        global_errors_installer(static_cast<error_messages&>(*this))
+    {
+    }
 
 private:
     global_errors_collector(const global_errors_collector&);
     global_errors_collector& operator=(const global_errors_collector&);
-
-    xmlGenericErrorFunc xml_error_orig_;
-    void *xml_error_context_orig_;
 };
 
 // These functions can be used as error callbacks in various libxml2 functions.
