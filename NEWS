@@ -3,6 +3,13 @@ Version 0.8.0
     New behaviour: xml::document::save_to_{string,file}() now throws exception
     in case of failure by default instead of filently ignoring any errors.
 
+    New behaviour: xpath_context::evaluate() also throws an exception if an
+    invalid XPath expression is specified.
+
+    In both cases, "ignore_errors" can be passed as the new "on_error" argument
+    to these functions to restore the old behaviour (this is, however, not
+    recommended).
+
     Added xml::node::move_under().
     Added xml::node::set_namespace().
     Added xml::xpath_context class for evaluating XPath expressions.
