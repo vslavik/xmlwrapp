@@ -39,6 +39,7 @@
 namespace xml
 {
 
+error_handler_ignore_errors              ignore_errors;
 error_handler_throw_on_error             throw_on_error;
 error_handler_throw_on_error_or_warning  throw_on_error_or_warning;
 

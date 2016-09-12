@@ -95,6 +95,18 @@ public:
 
 
 /**
+    An error handler that ignores both errors and warnings.
+
+    @see ignore_errors
+ */
+class error_handler_ignore_errors : public error_handler
+{
+public:
+    void on_error(const std::string&) {}
+    void on_warning(const std::string&) {}
+};
+
+/**
     Specialization of error_handler that throws on any error.
 
     @see throw_on_error
@@ -116,6 +128,9 @@ class error_handler_throw_on_error_or_warning : public error_handler_throw_on_er
 public:
     void on_warning(const std::string& msg) { on_error(msg); }
 };
+
+/// Error handler ignoring all errors, its use is strongly discouraged.
+extern XMLWRAPP_API error_handler_ignore_errors              ignore_errors;
 
 /// Error handler object that throws on any error.
 extern XMLWRAPP_API error_handler_throw_on_error             throw_on_error;
