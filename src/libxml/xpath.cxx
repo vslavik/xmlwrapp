@@ -173,9 +173,7 @@ void xpath_context::register_namespace(const std::string& prefix, const std::str
 
 const_nodes_view xpath_context::evaluate(const std::string& expr)
 {
-    return pimpl_->evaluate<const_nodes_view>(
-                expr,
-                const_cast<document&>(pimpl_->doc_).get_root_node());
+    return evaluate(expr, const_cast<document&>(pimpl_->doc_).get_root_node());
 }
 
 const_nodes_view xpath_context::evaluate(const std::string& expr, const node& n)
