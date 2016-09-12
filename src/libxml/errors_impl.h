@@ -35,6 +35,7 @@
 
 #include <stdarg.h>
 #include <xmlwrapp/errors.h>
+#include <libxml/xmlerror.h>
 
 namespace xml
 {
@@ -53,6 +54,23 @@ public:
 
 protected:
     virtual std::string format_for_print(const error_message& msg) const;
+};
+
+// This class behaves like error_collector but also installs itself as handler
+// for global libxml2 errors, i.e. those that happen outside of any other
+// context.
+class global_errors_collector : public errors_collector
+{
+public:
+    global_errors_collector();
+    virtual ~global_errors_collector();
+
+private:
+    global_errors_collector(const global_errors_collector&);
+    global_errors_collector& operator=(const global_errors_collector&);
+
+    xmlGenericErrorFunc xml_error_orig_;
+    void *xml_error_context_orig_;
 };
 
 // These functions can be used as error callbacks in various libxml2 functions.

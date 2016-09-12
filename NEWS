@@ -1,3 +1,7 @@
+Version 0.8.0
+
+    New behaviour: xml::document::save_to_{string,file}() now throws exception
+    in case of failure by default instead of filently ignoring any errors.
 
     Added xml::node::move_under().
     Added xml::node::set_namespace().

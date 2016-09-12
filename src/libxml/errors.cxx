@@ -192,6 +192,22 @@ std::string errors_collector::format_for_print(const error_message& msg) const
     return msg.message(); // silence bogus gcc warning
 }
 
+// ----------------------------------------------------------------------------
+// global_errors_collector
+// ----------------------------------------------------------------------------
+
+global_errors_collector::global_errors_collector() :
+    xml_error_orig_(xmlGenericError),
+    xml_error_context_orig_(xmlGenericErrorContext)
+{
+    xmlSetGenericErrorFunc(this, cb_messages_error);
+}
+
+global_errors_collector::~global_errors_collector()
+{
+    xmlSetGenericErrorFunc(xml_error_context_orig_, xml_error_orig_);
+}
+
 } // namespace impl
 
 } // namespace xml
