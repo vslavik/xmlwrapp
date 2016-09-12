@@ -148,7 +148,7 @@ BOOST_AUTO_TEST_CASE( elements )
     xml::node &root = parser.get_document().get_root_node();
     xml::nodes_view persons(root.elements("person"));
 
-    BOOST_CHECK_EQUAL( persons.size(), 3 );
+    BOOST_CHECK_EQUAL( persons.size(), 3u );
 
     std::ostringstream ostr;
 
@@ -172,7 +172,7 @@ BOOST_AUTO_TEST_CASE( elements_const )
     const xml::node &root = parser.get_document().get_root_node();
     xml::const_nodes_view persons(root.elements("person"));
 
-    BOOST_CHECK_EQUAL( persons.size(), 3 );
+    BOOST_CHECK_EQUAL( persons.size(), 3u );
 
     std::ostringstream ostr;
 
@@ -453,13 +453,13 @@ BOOST_AUTO_TEST_CASE( node_empty )
 BOOST_AUTO_TEST_CASE( node_size )
 {
     xml::node n("root");
-    BOOST_CHECK_EQUAL( n.size(), 0 );
+    BOOST_CHECK_EQUAL( n.size(), 0u );
 
     n.push_back(xml::node("one"));
-    BOOST_CHECK_EQUAL( n.size(), 1 );
+    BOOST_CHECK_EQUAL( n.size(), 1u );
 
     n.push_back(xml::node("two"));
-    BOOST_CHECK_EQUAL( n.size(), 2 );
+    BOOST_CHECK_EQUAL( n.size(), 2u );
 }
 
 /*

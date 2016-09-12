@@ -33,8 +33,12 @@
 #ifndef _xmlwrapp_test_h_
 #define _xmlwrapp_test_h_
 
-#define BOOST_TEST_ALTERNATIVE_INIT_API
-#define BOOST_TEST_DYN_LINK
+// XMLWRAPP_NO_BOOST_TEST_DYN_LINK can be predefined in the compiler options if
+// you have Boost Unit Test Framework as a static library and not a shared one.
+#ifndef XMLWRAPP_NO_BOOST_TEST_DYN_LINK
+    #define BOOST_TEST_ALTERNATIVE_INIT_API
+    #define BOOST_TEST_DYN_LINK
+#endif
 
 #include <boost/test/unit_test.hpp>
 

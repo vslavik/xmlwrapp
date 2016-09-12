@@ -156,6 +156,8 @@ xmlDocPtr apply_stylesheet(xslt::stylesheet::pimpl *impl,
     ctxt->_private = impl;
 
     xslt_errors_collector err(ctxt);
+    xml::impl::global_errors_installer install_as_global(err);
+
     xsltSetTransformErrorFunc(ctxt, &err, xml::impl::cb_messages_error);
 
     xmlDocPtr result =

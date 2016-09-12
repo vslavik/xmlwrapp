@@ -453,21 +453,36 @@ public:
         Convert the XML document tree into XML text data and place it into
         the given string.
 
+        Any errors occurring while converting the document to string are passed
+        to @a on_error handler. By default, an exception will be thrown if
+        anything goes wrong.
+
         @param s The string to place the XML text data.
+        @param on_error Handler called to process errors and warnings (new
+            since 0.8.0).
      */
-    void save_to_string(std::string& s) const;
+    void save_to_string(std::string& s, error_handler& on_error = throw_on_error) const;
 
     /**
         Convert the XML document tree into XML text data and place it into
         the given filename.
 
+        This function throws an exception if saving fails for any reason by
+        default and allows to customize this behaviour by passing a non-default
+        @a on_error handler.
+
         @param filename The name of the file to place the XML text data into.
+        @param on_error Handler called to process errors and warnings (new
+            since 0.8.0).
         @param compression_level 0 is no compression, 1-9 allowed, where 1 is
                                  for better speed, and 9 is for smaller size
         @return True if the data was saved successfully.
-        @return False otherwise.
+        @return False otherwise (notice that this is only possible if a custom
+            error handler not throwing on error is specified).
      */
-    bool save_to_file(const char *filename, int compression_level = 0) const;
+    bool save_to_file(const char *filename,
+                      int compression_level = 0,
+                      error_handler& on_error = throw_on_error) const;
 
     /**
         Convert the XML document tree into XML text data and then insert it
