@@ -43,6 +43,7 @@
 
 // xmlwrapp includes
 #include "xmlwrapp/init.h"
+#include "xmlwrapp/errors.h"
 #include "xmlwrapp/export.h"
 #include "xmlwrapp/nodes_view.h"
 
@@ -105,17 +106,23 @@ public:
         xml::node& argument and pass xml::document::get_root_node() result to
         it.
      */
-    const_nodes_view evaluate(const std::string& expr);
+    const_nodes_view evaluate(const std::string& expr,
+                              error_handler& on_error = ignore_errors);
 
     /**
         Execute an XPath query in the scope of XML node @a n.
 
         @param  expr  XPath expression.
         @param  n     The context node for the expression.
+        @param  on_error Error handler ignoring all errors by default for
+            compatibility reasons: in case of an error, an empty set is
+            returned.
 
         @return Const set of matching nodes.
      */
-    const_nodes_view evaluate(const std::string& expr, const xml::node& n);
+    const_nodes_view evaluate(const std::string& expr,
+                              const xml::node& n,
+                              error_handler& on_error = ignore_errors);
 
     /**
         Execute an XPath query in the scope of XML node @a n.
@@ -123,7 +130,9 @@ public:
         This overload is identical to the one taking const @a n argument,
         except that it returns a set of nodes that can be modified.
      */
-    nodes_view evaluate(const std::string& expr, xml::node& n);
+    nodes_view evaluate(const std::string& expr,
+                        xml::node& n,
+                        error_handler& on_error = ignore_errors);
 
 private:
     // no copying
