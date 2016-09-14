@@ -43,6 +43,7 @@
 
 // xmlwrapp includes
 #include "xmlwrapp/init.h"
+#include "xmlwrapp/errors.h"
 #include "xmlwrapp/export.h"
 #include "xmlwrapp/nodes_view.h"
 
@@ -97,35 +98,42 @@ public:
     /**
         Execute an XPath query in the document scope.
 
-        Notice that the returned view is const; if you need to modify nodes in
-        the returned set, use the non-const overload that takes xml::node&
-        argument and pass xml::document::get_root_node() result to it.
+        Calling this function is exactly equivalent to using the overload
+        taking an xml::node argument with xml::document::get_root_node().
 
-        @param  expr  XPath expression.
-
-        @return Const set of matching nodes.
+        In particular, this implies that if you need to modify nodes in the
+        returned set, you can simple use the non-const overload taking
+        xml::node& argument and pass xml::document::get_root_node() result to
+        it.
      */
-    const_nodes_view evaluate(const std::string& expr);
+    const_nodes_view evaluate(const std::string& expr,
+                              error_handler& on_error = throw_on_error);
 
     /**
         Execute an XPath query in the scope of XML node @a n.
 
         @param  expr  XPath expression.
         @param  n     The context node for the expression.
+        @param  on_error Error handler throwing an exception if an error occurs
+            during the expression evaluation. Notice that absence of matches
+            isn't considered to be an error, in this case the function just
+            returns an empty set.
 
         @return Const set of matching nodes.
      */
-    const_nodes_view evaluate(const std::string& expr, const xml::node& n);
+    const_nodes_view evaluate(const std::string& expr,
+                              const xml::node& n,
+                              error_handler& on_error = throw_on_error);
 
     /**
         Execute an XPath query in the scope of XML node @a n.
 
-        @param  expr  XPath expression.
-        @param  n     The context node for the expression.
-
-        @return Set of matching nodes.
+        This overload is identical to the one taking const @a n argument,
+        except that it returns a set of nodes that can be modified.
      */
-    nodes_view evaluate(const std::string& expr, xml::node& n);
+    nodes_view evaluate(const std::string& expr,
+                        xml::node& n,
+                        error_handler& on_error = throw_on_error);
 
 private:
     // no copying

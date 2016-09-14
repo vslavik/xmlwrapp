@@ -36,6 +36,7 @@
 #include "xmlwrapp/document.h"
 #include "xmlwrapp/node.h"
 
+#include "errors_impl.h"
 #include "node_iterator.h"
 #include "utility.h"
 
@@ -123,7 +124,7 @@ struct xpath_context_impl
     }
 
     template<typename NodesView>
-    NodesView evaluate(const std::string& expr, node& n)
+    NodesView evaluate(const std::string& expr, node& n, error_handler& on_error)
     {
         xmlNodePtr xmlnode = reinterpret_cast<xmlNodePtr>(n.get_node_data());
         if ( xmlnode->doc != ctxt_->doc )
@@ -131,8 +132,12 @@ struct xpath_context_impl
             throw xml::exception("node doesn't belong to context's document");
         }
 
+        impl::global_errors_collector err;
+
         xml_scoped_ptr<xmlXPathObjectPtr, wrap_xmlXPathFreeObject> nsptr(
             xmlXPathNodeEval(xmlnode, xml_string(expr), ctxt_));
+
+        err.replay(on_error);
 
         if ( !nsptr )
             return NodesView();
@@ -171,21 +176,19 @@ void xpath_context::register_namespace(const std::string& prefix, const std::str
     xmlXPathRegisterNs(pimpl_->ctxt_, xml_string(prefix), xml_string(href));
 }
 
-const_nodes_view xpath_context::evaluate(const std::string& expr)
+const_nodes_view xpath_context::evaluate(const std::string& expr, error_handler& on_error)
 {
-    return pimpl_->evaluate<const_nodes_view>(
-                expr,
-                const_cast<document&>(pimpl_->doc_).get_root_node());
+    return evaluate(expr, const_cast<document&>(pimpl_->doc_).get_root_node(), on_error);
 }
 
-const_nodes_view xpath_context::evaluate(const std::string& expr, const node& n)
+const_nodes_view xpath_context::evaluate(const std::string& expr, const node& n, error_handler& on_error)
 {
-    return pimpl_->evaluate<const_nodes_view>(expr, const_cast<node&>(n));
+    return pimpl_->evaluate<const_nodes_view>(expr, const_cast<node&>(n), on_error);
 }
 
-nodes_view xpath_context::evaluate(const std::string& expr, node& n)
+nodes_view xpath_context::evaluate(const std::string& expr, node& n, error_handler& on_error)
 {
-    return pimpl_->evaluate<nodes_view>(expr, n);
+    return pimpl_->evaluate<nodes_view>(expr, n, on_error);
 }
 
 } // namespace xml
