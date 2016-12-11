@@ -1,3 +1,7 @@
+Version 0.8.1
+
+    Add cpp11.h file missing from 0.8.0 distribution archive.
+
 Version 0.8.0
 
     New behaviour: xml::document::save_to_{string,file}() now throws exception
