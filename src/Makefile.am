@@ -15,6 +15,7 @@ libxmlwrapp_la_SOURCES = \
 		libxml/ait_impl.cxx \
 		libxml/ait_impl.h \
 		libxml/attributes.cxx \
+		libxml/cpp11.h \
 		libxml/document.cxx \
 		libxml/dtd_impl.cxx \
 		libxml/dtd_impl.h \
