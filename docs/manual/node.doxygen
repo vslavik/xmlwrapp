@@ -133,7 +133,10 @@ this is done with iterators.
 
 Using iterators you can walk the node tree, add nodes, remove nodes and even
 replace nodes. xmlwrapp iterators are just as useful as the standard library
-iterators.
+iterators, however please notice that all iterators provided by the library are
+only forward, and not random access or even bidirectional, i.e. they can only
+be used to iterate over a collection of nodes, but not to access arbitrary
+nodes directly nor iterate in the reverse direction.
 
 @subsection node_children_begin Begin and End Iterators
 
