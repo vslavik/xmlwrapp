@@ -69,7 +69,7 @@ public:
     /// a type for holding XML node attributes
     typedef std::map<std::string, std::string> attrs_type;
     /// size type
-    typedef std::size_t size_type;
+    typedef int size_type;
 
     /// Default constructor.
     event_parser();
