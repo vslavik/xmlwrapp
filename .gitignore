@@ -1,6 +1,7 @@
 /BUILD-*
 docs/html
 
+# Platform: Windows
 *.vcproj
 *.vcproj.*
 *.vcxproj
@@ -14,6 +15,11 @@ platform/Win32/bin/
 platform/Win32/download/
 platform/Win32/include/
 platform/Win32/lib/
+
+# Platform: Apple
+.DS_Store
+xcuserdata/
+*.xccheckout
 
 Makefile
 Makefile.in

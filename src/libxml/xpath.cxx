@@ -55,7 +55,8 @@ namespace
 
 // xmlXPathNodeEval was introduced in 2.9.1, use a helper reimplementation
 // with older versions:
-#if LIBXML_VERSION < 20901
+// FIX: on OS X 10.9 it appears that version is 2.9.0 but this function is defined already.
+#if (__APPLE__ == 0 && LIBXML_VERSION < 20901) || (__APPLE__ && LIBXML_VERSION < 20900)
 xmlXPathObjectPtr xmlXPathNodeEval(xmlNodePtr node, const xmlChar *str, xmlXPathContextPtr ctx)
 {
     ctx->node = node;
