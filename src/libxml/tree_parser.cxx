@@ -85,25 +85,13 @@ namespace
 
 const char DEFAULT_ERROR[] = "unknown XML parsing error";
 
-extern "C" void cb_tree_error(void *v, const char *message, ...)
+extern "C" void cb_tree_structured_error(void *out, xmlErrorPtr error)
 {
-    xmlParserCtxtPtr ctxt = static_cast<xmlParserCtxtPtr>(v);
-    tree_impl *p = static_cast<tree_impl*>(ctxt->_private);
-    if (!p)
-        return; // handle bug in older versions of libxml
+    xmlParserCtxtPtr ctxt = static_cast<xmlParserCtxtPtr>(out);
 
-    xmlStopParser(ctxt);
-    CALL_CB_MESSAGES_ERROR(&p->messages_, message);
-}
+    tree_impl* const p = static_cast<tree_impl*>(ctxt->_private);
 
-extern "C" void cb_tree_warning(void *v, const char *message, ...)
-{
-    xmlParserCtxtPtr ctxt = static_cast<xmlParserCtxtPtr>(v);
-    tree_impl *p = static_cast<tree_impl*>(ctxt->_private);
-    if (!p)
-        return; // handle bug in older versions of libxml
-
-    CALL_CB_MESSAGES_WARNING(&p->messages_, message);
+    cb_messages_structured_error(&p->messages_, error);
 }
 
 
@@ -119,9 +107,9 @@ impl::tree_impl::tree_impl()
     std::memset(&sax_, 0, sizeof(sax_));
     xmlwrapp_initDefaultSAXHandler(&sax_, 0);
 
-    sax_.warning    = cb_tree_warning;
-    sax_.error      = cb_tree_error;
-    sax_.fatalError = cb_tree_error;
+    // Setting the structured error handler overrides all the others, so there
+    // is no need to reset them.
+    sax_.serror = cb_tree_structured_error;
 
     if (xmlKeepBlanksDefaultValue == 0)
         sax_.ignorableWhitespace =  cb_tree_ignore;
