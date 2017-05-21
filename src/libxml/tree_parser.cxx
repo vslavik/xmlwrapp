@@ -75,7 +75,6 @@ struct impl::tree_impl
     document doc_;
     xmlSAXHandler sax_;
     errors_collector messages_;
-    bool okay_;
 
     // for backward compatibility only, to be removed
     std::string get_error_message_cache_;
@@ -94,7 +93,6 @@ extern "C" void cb_tree_error(void *v, const char *message, ...)
         return; // handle bug in older versions of libxml
 
     xmlStopParser(ctxt);
-    p->okay_ = false;
     CALL_CB_MESSAGES_ERROR(&p->messages_, message);
 }
 
@@ -116,7 +114,7 @@ extern "C" void cb_tree_ignore(void*, const xmlChar*, int)
 } // anonymous namespace
 
 
-impl::tree_impl::tree_impl() : okay_(false)
+impl::tree_impl::tree_impl()
 {
     std::memset(&sax_, 0, sizeof(sax_));
     xmlwrapp_initDefaultSAXHandler(&sax_, 0);
@@ -154,10 +152,9 @@ void tree_parser::init(const char *name, error_handler *on_error)
     // these messages too.
     impl::global_errors_installer install_as_global(pimpl_->messages_);
 
-    pimpl_->okay_ = true;
     xmlDocPtr tmpdoc = xmlSAXParseFileWithData(&(pimpl_->sax_), name, 0, pimpl_);
 
-    if (tmpdoc && pimpl_->okay_)
+    if (tmpdoc && !pimpl_->messages_.has_errors())
     {
         // all is fine
         pimpl_->doc_.set_doc_data(tmpdoc);
@@ -173,8 +170,6 @@ void tree_parser::init(const char *name, error_handler *on_error)
         // a problem appeared
         if (tmpdoc)
             xmlFreeDoc(tmpdoc);
-
-        pimpl_->okay_ = false;
 
         if (on_error)
             pimpl_->messages_.replay(*on_error);
@@ -209,17 +204,14 @@ void tree_parser::init(const char *data, size_type size, error_handler *on_error
 
     ctxt->_private = pimpl_;
 
-    pimpl_->okay_ = true;
     const int retval = xmlParseDocument(ctxt);
 
-    if (!ctxt->wellFormed || retval != 0 || !pimpl_->okay_)
+    if (!ctxt->wellFormed || retval != 0 || pimpl_->messages_.has_errors())
     {
         xmlFreeDoc(ctxt->myDoc);
         ctxt->myDoc = 0;
         ctxt->sax = 0;
         xmlFreeParserCtxt(ctxt);
-
-        pimpl_->okay_ = false;
 
         if (on_error)
             pimpl_->messages_.replay(*on_error);
@@ -229,7 +221,6 @@ void tree_parser::init(const char *data, size_type size, error_handler *on_error
     }
 
     pimpl_->doc_.set_doc_data(ctxt->myDoc);
-    pimpl_->okay_ = true;
     ctxt->sax = 0;
 
     xmlFreeParserCtxt(ctxt);
