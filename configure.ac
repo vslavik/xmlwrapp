@@ -90,6 +90,16 @@ dnl === Program checks ===
 
 AC_PROG_CXX
 AC_PROG_LD
+
+dnl This is a workaround for the harmless but annoying warning
+dnl
+dnl ar: `u' modifier ignored since `D' is the default (see `U')
+dnl
+dnl given by Linux systems using recent binutils with the switch to building
+dnl deterministic archives (that can't include the timestamps) when building
+dnl all static libraries with default "cru" flags used by Libtool up to 2.4.6.
+AR_FLAGS=cr
+
 AC_PROG_LIBTOOL
 
 
