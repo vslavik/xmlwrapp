@@ -70,8 +70,11 @@ private:
     global_errors_installer(const global_errors_installer&);
     global_errors_installer& operator=(const global_errors_installer&);
 
-    xmlGenericErrorFunc xml_error_orig_;
-    void *xml_error_context_orig_;
+    xmlGenericErrorFunc xml_generic_error_orig_;
+    void *xml_generic_error_context_orig_;
+
+    xmlStructuredErrorFunc xml_structured_error_orig_;
+    void *xml_structured_error_context_orig_;
 };
 
 // This class behaves like error_collector but also installs itself as handler
@@ -97,6 +100,8 @@ private:
 // Usage: pass the pointer to errors_collector as libxml2's void* ctx argument
 extern "C"
 {
+
+XMLWRAPP_API void cb_messages_structured_error(void *out, xmlErrorPtr error);
 
 XMLWRAPP_API void cb_messages_warning(void *out, const char *message, ...);
 XMLWRAPP_API void cb_messages_error(void *out, const char *message, ...);

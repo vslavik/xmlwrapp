@@ -398,6 +398,20 @@ TEST_CASE_METHOD( SrcdirConfig, "document/cant_erase_root", "[document]" )
 }
 
 
+/*
+ * This test checks xml::tree_parser ctor to make sure it throws an
+ * exception containing the name of the input file in its message.
+ */
+TEST_CASE_METHOD( SrcdirConfig, "document/error_from_ctor", "[document][error]" )
+{
+    CHECK_THROWS_WITH
+    (
+        xml::tree_parser("bloordyblop.xml"),
+        Catch::Contains("bloordyblop.xml")
+    );
+}
+
+
 // Simple RAII helper to remove a temporary test file.
 class temp_test_file
 {
