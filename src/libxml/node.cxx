@@ -589,7 +589,7 @@ void node::set_namespace(const std::string& href)
         {
             if ( ns->prefix == NULL )
             {
-                xmlFree((void*)ns->href);
+                xmlFree(const_cast<xmlChar*>(ns->href));
                 ns->href = xmlStrdup(xmlHref);
                 break;
             }
