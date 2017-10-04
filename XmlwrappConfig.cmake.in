@@ -1,0 +1,60 @@
+# - Config file for Xmlwrapp package
+# It defines the following variables
+#
+# XMLWRAPP_FOUND            - True if found otherwise all other vars are undefined
+# XMLWRAPP_XSLT_FOUND       - True if xsltwrapp library component was found
+# XMLWRAPP_VERSION          - Xmlwrapp release version
+# XMLWRAPP_MAJOR            - Xmlwrapp major version number (X in X.y.z)
+# XMLWRAPP_MINOR            - Xmlwrapp minor version number (Y in x.Y.z)
+# XMLWRAPP_PATCH            - Xmlwrapp patch version number (Z in x.y.Z)
+#
+# XMLWRAPP_INCLUDE_DIR      - Xmlwrapp include directory
+# XMLWRAPP_LIBRARY_DIR      - Link directories for xmlwrapp
+# XMLWRAPP_LIBRARIES        - Component libraries xmlwrapp and xsltwrapp (if built)
+# XMLWRAPP_XSLT_LIBRARIES   - Component libraries for xsltwrapp only
+# XMLWRAPP_XML_LIBRARIES    - Component libraries for xmlwrapp only
+#
+# Static or shared libraries
+# To use static libraries
+# set(XMLWRAPP_USE_STATIC_LIBS ON)
+# find_package(Xmlwrapp)
+#
+# Compute paths
+get_filename_component(XMLWRAPP_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+set(XMLWRAPP_INCLUDE_DIR "@CONF_INCLUDE_DIR@")
+set(XMLWRAPP_LIBRARY_DIR "@CONF_LIBRARY_DIR@")
+set(XMLWRAPP_XSLT_FOUND "@XMLWRAPP_BUILD_XSLTWRAPP@")
+
+find_package(PkgConfig)
+pkg_search_module(LIBXML2 REQUIRED libxml-2.0 >= 2.4.28)
+if(XMLWRAPP_XSLT_FOUND)
+    pkg_search_module(LIBXSLT REQUIRED libxslt >= 1.1.6)
+endif(XMLWRAPP_XSLT_FOUND)
+
+# Our libary dependencies (contains definitions form IMPORTED targets)
+if( NOT (TARGET xmlwrapp_shared OR TARGET xmlwrapp_static) AND NOT XMLWRAPP_BINARY_DIR)
+#    message("${XMLWRAPP_CMAKE_DIR}/XmlwrappTargets.cmake")
+    include("${XMLWRAPP_CMAKE_DIR}/XmlwrappTargets.cmake")
+endif()
+
+#set(XMLWRAPP_USE_STATIC_LIBS OFF)
+# These are imported targets created by XmlwrappTargets.cmake
+if(XMLWRAPP_USE_STATIC_LIBS)
+    if(XMLWRAPP_XSLT_FOUND)
+        set(XMLWRAPP_LIBRARIES xmlwrapp_static xsltwrapp_static)
+        set(XMLWRAPP_XML_LIBRARIES xmlwrapp_static)
+        set(XMLWRAPP_XSLT_LIBRARIES xsltwrapp_static)
+    else()
+        set(XMLWRAPP_LIBRARIES xmlwrapp_static)
+        set(XMLWRAPP_XML_LIBRARIES xmlwrapp_static)
+    endif(XMLWRAPP_XSLT_FOUND)
+else()
+    if(XMLWRAPP_XSLT_FOUND)
+        set(XMLWRAPP_LIBRARIES xmlwrapp_shared xsltwrapp_shared)
+        set(XMLWRAPP_XML_LIBRARIES xmlwrapp_shared)
+        set(XMLWRAPP_XSLT_LIBRARIES xsltwrapp_shared)
+    else()
+        set(XMLWRAPP_LIBRARIES xmlwrapp_shared)
+        set(XMLWRAPP_XML_LIBRARIES xmlwrapp_shared)
+    endif(XMLWRAPP_XSLT_FOUND)
+elseif(XMLWRAPP_USE_STATIC_LIBS)
