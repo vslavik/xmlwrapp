@@ -60,15 +60,15 @@ init::~init()
 
 void init::init_library()
 {
+    // init the parser (keeps libxml2 thread safe)
+    xmlInitParser();
+
     // set some libxml global variables
     indent_output(true);
     remove_whitespace(false);
     substitute_entities(true);
     load_external_subsets(true);
     validate_xml(false);
-
-    // init the parser (keeps libxml2 thread safe)
-    xmlInitParser();
 }
 
 
