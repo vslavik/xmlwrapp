@@ -36,7 +36,7 @@ macro(define_libxmlwrapp  arg0  arg1)
     target_include_directories(${arg1} PUBLIC 
                               $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
                               $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>)
-    set_target_properties(${arg1} PROPERTIES VERSION 6.0.0 SOVERSION 6)
+    set_target_properties(${arg1} PROPERTIES VERSION 6.0.0 SOVERSION 6 OUTPUT_NAME xmlwrapp)
     install (TARGETS ${arg1} EXPORT XmlwrappTargets DESTINATION lib)
 
 endmacro(define_libxmlwrapp)
@@ -53,7 +53,7 @@ if( XMLWRAPP_BUILD_XSLTWRAPP )
                               $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>)
         install (TARGETS ${arg1} EXPORT XmlwrappTargets DESTINATION lib)
         target_link_libraries(${arg1} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES})
-        set_target_properties(${arg1} PROPERTIES VERSION 4.0.0 SOVERSION 4)
+        set_target_properties(${arg1} PROPERTIES VERSION 4.0.0 SOVERSION 4 OUTPUT_NAME xsltwrapp)
     endmacro(define_libxsltwrapp)
 
     define_libxsltwrapp(SHARED  xsltwrapp_shared)
