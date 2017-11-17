@@ -45,6 +45,23 @@
 namespace
 {
 
+// Helper: sets the given namespace for this node and all of its children,
+// recursively, but without overriding any existing namespaces.
+void set_default_ns_recursively(xmlNodePtr node, xmlNsPtr ns)
+{
+    if ( node->ns )
+    {
+        // This node already has a namespace, so neither it nor its children
+        // should inherit the parents one.
+        return;
+    }
+
+    node->ns = ns;
+
+    for ( xmlNodePtr child = node->children; child; child = child->next )
+        set_default_ns_recursively(child, ns);
+}
+
 // Make a copy of the given node with its contents and children which is meant
 // to be added under the specified parent.
 //
@@ -56,15 +73,14 @@ xmlNodePtr copy_node_under_parent(xmlNodePtr parent, xmlNodePtr orig_node)
     if ( !new_xml_node )
         throw std::bad_alloc();
 
-    // The new node should inherit the namespace of its parent, unless it
-    // already has a custom namespace, for consistency with how tree
-    // construction works in libxml2.
-    if ( !new_xml_node->ns )
+    // Check that we really have a parent as this could also be xmlDoc
+    // masquerading as xmlNode when inserting the root element itself.
+    if ( parent->type != XML_DOCUMENT_NODE )
     {
-        // Check that we really have a parent as this could also be xmlDoc
-        // masquerading as xmlNode when inserting the root element itself.
-        if ( parent->type != XML_DOCUMENT_NODE )
-            new_xml_node->ns = parent->ns;
+        // The new node and all its children should inherit the namespace of
+        // its parent, unless any of them already have a custom namespace, for
+        // consistency with how tree construction works in libxml2.
+        set_default_ns_recursively(new_xml_node, parent->ns);
     }
 
     return new_xml_node;
