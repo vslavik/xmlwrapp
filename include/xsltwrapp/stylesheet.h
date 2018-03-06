@@ -71,9 +71,9 @@ public:
         stylesheet in the given filename.
 
         Errors are handled by @a on_error handler; by default, xml::exception
-        is thrown on errors. If there's a fatal error that prevents the schema
-        from being loaded and the error handler doesn't throw an exception, the
-        constructor will throw xml::exception anyway.
+        is thrown on errors. If there's a fatal error that prevents the
+        stylesheet from being loaded and the error handler doesn't throw an
+        exception, the constructor will throw xml::exception anyway.
 
         @param filename The name of the file that contains the stylesheet.
         @param on_error Handler called to process errors and warnings (since 0.7.0).
@@ -88,9 +88,9 @@ public:
         document and free it.
 
         Errors are handled by @a on_error handler; by default, xml::exception
-        is thrown on errors. If there's a fatal error that prevents the schema
-        from being loaded and the error handler doesn't throw an exception, the
-        constructor will throw xml::exception anyway.
+        is thrown on errors. If there's a fatal error that prevents the
+        stylesheet from being loaded and the error handler doesn't throw an
+        exception, the constructor will throw xml::exception anyway.
 
         @param doc The parsed stylesheet.
         @param on_error Handler called to process errors and warnings (since 0.7.0).
