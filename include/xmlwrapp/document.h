@@ -219,15 +219,18 @@ public:
 
     /**
         Get the XML encoding for this document. The default encoding is
-        ISO-8859-1.
+        UTF-8.
 
         @return The encoding string.
      */
-    const std::string& get_encoding() const;
+    std::string get_encoding() const;
 
     /**
         Set the XML encoding string. If you don't set this, it will default
-        to ISO-8859-1.
+        to UTF-8.
+
+        Note that all strings in the XML document must be encoded in the
+        document encoding.
 
         @param encoding The XML encoding to use.
      */

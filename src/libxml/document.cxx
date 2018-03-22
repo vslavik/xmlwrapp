@@ -65,7 +65,7 @@ using namespace impl;
 
 namespace
 {
-    const char DEFAULT_ENCODING[] = "ISO-8859-1";
+    const char DEFAULT_ENCODING[] = "UTF-8";
 }
 
 // ------------------------------------------------------------------------
@@ -115,8 +115,6 @@ struct doc_impl
 
         if (doc_->version)
             version_ = reinterpret_cast<const char*>(doc_->version);
-        if (doc_->encoding)
-            encoding_ = reinterpret_cast<const char*>(doc_->encoding);
 
         if (root_is_okay)
         {
@@ -168,7 +166,6 @@ struct doc_impl
     xslt::impl::result *xslt_result_;
     node root_;
     std::string version_;
-    mutable std::string encoding_;
 };
 
 } // namespace impl
@@ -277,18 +274,20 @@ void document::set_version(const char *version)
 }
 
 
-const std::string& document::get_encoding() const
+std::string document::get_encoding() const
 {
-    if (pimpl_->encoding_.empty())
-        pimpl_->encoding_ = DEFAULT_ENCODING;
-    return pimpl_->encoding_;
+    std::string encoding;
+    if (pimpl_->doc_->encoding)
+        encoding = reinterpret_cast<const char*>(pimpl_->doc_->encoding);
+    else
+        encoding = DEFAULT_ENCODING;
+
+    return encoding;
 }
 
 
 void document::set_encoding(const char *encoding)
 {
-    pimpl_->encoding_ = encoding;
-
     if (pimpl_->doc_->encoding)
         xmlFree(const_cast<xmlChar*>(pimpl_->doc_->encoding));
 
@@ -459,8 +458,7 @@ void document::save_to_string(std::string& s, error_handler& on_error) const
         xmlChar *xml_string;
         int xml_string_length;
 
-        const char *enc = pimpl_->encoding_.empty() ? 0 : pimpl_->encoding_.c_str();
-        xmlDocDumpFormatMemoryEnc(pimpl_->doc_, &xml_string, &xml_string_length, enc, 1);
+        xmlDocDumpFormatMemory(pimpl_->doc_, &xml_string, &xml_string_length, 1);
 
         xmlchar_helper helper(xml_string);
         if (xml_string_length)
@@ -503,8 +501,7 @@ bool document::save_to_file(const char *filename, int compression_level, error_h
     }
     else
     {
-        const char *enc = pimpl_->encoding_.empty() ? 0 : pimpl_->encoding_.c_str();
-        rc = xmlSaveFormatFileEnc(filename, pimpl_->doc_, enc, 1) > 0;
+        rc = xmlSaveFormatFile(filename, pimpl_->doc_, 1) > 0;
     }
 
     err.replay(on_error);
