@@ -62,7 +62,7 @@ run_optional_tool() {
 # cygwin platforms. Symlinking of files under mingw does not work out for
 # cygwin and vice-versa.
 echo "Setting up build system for xmlwrapp:"
-echo " - aclocal " && aclocal -I admin && \
+echo " - aclocal " && aclocal && \
 echo " - libtoolize " && $LIBTOOLIZE --copy --automake && \
 echo " - autoconf " && autoconf && \
 echo " - automake " && automake --add-missing --copy && \
