@@ -93,7 +93,7 @@ public:
         The iterator provides a way to access nodes in the view
         similar to a standard C++ container.
 
-        @see xml::node::iterator
+        As xml::node::iterator itself, this is only a forward iterator.
      */
     class iterator
     {
@@ -136,7 +136,7 @@ public:
         similar to a standard C++ container. The nodes that are pointed to by
         the iterator cannot be changed.
 
-        @see xml::node::const_iterator
+        As xml::node::const_iterator itself, this is only a forward iterator.
      */
     class const_iterator
     {

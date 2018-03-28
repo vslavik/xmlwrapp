@@ -428,6 +428,8 @@ public:
         The xml::node::iterator provides a way to access children nodes
         similar to a standard C++ container. The nodes that are pointed to by
         the iterator can be changed.
+
+        Note that this is only a forward iterator.
      */
     class iterator
     {
@@ -469,6 +471,8 @@ public:
         The xml::node::const_iterator provides a way to access children nodes
         similar to a standard C++ container. The nodes that are pointed to by
         the const_iterator cannot be changed.
+
+        Note that this is only a forward iterator.
      */
     class const_iterator
     {
