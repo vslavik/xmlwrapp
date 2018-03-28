@@ -1,0 +1,12 @@
+# If you're reading this comment in the XML schema.rng file, notice that it was
+# automatically copied there by trang conversion tool from schema.rnc, using
+# the compact RelaxNG syntax not currently directly supported by libxml2 (and
+# hence neither xmlwrapp), but which is far more convenient than the XML syntax
+# and so is used as the real source of this schema.
+#
+# Run "trang schema.rnc schema.rng" to (re)generate the XML schema from it.
+start = element AAA
+{
+    element BBB { string },
+    element CCC { string }
+}

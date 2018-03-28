@@ -5,6 +5,8 @@ Version [unreleased]
     (not "set"!) changed the default to ISO-8859-1 as a side effect and this
     is not done any longer.
 
+    Added xml::relaxng class for validating XML documents using RelaxNG.
+
 Version 0.8.1
 
     Add cpp11.h file missing from 0.8.0 distribution archive.
