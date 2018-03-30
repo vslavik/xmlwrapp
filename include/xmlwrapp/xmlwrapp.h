@@ -43,6 +43,7 @@
 #include "xmlwrapp/tree_parser.h"
 #include "xmlwrapp/event_parser.h"
 #include "xmlwrapp/errors.h"
+#include "xmlwrapp/relaxng.h"
 #include "xmlwrapp/schema.h"
 #include "xmlwrapp/xpath.h"
 

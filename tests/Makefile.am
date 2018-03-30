@@ -16,6 +16,7 @@ test_SOURCES = \
 		event/test_event.cxx \
 		node/test_node.cxx \
 		tree/test_tree.cxx \
+		relaxng/test_relaxng.cxx \
 		schema/test_schema.cxx \
         xpath/test_xpath.cxx
 

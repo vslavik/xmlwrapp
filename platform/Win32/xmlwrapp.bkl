@@ -40,6 +40,7 @@ library xmlwrapp {
         include/xmlwrapp/init.h
         include/xmlwrapp/node.h
         include/xmlwrapp/nodes_view.h
+        include/xmlwrapp/relaxng.h
         include/xmlwrapp/schema.h
         include/xmlwrapp/tree_parser.h
         include/xmlwrapp/xpath.h
@@ -67,6 +68,7 @@ library xmlwrapp {
         src/libxml/node_iterator.cxx
         src/libxml/node_manip.cxx
         src/libxml/nodes_view.cxx
+        src/libxml/relaxng.cxx
         src/libxml/schema.cxx
         src/libxml/tree_parser.cxx
         src/libxml/utility.cxx
@@ -114,6 +116,7 @@ program test {
         tests/document/test_document.cxx
         tests/event/test_event.cxx
         tests/node/test_node.cxx
+        tests/relaxng/test_relaxng.cxx
         tests/schema/test_schema.cxx
         tests/tree/test_tree.cxx
         tests/xpath/test_xpath.cxx

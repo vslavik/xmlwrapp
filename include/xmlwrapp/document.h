@@ -67,6 +67,7 @@ namespace xml
 {
 
 // forward declarations
+class relaxng;
 class schema;
 class tree_parser;
 
@@ -507,6 +508,7 @@ private:
     void* release_doc_data();
 
     friend class tree_parser;
+    friend class relaxng;
     friend class schema;
     friend class xslt::stylesheet;
     friend struct impl::xpath_context_impl;
