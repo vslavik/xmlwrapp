@@ -1,4 +1,4 @@
-Version [unreleased]
+Version 0.9.0
 
     Slight behaviour change: always use UTF-8, not ISO-8859-1, as default
     encoding. This was already the case before, but calling get_encoding()
