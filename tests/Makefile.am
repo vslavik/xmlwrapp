@@ -27,6 +27,8 @@ endif
 
 EXTRA_DIST = \
 		$(srcdir)/*/data/*.out \
+		$(srcdir)/*/data/*.rnc \
+		$(srcdir)/*/data/*.rng \
 		$(srcdir)/*/data/*.xml \
 		$(srcdir)/*/data/*.xsl \
 		$(srcdir)/*/data/*.xsd \
