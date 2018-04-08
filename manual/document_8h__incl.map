@@ -1,6 +1,6 @@
 <map id="xmlwrapp/document.h" name="xmlwrapp/document.h">
-<area shape="rect" id="node2" href="$xmlwrapp_2init_8h.html" title="This file contains the definition of the xml::init class. " alt="" coords="408,155,518,181"/>
-<area shape="rect" id="node3" href="$export_8h_source.html" title="xmlwrapp/export.h" alt="" coords="352,229,481,256"/>
-<area shape="rect" id="node4" href="$node_8h.html" title="This file contains the definition of the xml::node class. " alt="" coords="233,80,354,107"/>
-<area shape="rect" id="node9" href="$errors_8h.html" title="This file contains errors&#45;handling classes: xml::exception and xml::error_handler and derived classes..." alt="" coords="572,80,698,107"/>
+<area shape="rect" id="node2" href="$xmlwrapp_2init_8h.html" title="This file contains the definition of the xml::init class. " alt="" coords="408,155,519,181"/>
+<area shape="rect" id="node3" href="$export_8h_source.html" title="xmlwrapp/export.h" alt="" coords="352,229,482,256"/>
+<area shape="rect" id="node4" href="$node_8h.html" title="This file contains the definition of the xml::node class. " alt="" coords="256,80,378,107"/>
+<area shape="rect" id="node9" href="$errors_8h.html" title="This file contains errors&#45;handling classes: xml::exception and xml::error_handler and derived classes..." alt="" coords="572,80,699,107"/>
 </map>

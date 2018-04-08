@@ -1,14 +1,12 @@
 var searchData=
 [
-  ['text',['text',['../structxml_1_1node_1_1text.html',1,'xml::node']]],
-  ['text',['text',['../classxml_1_1event__parser.html#a6a5feb76a4e6074a122a23c1461c7e5d',1,'xml::event_parser']]],
+  ['text',['text',['../structxml_1_1node_1_1text.html',1,'xml::node::text'],['../classxml_1_1event__parser.html#a6a5feb76a4e6074a122a23c1461c7e5d',1,'xml::event_parser::text()']]],
   ['throw_5fon_5ferror',['throw_on_error',['../namespacexml.html#a0364ca612c720ffef872672fc19bcf10',1,'xml']]],
   ['throw_5fon_5ferror_5for_5fwarning',['throw_on_error_or_warning',['../namespacexml.html#a6d22a487b63d90da5dd4a66aa3d6cf9d',1,'xml']]],
   ['tips_2c_20tricks_20and_20warnings',['Tips, Tricks and Warnings',['../tips.html',1,'index']]],
-  ['tree_5fparser',['tree_parser',['../classxml_1_1tree__parser.html',1,'xml']]],
-  ['tree_5fparser',['tree_parser',['../classxml_1_1tree__parser.html#a3278fa9a80fa94c51c7ce2e32151ecd8',1,'xml::tree_parser::tree_parser(const char *filename, error_handler &amp;on_error=throw_on_error)'],['../classxml_1_1tree__parser.html#ac4aaced832eb42c08b9c38acd6f420c7',1,'xml::tree_parser::tree_parser(const char *data, size_type size, error_handler &amp;on_error=throw_on_error)'],['../classxml_1_1tree__parser.html#ab4aa0c3c79592572e68ebdb5fc8b3e0d',1,'xml::tree_parser::tree_parser(const char *filename, bool allow_exceptions)'],['../classxml_1_1tree__parser.html#a209031446d5a8b446c6a5e56711ad542',1,'xml::tree_parser::tree_parser(const char *data, size_type size, bool allow_exceptions)']]],
+  ['tree_5fparser',['tree_parser',['../classxml_1_1tree__parser.html',1,'xml::tree_parser'],['../classxml_1_1tree__parser.html#a3278fa9a80fa94c51c7ce2e32151ecd8',1,'xml::tree_parser::tree_parser(const char *filename, error_handler &amp;on_error=throw_on_error)'],['../classxml_1_1tree__parser.html#ac4aaced832eb42c08b9c38acd6f420c7',1,'xml::tree_parser::tree_parser(const char *data, size_type size, error_handler &amp;on_error=throw_on_error)'],['../classxml_1_1tree__parser.html#ab4aa0c3c79592572e68ebdb5fc8b3e0d',1,'xml::tree_parser::tree_parser(const char *filename, bool allow_exceptions)'],['../classxml_1_1tree__parser.html#a209031446d5a8b446c6a5e56711ad542',1,'xml::tree_parser::tree_parser(const char *data, size_type size, bool allow_exceptions)']]],
   ['tree_5fparser_2eh',['tree_parser.h',['../tree__parser_8h.html',1,'']]],
-  ['type',['type',['../classxml_1_1error__message.html#aa531500a8d4fe9e47d537f1f040cc588',1,'xml::error_message']]],
+  ['type',['type',['../classxml_1_1error__message.html#a3f3287d2ab76e6e9cb2bab3199b63870',1,'xml::error_message']]],
   ['type_5fcdata',['type_cdata',['../classxml_1_1node.html#a940647610d4ab69275a4889886b3cc73ad08a3d7542cb53715b7eb9fe61afc43a',1,'xml::node']]],
   ['type_5fcomment',['type_comment',['../classxml_1_1node.html#a940647610d4ab69275a4889886b3cc73aba376b6f894af123d9b0d2d3e9a87754',1,'xml::node']]],
   ['type_5fdocument',['type_document',['../classxml_1_1node.html#a940647610d4ab69275a4889886b3cc73a90fb6fc3b406e9eabc666307a2182505',1,'xml::node']]],
