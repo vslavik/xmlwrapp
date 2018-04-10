@@ -42,7 +42,7 @@ AC_CONFIG_SRCDIR([xmlwrapp.pc.in])
 AC_CONFIG_AUX_DIR([admin])
 AC_CONFIG_MACRO_DIR([admin])
 
-AM_INIT_AUTOMAKE([foreign subdir-objects tar-ustar])
+AM_INIT_AUTOMAKE([foreign subdir-objects tar-ustar dist-xz])
 AM_MAINTAINER_MODE
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
