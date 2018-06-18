@@ -72,8 +72,9 @@ public:
         node tree. The default is true.
 
         @param flag True to turn on indenting, false to turn it off.
+        @return previous state of the flag.
      */
-    static void indent_output(bool flag);
+    static bool indent_output(bool flag);
 
     /**
         This member function controls whether or not the XML parser should
@@ -81,16 +82,18 @@ public:
         is false.
 
         @param flag True to remove whitespace, false to leave alone.
+        @return previous state of the flag.
      */
-    static void remove_whitespace(bool flag);
+    static bool remove_whitespace(bool flag);
 
     /**
         This member function controls whether or not the XML parser should
         substitute entities while parsing. The default is true.
 
         @param flag True to turn on substitution, false to turn off.
+        @return previous state of the flag.
      */
-    static void substitute_entities(bool flag);
+    static bool substitute_entities(bool flag);
 
     /**
         This member function controls whether or not the XML parser should
@@ -99,8 +102,9 @@ public:
         default is true.
 
         @param flag True to turn on loading, false to turn it off.
+        @return previous state of the flag.
      */
-    static void load_external_subsets(bool flag);
+    static bool load_external_subsets(bool flag);
 
     /**
         This member function controls whether or not the XML parser should
@@ -108,8 +112,9 @@ public:
         is false.
 
         @return flag True to turn on validation, false to turn it off.
+        @return previous state of the flag.
      */
-    static void validate_xml(bool flag);
+    static bool validate_xml(bool flag);
 
 private:
     init(const init&);

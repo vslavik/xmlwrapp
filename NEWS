@@ -1,3 +1,8 @@
+Version 0.9.1 [not released yet]
+
+    Added return value for xml::init methods setting various boolean flags:
+    they now return the previous state of the flag.
+
 Version 0.9.0
 
     Slight behaviour change: always use UTF-8, not ISO-8859-1, as default
