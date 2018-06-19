@@ -471,7 +471,7 @@ namespace
 
 void do_dump_node_types(const char *xmlfile, const char *outfile)
 {
-    xml::init::substitute_entities(false);
+    xml::init::change_flag change(&xml::init::substitute_entities, false);
 
     xml::tree_parser parser(test_file_path(xmlfile).c_str());
     xml::node &root = parser.get_document().get_root_node();
@@ -480,10 +480,6 @@ void do_dump_node_types(const char *xmlfile, const char *outfile)
     dump_node_type(ostr, root);
 
     BOOST_CHECK( is_same_as_file(ostr, outfile) );
-
-    // FIXME: don't rely on the default being 'true', read the current value
-    //        from xml::init
-    xml::init::substitute_entities(true);
 }
 
 }
@@ -502,7 +498,7 @@ BOOST_AUTO_TEST_CASE( dump_node_types )
 
 static void do_sort_by_attr(const char *xmlfile, const char *outfile)
 {
-    xml::init::remove_whitespace(true);
+    xml::init::change_flag change(&xml::init::remove_whitespace, true);
 
     xml::tree_parser parser(test_file_path(xmlfile).c_str());
 
@@ -510,10 +506,6 @@ static void do_sort_by_attr(const char *xmlfile, const char *outfile)
     root.sort("child", "order");
 
     BOOST_CHECK( is_same_as_file(parser.get_document(), outfile) );
-
-    // FIXME: don't rely on the default being 'false', read the current value
-    //        from xml::init
-    xml::init::remove_whitespace(false);
 }
 
 BOOST_AUTO_TEST_CASE( sort_by_attr )
@@ -544,7 +536,7 @@ struct node_sort_cmp : public std::binary_function<xml::node, xml::node, bool>
 
 BOOST_AUTO_TEST_CASE( sort_with_predicate )
 {
-    xml::init::remove_whitespace(true);
+    xml::init::change_flag change(&xml::init::remove_whitespace, true);
 
 
     xml::tree_parser parser(test_file_path("node/data/08a.xml").c_str());
@@ -553,10 +545,6 @@ BOOST_AUTO_TEST_CASE( sort_with_predicate )
     root.sort(node_sort_cmp());
 
     BOOST_CHECK( is_same_as_file(parser.get_document(), "node/data/08a.out") );
-
-    // FIXME: don't rely on the default being 'false', read the current value
-    //        from xml::init
-    xml::init::remove_whitespace(false);
 }
 
 
