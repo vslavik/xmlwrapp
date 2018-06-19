@@ -39,6 +39,18 @@
 #include <libxml/xmlerror.h>
 #include <libxml/parser.h>
 
+namespace
+{
+
+bool change_flag_and_return_old_value(int* flag, bool new_value)
+{
+    const bool old_value = *flag != 0;
+    *flag = new_value ? 1 : 0;
+    return old_value;
+}
+
+} // anonymous namespace
+
 namespace xml
 {
 
@@ -78,33 +90,33 @@ void init::shutdown_library()
 }
 
 
-void init::indent_output(bool flag)
+bool init::indent_output(bool flag)
 {
-    xmlIndentTreeOutput = flag ? 1 : 0;
+    return change_flag_and_return_old_value(&xmlIndentTreeOutput, flag);
 }
 
 
-void init::remove_whitespace(bool flag)
+bool init::remove_whitespace(bool flag)
 {
-    xmlKeepBlanksDefaultValue = flag ? 0 : 1;
+    return !change_flag_and_return_old_value(&xmlKeepBlanksDefaultValue, !flag);
 }
 
 
-void init::substitute_entities(bool flag)
+bool init::substitute_entities(bool flag)
 {
-    xmlSubstituteEntitiesDefaultValue = flag ? 1 : 0;
+    return change_flag_and_return_old_value(&xmlSubstituteEntitiesDefaultValue, flag);
 }
 
 
-void init::load_external_subsets(bool flag)
+bool init::load_external_subsets(bool flag)
 {
-    xmlLoadExtDtdDefaultValue = flag ? 1 : 0;
+    return change_flag_and_return_old_value(&xmlLoadExtDtdDefaultValue, flag);
 }
 
 
-void init::validate_xml(bool flag)
+bool init::validate_xml(bool flag)
 {
-    xmlDoValidityCheckingDefaultValue = flag ? 1 : 0;
+  return change_flag_and_return_old_value(&xmlDoValidityCheckingDefaultValue, flag);
 }
 
 } // namespace xml

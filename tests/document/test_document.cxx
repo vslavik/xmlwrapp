@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_SUITE( document )
 
 BOOST_AUTO_TEST_CASE( dump_type )
 {
-    xml::init::substitute_entities(false);
+    xml::init::change_flag change(&xml::init::substitute_entities, false);
 
     xml::tree_parser parser(test_file_path("document/data/01.xml").c_str());
 

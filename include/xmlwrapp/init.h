@@ -67,13 +67,67 @@ public:
     ~init();
 
     /**
+        RAII helper changing some global XML library flag only for the duration
+        of its lifetime.
+
+        Example use:
+        @code
+        void some_function()
+        {
+            if ( whatever )
+            {
+                xml::init::change_flag change(&xml::init::substitute_entities, false);
+
+                // entities are not substituted here
+            }
+
+            // entities substitution flag reverted to its original value here
+        }
+        @endcode
+
+        @since 0.9.1
+     */
+    class change_flag
+    {
+    public:
+        typedef bool (*change_func_t)(bool);
+
+        /**
+            Constructor changes the flag using the specified function.
+
+            The same function will be called from this object destructor to
+            restore the flag value.
+
+            @param change_func one of xml::init static methods, such as
+                indent_output or remove_whitespace
+            @param flag the value of the flag to use
+         */
+        change_flag(change_func_t change_func, bool flag)
+            : change_func_(change_func),
+              flag_orig_((*change_func)(flag))
+        {
+        }
+
+        /// Destructor restores the original flag value.
+        ~change_flag()
+        {
+            (*change_func_)(flag_orig_);
+        }
+
+    private:
+        change_func_t const change_func_;
+        bool const flag_orig_;
+    };
+
+    /**
         This member function controls whether or not the XML parser should
         add text nodes for indenting when generating XML text output from a
         node tree. The default is true.
 
         @param flag True to turn on indenting, false to turn it off.
+        @return previous state of the flag.
      */
-    static void indent_output(bool flag);
+    static bool indent_output(bool flag);
 
     /**
         This member function controls whether or not the XML parser should
@@ -81,16 +135,18 @@ public:
         is false.
 
         @param flag True to remove whitespace, false to leave alone.
+        @return previous state of the flag.
      */
-    static void remove_whitespace(bool flag);
+    static bool remove_whitespace(bool flag);
 
     /**
         This member function controls whether or not the XML parser should
         substitute entities while parsing. The default is true.
 
         @param flag True to turn on substitution, false to turn off.
+        @return previous state of the flag.
      */
-    static void substitute_entities(bool flag);
+    static bool substitute_entities(bool flag);
 
     /**
         This member function controls whether or not the XML parser should
@@ -99,8 +155,9 @@ public:
         default is true.
 
         @param flag True to turn on loading, false to turn it off.
+        @return previous state of the flag.
      */
-    static void load_external_subsets(bool flag);
+    static bool load_external_subsets(bool flag);
 
     /**
         This member function controls whether or not the XML parser should
@@ -108,8 +165,9 @@ public:
         is false.
 
         @return flag True to turn on validation, false to turn it off.
+        @return previous state of the flag.
      */
-    static void validate_xml(bool flag);
+    static bool validate_xml(bool flag);
 
 private:
     init(const init&);
