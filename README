@@ -23,9 +23,6 @@ In order to build xmlwrapp, you need libxml2 version 2.4.28 or newer. When
 building with XSLT support, libxslt 1.1.6 or newer is required. Both libraries
 are available from http://xmlsoft.org.
 
-Header-only Boost Pool library is recommended, for better performance, but not
-required.
-
 To run tests, Boost.Iostreams and Boost.Test libraries are also needed.
 
 

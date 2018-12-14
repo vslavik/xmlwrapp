@@ -53,7 +53,6 @@ library xmlwrapp {
         src/libxml/errors_impl.h
         src/libxml/node_iterator.h
         src/libxml/node_manip.h
-        src/libxml/pimpl_base.h
         src/libxml/utility.h
     }
 

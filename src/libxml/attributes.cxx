@@ -33,7 +33,6 @@
 // xmlwrapp includes
 #include "xmlwrapp/attributes.h"
 #include "ait_impl.h"
-#include "pimpl_base.h"
 
 // standard includes
 #include <new>
@@ -51,7 +50,7 @@ using namespace xml::impl;
 // xml::attributes::pimpl
 // ------------------------------------------------------------------------
 
-struct attributes::pimpl : public pimpl_base<attributes::pimpl>
+struct attributes::pimpl
 {
     pimpl() : owner_(true)
     {
