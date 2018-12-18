@@ -98,10 +98,6 @@ library xsltwrapp {
 program test {
     includedirs = include;
 
-    // zlib is not always available under Windows, so don't use it by default,
-    // it's only used by a single test and it's not worth the trouble.
-    defines += XMLWRAPP_NO_ZLIB;
-
     deps = xmlwrapp xsltwrapp;
 
     libs = libexslt libxslt libxml2;

@@ -33,17 +33,7 @@
 
 #include "../test.h"
 
-// Allow disabling the test using zlib if it's not available.
-// Also never compile this test with Sun CC as it fails to compile
-// gzip_decompressor() anyhow.
-#if !defined(XMLWRAPP_NO_ZLIB) && !defined(__SUNPRO_CC)
-    #define XMLWRAPP_USE_ZLIB
-#endif
-
-#ifdef XMLWRAPP_USE_ZLIB
-    #include <boost/iostreams/filtering_stream.hpp>
-    #include <boost/iostreams/filter/gzip.hpp>
-#endif
+#include <stdlib.h>
 
 /*
  * This test checks xml::document iteration.
@@ -474,23 +464,30 @@ TEST_CASE_METHOD( SrcdirConfig, "document/save_throws_on_failure", "[document]" 
 }
 
 
-#ifdef XMLWRAPP_USE_ZLIB
 TEST_CASE_METHOD( SrcdirConfig, "document/save_to_file_gzip", "[document]" )
 {
     xml::document doc(xml::node("root"));
     doc.get_root_node().push_back(xml::node("child"));
 
     temp_test_file test_file;
-    doc.save_to_file(test_file.get_name(), 9);
+    std::string gzfilename = test_file.get_name();
+    gzfilename.append(".gz");
+
+    doc.save_to_file(gzfilename.c_str(), 9);
 
     // verify that the file was can be read back as compressed
-    std::ifstream stream(test_file.get_name());
-    boost::iostreams::filtering_stream<boost::iostreams::input> filter;
-    filter.push(boost::iostreams::gzip_decompressor());
-    filter.push(stream);
-    CHECK( is_same_as_file(read_file_into_string(filter), "document/data/15.out") );
 
-    // ...and by libxml2 directly too
-    xml::tree_parser parser(test_file.get_name());
+    // by libxml2 directly
+    xml::tree_parser parser(gzfilename.c_str());
+
+    // unzip and read back the uncompressed file
+    std::string command("gunzip " + gzfilename);
+
+    if ( system(command.c_str()) != 0 ) {
+        WARN("Skipping test as gunzip is not available");
+        return;
+    }
+
+    std::ifstream stream(test_file.get_name());
+    CHECK( is_same_as_file(read_file_into_string(stream), "document/data/15.out") );
 }
-#endif // XMLWRAPP_USE_ZLIB

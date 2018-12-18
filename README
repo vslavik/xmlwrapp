@@ -23,8 +23,6 @@ In order to build xmlwrapp, you need libxml2 version 2.4.28 or newer. When
 building with XSLT support, libxslt 1.1.6 or newer is required. Both libraries
 are available from http://xmlsoft.org.
 
-To run tests, Boost.Iostreams library are also needed.
-
 
 2. Building on Unix
 -------------------
@@ -37,9 +35,6 @@ usually as simple as running the following three commands:
   make install
 
 See the output of `./configure --help` for additional settings and options.
-
-Use `--disable-tests` option to skip running tests and avoid the need for
-installing Boost.Iostreams library.
 
 
 3. Building on Windows

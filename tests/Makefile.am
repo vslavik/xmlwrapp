@@ -2,8 +2,7 @@
 TESTS = test
 
 AM_CPPFLAGS = -I$(top_srcdir)/include
-LIBS = $(top_builddir)/src/libxmlwrapp.la \
-	   $(BOOST_IOSTREAMS_LIBS) $(BOOST_IOSTREAMS_LDFLAGS)
+LIBS = $(top_builddir)/src/libxmlwrapp.la
 
 noinst_PROGRAMS = test
 

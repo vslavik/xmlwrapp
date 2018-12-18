@@ -120,17 +120,6 @@ fi
 
 AC_HEADER_ASSERT
 
-BOOST_REQUIRE
-
-dnl The macro above only defines BOOST_CPPFLAGS, we need to actually take it
-dnl into account when building, so add it to CXXFLAGS (CPPFLAGS would be wrong
-dnl if we ever have any C code as Boost is for C++ only).
-CXXFLAGS="$CXXFLAGS $BOOST_CPPFLAGS"
-
-if test "x$build_tests" = "xyes" ; then
-    BOOST_IOSTREAMS
-fi
-
 dnl === Compiler-specific stuff ===
 
 if test "x$GCC" == "xyes"; then
