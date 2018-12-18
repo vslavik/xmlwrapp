@@ -35,33 +35,30 @@
 
 #include <xsltwrapp/xsltwrapp.h>
 
-BOOST_AUTO_TEST_SUITE( xslt )
-
-
 /*
  * Test stylesheet creation
  */
 
-BOOST_AUTO_TEST_CASE( creation_fail1 )
+TEST_CASE_METHOD( SrcdirConfig, "xslt/creation_fail1", "[xslt]" )
 {
-    BOOST_CHECK_THROW
+    CHECK_THROWS_AS
     (
-        xslt::stylesheet style1(test_file_path("xslt/data/01a.xsl").c_str()),
-        xml::exception
+        xslt::stylesheet(test_file_path("xslt/data/01a.xsl").c_str()),
+        xml::exception&
     );
 }
 
-BOOST_AUTO_TEST_CASE( creation_ok )
+TEST_CASE_METHOD( SrcdirConfig, "xslt/creation_ok", "[xslt]" )
 {
     xslt::stylesheet style1(test_file_path("xslt/data/01b.xsl").c_str());
 }
 
-BOOST_AUTO_TEST_CASE( creation_fail2 )
+TEST_CASE_METHOD( SrcdirConfig, "xslt/creation_fail2", "[xslt]" )
 {
-    BOOST_CHECK_THROW
+    CHECK_THROWS_AS
     (
-        xslt::stylesheet style1(test_file_path("xslt/data/01c.xsl").c_str()),
-        xml::exception
+        xslt::stylesheet(test_file_path("xslt/data/01c.xsl").c_str()),
+        xml::exception&
     );
 }
 
@@ -70,16 +67,16 @@ BOOST_AUTO_TEST_CASE( creation_fail2 )
  * Test the first form of apply()
  */
 
-BOOST_AUTO_TEST_CASE( apply1 )
+TEST_CASE_METHOD( SrcdirConfig, "xslt/apply1", "[xslt]" )
 {
     xslt::stylesheet style(test_file_path("xslt/data/02a.xsl").c_str());
     xml::tree_parser parser(test_file_path("xslt/data/input.xml").c_str());
 
     xml::document result;
     xml::error_messages errors;
-    BOOST_CHECK( style.apply(parser.get_document(), result, errors) );
+    CHECK( style.apply(parser.get_document(), result, errors) );
 
-    BOOST_CHECK( is_same_as_file(result, "xslt/data/02a.out") );
+    CHECK( is_same_as_file(result, "xslt/data/02a.out") );
 }
 
 
@@ -87,13 +84,13 @@ BOOST_AUTO_TEST_CASE( apply1 )
  * Test the third form of apply
  */
 
-BOOST_AUTO_TEST_CASE( apply3 )
+TEST_CASE_METHOD( SrcdirConfig, "xslt/apply3", "[xslt]" )
 {
     xslt::stylesheet style(test_file_path("xslt/data/02a.xsl").c_str());
     xml::tree_parser parser(test_file_path("xslt/data/input.xml").c_str());
 
     xml::document& result = style.apply(parser.get_document());
-    BOOST_CHECK( is_same_as_file(result, "xslt/data/02a.out") );
+    CHECK( is_same_as_file(result, "xslt/data/02a.out") );
 }
 
 
@@ -101,7 +98,7 @@ BOOST_AUTO_TEST_CASE( apply3 )
  * Test the second form of apply
  */
 
-BOOST_AUTO_TEST_CASE( apply2 )
+TEST_CASE_METHOD( SrcdirConfig, "xslt/apply2", "[xslt]" )
 {
     xslt::stylesheet style(test_file_path("xslt/data/03a.xsl").c_str());
     xml::tree_parser parser(test_file_path("xslt/data/input.xml").c_str());
@@ -111,8 +108,8 @@ BOOST_AUTO_TEST_CASE( apply2 )
 
     xml::document result;
     xml::error_messages errors;
-    BOOST_CHECK( style.apply(parser.get_document(), result, params, errors) );
-    BOOST_CHECK( is_same_as_file(result, "xslt/data/03a.out") );
+    CHECK( style.apply(parser.get_document(), result, params, errors) );
+    CHECK( is_same_as_file(result, "xslt/data/03a.out") );
 }
 
 
@@ -120,7 +117,7 @@ BOOST_AUTO_TEST_CASE( apply2 )
  * Test the fourth form of apply
  */
 
-BOOST_AUTO_TEST_CASE( apply4 )
+TEST_CASE_METHOD( SrcdirConfig, "xslt/apply4", "[xslt]" )
 {
     xslt::stylesheet style(test_file_path("xslt/data/03a.xsl").c_str());
     xml::tree_parser parser(test_file_path("xslt/data/input.xml").c_str());
@@ -129,7 +126,7 @@ BOOST_AUTO_TEST_CASE( apply4 )
     params["foo"] = "'bar'";
 
     xml::document& result = style.apply(parser.get_document(), params);
-    BOOST_CHECK( is_same_as_file(result, "xslt/data/03a.out") );
+    CHECK( is_same_as_file(result, "xslt/data/03a.out") );
 }
 
 
@@ -137,27 +134,24 @@ BOOST_AUTO_TEST_CASE( apply4 )
  * Tests libxslt errors reporting
  */
 
-BOOST_AUTO_TEST_CASE( xsl_with_errors )
+TEST_CASE_METHOD( SrcdirConfig, "xslt/xsl_with_errors", "[xslt]" )
 {
     xslt::stylesheet style(test_file_path("xslt/data/with_errors.xsl").c_str());
     xml::tree_parser parser(test_file_path("xslt/data/input.xml").c_str());
 
     xml::document result;
     xml::error_messages errors;
-    BOOST_CHECK( !style.apply(parser.get_document(), result, errors) );
+    CHECK( !style.apply(parser.get_document(), result, errors) );
 }
 
-BOOST_AUTO_TEST_CASE( xsl_with_errors_throw )
+TEST_CASE_METHOD( SrcdirConfig, "xslt/xsl_with_errors_throw", "[xslt]" )
 {
     xslt::stylesheet style(test_file_path("xslt/data/with_errors.xsl").c_str());
     xml::tree_parser parser(test_file_path("xslt/data/input.xml").c_str());
 
-    BOOST_CHECK_THROW
+    CHECK_THROWS_AS
     (
         style.apply(parser.get_document()),
-        xml::exception
+        xml::exception&
     );
 }
-
-
-BOOST_AUTO_TEST_SUITE_END()

@@ -33,8 +33,6 @@
 
 #include "../test.h"
 
-#include <boost/iostreams/filtering_stream.hpp>
-
 // Allow disabling the test using zlib if it's not available.
 // Also never compile this test with Sun CC as it fails to compile
 // gzip_decompressor() anyhow.
@@ -43,16 +41,15 @@
 #endif
 
 #ifdef XMLWRAPP_USE_ZLIB
+    #include <boost/iostreams/filtering_stream.hpp>
     #include <boost/iostreams/filter/gzip.hpp>
 #endif
-
-BOOST_AUTO_TEST_SUITE( document )
 
 /*
  * This test checks xml::document iteration.
  */
 
-BOOST_AUTO_TEST_CASE( dump_type )
+TEST_CASE_METHOD( SrcdirConfig, "document/dump_type", "[document]" )
 {
     xml::init::change_flag change(&xml::init::substitute_entities, false);
 
@@ -64,7 +61,7 @@ BOOST_AUTO_TEST_CASE( dump_type )
     for (; i!=end; ++i)
         dump_node_type(ostr, *i);
 
-    BOOST_CHECK( is_same_as_file(ostr, "document/data/01.out") );
+    CHECK( is_same_as_file(ostr, "document/data/01.out") );
 }
 
 
@@ -72,10 +69,10 @@ BOOST_AUTO_TEST_CASE( dump_type )
  * This test checks xml::document default constructor.
  */
 
-BOOST_AUTO_TEST_CASE( default_ctor )
+TEST_CASE_METHOD( SrcdirConfig, "document/default_ctor", "[document]" )
 {
     xml::document doc;
-    BOOST_CHECK( is_same_as_file( doc, "document/data/02.out") );
+    CHECK( is_same_as_file( doc, "document/data/02.out") );
 }
 
 
@@ -84,10 +81,10 @@ BOOST_AUTO_TEST_CASE( default_ctor )
  * node.
  */
 
-BOOST_AUTO_TEST_CASE( ctor_root_name )
+TEST_CASE_METHOD( SrcdirConfig, "document/ctor_root_name", "[document]" )
 {
     xml::document doc(xml::node("root"));
-    BOOST_CHECK( is_same_as_file( doc, "document/data/03.out") );
+    CHECK( is_same_as_file( doc, "document/data/03.out") );
 }
 
 
@@ -95,11 +92,11 @@ BOOST_AUTO_TEST_CASE( ctor_root_name )
  * This test checks xml::document constructor that takes a node.
  */
 
-BOOST_AUTO_TEST_CASE( ctor_root_node )
+TEST_CASE_METHOD( SrcdirConfig, "document/ctor_root_node", "[document]" )
 {
     xml::node n("root", "pcdata");
     xml::document doc(n);
-    BOOST_CHECK( is_same_as_file( doc, "document/data/04.out") );
+    CHECK( is_same_as_file( doc, "document/data/04.out") );
 }
 
 
@@ -107,14 +104,14 @@ BOOST_AUTO_TEST_CASE( ctor_root_node )
  * This test checks xml::document copy constructor.
  */
 
-BOOST_AUTO_TEST_CASE( copy_ctor )
+TEST_CASE_METHOD( SrcdirConfig, "document/copy_ctor", "[document]" )
 {
     xml::node n("root", "pcdata");
     xml::document doc(n);
 
     xml::document doc_copy(doc);
 
-    BOOST_CHECK( is_same_as_file( doc_copy, "document/data/04.out") );
+    CHECK( is_same_as_file( doc_copy, "document/data/04.out") );
 }
 
 
@@ -122,7 +119,7 @@ BOOST_AUTO_TEST_CASE( copy_ctor )
  * This test checks xml::document assignment operator.
  */
 
-BOOST_AUTO_TEST_CASE( assignment_operator )
+TEST_CASE_METHOD( SrcdirConfig, "document/assignment_operator", "[document]" )
 {
     xml::node n("root", "pcdata");
     xml::document doc(n);
@@ -130,7 +127,7 @@ BOOST_AUTO_TEST_CASE( assignment_operator )
     xml::document doc_copy;
     doc_copy = doc;
 
-    BOOST_CHECK( is_same_as_file( doc_copy, "document/data/04.out") );
+    CHECK( is_same_as_file( doc_copy, "document/data/04.out") );
 }
 
 
@@ -138,12 +135,12 @@ BOOST_AUTO_TEST_CASE( assignment_operator )
  * This test checks xml::document::get_root_node.
  */
 
-BOOST_AUTO_TEST_CASE( get_root_node )
+TEST_CASE_METHOD( SrcdirConfig, "document/get_root_node", "[document]" )
 {
     xml::node n("root", "pcdata");
     xml::document doc(n);
 
-    BOOST_CHECK( is_same_as_file( doc.get_root_node(), "document/data/04.out") );
+    CHECK( is_same_as_file( doc.get_root_node(), "document/data/04.out") );
 }
 
 
@@ -151,7 +148,7 @@ BOOST_AUTO_TEST_CASE( get_root_node )
  * This test checks xml::document::set_root_node().
  */
 
-BOOST_AUTO_TEST_CASE( set_root_node )
+TEST_CASE_METHOD( SrcdirConfig, "document/set_root_node", "[document]" )
 {
     std::ostringstream ostr;
 
@@ -163,7 +160,7 @@ BOOST_AUTO_TEST_CASE( set_root_node )
     doc.set_root_node(n);
     ostr << doc;
 
-    BOOST_CHECK( is_same_as_file( ostr, "document/data/08.out") );
+    CHECK( is_same_as_file( ostr, "document/data/08.out") );
 }
 
 
@@ -171,11 +168,15 @@ BOOST_AUTO_TEST_CASE( set_root_node )
  * This test checks xml::document::get_version().
  */
 
-BOOST_AUTO_TEST_CASE( get_version )
+TEST_CASE_METHOD( SrcdirConfig, "document/get_version", "[document]" )
 {
     xml::tree_parser parser(test_file_path("document/data/09.xml").c_str());
 
-    BOOST_CHECK_EQUAL( parser.get_document().get_version(), "1.1" );
+    CHECK_THAT
+    (
+        parser.get_document().get_version(),
+        Catch::Matchers::Equals("1.1")
+    );
 }
 
 
@@ -183,12 +184,12 @@ BOOST_AUTO_TEST_CASE( get_version )
  * This test checks xml::document::set_version().
  */
 
-BOOST_AUTO_TEST_CASE( set_version )
+TEST_CASE_METHOD( SrcdirConfig, "document/set_version", "[document]" )
 {
     xml::document doc(xml::node("root"));
     doc.set_version("1.1");
 
-    BOOST_CHECK( is_same_as_file( doc, "document/data/10.out") );
+    CHECK( is_same_as_file( doc, "document/data/10.out") );
 }
 
 
@@ -196,11 +197,15 @@ BOOST_AUTO_TEST_CASE( set_version )
  * This test checks xml::document::get_encoding().
  */
 
-BOOST_AUTO_TEST_CASE( get_encoding )
+TEST_CASE_METHOD( SrcdirConfig, "document/get_encoding", "[document]" )
 {
     xml::tree_parser parser(test_file_path("document/data/11.xml").c_str());
 
-    BOOST_CHECK_EQUAL( parser.get_document().get_encoding(), "UTF-8" );
+    CHECK_THAT
+    (
+        parser.get_document().get_encoding(),
+        Catch::Matchers::Equals("UTF-8")
+    );
 }
 
 
@@ -208,12 +213,12 @@ BOOST_AUTO_TEST_CASE( get_encoding )
  * This test checks xml::document::set_encoding().
  */
 
-BOOST_AUTO_TEST_CASE( set_encoding )
+TEST_CASE_METHOD( SrcdirConfig, "document/set_encoding", "[document]" )
 {
     xml::document doc(xml::node("root"));
     doc.set_encoding("UTF-8");
 
-    BOOST_CHECK( is_same_as_file( doc, "document/data/12.out") );
+    CHECK( is_same_as_file( doc, "document/data/12.out") );
 }
 
 
@@ -221,13 +226,13 @@ BOOST_AUTO_TEST_CASE( set_encoding )
  * This test checks xml::document::get_is_standalone().
  */
 
-BOOST_AUTO_TEST_CASE( get_is_standalone )
+TEST_CASE_METHOD( SrcdirConfig, "document/get_is_standalone", "[document]" )
 {
     xml::tree_parser parser1(test_file_path("document/data/13a.xml").c_str());
-    BOOST_CHECK_EQUAL( parser1.get_document().get_is_standalone(), false );
+    CHECK( parser1.get_document().get_is_standalone() == false );
 
     xml::tree_parser parser2(test_file_path("document/data/13b.xml").c_str());
-    BOOST_CHECK_EQUAL( parser2.get_document().get_is_standalone(), true );
+    CHECK( parser2.get_document().get_is_standalone() == true );
 }
 
 
@@ -235,27 +240,27 @@ BOOST_AUTO_TEST_CASE( get_is_standalone )
  * This test checks xml::document::set_is_standalone().
  */
 
-BOOST_AUTO_TEST_CASE( set_is_standalone )
+TEST_CASE_METHOD( SrcdirConfig, "document/set_is_standalone", "[document]" )
 {
     xml::document doc1(xml::node("root"));
     doc1.set_is_standalone(true);
-    BOOST_CHECK( is_same_as_file( doc1, "document/data/13a.out") );
+    CHECK( is_same_as_file( doc1, "document/data/13a.out") );
 
     xml::document doc2(xml::node("root"));
     doc2.set_is_standalone(false);
-    BOOST_CHECK( is_same_as_file( doc2, "document/data/13b.out") );
+    CHECK( is_same_as_file( doc2, "document/data/13b.out") );
 }
 
 
 /*
  * This test checks xml::document::process_xinclude()
  */
-BOOST_AUTO_TEST_CASE( process_xinclude )
+TEST_CASE_METHOD( SrcdirConfig, "document/process_xinclude", "[document]" )
 {
     xml::tree_parser parser(test_file_path("document/data/14.xml").c_str());
 
-    BOOST_CHECK( parser.get_document().process_xinclude() );
-    BOOST_CHECK( is_same_as_file( parser.get_document(), "document/data/14.out") );
+    CHECK( parser.get_document().process_xinclude() );
+    CHECK( is_same_as_file( parser.get_document(), "document/data/14.out") );
 }
 
 
@@ -263,23 +268,23 @@ BOOST_AUTO_TEST_CASE( process_xinclude )
  * This test checks xml::document::size()
  */
 
-BOOST_AUTO_TEST_CASE( size )
+TEST_CASE_METHOD( SrcdirConfig, "document/size", "[document]" )
 {
     xml::document doc_01(xml::node("root"));
-    BOOST_CHECK_EQUAL( doc_01.size(), 1u );
+    CHECK( doc_01.size() == 1u );
 
     doc_01.push_back(xml::node(xml::node::comment("This is a comment")));
-    BOOST_CHECK_EQUAL( doc_01.size(), 2u );
+    CHECK( doc_01.size() == 2u );
 
     xml::document doc_02(doc_01);
-    BOOST_CHECK_EQUAL( doc_02.size(), 2u );
+    CHECK( doc_02.size() == 2u );
 
     xml::document doc_03;
-    BOOST_CHECK_EQUAL( doc_03.size(), 1u );
+    CHECK( doc_03.size() == 1u );
 
     xml::node n("root");
     xml::document doc_04(n);
-    BOOST_CHECK_EQUAL( doc_04.size(), 1u );
+    CHECK( doc_04.size() == 1u );
 }
 
 
@@ -287,7 +292,7 @@ BOOST_AUTO_TEST_CASE( size )
  * This test checks xml::document::push_back and insert
  */
 
-BOOST_AUTO_TEST_CASE( push_back_and_insert )
+TEST_CASE_METHOD( SrcdirConfig, "document/push_back_and_insert", "[document]" )
 {
     xml::document doc(xml::node("root"));
 
@@ -299,7 +304,7 @@ BOOST_AUTO_TEST_CASE( push_back_and_insert )
     n = doc.insert(doc.begin(), xml::node(xml::node::pi("test")));
     n->set_content("one=\"1\"");
 
-    BOOST_CHECK( is_same_as_file( doc, "document/data/17.out") );
+    CHECK( is_same_as_file( doc, "document/data/17.out") );
 }
 
 
@@ -308,26 +313,26 @@ BOOST_AUTO_TEST_CASE( push_back_and_insert )
  * throw exceptions
  */
 
-BOOST_AUTO_TEST_CASE( push_back_and_insert_throw )
+TEST_CASE_METHOD( SrcdirConfig, "document/push_back_and_insert_throw", "[document]" )
 {
     xml::document doc(xml::node("root"));
 
-    BOOST_CHECK_THROW
+    REQUIRE_THROWS_AS
     (
         doc.push_back(xml::node("noway")),
-        xml::exception
+        xml::exception&
     );
 
-    BOOST_CHECK_THROW
+    REQUIRE_THROWS_AS
     (
         doc.insert(xml::node("noway")),
-        xml::exception
+        xml::exception&
     );
 
-    BOOST_CHECK_THROW
+    REQUIRE_THROWS_AS
     (
         doc.insert(doc.end(), xml::node("noway")),
-        xml::exception
+        xml::exception&
     );
 }
 
@@ -336,14 +341,14 @@ BOOST_AUTO_TEST_CASE( push_back_and_insert_throw )
  * This test checks xml::document::replace()
  */
 
-BOOST_AUTO_TEST_CASE( replace )
+TEST_CASE_METHOD( SrcdirConfig, "document/replace", "[document]" )
 {
     xml::document doc(xml::node("root"));
 
     xml::node::iterator n(doc.insert(xml::node(xml::node::comment(" To Be Replaced "))));
     doc.replace(n, xml::node(xml::node::comment(" This is the replacement comment ")));
 
-    BOOST_CHECK( is_same_as_file( doc, "document/data/19.out") );
+    CHECK( is_same_as_file( doc, "document/data/19.out") );
 }
 
 
@@ -351,21 +356,21 @@ BOOST_AUTO_TEST_CASE( replace )
  * This test checks xml::document::replace() to make sure it throws exceptions
  */
 
-BOOST_AUTO_TEST_CASE( replace_throw )
+TEST_CASE_METHOD( SrcdirConfig, "document/replace_throw", "[document]" )
 {
     xml::document doc(xml::node("root"));
     xml::node::iterator n(doc.insert(xml::node(xml::node::comment(" To Be Replaced "))));
 
-    BOOST_CHECK_THROW
+    REQUIRE_THROWS_AS
     (
         doc.replace(n, xml::node("noway")),
-        xml::exception
+        xml::exception&
     );
 
-    BOOST_CHECK_THROW
+    REQUIRE_THROWS_AS
     (
         doc.replace(doc.begin(), xml::node(xml::node::comment(" no way "))),
-        xml::exception
+        xml::exception&
     );
 }
 
@@ -374,7 +379,7 @@ BOOST_AUTO_TEST_CASE( replace_throw )
  * This test checks xml::document::erase().
  */
 
-BOOST_AUTO_TEST_CASE( erase )
+TEST_CASE_METHOD( SrcdirConfig, "document/erase", "[document]" )
 {
     xml::document doc(xml::node("root"));
     doc.push_back(xml::node(xml::node::comment(" Comment from push_back ")));
@@ -382,7 +387,7 @@ BOOST_AUTO_TEST_CASE( erase )
     xml::node::iterator n(doc.insert(xml::node(xml::node::comment(" You should not see me "))));
     doc.erase(n);
 
-    BOOST_CHECK( is_same_as_file(doc, "document/data/21.out") );
+    CHECK( is_same_as_file(doc, "document/data/21.out") );
 }
 
 /*
@@ -390,15 +395,15 @@ BOOST_AUTO_TEST_CASE( erase )
  * exception.
  */
 
-BOOST_AUTO_TEST_CASE( cant_erase_root )
+TEST_CASE_METHOD( SrcdirConfig, "document/cant_erase_root", "[document]" )
 {
     xml::document doc(xml::node("root"));
     doc.push_back(xml::node(xml::node::comment(" Comment from push_back ")));
 
-    BOOST_CHECK_THROW
+    REQUIRE_THROWS_AS
     (
         doc.erase(doc.begin(), doc.end()),
-        xml::exception
+        xml::exception&
     );
 }
 
@@ -435,7 +440,7 @@ private:
  * These tests check xml::docment::save_to_file()
  */
 
-BOOST_AUTO_TEST_CASE( save_to_file )
+TEST_CASE_METHOD( SrcdirConfig, "document/save_to_file", "[document]" )
 {
     xml::document doc(xml::node("root"));
     doc.get_root_node().push_back(xml::node("child"));
@@ -444,33 +449,33 @@ BOOST_AUTO_TEST_CASE( save_to_file )
     doc.save_to_file(test_file.get_name());
 
     std::ifstream stream(test_file.get_name());
-    BOOST_CHECK( is_same_as_file(read_file_into_string(stream), "document/data/15.out") );
+    CHECK( is_same_as_file(read_file_into_string(stream), "document/data/15.out") );
 }
 
 
-BOOST_AUTO_TEST_CASE( save_throws_on_failure )
+TEST_CASE_METHOD( SrcdirConfig, "document/save_throws_on_failure", "[document]" )
 {
     xml::document doc(xml::node("root"));
     doc.get_root_node().push_back(xml::node(xml::node::text("invalid character: \x7")));
 
     std::string s;
-    BOOST_CHECK_THROW
+    REQUIRE_THROWS_AS
     (
         doc.save_to_string(s),
-        xml::exception
+        xml::exception&
     );
 
     temp_test_file test_file;
-    BOOST_CHECK_THROW
+    REQUIRE_THROWS_AS
     (
         doc.save_to_file(test_file.get_name()),
-        xml::exception
+        xml::exception&
     );
 }
 
 
 #ifdef XMLWRAPP_USE_ZLIB
-BOOST_AUTO_TEST_CASE( save_to_file_gzip )
+TEST_CASE_METHOD( SrcdirConfig, "document/save_to_file_gzip", "[document]" )
 {
     xml::document doc(xml::node("root"));
     doc.get_root_node().push_back(xml::node("child"));
@@ -483,12 +488,9 @@ BOOST_AUTO_TEST_CASE( save_to_file_gzip )
     boost::iostreams::filtering_stream<boost::iostreams::input> filter;
     filter.push(boost::iostreams::gzip_decompressor());
     filter.push(stream);
-    BOOST_CHECK( is_same_as_file(read_file_into_string(filter), "document/data/15.out") );
+    CHECK( is_same_as_file(read_file_into_string(filter), "document/data/15.out") );
 
     // ...and by libxml2 directly too
     xml::tree_parser parser(test_file.get_name());
 }
 #endif // XMLWRAPP_USE_ZLIB
-
-
-BOOST_AUTO_TEST_SUITE_END()

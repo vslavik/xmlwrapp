@@ -43,17 +43,20 @@ const std::string XMLDATA_BAD =
 
 }
 
-
-BOOST_AUTO_TEST_SUITE( tree )
+inline bool is_parser_valid(const xml::tree_parser& parser)
+{
+    // test overloaded tree_parser::operator!()
+    return !!parser;
+}
 
 /*
  * tests that a good XML is parsed correctly.
  */
 
-BOOST_AUTO_TEST_CASE( good_xml_1 )
+TEST_CASE_METHOD( SrcdirConfig, "tree/good_xml_1", "[tree]" )
 {
     xml::tree_parser parser(test_file_path("tree/data/good.xml").c_str());
-    BOOST_CHECK( parser );
+    CHECK( is_parser_valid(parser) );
 }
 
 
@@ -61,10 +64,10 @@ BOOST_AUTO_TEST_CASE( good_xml_1 )
  * tests that a good XML is parsed correctly.
  */
 
-BOOST_AUTO_TEST_CASE( good_xml_2 )
+TEST_CASE_METHOD( SrcdirConfig, "tree/good_xml_2", "[tree]" )
 {
     xml::tree_parser parser(test_file_path("tree/data/good.xml").c_str(), false);
-    BOOST_CHECK( parser );
+    CHECK( is_parser_valid(parser) );
 }
 
 
@@ -73,16 +76,16 @@ BOOST_AUTO_TEST_CASE( good_xml_2 )
  * XML data.
  */
 
-BOOST_AUTO_TEST_CASE( good_xml_data_1 )
+TEST_CASE_METHOD( SrcdirConfig, "tree/good_xml_data_1", "[tree]" )
 {
     xml::tree_parser parser(XMLDATA_GOOD.c_str(), XMLDATA_GOOD.size());
-    BOOST_CHECK( parser );
+    CHECK( is_parser_valid(parser) );
 }
 
-BOOST_AUTO_TEST_CASE( good_xml_data_2 )
+TEST_CASE_METHOD( SrcdirConfig, "tree/good_xml_data_2", "[tree]" )
 {
     xml::tree_parser parser(XMLDATA_GOOD.c_str(), XMLDATA_GOOD.size(), false);
-    BOOST_CHECK( parser );
+    CHECK( is_parser_valid(parser) );
 }
 
 
@@ -91,10 +94,10 @@ BOOST_AUTO_TEST_CASE( good_xml_data_2 )
  * exception!
  */
 
-BOOST_AUTO_TEST_CASE( bad_xml_no_throw )
+TEST_CASE_METHOD( SrcdirConfig, "tree/bad_xml_no_throw", "[tree]" )
 {
     xml::tree_parser parser(test_file_path("tree/data/bad.xml").c_str(), false);
-    BOOST_CHECK( !parser ); // failed
+    CHECK( !parser ); // failed
 }
 
 
@@ -103,12 +106,12 @@ BOOST_AUTO_TEST_CASE( bad_xml_no_throw )
  * exception.
  */
 
-BOOST_AUTO_TEST_CASE( bad_xml_throw )
+TEST_CASE_METHOD( SrcdirConfig, "tree/bad_xml_throw", "[tree]" )
 {
-    BOOST_CHECK_THROW
+    CHECK_THROWS_AS
     (
-        xml::tree_parser parser(test_file_path("tree/data/bad.xml").c_str()),
-        xml::exception
+        xml::tree_parser(test_file_path("tree/data/bad.xml").c_str()),
+        xml::exception&
     );
 }
 
@@ -118,10 +121,10 @@ BOOST_AUTO_TEST_CASE( bad_xml_throw )
  * exception!
  */
 
-BOOST_AUTO_TEST_CASE( bad_xml_data_no_throw )
+TEST_CASE_METHOD( SrcdirConfig, "tree/bad_xml_data_no_throw", "[tree]" )
 {
     xml::tree_parser parser(XMLDATA_BAD.c_str(), XMLDATA_BAD.size(), false);
-    BOOST_CHECK( !parser ); // failed
+    CHECK( !parser ); // failed
 }
 
 
@@ -130,30 +133,30 @@ BOOST_AUTO_TEST_CASE( bad_xml_data_no_throw )
  * exception.
  */
 
-BOOST_AUTO_TEST_CASE( bad_xml_data_throw )
+TEST_CASE_METHOD( SrcdirConfig, "tree/bad_xml_data_throw", "[tree]" )
 {
-    BOOST_CHECK_THROW
+    CHECK_THROWS_AS
     (
-        xml::tree_parser parser(XMLDATA_BAD.c_str(), XMLDATA_BAD.size()),
-        xml::exception
+        xml::tree_parser(XMLDATA_BAD.c_str(), XMLDATA_BAD.size()),
+        xml::exception&
     );
 }
 
 
 // test reporting of nonexistent files
-BOOST_AUTO_TEST_CASE( nonexistent_file )
+TEST_CASE_METHOD( SrcdirConfig, "tree/nonexistent_file", "[tree]" )
 {
     xml::tree_parser parser("doesnt_exist.xml", false);
-    BOOST_CHECK( parser.messages().print().find("doesnt_exist.xml") != std::string::npos );
-    BOOST_CHECK( !parser ); // failed
+    CHECK( parser.messages().print().find("doesnt_exist.xml") != std::string::npos );
+    CHECK( !parser ); // failed
 }
 
-BOOST_AUTO_TEST_CASE( nonexistent_file_throw )
+TEST_CASE_METHOD( SrcdirConfig, "tree/nonexistent_file_throw", "[tree]" )
 {
-    BOOST_CHECK_THROW
+    CHECK_THROWS_AS
     (
-        xml::tree_parser parser("doesnt_exist.xml"),
-        xml::exception
+        xml::tree_parser("doesnt_exist.xml"),
+        xml::exception&
     );
 }
 
@@ -181,26 +184,26 @@ void dump_node(std::ostream& s, const xml::node &n, int space_counter = 0)
 
 } // anonymous namespace
 
-BOOST_AUTO_TEST_CASE( dump_tree )
+TEST_CASE_METHOD( SrcdirConfig, "tree/dump_tree", "[tree]" )
 {
     xml::tree_parser parser(test_file_path("tree/data/good.xml").c_str());
-    BOOST_CHECK( parser );
+    CHECK( is_parser_valid(parser) );
 
     std::ostringstream ostr;
     dump_node(ostr, parser.get_document().get_root_node());
 
-    BOOST_CHECK( is_same_as_file(ostr, "tree/data/output") );
+    CHECK( is_same_as_file(ostr, "tree/data/output") );
 }
 
-BOOST_AUTO_TEST_CASE( dump_tree_data )
+TEST_CASE_METHOD( SrcdirConfig, "tree/dump_tree_data", "[tree]" )
 {
     xml::tree_parser parser(XMLDATA_GOOD.c_str(), XMLDATA_GOOD.length());
-    BOOST_CHECK( parser );
+    CHECK( is_parser_valid(parser) );
 
     std::ostringstream ostr;
     dump_node(ostr, parser.get_document().get_root_node());
 
-    BOOST_CHECK( is_same_as_file(ostr, "tree/data/output") );
+    CHECK( is_same_as_file(ostr, "tree/data/output") );
 }
 
 
@@ -215,20 +218,18 @@ const std::string XMLDATA_BAD_NS =
 
 } // anonymous namespace
 
-BOOST_AUTO_TEST_CASE( bad_ns_xml_data_throw )
+TEST_CASE_METHOD( SrcdirConfig, "tree/bad_ns_xml_data_throw", "[tree]" )
 {
 
-    BOOST_CHECK_THROW
+    CHECK_THROWS_AS
     (
-        xml::tree_parser parser( XMLDATA_BAD_NS.c_str(), XMLDATA_BAD_NS.size()),
-        xml::exception
+        xml::tree_parser( XMLDATA_BAD_NS.c_str(), XMLDATA_BAD_NS.size()),
+        xml::exception&
     );
 }
 
-BOOST_AUTO_TEST_CASE( bad_ns_xml_data_no_throw )
+TEST_CASE_METHOD( SrcdirConfig, "tree/bad_ns_xml_data_no_throw", "[tree]" )
 {
     xml::tree_parser parser(XMLDATA_BAD_NS.c_str(), XMLDATA_BAD_NS.size(), false);
-    BOOST_CHECK( !parser ); // failed
+    CHECK( !parser ); // failed
 }
-
-BOOST_AUTO_TEST_SUITE_END()

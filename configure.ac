@@ -129,7 +129,6 @@ CXXFLAGS="$CXXFLAGS $BOOST_CPPFLAGS"
 
 if test "x$build_tests" = "xyes" ; then
     BOOST_IOSTREAMS
-    BOOST_TEST
 fi
 
 dnl === Compiler-specific stuff ===

@@ -35,64 +35,62 @@
 #include <functional>
 
 
-BOOST_AUTO_TEST_SUITE( xpath )
-
-BOOST_AUTO_TEST_CASE ( create_context )
+TEST_CASE_METHOD( SrcdirConfig, "xpath/create_context", "[xpath]" )
 {
     xml::tree_parser parser(test_file_path("xpath/data/01.xml").c_str());
     xml::xpath_context ctxt(parser.get_document());
 }
 
-BOOST_AUTO_TEST_CASE ( evaluate )
+TEST_CASE_METHOD( SrcdirConfig, "xpath/evaluate", "[xpath]" )
 {
     xml::tree_parser parser(test_file_path("xpath/data/01.xml").c_str());
     xml::xpath_context ctxt(parser.get_document());
     xml::const_nodes_view ns = ctxt.evaluate("//child");
 
-    BOOST_CHECK(!ns.empty());
+    CHECK( !ns.empty() );
 }
 
-BOOST_AUTO_TEST_CASE( evaluate_with_ns )
+TEST_CASE_METHOD( SrcdirConfig, "xpath/evaluate_with_ns", "[xpath]" )
 {
     xml::tree_parser parser(test_file_path("xpath/data/02.xml").c_str());
     xml::xpath_context ctxt(parser.get_document());
     
     xml::const_nodes_view ns1 = ctxt.evaluate("//child");
-    BOOST_CHECK(ns1.empty());
+    CHECK( ns1.empty() );
 
     ctxt.register_namespace("p", "href");
     xml::const_nodes_view ns2 = ctxt.evaluate("//p:child");
-    BOOST_CHECK(!ns2.empty());
-    BOOST_CHECK_EQUAL(std::distance(ns2.begin(), ns2.end()), 3);
+    CHECK( !ns2.empty() );
+    CHECK( std::distance(ns2.begin(), ns2.end()) == 3 );
 }
 
-
-BOOST_AUTO_TEST_CASE( node_set_iterators)
+TEST_CASE_METHOD( SrcdirConfig, "xpath/node_set_iterators", "[xpath]" )
 {
     xml::tree_parser parser(test_file_path("xpath/data/02.xml").c_str());
     xml::xpath_context ctxt(parser.get_document());
     ctxt.register_namespace("p", "href");
     xml::const_nodes_view ns = ctxt.evaluate("//p:child");
 
-    BOOST_CHECK(ns.begin() == ns.begin());
-    assert(!ns.empty());
-    BOOST_CHECK(ns.begin() != ns.end());
+    CHECK( ns.begin() == ns.begin() );
+    REQUIRE( !ns.empty() );
+    CHECK( ns.begin() != ns.end() );
 
     xml::const_nodes_view::iterator it = ns.begin();
-    BOOST_CHECK(it++ == ns.begin());
-    BOOST_CHECK(it != ns.begin());
+    CHECK( it++ == ns.begin() );
+    CHECK( it != ns.begin() );
     it = ns.begin();
-    BOOST_CHECK(++it != ns.begin());
+    CHECK( ++it != ns.begin() );
 
 
     for (it = ns.begin(); it != ns.end(); ++it)
     {
-        BOOST_CHECK(it->get_name() != NULL);
-        BOOST_CHECK((*it).get_name() != NULL);
-        BOOST_CHECK(strcmp((*it).get_name(), it->get_name()) == 0);
+        CHECK( it->get_name() != NULL );
+        CHECK( (*it).get_name() != NULL );
+        CHECK( strcmp((*it).get_name(), it->get_name()) == 0 );
     }
 }
-BOOST_AUTO_TEST_CASE (node_set_contains)
+
+TEST_CASE_METHOD( SrcdirConfig, "xpath/node_set_contains", "[xpath]" )
 {
     xml::tree_parser parser(test_file_path("xpath/data/02.xml").c_str());
     xml::xpath_context ctxt(parser.get_document());
@@ -100,23 +98,20 @@ BOOST_AUTO_TEST_CASE (node_set_contains)
     ctxt.register_namespace("p", "href");
 
     xml::const_nodes_view ns = ctxt.evaluate("//p:child");
-    BOOST_CHECK_EQUAL(std::distance(ns.begin(), ns.end()), 3);
+    CHECK( std::distance(ns.begin(), ns.end()) == 3 );
 }
 
-BOOST_AUTO_TEST_CASE (illegal_xpath)
+TEST_CASE_METHOD( SrcdirConfig, "xpath/illegal_xpath", "[xpath]" )
 {
     xml::tree_parser parser(test_file_path("xpath/data/02.xml").c_str());
     xml::xpath_context ctxt(parser.get_document());
 
     xml::const_nodes_view ns = ctxt.evaluate("ILLEGAL XPATH-QUERY", xml::ignore_errors);
-    BOOST_CHECK(ns.begin() == ns.end());
+    CHECK( ns.begin() == ns.end() );
 
-    BOOST_CHECK_THROW
+    CHECK_THROWS_AS
     (
         ctxt.evaluate("ANOTHER ILLEGAL QUERY"),
-        xml::exception
+        xml::exception&
     );
 }
-
-
-BOOST_AUTO_TEST_SUITE_END()

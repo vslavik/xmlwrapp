@@ -33,14 +33,7 @@
 #ifndef _xmlwrapp_test_h_
 #define _xmlwrapp_test_h_
 
-// XMLWRAPP_NO_BOOST_TEST_DYN_LINK can be predefined in the compiler options if
-// you have Boost Unit Test Framework as a static library and not a shared one.
-#ifndef XMLWRAPP_NO_BOOST_TEST_DYN_LINK
-    #define BOOST_TEST_ALTERNATIVE_INIT_API
-    #define BOOST_TEST_DYN_LINK
-#endif
-
-#include <boost/test/unit_test.hpp>
+#include "catch.hpp"
 
 #include <xmlwrapp/xmlwrapp.h>
 
@@ -49,17 +42,26 @@
 #include <sstream>
 #include <cstring>
 
-typedef boost::test_tools::predicate_result predicate_result;
+class SrcdirConfig
+{
+public:
+    SrcdirConfig();
 
-// path to source directory, where test data files are located
-extern std::string srcdir;
+    static const std::string& get_srcdir()
+    {
+        return srcdir;
+    }
 
+private:
+    // path to source directory, where test data files are located
+    static std::string srcdir;
+};
 
 // helpers for testing if output matches expected output:
 
 inline std::string test_file_path(const std::string& filename)
 {
-    return srcdir + "/" + filename;
+    return SrcdirConfig::get_srcdir() + "/" + filename;
 }
 
 inline std::string read_file_into_string(std::istream& stream)
@@ -75,34 +77,30 @@ inline std::string read_file_into_string(const std::string& filename)
     return read_file_into_string(f);
 }
 
-inline predicate_result is_same_as_file(const std::string& data, const std::string& filename)
-
+inline bool is_same_as_file(const std::string& data, const std::string& filename)
 {
     const std::string filedata = read_file_into_string(filename);
     if ( data == filedata )
         return true;
 
-    predicate_result res(false);
-    res.message() << "Expected output:\n";
-    res.message() << filedata;
-    res.message() << "\nActual output:\n";
-    res.message() << data;
-    return res;
+    FAIL_CHECK("Expected output:\n" << filedata << "\nActual output:\n" << data);
+
+    return false;
 }
 
-inline predicate_result is_same_as_file(const std::ostringstream& stream, const std::string& filename)
+inline bool is_same_as_file(const std::ostringstream& stream, const std::string& filename)
 {
     return is_same_as_file(stream.str(), filename);
 }
 
-inline predicate_result is_same_as_file(const xml::document& doc, const std::string& filename)
+inline bool is_same_as_file(const xml::document& doc, const std::string& filename)
 {
     std::string xml;
     doc.save_to_string(xml);
     return is_same_as_file(xml, filename);
 }
 
-inline predicate_result is_same_as_file(const xml::node& node, const std::string& filename)
+inline bool is_same_as_file(const xml::node& node, const std::string& filename)
 {
     std::ostringstream ostr;
     ostr << node;

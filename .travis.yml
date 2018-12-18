@@ -13,7 +13,7 @@ before_install:
 
 install:
   - sudo apt-get install -qq --no-install-recommends doxygen
-  - sudo apt-get install -qq libxml2-dev libxslt1-dev libboost-dev libboost-iostreams-dev libboost-test-dev
+  - sudo apt-get install -qq libxml2-dev libxslt1-dev libboost-dev libboost-iostreams-dev
 
 script:
   - ./bootstrap && ./configure $(CONFIGURE_OPTS) && make && make check
