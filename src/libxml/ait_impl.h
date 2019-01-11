@@ -36,8 +36,6 @@
 // xmlwrapp includes
 #include "xmlwrapp/attributes.h"
 
-#include "pimpl_base.h"
-
 // libxml2 includes
 #include <libxml/tree.h>
 
@@ -49,7 +47,7 @@ namespace impl
 
 // The class that does all the work behind xml::attributes::iterator and
 // xml::attributes::const_iterator.
-class ait_impl : public pimpl_base<ait_impl>
+class ait_impl
 {
 public:
     ait_impl(xmlNodePtr node, xmlAttrPtr prop);

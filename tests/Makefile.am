@@ -2,14 +2,13 @@
 TESTS = test
 
 AM_CPPFLAGS = -I$(top_srcdir)/include
-LIBS = $(top_builddir)/src/libxmlwrapp.la \
-	   $(BOOST_UNIT_TEST_FRAMEWORK_LIBS) $(BOOST_UNIT_TEST_FRAMEWORK_LDFLAGS) \
-	   $(BOOST_IOSTREAMS_LIBS) $(BOOST_IOSTREAMS_LDFLAGS)
+LIBS = $(top_builddir)/src/libxmlwrapp.la
 
 noinst_PROGRAMS = test
 
 test_SOURCES = \
 		test.h \
+		catch.hpp \
 		test_main.cxx \
 		attributes/test_attributes.cxx \
 		document/test_document.cxx \

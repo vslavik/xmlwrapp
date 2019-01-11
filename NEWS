@@ -5,6 +5,8 @@ Version 0.9.1 [not released yet]
     xml::init::change_flag helper to facilitate temporarily changing some
     global flag.
 
+    Remove all dependencies on Boost to simplify using the library.
+
 Version 0.9.0
 
     Slight behaviour change: always use UTF-8, not ISO-8859-1, as default

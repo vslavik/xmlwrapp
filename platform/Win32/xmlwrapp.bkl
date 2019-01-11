@@ -53,7 +53,6 @@ library xmlwrapp {
         src/libxml/errors_impl.h
         src/libxml/node_iterator.h
         src/libxml/node_manip.h
-        src/libxml/pimpl_base.h
         src/libxml/utility.h
     }
 
@@ -98,10 +97,6 @@ library xsltwrapp {
 
 program test {
     includedirs = include;
-
-    // zlib is not always available under Windows, so don't use it by default,
-    // it's only used by a single test and it's not worth the trouble.
-    defines += XMLWRAPP_NO_ZLIB;
 
     deps = xmlwrapp xsltwrapp;
 

@@ -37,7 +37,6 @@
 // definition include
 #include "node_iterator.h"
 #include "node_manip.h"
-#include "pimpl_base.h"
 #include "utility.h"
 
 using namespace xml::impl;

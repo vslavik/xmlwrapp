@@ -32,32 +32,29 @@
 
 #include "../test.h"
 
-BOOST_AUTO_TEST_SUITE( schema )
-
-
-BOOST_AUTO_TEST_CASE( load_non_schema_file )
+TEST_CASE_METHOD( SrcdirConfig, "schema/load_non_schema_file", "[schema]" )
 {
     xml::document sch_doc =
             xml::tree_parser(test_file_path("schema/data/valid.xml").c_str()).get_document();
 
-    BOOST_CHECK_THROW
+    CHECK_THROWS_AS
     (
-        xml::schema sch(sch_doc),
-        xml::exception
+        xml::schema(sch_doc),
+        xml::exception&
     );
 
     xml::error_messages log;
-    BOOST_CHECK_THROW
+    // throw even when collecting errors into log
+    CHECK_THROWS_AS
     (
-        // throw even when collecting errors into log
-        xml::schema sch(sch_doc, log),
-        xml::exception
+        xml::schema(sch_doc, log),
+        xml::exception&
     );
-    BOOST_CHECK( log.has_errors() );
+    CHECK( log.has_errors() );
 }
 
 
-BOOST_AUTO_TEST_CASE( validate_ok )
+TEST_CASE_METHOD( SrcdirConfig, "schema/validate_ok", "[schema]" )
 {
     xml::document sch_doc =
             xml::tree_parser(test_file_path("schema/data/schema.xsd").c_str()).get_document();
@@ -66,17 +63,17 @@ BOOST_AUTO_TEST_CASE( validate_ok )
     xml::document doc =
             xml::tree_parser(test_file_path("schema/data/valid.xml").c_str()).get_document();
 
-    BOOST_CHECK( sch.validate(doc) );
+    CHECK( sch.validate(doc) );
 
     // And the same with logging:
     xml::error_messages log;
-    BOOST_CHECK( sch.validate(doc) );
-    BOOST_CHECK( !log.has_errors() );
-    BOOST_CHECK( !log.has_warnings() );
+    CHECK( sch.validate(doc) );
+    CHECK( !log.has_errors() );
+    CHECK( !log.has_warnings() );
 }
 
 
-BOOST_AUTO_TEST_CASE( validate_fail )
+TEST_CASE_METHOD( SrcdirConfig, "schema/validate_fail", "[schema]" )
 {
     xml::document sch_doc =
             xml::tree_parser(test_file_path("schema/data/schema.xsd").c_str()).get_document();
@@ -85,17 +82,14 @@ BOOST_AUTO_TEST_CASE( validate_fail )
     xml::document doc =
             xml::tree_parser(test_file_path("schema/data/invalid.xml").c_str()).get_document();
 
-    BOOST_CHECK_THROW
+    CHECK_THROWS_AS
     (
         sch.validate(doc),
-        xml::exception
+        xml::exception&
     );
 
     // And the same with logging:
     xml::error_messages log;
-    BOOST_CHECK( !sch.validate(doc, log) );
-    BOOST_CHECK( log.has_errors() );
+    CHECK( !sch.validate(doc, log) );
+    CHECK( log.has_errors() );
 }
-
-
-BOOST_AUTO_TEST_SUITE_END()
