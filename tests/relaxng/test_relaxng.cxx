@@ -32,32 +32,29 @@
 
 #include "../test.h"
 
-BOOST_AUTO_TEST_SUITE( relaxng )
-
-
-BOOST_AUTO_TEST_CASE( load_non_relaxng_file )
+TEST_CASE_METHOD( SrcdirConfig, "relaxng/load_non_relaxng_file", "[relaxng]" )
 {
     xml::document sch_doc =
             xml::tree_parser(test_file_path("relaxng/data/valid.xml").c_str()).get_document();
 
-    BOOST_CHECK_THROW
+    CHECK_THROWS_AS
     (
-        xml::relaxng sch(sch_doc),
-        xml::exception
+        xml::relaxng(sch_doc),
+        xml::exception&
     );
 
     xml::error_messages log;
-    BOOST_CHECK_THROW
+    // throw even when collecting errors into log
+    CHECK_THROWS_AS
     (
-        // throw even when collecting errors into log
-        xml::relaxng sch(sch_doc, log),
-        xml::exception
+        xml::relaxng(sch_doc, log),
+        xml::exception&
     );
-    BOOST_CHECK( log.has_errors() );
+    CHECK( log.has_errors() );
 }
 
 
-BOOST_AUTO_TEST_CASE( validate_ok )
+TEST_CASE_METHOD( SrcdirConfig, "relaxng/validate_ok", "[relaxng]" )
 {
     xml::document sch_doc =
             xml::tree_parser(test_file_path("relaxng/data/schema.rng").c_str()).get_document();
@@ -66,17 +63,17 @@ BOOST_AUTO_TEST_CASE( validate_ok )
     xml::document doc =
             xml::tree_parser(test_file_path("relaxng/data/valid.xml").c_str()).get_document();
 
-    BOOST_CHECK( sch.validate(doc) );
+    CHECK( sch.validate(doc) );
 
     // And the same with logging:
     xml::error_messages log;
-    BOOST_CHECK( sch.validate(doc) );
-    BOOST_CHECK( !log.has_errors() );
-    BOOST_CHECK( !log.has_warnings() );
+    CHECK( sch.validate(doc) );
+    CHECK( !log.has_errors() );
+    CHECK( !log.has_warnings() );
 }
 
 
-BOOST_AUTO_TEST_CASE( validate_invalid )
+TEST_CASE_METHOD( SrcdirConfig, "relaxng/validate_invalid", "[relaxng]" )
 {
     xml::document sch_doc =
             xml::tree_parser(test_file_path("relaxng/data/schema.rng").c_str()).get_document();
@@ -85,20 +82,20 @@ BOOST_AUTO_TEST_CASE( validate_invalid )
     xml::document doc =
             xml::tree_parser(test_file_path("relaxng/data/invalid.xml").c_str()).get_document();
 
-    BOOST_CHECK_THROW
+    CHECK_THROWS_AS
     (
         sch.validate(doc),
-        xml::exception
+        xml::exception&
     );
 
     // And the same with logging:
     xml::error_messages log;
-    BOOST_CHECK( !sch.validate(doc, log) );
-    BOOST_CHECK( log.has_errors() );
+    CHECK( !sch.validate(doc, log) );
+    CHECK( log.has_errors() );
 }
 
 
-BOOST_AUTO_TEST_CASE( validate_nonvalid )
+TEST_CASE_METHOD( SrcdirConfig, "relaxng/validate_nonvalid", "[relaxng]" )
 {
     xml::document sch_doc =
             xml::tree_parser(test_file_path("relaxng/data/schema.rng").c_str()).get_document();
@@ -107,20 +104,18 @@ BOOST_AUTO_TEST_CASE( validate_nonvalid )
     xml::document doc =
             xml::tree_parser(test_file_path("relaxng/data/nonvalid.xml").c_str()).get_document();
 
-    BOOST_CHECK_THROW
+    CHECK_THROWS_AS
     (
         sch.validate(doc),
-        xml::exception
+        xml::exception&
     );
 
     // And the same with logging:
     xml::error_messages log;
-    BOOST_CHECK( !sch.validate(doc, log) );
-    BOOST_CHECK( log.has_errors() );
+    CHECK( !sch.validate(doc, log) );
+    CHECK( log.has_errors() );
 
     // The error message is "Did not expect element CCC there" because it's not
     // supposed to occur before "BBB".
-    BOOST_CHECK( log.print().find("CCC") != std::string::npos );
+    CHECK( log.print().find("CCC") != std::string::npos );
 }
-
-BOOST_AUTO_TEST_SUITE_END()

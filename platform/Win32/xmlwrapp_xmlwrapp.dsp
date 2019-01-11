@@ -185,10 +185,6 @@ SOURCE=..\..\include\xmlwrapp\nodes_view.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\src\libxml\pimpl_base.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\include\xmlwrapp\tree_parser.h
 # End Source File
 # Begin Source File

@@ -40,7 +40,6 @@
 #include "utility.h"
 #include "ait_impl.h"
 #include "node_manip.h"
-#include "pimpl_base.h"
 #include "node_iterator.h"
 
 // standard includes
@@ -71,7 +70,7 @@ using namespace xml::impl;
 namespace impl
 {
 
-struct node_impl : public pimpl_base<xml::impl::node_impl>
+struct node_impl
 {
     node_impl() : xmlnode_(0), owner_(true), attrs_(0) {}
     ~node_impl() { release(); }

@@ -30,21 +30,20 @@
  * SUCH DAMAGE.
  */
 
-#define BOOST_TEST_MAIN
+#define CATCH_CONFIG_MAIN
 #include "test.h"
 
 #include <cstdlib>
 
-std::string srcdir = ".";
+std::string SrcdirConfig::srcdir;
 
-struct SrcdirConfig
+SrcdirConfig::SrcdirConfig()
 {
-    SrcdirConfig()
-    {
+    if (srcdir.empty()) {
         const char *s = std::getenv("srcdir");
         if ( s )
             srcdir = s;
+        else
+            srcdir = ".";
     }
-};
-
-BOOST_GLOBAL_FIXTURE(SrcdirConfig);
+}

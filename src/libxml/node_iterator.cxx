@@ -33,7 +33,6 @@
 
 // definition include
 #include "node_iterator.h"
-#include "pimpl_base.h"
 
 // xmlwrapp includes
 #include "xmlwrapp/node.h"
@@ -56,7 +55,7 @@ using namespace impl;
 // ------------------------------------------------------------------------
 
 // node::iterator pimpl
-struct impl::nipimpl : public pimpl_base<impl::nipimpl>
+struct impl::nipimpl
 {
     node_iterator it;
 

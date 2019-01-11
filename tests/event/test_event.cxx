@@ -33,12 +33,8 @@
 
 #include "../test.h"
 
-#include <boost/algorithm/string/trim.hpp>
 
-BOOST_AUTO_TEST_SUITE( event )
-
-
-BOOST_AUTO_TEST_CASE( callbacks )
+TEST_CASE_METHOD( SrcdirConfig, "event/callbacks", "[event]" )
 {
     class test_parser : public xml::event_parser
     {
@@ -93,10 +89,10 @@ BOOST_AUTO_TEST_CASE( callbacks )
 
     {
         test_parser parser(ostr);
-        BOOST_CHECK( parser.parse_file(test_file_path("event/data/01.xml").c_str()) );
+        CHECK( parser.parse_file(test_file_path("event/data/01.xml").c_str()) );
     }
 
-    BOOST_CHECK( is_same_as_file(ostr, "event/data/01.out") );
+    CHECK( is_same_as_file(ostr, "event/data/01.out") );
 }
 
 
@@ -105,7 +101,7 @@ BOOST_AUTO_TEST_CASE( callbacks )
  * cdata callback.
  */
 
-BOOST_AUTO_TEST_CASE( cdata_to_text_fallback )
+TEST_CASE_METHOD( SrcdirConfig, "event/cdata_to_text_fallback", "[event]" )
 {
     struct test_parser : public xml::event_parser
     {
@@ -121,7 +117,7 @@ BOOST_AUTO_TEST_CASE( cdata_to_text_fallback )
 
         bool text(const std::string &contents)
         {
-            text_ += boost::algorithm::trim_copy(contents);
+            text_ += contents;
             return true;
         }
 
@@ -129,9 +125,9 @@ BOOST_AUTO_TEST_CASE( cdata_to_text_fallback )
     };
 
     test_parser parser;
-    BOOST_CHECK( parser.parse_file(test_file_path("event/data/01.xml").c_str()) );
+    CHECK( parser.parse_file(test_file_path("event/data/01.xml").c_str()) );
 
-    BOOST_CHECK_EQUAL( parser.text_, "inside two_dot_two" );
+    CHECK_THAT( parser.text_, Catch::Matchers::Contains("inside two_dot_two") );
 }
 
 
@@ -194,46 +190,44 @@ void do_test_parser(const char *callback, bool should_throw)
 {
     failing_parser parser(callback, should_throw);
 
-    BOOST_CHECK( !parser.parse_file(test_file_path("event/data/01.xml").c_str()) );
-    BOOST_CHECK( !parser.called_after_error() );
+    CHECK( !parser.parse_file(test_file_path("event/data/01.xml").c_str()) );
+    CHECK( !parser.called_after_error() );
 }
 
 } // anonymous namespace
 
-BOOST_AUTO_TEST_CASE( stop_on_error_in_start_element )
+TEST_CASE_METHOD( SrcdirConfig, "event/stop_on_error_in_start_element", "[event]" )
 {
     do_test_parser("start_element", true);
     do_test_parser("start_element", false);
 }
 
-BOOST_AUTO_TEST_CASE( stop_on_error_in_end_element )
+TEST_CASE_METHOD( SrcdirConfig, "event/stop_on_error_in_end_element", "[event]" )
 {
     do_test_parser("end_element", true);
     do_test_parser("end_element", false);
 }
 
-BOOST_AUTO_TEST_CASE( stop_on_error_in_text )
+TEST_CASE_METHOD( SrcdirConfig, "event/stop_on_error_in_text", "[event]" )
 {
     do_test_parser("text", true);
     do_test_parser("text", false);
 }
 
-BOOST_AUTO_TEST_CASE( stop_on_error_in_processing_instruction )
+TEST_CASE_METHOD( SrcdirConfig, "event/stop_on_error_in_processing_instruction", "[event]" )
 {
     do_test_parser("processing_instruction", true);
     do_test_parser("processing_instruction", false);
 }
 
-BOOST_AUTO_TEST_CASE( stop_on_error_in_comment )
+TEST_CASE_METHOD( SrcdirConfig, "event/stop_on_error_in_comment", "[event]" )
 {
     do_test_parser("comment", true);
     do_test_parser("comment", false);
 }
 
-BOOST_AUTO_TEST_CASE( stop_on_error_in_cdata )
+TEST_CASE_METHOD( SrcdirConfig, "event/stop_on_error_in_cdata", "[event]" )
 {
     do_test_parser("cdata", true);
     do_test_parser("cdata", false);
 }
-
-BOOST_AUTO_TEST_SUITE_END()
