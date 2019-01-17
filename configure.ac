@@ -50,6 +50,8 @@ dnl remember, "build" is where we compile, "host" is where the resulting
 dnl program runs (which may be different from "build" for cross-compilation)
 AC_CANONICAL_HOST
 
+dnl Give error for unknown options instead of just warning about them.
+m4_divert_text([DEFAULTS],[enable_option_checking=fatal])
 
 dnl === Command line options ===
 
