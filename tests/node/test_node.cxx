@@ -718,23 +718,32 @@ TEST_CASE_METHOD( SrcdirConfig, "node/compare_nodes_view_iterators", "[node]" )
     CHECK( !(ci != i2) );
 }
 
-
-TEST_CASE_METHOD( SrcdirConfig, "node/get_namespace", "[node]" )
+// Test fixture providing "doc" preloaded with the contents of namespace.xml.
+class NamespaceTest : private SrcdirConfig
 {
-    xml::tree_parser parser(test_file_path("node/data/namespace.xml").c_str());
+public:
+    NamespaceTest()
+        : parser(test_file_path("node/data/namespace.xml").c_str()),
+          doc(parser.get_document())
+    {
+    }
 
+protected:
+    xml::tree_parser parser;
+    xml::document doc;
+};
+
+TEST_CASE_METHOD( NamespaceTest, "node/get_namespace", "[node][ns]" )
+{
     CHECK_THAT
     (
-        parser.get_document().get_root_node().get_namespace(),
+        doc.get_root_node().get_namespace(),
         Catch::Matchers::Equals("http://pmade.org/namespace/test")
     );
 }
 
-TEST_CASE_METHOD( SrcdirConfig, "node/set_namespace", "[node]" )
+TEST_CASE_METHOD( NamespaceTest, "node/set_namespace", "[node][ns]" )
 {
-    xml::tree_parser parser(test_file_path("node/data/namespace.xml").c_str());
-    xml::document doc(parser.get_document());
-
     doc.get_root_node().set_namespace("http://pmade.org/namespace/newOne");
 
     CHECK( is_same_as_file(doc, "node/data/namespace.out") );
