@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<root xmlns="http://pmade.org/namespace/test">
+    <foo><child_with_same_ns/><child_with_diff_ns xmlns="http://pmade.org/namespace/different"/></foo>
+<bar><foo><child_with_same_ns/><child_with_diff_ns xmlns="http://pmade.org/namespace/different"/></foo></bar></root>

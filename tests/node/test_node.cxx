@@ -748,3 +748,23 @@ TEST_CASE_METHOD( NamespaceTest, "node/set_namespace", "[node][ns]" )
 
     CHECK( is_same_as_file(doc, "node/data/namespace.out") );
 }
+
+TEST_CASE_METHOD( NamespaceTest, "node/copy_ns", "[node][ns]" )
+{
+    xml::node& root = doc.get_root_node();
+    xml::node::iterator foo = root.find("foo");
+    REQUIRE( foo != root.end() );
+
+    xml::node child_with_same_ns("child_with_same_ns");
+    child_with_same_ns.set_namespace("http://pmade.org/namespace/test");
+    foo->insert(child_with_same_ns);
+
+    xml::node child_with_diff_ns("child_with_diff_ns");
+    child_with_diff_ns.set_namespace("http://pmade.org/namespace/different");
+    foo->insert(child_with_diff_ns);
+
+    xml::node::iterator bar = root.insert(xml::node("bar"));
+    bar->insert(*foo);
+
+    CHECK( is_same_as_file(doc, "node/data/copy_ns.out") );
+}
