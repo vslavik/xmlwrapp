@@ -718,24 +718,53 @@ TEST_CASE_METHOD( SrcdirConfig, "node/compare_nodes_view_iterators", "[node]" )
     CHECK( !(ci != i2) );
 }
 
-
-TEST_CASE_METHOD( SrcdirConfig, "node/get_namespace", "[node]" )
+// Test fixture providing "doc" preloaded with the contents of namespace.xml.
+class NamespaceTest : private SrcdirConfig
 {
-    xml::tree_parser parser(test_file_path("node/data/namespace.xml").c_str());
+public:
+    NamespaceTest()
+        : parser(test_file_path("node/data/namespace.xml").c_str()),
+          doc(parser.get_document())
+    {
+    }
 
+protected:
+    xml::tree_parser parser;
+    xml::document doc;
+};
+
+TEST_CASE_METHOD( NamespaceTest, "node/get_namespace", "[node][ns]" )
+{
     CHECK_THAT
     (
-        parser.get_document().get_root_node().get_namespace(),
+        doc.get_root_node().get_namespace(),
         Catch::Matchers::Equals("http://pmade.org/namespace/test")
     );
 }
 
-TEST_CASE_METHOD( SrcdirConfig, "node/set_namespace", "[node]" )
+TEST_CASE_METHOD( NamespaceTest, "node/set_namespace", "[node][ns]" )
 {
-    xml::tree_parser parser(test_file_path("node/data/namespace.xml").c_str());
-    xml::document doc(parser.get_document());
-
     doc.get_root_node().set_namespace("http://pmade.org/namespace/newOne");
 
     CHECK( is_same_as_file(doc, "node/data/namespace.out") );
+}
+
+TEST_CASE_METHOD( NamespaceTest, "node/copy_ns", "[node][ns]" )
+{
+    xml::node& root = doc.get_root_node();
+    xml::node::iterator foo = root.find("foo");
+    REQUIRE( foo != root.end() );
+
+    xml::node child_with_same_ns("child_with_same_ns");
+    child_with_same_ns.set_namespace("http://pmade.org/namespace/test");
+    foo->insert(child_with_same_ns);
+
+    xml::node child_with_diff_ns("child_with_diff_ns");
+    child_with_diff_ns.set_namespace("http://pmade.org/namespace/different");
+    foo->insert(child_with_diff_ns);
+
+    xml::node::iterator bar = root.insert(xml::node("bar"));
+    bar->insert(*foo);
+
+    CHECK( is_same_as_file(doc, "node/data/copy_ns.out") );
 }

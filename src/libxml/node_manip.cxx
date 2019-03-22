@@ -45,21 +45,45 @@
 namespace
 {
 
-// Helper: sets the given namespace for this node and all of its children,
-// recursively, but without overriding any existing namespaces.
-void set_default_ns_recursively(xmlNodePtr node, xmlNsPtr ns)
+// Check if two XML namespaces are the same. Both pointers must be non-null.
+bool are_same(xmlNsPtr ns1, xmlNsPtr ns2)
 {
-    if ( node->ns )
+    if ( ns1->type != ns2->type )
+        return false;
+
+    if ( xmlStrcmp(ns1->href, ns2->href) != 0 )
+        return false;
+
+    if ( ns1->prefix )
     {
-        // This node already has a namespace, so neither it nor its children
-        // should inherit the parents one.
+        if ( !ns2->prefix || xmlStrcmp(ns1->prefix, ns2->prefix) != 0 )
+            return false;
+    }
+    else
+    {
+        if ( ns2->prefix )
+            return false;
+    }
+
+    return true;
+}
+
+// Helper: replaces the given namespace pointer (which is about to be freed)
+// with another one for this node and all of its children, recursively, but
+// without changing any other existing namespaces.
+void replace_ns_recursively(xmlNodePtr node, xmlNsPtr old_ns, xmlNsPtr new_ns)
+{
+    if ( node->ns && node->ns != old_ns )
+    {
+        // This node uses a different namespace, so neither it nor its
+        // children should inherit the parents one.
         return;
     }
 
-    node->ns = ns;
+    node->ns = new_ns;
 
     for ( xmlNodePtr child = node->children; child; child = child->next )
-        set_default_ns_recursively(child, ns);
+        replace_ns_recursively(child, old_ns, new_ns);
 }
 
 // Make a copy of the given node with its contents and children which is meant
@@ -75,13 +99,49 @@ xmlNodePtr copy_node_under_parent(xmlNodePtr parent, xmlNodePtr orig_node)
 
     // Check that we really have a parent as this could also be xmlDoc
     // masquerading as xmlNode when inserting the root element itself.
-    if ( parent->type != XML_DOCUMENT_NODE )
+    if ( parent->type == XML_DOCUMENT_NODE )
+        return new_xml_node;
+
+    // If there is no implicit namespace inherited from the parent, we're done.
+    if ( !parent->ns )
+        return new_xml_node;
+
+    // Check if any of the namespace definitions on the new node is not
+    // redundant with the namespace implicitly inherited from the parent:
+    // this happens whenever the original node is in a namespace, as
+    // xmlCopyNode() creates an artificial definition for it at the node
+    // level in this case and we want to remove this redundant definition
+    // if possible.
+    xmlNsPtr nsToBeFreed = NULL;
+    if ( new_xml_node->ns && are_same(new_xml_node->ns, parent->ns) )
     {
-        // The new node and all its children should inherit the namespace of
-        // its parent, unless any of them already have a custom namespace, for
-        // consistency with how tree construction works in libxml2.
-        set_default_ns_recursively(new_xml_node, parent->ns);
+        // We can indeed remove this namespace definition, so do it.
+        for ( xmlNsPtr* pns = &new_xml_node->nsDef; *pns; pns = &(*pns)->next )
+        {
+            if ( *pns == new_xml_node->ns )
+            {
+                // Unlink the node from the linked list but don't free it yet,
+                // we can't do it as long as this namespace definition is still
+                // (potentially) used by this node children, just remember to
+                // do it later.
+                nsToBeFreed = *pns;
+                *pns = (*pns)->next;
+
+                break;
+            }
+        }
     }
+
+    // The new node and all its children should inherit the namespace of
+    // its parent, unless any of them already have a custom namespace, for
+    // consistency with how tree construction works in libxml2.
+    replace_ns_recursively(new_xml_node, nsToBeFreed, parent->ns);
+
+    // Now that children namespaces pointing to the namespace definition in
+    // this node have been replaced with the new namespace pointers too, we can
+    // free the old definition.
+    if ( nsToBeFreed )
+        xmlFreeNs(nsToBeFreed);
 
     return new_xml_node;
 }

@@ -73,7 +73,11 @@ inline std::string read_file_into_string(std::istream& stream)
 
 inline std::string read_file_into_string(const std::string& filename)
 {
-    std::ifstream f(test_file_path(filename).c_str());
+    const std::string& path = test_file_path(filename);
+    std::ifstream f(path.c_str());
+    INFO("file \"" << path << "\" couldn't be opened");
+    REQUIRE( f.good() );
+
     return read_file_into_string(f);
 }
 
