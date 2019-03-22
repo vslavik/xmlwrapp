@@ -197,6 +197,9 @@ xml::impl::node_replace(xmlNodePtr old_node, xmlNodePtr new_node)
 
 xmlNodePtr xml::impl::node_erase(xmlNodePtr to_erase)
 {
+    if ( !to_erase )
+        throw std::invalid_argument("erasing invalid node");
+
     xmlNodePtr after = to_erase->next;
 
     xmlUnlinkNode(to_erase);
