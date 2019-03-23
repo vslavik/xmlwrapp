@@ -16,7 +16,7 @@ install:
   - sudo apt-get install -qq libxml2-dev libxslt1-dev
 
 script:
-  - ./bootstrap && ./configure $(CONFIGURE_OPTS) && make && make check
+  - ./bootstrap && ./configure CXXFLAGS="-Werror $CXXFLAGS" && make && make check
 
 git:
   submodules: false
