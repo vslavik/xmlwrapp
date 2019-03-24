@@ -1,12 +1,13 @@
 language: cpp
 
-compiler:
-  - gcc
-  - clang
-
-env:
-  - CXXFLAGS="-std=c++11"
-  - CXXFLAGS=""
+matrix:
+  include:
+  - compiler: gcc
+  - compiler: gcc
+    env: CXXFLAGS="-std=c++11"
+  - compiler: clang
+  - compiler: clang
+    env: CXXFLAGS="-std=c++11"
 
 before_install:
   - sudo apt-get update -qq
