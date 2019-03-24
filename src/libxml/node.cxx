@@ -514,9 +514,14 @@ const char* node::get_content() const
 
 node::node_type node::get_type() const
 {
+    // Note that XML_xxx values are listed here in order of their declaration
+    // in xmlElementType, for ease of comparison.
     switch (pimpl_->xmlnode_->type)
     {
         case XML_ELEMENT_NODE:          return type_element;
+        // List for completeness, but this is impossible here as attrubutes are
+        // represented by xml::attribute objects, not xml::node ones.
+        case XML_ATTRIBUTE_NODE:        break;
         case XML_TEXT_NODE:             return type_text;
         case XML_CDATA_SECTION_NODE:    return type_cdata;
         case XML_ENTITY_REF_NODE:       return type_entity_ref;
@@ -527,6 +532,9 @@ node::node_type node::get_type() const
         case XML_DOCUMENT_TYPE_NODE:    return type_document_type;
         case XML_DOCUMENT_FRAG_NODE:    return type_document_frag;
         case XML_NOTATION_NODE:         return type_notation;
+        // Another impossible case: we never call htmlNewDoc(), so we are never
+        // going to have objects of this type.
+        case XML_HTML_DOCUMENT_NODE:    break;
         case XML_DTD_NODE:              return type_dtd;
         case XML_ELEMENT_DECL:          return type_dtd_element;
         case XML_ATTRIBUTE_DECL:        return type_dtd_attribute;
@@ -534,8 +542,14 @@ node::node_type node::get_type() const
         case XML_NAMESPACE_DECL:        return type_dtd_namespace;
         case XML_XINCLUDE_START:        return type_xinclude;
         case XML_XINCLUDE_END:          return type_xinclude;
-        default:                        return type_element;
+        // This is also impossible as we don't use DocBook and, in addition,
+        // needs to be made conditional as this symbols is not always defined.
+#ifdef LIBXML_DOCB_ENABLED
+        case XML_DOCB_DOCUMENT_NODE:    break;
+#endif
     }
+
+    throw std::logic_error("unknown or unexpected node type");
 }
 
 
