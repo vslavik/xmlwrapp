@@ -9,7 +9,7 @@ sudo apt-get install -qq --no-install-recommends doxygen graphviz
 
 case "$HOST" in
     *-w64-mingw32)
-        arch=`echo $HOST | sed s/-w64-mingw32$//`
+        arch=`echo $HOST | sed -e 's/-w64-mingw32$//;s/_/-/'`
         sudo apt-get install -qq --no-install-recommends g++-mingw-w64-$arch
 
         echo -n "Cross-compiling for $HOST using "
