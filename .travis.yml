@@ -5,8 +5,8 @@ compiler:
   - clang
 
 env:
-  - CONFIGURE_OPTS="CXXFLAGS=-std=c++11"
-  - CONFIGURE_OPTS=""
+  - CXXFLAGS="-std=c++11"
+  - CXXFLAGS=""
 
 before_install:
   - sudo apt-get update -qq
