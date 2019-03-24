@@ -199,7 +199,7 @@ void tree_parser::init(const char *data, size_type size, error_handler *on_error
     xml::impl::auto_ptr<tree_impl> ap(pimpl_ = new tree_impl);
     xmlParserCtxtPtr ctxt;
 
-    if ( (ctxt = xmlCreateMemoryParserCtxt(data, size)) == 0)
+    if ( (ctxt = xmlCreateMemoryParserCtxt(data, xml::impl::checked_int_cast(size))) == 0)
         throw std::bad_alloc();
 
     if (ctxt->sax)

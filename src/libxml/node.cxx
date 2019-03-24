@@ -318,9 +318,11 @@ node::node (const char *name, const char *content)
 
 node::node(cdata cdata_info)
 {
+    const int len = xml::impl::checked_int_cast(std::strlen(cdata_info.t));
+
     xml::impl::auto_ptr<node_impl> ap(pimpl_ = new node_impl);
 
-    if ( (pimpl_->xmlnode_ = xmlNewCDataBlock(0, reinterpret_cast<const xmlChar*>(cdata_info.t), std::strlen(cdata_info.t))) == 0)
+    if ( (pimpl_->xmlnode_ = xmlNewCDataBlock(0, reinterpret_cast<const xmlChar*>(cdata_info.t), len)) == 0)
     {
         throw std::bad_alloc();
     }
