@@ -2,6 +2,8 @@
 # Used to install dependencies for Travis CI builds.
 set -e
 
+. ${TRAVIS_BUILD_DIR}/scripts/travis/common.sh
+
 # Arch-independent dependencies.
 sudo apt-get install -qq --no-install-recommends doxygen graphviz
 

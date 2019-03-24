@@ -1,6 +1,9 @@
 #!/bin/sh
 # Main build script for Travis CI builds.
 set -e
+
+. ${TRAVIS_BUILD_DIR}/scripts/travis/common.sh
+
 ./bootstrap
 
 CXXFLAGS="-Werror $CXXFLAGS"
