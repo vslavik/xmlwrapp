@@ -13,10 +13,6 @@ case "$HOST" in
         echo -n "Cross-compiling for $HOST using "
         $HOST-g++ --version
 
-        # Override environment variables set by Travis by default.
-        CC=$HOST-gcc
-        CXX=$HOST-g++
-
         # Download and build the required dependencies ourselves.
         ${TRAVIS_BUILD_DIR}/scripts/install_deps.sh
         ;;
