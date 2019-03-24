@@ -9,15 +9,9 @@ matrix:
   - compiler: clang
     env: CXXFLAGS="-std=c++11"
 
-before_install:
-  - sudo apt-get update -qq
-
-install:
-  - sudo apt-get install -qq --no-install-recommends doxygen graphviz
-  - sudo apt-get install -qq libxml2-dev libxslt1-dev
-
-script:
-  - ./bootstrap && ./configure CXXFLAGS="-Werror $CXXFLAGS" && make && make check
+before_install: scripts/travis/before_install.sh
+install: scripts/travis/install.sh
+script: scripts/travis/script.sh
 
 git:
   submodules: false
