@@ -203,10 +203,10 @@ document::document(const char *filename, error_handler& on_error)
     swap(p.get_document());
 }
 
-document::document(const char *data, size_type size, error_handler& on_error)
+document::document(const char *data, size_type len, error_handler& on_error)
 {
     pimpl_ = NULL;
-    tree_parser p(data, size, on_error);
+    tree_parser p(data, len, on_error);
     if ( !p )
         throw exception(p.messages());
     swap(p.get_document());

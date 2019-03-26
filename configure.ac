@@ -124,9 +124,43 @@ AC_HEADER_ASSERT
 
 dnl === Compiler-specific stuff ===
 
+AC_CACHE_CHECK([if using clang],
+    xmlwrapp_cv_prog_clang,
+    [
+        AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
+                [],
+                [[
+                #ifndef __clang__
+                    not clang
+                #endif
+                ]],
+            )],
+            xmlwrapp_cv_prog_clang=yes,
+            xmlwrapp_cv_prog_clang=no
+        )
+    ]
+)
+
+CLANG=$xmlwrapp_cv_prog_clang
+
+dnl Enable more warnings for the compilers we know about.
+if test "x$CLANG" == "xyes"; then
+    dnl Enable clang-specific warnings.
+    CXXFLAGS="$CXXFLAGS -Wextra-semi"
+elif test "x$GCC" == "xyes"; then
+    dnl Enable gcc-only warnings here.
+    CXXFLAGS="$CXXFLAGS -Wlogical-op -Wuseless-cast"
+
+    dnl These warnings are not supported by the old gcc versions.
+    AX_APPEND_COMPILE_FLAGS([-Wduplicated-cond -Wnull-dereference])
+fi
+
 if test "x$GCC" == "xyes"; then
-    dnl Enable some useful warnings that GCC supports:
-    CXXFLAGS="$CXXFLAGS -W -Wall -Wcast-align -Wcast-qual -Wconversion -Wsign-conversion -Wwrite-strings"
+    dnl Enable some useful warnings that both clang and gcc support that are
+    dnl not already enabled by -Wall
+    CXXFLAGS="$CXXFLAGS -W -Wall -Wcast-align -Wcast-qual -Wconversion\
+ -Wdouble-promotion -Woverloaded-virtual -Wsign-conversion -Wshadow\
+ -Wtype-limits -Wswitch-enum -Wundef -Wwrite-strings"
 fi
 
 dnl Check if the compiler supports symbols visibility:
