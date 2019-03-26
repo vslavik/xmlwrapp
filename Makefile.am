@@ -1,3 +1,5 @@
+ACLOCAL_AMFLAGS = -I admin
+
 if WITH_DOCS
 maybe_docs = docs
 endif
