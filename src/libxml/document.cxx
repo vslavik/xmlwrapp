@@ -358,7 +358,7 @@ bool document::validate(const char *dtdname)
 document::size_type document::size() const
 {
     using namespace std;
-    return distance(begin(), end());
+    return checked_size_t_cast(distance(begin(), end()));
 }
 
 
@@ -462,7 +462,7 @@ void document::save_to_string(std::string& s, error_handler& on_error) const
 
         xmlchar_helper helper(xml_string);
         if (xml_string_length)
-            s.assign(helper.get(), xml_string_length);
+            s.assign(helper.get(), checked_size_t_cast(xml_string_length));
     }
 
     err.replay(on_error);

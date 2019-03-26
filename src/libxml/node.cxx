@@ -632,7 +632,7 @@ void node::push_back (const node &child)
 node::size_type node::size() const
 {
     using namespace std;
-    return distance(begin(), end());
+    return checked_size_t_cast(distance(begin(), end()));
 }
 
 
@@ -878,7 +878,7 @@ std::string node::node_to_string() const
     xmlchar_helper helper(xml_string);
     std::string xml;
     if (xml_string_length)
-        xml.assign(helper.get(), xml_string_length);
+        xml.assign(helper.get(), checked_size_t_cast(xml_string_length));
     return xml;
 }
 
