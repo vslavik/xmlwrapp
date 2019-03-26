@@ -157,11 +157,11 @@ public:
     /**
         Create a new xml::error_message object.
 
-        @param message  The error message.
+        @param err_msg  The error message.
         @param msg_type The error type.
      */
-    error_message(const std::string& message, message_type msg_type)
-        : message_(message), type_(msg_type)
+    error_message(const std::string& err_msg, message_type msg_type)
+        : message_(err_msg), type_(msg_type)
     {}
 
     /// Get the error message type.

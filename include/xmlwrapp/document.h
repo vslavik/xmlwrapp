@@ -136,12 +136,12 @@ public:
         constructor will throw xml::exception anyway.
 
         @param data The XML data to parse.
-        @param size The size of the XML data to parse.
+        @param len The length of the XML data to parse.
         @param on_error Handler called to process errors and warnings.
 
         @since 0.7.0
      */
-    explicit document(const char *data, size_type size, error_handler& on_error = throw_on_error);
+    explicit document(const char *data, size_type len, error_handler& on_error = throw_on_error);
 
     /**
         Copy construct a new XML document. The new document will be an exact
