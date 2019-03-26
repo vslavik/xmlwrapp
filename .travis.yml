@@ -5,6 +5,13 @@ matrix:
   - compiler: gcc
   - compiler: gcc
     env: CXXFLAGS="-std=c++11"
+  - addons:
+      apt:
+        sources:
+          - ubuntu-toolchain-r-test
+        packages:
+          - g++-8
+    env: SET_CXX="CC=gcc-8 CXX=g++-8"
   - compiler: clang
   - compiler: clang
     env: CXXFLAGS="-std=c++11"

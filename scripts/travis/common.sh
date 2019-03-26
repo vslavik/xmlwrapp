@@ -7,3 +7,9 @@ if [ -n "$HOST" ]; then
     unset CC
     unset CXX
 fi
+
+# When using non-default compiler, .travis.yml defines SET_CXX to contain CXX
+# (and CC) definitions.
+if [ -n "$SET_CXX" ]; then
+    eval "$SET_CXX"
+fi
