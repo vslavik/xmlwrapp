@@ -126,7 +126,7 @@ dnl === Compiler-specific stuff ===
 
 if test "x$GCC" == "xyes"; then
     dnl Enable some useful warnings that GCC supports:
-    CXXFLAGS="$CXXFLAGS -W -Wall -Wcast-align -Wcast-qual -Wwrite-strings"
+    CXXFLAGS="$CXXFLAGS -W -Wall -Wcast-align -Wcast-qual -Wconversion -Wsign-conversion -Wwrite-strings"
 fi
 
 dnl Check if the compiler supports symbols visibility:

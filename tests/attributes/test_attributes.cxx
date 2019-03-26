@@ -267,7 +267,7 @@ TEST_CASE_METHOD( SrcdirConfig, "attributes/attr_empty_b", "[attributes]" )
  * Test to see if xml::attributes::size() works.
  */
 
-static int do_get_attr_size(const char *testfile)
+static std::size_t do_get_attr_size(const char *testfile)
 {
     xml::tree_parser parser(test_file_path(testfile).c_str());
 

@@ -81,10 +81,10 @@ public:
         // TODO: This isn't efficient, it would be better if node_iterator was
         //       able to use a functor that remembers the index.
 
-        const size_t length = pathobj->nodesetval->nodeNr;
+        const int length = pathobj->nodesetval->nodeNr;
         const xmlNodePtr *table = pathobj->nodesetval->nodeTab;
 
-        for ( size_t i = 0; i < length-1; i++ )
+        for ( int i = 0; i < length-1; i++ )
             m_next[table[i]] = table[i+1];
     }
 

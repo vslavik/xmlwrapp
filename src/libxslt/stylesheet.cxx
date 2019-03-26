@@ -92,7 +92,8 @@ public:
         if (xsltSaveResultToString(&xml_string, &xml_string_length, doc_, ss_) >= 0)
         {
             xml::impl::xmlchar_helper helper(xml_string);
-            if (xml_string_length) s.assign(helper.get(), xml_string_length);
+            if (xml_string_length)
+                s.assign(helper.get(), xml::impl::checked_size_t_cast(xml_string_length));
         }
     }
 

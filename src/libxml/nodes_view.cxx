@@ -106,7 +106,7 @@ const_nodes_view& const_nodes_view::operator=(const nodes_view& other)
 const_nodes_view::size_type const_nodes_view::size() const
 {
     using namespace std;
-    return distance(begin(), end());
+    return checked_size_t_cast(distance(begin(), end()));
 }
 
 
@@ -148,7 +148,7 @@ nodes_view& nodes_view::operator=(const nodes_view& other)
 nodes_view::size_type nodes_view::size() const
 {
     using namespace std;
-    return distance(begin(), end());
+    return checked_size_t_cast(distance(begin(), end()));
 }
 
 

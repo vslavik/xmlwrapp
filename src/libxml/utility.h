@@ -36,6 +36,7 @@
 #include <xmlwrapp/node.h>
 
 // standard includes
+#include <stdexcept>
 #include <string>
 #include <cstdarg>
 
@@ -106,6 +107,26 @@ inline size_t distance(T a, const T&b)
     return n;
 }
 #endif // defined(__SUNPRO_CC) && !defined(_STLPORT_VERSION)
+
+// Cast size_t to int safely, i.e. throw an exception in case of an overflow.
+inline int checked_int_cast(std::size_t len)
+{
+    if ( len > INT_MAX )
+        throw std::invalid_argument("data too long");
+
+    return static_cast<int>(len);
+}
+
+// Cast int to size_t safely, checking that it's non-negative (we assume that
+// size_t is always big enough to contain INT_MAX, which is true for all
+// currently existing architectures).
+inline std::size_t checked_size_t_cast(int len)
+{
+    if ( len < 0 )
+        throw std::runtime_error("length value unexpectedly negative");
+
+    return static_cast<std::size_t>(len);
+}
 
 } // namespace impl
 
