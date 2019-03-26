@@ -59,7 +59,7 @@ struct impl::nipimpl
 {
     node_iterator it;
 
-    nipimpl() {};
+    nipimpl() {}
     nipimpl(xmlNodePtr ptr) : it(ptr) {}
     nipimpl(const nipimpl& other) : it(other.it) {}
 };
