@@ -36,14 +36,20 @@ usually as simple as running the following three commands:
 
 See the output of `./configure --help` for additional settings and options.
 
+Cross-compiling, notably for Windows, is also supported using the usual
+--host option, e.g. --host=x86_64-w64-mingw32.
+
 
 3. Building on Windows
 ----------------------
 
-At this time, only building with Visual C++ compiler is supported. The required
-project files are located in platform/Win32 directory. You will need libxml
-and libxslt libraries built for Windows, e.g. the binaries from
-http://www.zlatkovic.com/libxml.en.html.
+The library can be built either with Microsoft Visual C++ compiler, using the
+project files from located in platform/Win32 directory or in the same way as
+under Unix, i.e. with configure and make, if you have Cygwin installed (note
+that MinGW can be used as a cross-compiler under Cygwin, producing native
+libraries without any Cygwin dependencies). In either case, you will need to
+either build libxml and libxslt for Windows yourself or download the already
+built versions from http://www.zlatkovic.com/libxml.en.html or elsewhere.
 
 
 4. Using xmlwrapp
