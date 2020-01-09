@@ -4,7 +4,7 @@
 //
 
 srcdir ../..;
-toolsets = vs2003 vs2005 vs2008 vs2010 vs2012 vs2013 vs2015 vs2017;
+toolsets = vs2003 vs2005 vs2008 vs2010 vs2012 vs2013 vs2015 vs2017 vs2019;
 
 WIN32_DIR = platform/Win32;
 
@@ -16,6 +16,7 @@ vs2012.solutionfile = $(WIN32_DIR)/VC11/xmlwrapp.sln;
 vs2013.solutionfile = $(WIN32_DIR)/VC12/xmlwrapp.sln;
 vs2015.solutionfile = $(WIN32_DIR)/VC14/xmlwrapp.sln;
 vs2017.solutionfile = $(WIN32_DIR)/VC141/xmlwrapp.sln;
+vs2019.solutionfile = $(WIN32_DIR)/VC142/xmlwrapp.sln;
 
 includedirs += include;
 includedirs += $(WIN32_DIR)/include;
