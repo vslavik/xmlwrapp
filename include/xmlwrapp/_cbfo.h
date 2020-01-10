@@ -36,8 +36,6 @@
 // xmlwrapp includes
 #include "xmlwrapp/export.h"
 
-#include <functional>
-
 namespace xml
 {
 
@@ -48,7 +46,6 @@ namespace impl
 
     // helper for xml::node::sort()
     struct XMLWRAPP_API cbfo_node_compare
-            : public std::binary_function<xml::node, xml::node, bool>
     {
         virtual ~cbfo_node_compare() {}
         virtual bool operator()(const xml::node& lhs, const xml::node& rhs) = 0;
