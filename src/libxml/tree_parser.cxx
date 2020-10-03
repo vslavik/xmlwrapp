@@ -42,8 +42,15 @@
 // libxml includes
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
-#include <libxml/SAX.h>
 #include <libxml/xmlversion.h>
+#if LIBXML_VERSION >= 20600
+    #define xmlwrapp_initDefaultSAXHandler xmlSAX2InitDefaultSAXHandler
+    #include <libxml/SAX2.h>
+#else
+    #define xmlwrapp_initDefaultSAXHandler initxmlDefaultSAXHandler
+    #include <libxml/SAX.h>
+#endif
+
 
 // standard includes
 #include <stdexcept>
@@ -51,13 +58,6 @@
 #include <cstdio>
 #include <string>
 #include <memory>
-
-// This is a hack to fix a problem with a change in the libxml2 API for
-// versions starting at 2.6.0
-#if LIBXML_VERSION >= 20600
-    #define initxmlDefaultSAXHandler xmlSAX2InitDefaultSAXHandler
-    #include <libxml/SAX2.h>
-#endif
 
 namespace xml
 {
@@ -119,7 +119,7 @@ extern "C" void cb_tree_ignore(void*, const xmlChar*, int)
 impl::tree_impl::tree_impl() : okay_(false)
 {
     std::memset(&sax_, 0, sizeof(sax_));
-    initxmlDefaultSAXHandler(&sax_, 0);
+    xmlwrapp_initDefaultSAXHandler(&sax_, 0);
 
     sax_.warning    = cb_tree_warning;
     sax_.error      = cb_tree_error;
