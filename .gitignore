@@ -27,5 +27,10 @@ admin/ltmain.sh
 admin/missing
 autom4te.cache
 
+/admin/libtool.m4
+/admin/ltoptions.m4
+/admin/ltsugar.m4
+/admin/ltversion.m4
+/admin/lt~obsolete.m4
 /admin/test-driver
 /admin/compile
