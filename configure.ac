@@ -66,6 +66,17 @@ AC_ARG_ENABLE(docs,
              esac],
              [build_docs=yes])
 
+AC_ARG_ENABLE(examples,
+             [AC_HELP_STRING([--disable-examples],
+                             [don't build the examples])],
+             [case "x${enableval}" in
+                   x) build_examples=no ;;
+                xyes) build_examples=yes ;;
+                 xno) build_examples=no ;;
+                   *) AC_MSG_ERROR(bad value ${enableval} for --enable-examples) ;;
+             esac],
+             [build_examples=yes])
+
 AC_ARG_ENABLE(tests,
              [AC_HELP_STRING([--disable-tests],
                              [don't build the tests])],
@@ -178,6 +189,7 @@ fi
 AC_SUBST(LEGACY_LINK_FLAGS)
 
 AM_CONDITIONAL(WITH_DOCS, [ test "x$build_docs" = "xyes" ])
+AM_CONDITIONAL(WITH_EXAMPLES, [ test "x$build_examples" = "xyes" ])
 AM_CONDITIONAL(WITH_TESTS, [ test "x$build_tests" = "xyes" ])
 AM_CONDITIONAL(WITH_XSLT, [ test "x$build_xslt" = "xyes" ])
 

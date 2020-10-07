@@ -4,11 +4,15 @@ if WITH_DOCS
 maybe_docs = docs
 endif
 
+if WITH_EXAMPLES
+maybe_examples = examples
+endif
+
 if WITH_TESTS
 maybe_tests = tests
 endif
 
-SUBDIRS = include src examples $(maybe_tests) $(maybe_docs)
+SUBDIRS = include src $(maybe_docs) $(maybe_examples) $(maybe_tests)
 
 pkgconfigdir=$(libdir)/pkgconfig
 
