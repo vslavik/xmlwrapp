@@ -114,7 +114,7 @@ dnl deterministic archives (that can't include the timestamps) when building
 dnl all static libraries with default "cru" flags used by Libtool up to 2.4.6.
 AR_FLAGS=cr
 
-AC_PROG_LIBTOOL
+LT_INIT([win32-dll])
 
 
 dnl === Library checks ===

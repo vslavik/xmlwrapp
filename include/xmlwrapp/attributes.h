@@ -110,7 +110,7 @@ public:
         The xml::attributes::attr class is used to hold information about one
         attribute.
      */
-    class attr
+    class XMLWRAPP_API attr
     {
     public:
         /**
@@ -147,7 +147,7 @@ public:
     /**
         Iterator class for accessing attribute pairs.
      */
-    class iterator
+    class XMLWRAPP_API iterator
     {
     public:
         typedef attr value_type;
@@ -188,7 +188,7 @@ public:
     /**
         Const Iterator class for accessing attribute pairs.
      */
-    class const_iterator
+    class XMLWRAPP_API const_iterator
     {
     public:
         typedef const attr value_type;

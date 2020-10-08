@@ -33,11 +33,37 @@
 #ifndef _xmlwrapp_export_h_
 #define _xmlwrapp_export_h_
 
-#ifdef HAVE_VISIBILITY
+#if defined(_WIN32)
+    // Note that DLL_EXPORT is predefined by libtool when building the DLLs,
+    // but when using them, XMLWRAPP_USE_DLL or XSLTWRAPP_USE_DLL must be
+    // predefined by the application.
+    #if defined(DLL_EXPORT)
+        #if defined(XMLWRAPP_BUILD)
+            #define XMLWRAPP_API __declspec(dllexport)
+        #endif
+
+        #if defined(XSLTWRAPP_BUILD)
+            #define XSLTWRAPP_API __declspec(dllexport)
+        #endif
+    #endif
+
+    #if defined(XMLWRAPP_USE_DLL)
+        #define XMLWRAPP_API __declspec(dllimport)
+    #endif
+
+    #if defined(XSLTWRAPP_USE_DLL)
+        #define XSLTWRAPP_API __declspec(dllimport)
+    #endif
+#elif defined(HAVE_VISIBILITY)
     #define XMLWRAPP_API   __attribute__ ((visibility("default")))
     #define XSLTWRAPP_API  __attribute__ ((visibility("default")))
-#else
+#endif
+
+#ifndef XMLWRAPP_API
     #define XMLWRAPP_API
+#endif
+
+#ifndef XSLTWRAPP_API
     #define XSLTWRAPP_API
 #endif
 
