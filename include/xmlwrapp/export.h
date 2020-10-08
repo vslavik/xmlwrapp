@@ -58,9 +58,9 @@
         #define XMLWRAPP_DEPRECATED(msg) __declspec(deprecated("deprecated: " msg))
     #elif _MSC_VER >= 1300
         #define XMLWRAPP_DEPRECATED(msg) __declspec(deprecated)
-	#else
-		#define XMLWRAPP_DEPRECATED(msg)
-	#endif
+    #else
+        #define XMLWRAPP_DEPRECATED(msg)
+    #endif
 #else
     #define XMLWRAPP_DEPRECATED(msg)
 #endif
