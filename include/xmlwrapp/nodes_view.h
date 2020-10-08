@@ -95,7 +95,7 @@ public:
 
         As xml::node::iterator itself, this is only a forward iterator.
      */
-    class iterator
+    class XMLWRAPP_API iterator
     {
     public:
         typedef node value_type;
@@ -138,7 +138,7 @@ public:
 
         As xml::node::const_iterator itself, this is only a forward iterator.
      */
-    class const_iterator
+    class XMLWRAPP_API const_iterator
     {
     public:
         typedef const node value_type;

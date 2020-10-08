@@ -22,6 +22,18 @@ file you need or use the master include file to include all
 xmlwrapp header files. The choice is yours and mainly depends on
 your style and the project you are working on.
 
+@subsection using_win32_dll Using DLLs under Microsoft Windows systems
+
+If xmlwrapp was built as a DLL, you must predefine @c XMLWRAPP_USE_DLL before
+including any of the library headers, e.g. typically in the project build
+options. Similarly, @c XSLTWRAPP_USE_DLL must be defined when using xsltwrapp
+as a DLL.
+
+Note that this it is not necessary to do this when using GNU toolset, as GNU
+linker can automatically import symbols from the DLLs as needed. However this
+is required when using other toolsets, such as Microsoft C++ one, and may be
+slightly more efficient than relying on auto-linking even with GNU linker.
+
 @subsection prepare_headers_example1 Include xmlwrapp Header Files
 
 @code
