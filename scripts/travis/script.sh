@@ -27,4 +27,10 @@ if [ -n "$HOST" ]; then
     export WINEPATH="$(dirname $($HOST-g++ -print-libgcc-file-name));/usr/local/bin"
 fi
 
-make check
+if ! make check; then
+    echo 'Test suite log contents'
+    echo '-----------------------'
+    cat tests/test-suite.log
+    echo '-----------------------'
+    exit 1
+fi
