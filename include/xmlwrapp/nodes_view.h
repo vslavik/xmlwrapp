@@ -294,18 +294,14 @@ private:
 
 // Comparison operators for xml::[const_]nodes_view iterators
 
-inline bool XMLWRAPP_API operator==(const nodes_view::iterator& lhs,
-                                    const nodes_view::iterator& rhs)
+inline bool operator==(const nodes_view::iterator& lhs, const nodes_view::iterator& rhs)
     { return lhs.get_raw_node() == rhs.get_raw_node(); }
-inline bool XMLWRAPP_API operator!=(const nodes_view::iterator& lhs,
-                                    const nodes_view::iterator& rhs)
+inline bool operator!=(const nodes_view::iterator& lhs, const nodes_view::iterator& rhs)
     { return !(lhs == rhs); }
 
-inline bool XMLWRAPP_API operator==(const nodes_view::const_iterator& lhs,
-                                    const nodes_view::const_iterator& rhs)
+inline bool operator==(const nodes_view::const_iterator& lhs, const nodes_view::const_iterator& rhs)
     { return lhs.get_raw_node() == rhs.get_raw_node(); }
-inline bool XMLWRAPP_API operator!=(const nodes_view::const_iterator& lhs,
-                                    const nodes_view::const_iterator& rhs)
+inline bool operator!=(const nodes_view::const_iterator& lhs, const nodes_view::const_iterator& rhs)
     { return !(lhs == rhs); }
 
 } // end xml namespace
