@@ -116,6 +116,13 @@ AR_FLAGS=cr
 
 LT_INIT([win32-dll])
 
+if test "x$build_docs" = "xyes" ; then
+    AC_CHECK_PROGS(HAVE_DOXYGEN, doxygen, yes)
+    if test "x$HAVE_DOXYGEN" != "xyes" ; then
+        AC_MSG_WARN([Doxygen not available, documentation generation disabled])
+        build_docs=no
+    fi
+fi
 
 dnl === Library checks ===
 
