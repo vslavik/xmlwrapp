@@ -1,4 +1,3 @@
-
 0. Introduction
 ---------------
 
@@ -30,9 +29,9 @@ are available from http://xmlsoft.org.
 On Unix, the usual Autotools-based build system is used. Building xmlwrapp is
 usually as simple as running the following three commands:
 
-  ./configure
-  make
-  make install
+    $ ./configure
+    $ make
+    $ make install
 
 See the output of `./configure --help` for additional settings and options.
 
@@ -58,8 +57,8 @@ built versions from http://www.zlatkovic.com/libxml.en.html or elsewhere.
 On Unix, you should use pkg-config to get compiler flags for xmlwrapp or
 xsltwrapp libraries:
 
-   c++ -c `pkg-config --cflags xmlwrapp` ...
-   c++ -o ... `pkg-config --libs xmlwrapp`
+    $ c++ -c `pkg-config --cflags xmlwrapp` ...
+    $ c++ -o ... `pkg-config --libs xmlwrapp`
 
 On Windows, you need to link against xmlwrapp libraries and add the include/
 directory to compiler's headers search path.
