@@ -25,7 +25,7 @@ endif
 bin_SCRIPTS = xmlwrapp-config
 
 EXTRA_DIST = \
-		LICENSE bootstrap \
+		LICENSE \
 		$(srcdir)/platform/Win32/README \
 		$(srcdir)/platform/Win32/*.ds? \
 		$(srcdir)/platform/Win32/*.proj \

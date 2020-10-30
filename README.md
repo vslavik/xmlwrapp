@@ -38,6 +38,13 @@ See the output of `./configure --help` for additional settings and options.
 Cross-compiling, notably for Windows, is also supported using the usual
 --host option, e.g. --host=x86_64-w64-mingw32.
 
+Note that if you obtained the library sources from Git, and not from the
+release archives, `configure` script won't exist and you will need to run
+
+    $ autoreconf -i
+
+to create it and other build files.
+
 
 3. Building on Windows
 ----------------------

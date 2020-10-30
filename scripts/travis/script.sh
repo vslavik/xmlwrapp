@@ -4,7 +4,7 @@ set -e
 
 . ${TRAVIS_BUILD_DIR}/scripts/travis/common.sh
 
-./bootstrap
+autoreconf --symlink --install
 
 CXXFLAGS="-Werror $CXXFLAGS"
 
