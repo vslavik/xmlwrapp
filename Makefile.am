@@ -27,9 +27,9 @@ bin_SCRIPTS = xmlwrapp-config
 EXTRA_DIST = \
 		LICENSE bootstrap \
 		$(srcdir)/platform/Win32/README \
-		$(srcdir)/platform/Win32/*.dsp \
-		$(srcdir)/platform/Win32/*.dsw \
-		$(srcdir)/platform/Win32/*.bkl \
-		$(srcdir)/platform/Win32/*proj* \
-		$(srcdir)/platform/Win32/*/*proj* \
-		$(srcdir)/platform/Win32/*/*.sln
+		$(srcdir)/platform/Win32/*.ds? \
+		$(srcdir)/platform/Win32/*.proj \
+		$(srcdir)/platform/Win32/xmlwrapp.bkl
+
+dist-hook:
+	cd $(distdir)/platform/Win32 && bkl xmlwrapp.bkl
