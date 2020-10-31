@@ -13,6 +13,30 @@ if [ -n "$HOST" ]; then
 fi
 ./configure CXXFLAGS="$CXXFLAGS" $configure_args
 
+# Test building from a distribution archive, rather than from Git sources.
+if [ "$TEST_DIST" = 1 ]; then
+    # We need bkl in order to build the distribution archives, so get it.
+    BKL_VERSION=1.2.6
+    BKL_ARCHIVE=bakefile-${BKL_VERSION}-bin.tar.bz2
+
+    curl --remote-name --location https://github.com/vslavik/bakefile/releases/download/v${BKL_VERSION}/${BKL_ARCHIVE}
+
+    # We assume we're using GNU tar, which can uncompress .bz2 files on its own.
+    tar xf ${BKL_ARCHIVE}
+
+    PATH=$(pwd)/bakefile-${BKL_VERSION}:${PATH}
+
+    make dist
+
+    XMLWRAPP_VERSION=$(sed -n -e 's/AC_INIT(xmlwrapp, \([0-9.]*\),.*)$/\1/p' configure.ac)
+
+    # Same as above, we assume tar can uncompress .gz files on the fly.
+    tar xf xmlwrapp-${XMLWRAPP_VERSION}.tar.gz
+
+    cd xmlwrapp-${XMLWRAPP_VERSION}
+    ./configure CXXFLAGS="$CXXFLAGS" $configure_args
+fi
+
 make
 
 if [ -n "$HOST" ]; then
