@@ -33,8 +33,6 @@ dnl SUCH DAMAGE.
 
 dnl === Prologue ===
 
-AC_REVISION($Id$)dnl
-
 AC_PREREQ(2.61)
 AC_INIT(xmlwrapp, 0.9.0, [xmlwrapp@googlegroups.com])
 
