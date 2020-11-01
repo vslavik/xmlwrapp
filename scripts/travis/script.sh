@@ -26,15 +26,10 @@ if [ "$TEST_DIST" = 1 ]; then
 
     PATH=$(pwd)/bakefile-${BKL_VERSION}:${PATH}
 
-    make dist
+    make distcheck DISTCHECK_CONFIGURE_FLAGS="$configure_args"
 
-    XMLWRAPP_VERSION=$(sed -n -e 's/AC_INIT(xmlwrapp, \([0-9.]*\),.*)$/\1/p' configure.ac)
-
-    # Same as above, we assume tar can uncompress .gz files on the fly.
-    tar xf xmlwrapp-${XMLWRAPP_VERSION}.tar.gz
-
-    cd xmlwrapp-${XMLWRAPP_VERSION}
-    ./configure CXXFLAGS="$CXXFLAGS" $configure_args
+    # No need to build and test again, this is already done by distcheck.
+    exit 0
 fi
 
 make
