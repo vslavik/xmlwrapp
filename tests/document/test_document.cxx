@@ -485,6 +485,10 @@ TEST_CASE_METHOD( SrcdirConfig, "document/save_to_file_gzip", "[document]" )
 
     if ( system(command.c_str()) != 0 ) {
         WARN("Skipping test as gunzip is not available");
+
+        // We need to remove the compressed file manually then, as
+        // temp_test_file only removes the decompressed one.
+        remove(gzfilename.c_str());
         return;
     }
 
