@@ -17,7 +17,7 @@ matrix:
   - compiler: clang
   - compiler: clang
     env: CXXFLAGS="-std=c++11"
-  - env: HOST=i686-w64-mingw32
+  - env: HOST=i686-w64-mingw32 TEST_DIST=1
   - env: HOST=x86_64-w64-mingw32
 
 before_install: scripts/travis/before_install.sh
