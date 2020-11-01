@@ -1,4 +1,4 @@
-Version 0.9.1 [not released yet]
+Version 0.9.1
 
     Added return value for xml::init methods setting various boolean flags:
     they now return the previous state of the flag. Also add
@@ -6,6 +6,10 @@ Version 0.9.1 [not released yet]
     global flag.
 
     Remove all dependencies on Boost to simplify using the library.
+
+    Fix compilation with C++17 (and even C++20) compilers.
+
+    Support building Win32 DLLs without relying on auto-import.
 
 Version 0.9.0
 
