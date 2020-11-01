@@ -8,9 +8,22 @@ autoreconf --symlink --install
 
 CXXFLAGS="-Werror $CXXFLAGS"
 
-if [ -n "$HOST" ]; then
-    configure_args="--host=$HOST"
-fi
+case "$HOST" in
+    *-mingw*)
+        configure_args="--host=$HOST"
+
+        # As long as we don't have any other tests (e.g. written in interpreted
+        # language), just setting LOG_COMPILER to Wine is good enough. If we do
+        # need to run e.g. Python tests too, we would need a script selecting the
+        # right way to run the test depending on its extension as, unfortunately,
+        # setting EXE_LOG_COMPILER doesn't work (although PY_LOG_COMPILER does).
+        export LOG_COMPILER=wine-development
+
+        # Set up the path to allow the tests to find libstdc++ and libxml2 DLLs.
+        export WINEPATH="$(dirname $($HOST-g++ -print-libgcc-file-name));/usr/local/bin"
+        ;;
+esac
+
 ./configure CXXFLAGS="$CXXFLAGS" $configure_args
 
 # Test building from a distribution archive, rather than from Git sources.
@@ -33,18 +46,6 @@ if [ "$TEST_DIST" = 1 ]; then
 fi
 
 make
-
-if [ -n "$HOST" ]; then
-    # As long as we don't have any other tests (e.g. written in interpreted
-    # language), just setting LOG_COMPILER to Wine is good enough. If we do
-    # need to run e.g. Python tests too, we would need a script selecting the
-    # right way to run the test depending on its extension as, unfortunately,
-    # setting EXE_LOG_COMPILER doesn't work (although PY_LOG_COMPILER does).
-    export LOG_COMPILER=wine-development
-
-    # Set up the path to allow the tests to find libstdc++ and libxml2 DLLs.
-    export WINEPATH="$(dirname $($HOST-g++ -print-libgcc-file-name));/usr/local/bin"
-fi
 
 if ! make check; then
     echo 'Test suite log contents'
