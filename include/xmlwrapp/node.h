@@ -440,7 +440,7 @@ public:
         typedef value_type& reference;
         typedef std::forward_iterator_tag iterator_category;
 
-        iterator() : pimpl_(0) {}
+        iterator() : pimpl_(NULL) {}
         iterator(const iterator& other);
         iterator& operator=(const iterator& other);
         ~iterator();
@@ -483,7 +483,7 @@ public:
         typedef value_type& reference;
         typedef std::forward_iterator_tag iterator_category;
 
-        const_iterator() : pimpl_(0) {}
+        const_iterator() : pimpl_(NULL) {}
         const_iterator(const const_iterator &other);
         const_iterator(const iterator &other);
         const_iterator& operator=(const const_iterator& other);

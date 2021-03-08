@@ -81,7 +81,7 @@ public:
     /// Size type.
     typedef std::size_t size_type;
 
-    nodes_view() : data_begin_(0), advance_func_(0) {}
+    nodes_view() : data_begin_(NULL), advance_func_(NULL) {}
     nodes_view(const nodes_view& other);
     ~nodes_view();
 
@@ -104,7 +104,7 @@ public:
         typedef value_type& reference;
         typedef std::forward_iterator_tag iterator_category;
 
-        iterator() : pimpl_(0), advance_func_(0) {}
+        iterator() : pimpl_(NULL), advance_func_(NULL) {}
         iterator(const iterator& other);
         iterator& operator=(const iterator& other);
         ~iterator();
@@ -147,7 +147,7 @@ public:
         typedef value_type& reference;
         typedef std::forward_iterator_tag iterator_category;
 
-        const_iterator() : pimpl_(0), advance_func_(0) {}
+        const_iterator() : pimpl_(NULL), advance_func_(NULL) {}
         const_iterator(const const_iterator& other);
         const_iterator(const iterator& other);
         const_iterator& operator=(const const_iterator& other);
@@ -255,7 +255,7 @@ public:
     /// Size type.
     typedef std::size_t size_type;
 
-    const_nodes_view() : data_begin_(0), advance_func_(0) {}
+    const_nodes_view() : data_begin_(NULL), advance_func_(NULL) {}
     const_nodes_view(const const_nodes_view& other);
     const_nodes_view(const nodes_view& other);
     ~const_nodes_view();
