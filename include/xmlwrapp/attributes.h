@@ -130,8 +130,11 @@ public:
     private:
         void *node_;
         void *prop_;
+
+        XMLWRAPP_MSVC_SUPPRESS_DLL_MEMBER_WARN
         std::string name_;
         mutable std::string value_;
+        XMLWRAPP_MSVC_RESTORE_DLL_MEMBER_WARN
 
         attr();
         attr(const attr& other);
