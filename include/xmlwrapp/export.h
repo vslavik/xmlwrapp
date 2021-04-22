@@ -91,4 +91,26 @@
     #define XMLWRAPP_DEPRECATED(msg)
 #endif
 
+// Define a macro allowing to disable MSVC warning about using non-DLL-exported
+// classes (typically from the standard library itself) as members of the
+// DLL-exported classes because this not a problem as long as both the main
+// application and the DLL use the same (or at least ABI-compatible) CRT
+// version, which should always be the case in practice.
+//
+// The first macro should be used before declaring such members in the classes
+// using XMLWRAPP_API declaration and the second one after declaring them to
+// restore the default warning level.
+//
+// Both macros do nothing for non-MSVC compilers.
+#if defined(_MSC_VER)
+    #define XMLWRAPP_MSVC_SUPPRESS_DLL_MEMBER_WARN \
+        __pragma( warning(push) ) \
+        __pragma( warning(disable:4251) ) /* Class needs to have dll-interface to be used by clients of class */
+    #define XMLWRAPP_MSVC_RESTORE_DLL_MEMBER_WARN \
+        __pragma( warning(pop) )
+#else
+    #define XMLWRAPP_MSVC_SUPPRESS_DLL_MEMBER_WARN
+    #define XMLWRAPP_MSVC_RESTORE_DLL_MEMBER_WARN
+#endif
+
 #endif // _xmlwrapp_export_h_

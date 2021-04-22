@@ -62,10 +62,12 @@ class error_messages;
 
     @since 0.7.0
  */
-class XMLWRAPP_API exception : public std::runtime_error
+class exception : public std::runtime_error
 {
 public:
-    explicit exception(const std::string& what);
+    explicit exception(const std::string& what)
+        : std::runtime_error(what)
+    {}
     explicit exception(const error_messages& what);
 };
 
@@ -144,7 +146,7 @@ extern XMLWRAPP_API error_handler_throw_on_error_or_warning  throw_on_error_or_w
 
     @since 0.7.0
  */
-class XMLWRAPP_API error_message
+class error_message
 {
 public:
     /// A type for different type of errors
@@ -234,10 +236,19 @@ protected:
     virtual std::string format_for_print(const error_message& msg) const;
 
 private:
+    XMLWRAPP_MSVC_SUPPRESS_DLL_MEMBER_WARN
     messages_type messages_;
+    XMLWRAPP_MSVC_RESTORE_DLL_MEMBER_WARN
+
     bool          has_errors_;
     bool          has_warnings_;
 };
+
+
+inline exception::exception(const error_messages& what)
+    : std::runtime_error(what.print())
+{
+}
 
 
 } // namespace xml
