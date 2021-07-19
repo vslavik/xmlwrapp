@@ -724,37 +724,38 @@ class NamespaceTest : private SrcdirConfig
 public:
     NamespaceTest()
         : parser(test_file_path("node/data/namespace.xml").c_str()),
-          doc(parser.get_document())
+          doc(parser.get_document()),
+          root(doc.get_root_node()),
+          foo(root.find("foo"))
     {
+        REQUIRE( foo != root.end() );
     }
 
 protected:
     xml::tree_parser parser;
     xml::document doc;
+    xml::node& root;
+    xml::node::iterator foo;
 };
 
 TEST_CASE_METHOD( NamespaceTest, "node/get_namespace", "[node][ns]" )
 {
     CHECK_THAT
     (
-        doc.get_root_node().get_namespace(),
+        root.get_namespace(),
         Catch::Matchers::Equals("http://pmade.org/namespace/test")
     );
 }
 
 TEST_CASE_METHOD( NamespaceTest, "node/set_namespace", "[node][ns]" )
 {
-    doc.get_root_node().set_namespace("http://pmade.org/namespace/newOne");
+    root.set_namespace("http://pmade.org/namespace/newOne");
 
     CHECK( is_same_as_file(doc, "node/data/namespace.out") );
 }
 
 TEST_CASE_METHOD( NamespaceTest, "node/copy_ns", "[node][ns]" )
 {
-    xml::node& root = doc.get_root_node();
-    xml::node::iterator foo = root.find("foo");
-    REQUIRE( foo != root.end() );
-
     xml::node child_with_same_ns("child_with_same_ns");
     child_with_same_ns.set_namespace("http://pmade.org/namespace/test");
     foo->insert(child_with_same_ns);
