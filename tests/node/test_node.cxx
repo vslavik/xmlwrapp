@@ -745,6 +745,12 @@ TEST_CASE_METHOD( NamespaceTest, "node/get_namespace", "[node][ns]" )
         root.get_namespace(),
         Catch::Matchers::Equals("http://pmade.org/namespace/test")
     );
+
+    CHECK_THAT
+    (
+        foo->get_namespace(),
+        Catch::Matchers::Equals("http://pmade.org/namespace/test")
+    );
 }
 
 TEST_CASE_METHOD( NamespaceTest, "node/set_namespace", "[node][ns]" )
@@ -752,6 +758,12 @@ TEST_CASE_METHOD( NamespaceTest, "node/set_namespace", "[node][ns]" )
     root.set_namespace("http://pmade.org/namespace/newOne");
 
     CHECK( is_same_as_file(doc, "node/data/namespace.out") );
+
+    CHECK_THAT
+    (
+        foo->get_namespace(),
+        Catch::Matchers::Equals("http://pmade.org/namespace/newOne")
+    );
 }
 
 TEST_CASE_METHOD( NamespaceTest, "node/copy_ns", "[node][ns]" )
