@@ -738,19 +738,20 @@ protected:
     xml::node::iterator foo;
 };
 
+// Helper macro for checking that the given namespace is equal to the correct
+// value. It is used because get_namespace() may return NULL, and so can't be
+// just compared with the expected string because comparison function would
+// crash if it were used with a NULL pointer and it is a macro rather than a
+// function to point to the correct line number in case of failure.
+#define XMLWRAPP_CHECK_NS(ns, expected)         \
+    CHECK( ns );                                \
+    if ( ns )                                   \
+        CHECK( std::string(ns) == expected )
+
 TEST_CASE_METHOD( NamespaceTest, "node/get_namespace", "[node][ns]" )
 {
-    CHECK_THAT
-    (
-        root.get_namespace(),
-        Catch::Matchers::Equals("http://pmade.org/namespace/test")
-    );
-
-    CHECK_THAT
-    (
-        foo->get_namespace(),
-        Catch::Matchers::Equals("http://pmade.org/namespace/test")
-    );
+    XMLWRAPP_CHECK_NS( root.get_namespace(), "http://pmade.org/namespace/test" );
+    XMLWRAPP_CHECK_NS( foo->get_namespace(), "http://pmade.org/namespace/test" );
 }
 
 TEST_CASE_METHOD( NamespaceTest, "node/set_namespace", "[node][ns]" )
@@ -759,11 +760,7 @@ TEST_CASE_METHOD( NamespaceTest, "node/set_namespace", "[node][ns]" )
 
     CHECK( is_same_as_file(doc, "node/data/namespace.out") );
 
-    CHECK_THAT
-    (
-        foo->get_namespace(),
-        Catch::Matchers::Equals("http://pmade.org/namespace/newOne")
-    );
+    XMLWRAPP_CHECK_NS( foo->get_namespace(), "http://pmade.org/namespace/newOne" );
 }
 
 TEST_CASE_METHOD( NamespaceTest, "node/copy_ns", "[node][ns]" )
