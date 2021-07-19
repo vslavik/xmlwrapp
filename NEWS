@@ -1,3 +1,9 @@
+Version 0.9.2
+
+    New behaviour: xml::node::set_namespace() now sets the namespace for all
+    node children when the node hadn't had any namespace before too, instead
+    of only doing it when the node namespace is being changed.
+
 Version 0.9.1
 
     Added return value for xml::init methods setting various boolean flags:

@@ -88,6 +88,13 @@ xmlNodePtr node_replace(xmlNodePtr old_node, xmlNodePtr new_node);
  */
 xmlNodePtr node_erase(xmlNodePtr to_erase);
 
+/**
+    @internal
+
+    Set namespace for this node and all its children not using any namespace.
+ */
+void node_set_ns_recursively(xmlNodePtr node, xmlNsPtr ns);
+
 } // namespace impl
 
 } // namespace xml

@@ -613,7 +613,16 @@ void node::set_namespace(const std::string& href)
             throw xml::exception("set_namespace failed to create namespace object");
     }
 
-    xmlSetNs(pimpl_->xmlnode_, ns);
+    // If we already have a namespace, all our children without their own
+    // namespaces should already use the same pointer, so their namespaces will
+    // be updated when our namespace is changed. However if we don't have any
+    // namespace yet, children namespaces will remain unset, which would break
+    // the expected namespace inheritance and so we need to set them explicitly
+    // to avoid this.
+    if ( pimpl_->xmlnode_->ns )
+        xmlSetNs(pimpl_->xmlnode_, ns);
+    else
+        node_set_ns_recursively(pimpl_->xmlnode_, ns);
 }
 
 

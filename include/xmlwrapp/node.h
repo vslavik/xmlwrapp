@@ -365,7 +365,16 @@ public:
     const char* get_namespace() const;
 
     /**
-        Set the default namespace of this xml::node.
+        Set the namespace of this xml::node and its children.
+
+        Calling this function also affects the namespace of the children of
+        this node, if any: all children that previously used the same namespace
+        as this node are updated to use the new namespace. This includes the
+        case when this node didn't previously have any namespace, but note that
+        in this particular case, when a new namespace is being set, this
+        function needs to update all children and so can be relatively
+        time-consuming for large trees, while changing an existing namespace is
+        done in constant time.
 
         If the default namespace is already set on this node, it is changed.
 

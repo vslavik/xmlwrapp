@@ -207,3 +207,8 @@ xmlNodePtr xml::impl::node_erase(xmlNodePtr to_erase)
 
     return after;
 }
+
+void xml::impl::node_set_ns_recursively(xmlNodePtr node, xmlNsPtr ns)
+{
+    replace_ns_recursively(node, NULL, ns);
+}

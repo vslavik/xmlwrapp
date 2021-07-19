@@ -763,6 +763,41 @@ TEST_CASE_METHOD( NamespaceTest, "node/set_namespace", "[node][ns]" )
     XMLWRAPP_CHECK_NS( foo->get_namespace(), "http://pmade.org/namespace/newOne" );
 }
 
+TEST_CASE( "node/set_namespace_new", "[node][ns]" )
+{
+    xml::node root("root");
+    xml::node child("child");
+    child.push_back(xml::node("grandchild"));
+    root.push_back(child);
+
+    const std::string nsChild("http://pmade.org/namespace/childNS");
+    xml::node child_with_ns("child_with_ns");
+    child_with_ns.set_namespace(nsChild);
+    child_with_ns.push_back(xml::node("grandchild"));
+    root.push_back(child_with_ns);
+
+    const std::string nsNew("http://pmade.org/namespace/newOne");
+    root.set_namespace(nsNew);
+
+    XMLWRAPP_CHECK_NS( root.get_namespace(), nsNew );
+
+    xml::node::const_iterator it = root.find("child");
+    REQUIRE( it != root.end() );
+    XMLWRAPP_CHECK_NS( it->get_namespace(), nsNew );
+
+    xml::node::const_iterator it2 = it->find("grandchild");
+    REQUIRE( it2 != it->end() );
+    XMLWRAPP_CHECK_NS( it2->get_namespace(), nsNew );
+
+    it = root.find("child_with_ns");
+    REQUIRE( it != root.end() );
+    XMLWRAPP_CHECK_NS( it->get_namespace(), nsChild );
+
+    it2 = it->find("grandchild");
+    REQUIRE( it2 != it->end() );
+    XMLWRAPP_CHECK_NS( it2->get_namespace(), nsChild );
+}
+
 TEST_CASE_METHOD( NamespaceTest, "node/copy_ns", "[node][ns]" )
 {
     xml::node child_with_same_ns("child_with_same_ns");
