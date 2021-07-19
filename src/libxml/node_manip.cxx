@@ -80,7 +80,7 @@ void replace_ns_recursively(xmlNodePtr node, xmlNsPtr old_ns, xmlNsPtr new_ns)
         return;
     }
 
-    node->ns = new_ns;
+    xmlSetNs(node, new_ns);
 
     for ( xmlNodePtr child = node->children; child; child = child->next )
         replace_ns_recursively(child, old_ns, new_ns);
