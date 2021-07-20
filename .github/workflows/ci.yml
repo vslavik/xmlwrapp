@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Ubuntu 16.04
+            runner: ubuntu-16.04
+          - name: Ubuntu 18.04
+            runner: ubuntu-18.04
+            test_dist: 1
+          - name: Ubuntu 18.04 C++11
+            runner: ubuntu-18.04
+            cxxflags: -std=c++11
+          - name: Ubuntu 20.04
+            runner: ubuntu-20.04
+          - name: Ubuntu 20.04 clang
+            runner: ubuntu-20.04
+            compiler: clang++
+          - name: Ubuntu 20.04 clang C++11
+            runner: ubuntu-20.04
+            compiler: clang++
+            cxxflags: -std=c++11
+          - name: MSW 32
+            runner: ubuntu-20.04
+            host: i686-w64-mingw32
+          - name: MSW 64
+            runner: ubuntu-20.04
+            host: x86_64-w64-mingw32
+
+    env:
+      HOST: ${{ matrix.host }}
+      CXX: ${{ matrix.compiler || 'g++' }}
+      CXXFLAGS: ${{ matrix.cxxflags }}
+      TEST_DIST: ${{ matrix.test_dist }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set environment variables
+        run: |
+          set_env_var() {
+            echo "Setting environment variable $1=$2"
+            echo $1=$2 >> $GITHUB_ENV
+          }
+
+          set_env_var XMLWRAPP_CI_BRANCH $GITHUB_REF
+          set_env_var XMLWRAPP_SOURCE_DIR $GITHUB_WORKSPACE
+
+      - name: Install dependencies
+        run: ./scripts/ci/install.sh
+
+      - name: Build and test
+        run: ./scripts/ci/script.sh

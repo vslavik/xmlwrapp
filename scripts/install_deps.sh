@@ -1,7 +1,7 @@
 #!/bin/sh
 # Script installing the dependencies for this library.
 #
-# It is used by Travis CI, but could be used directly if these libraries
+# It is used by the CI scripts, but could be used directly if these libraries
 # are not available as packages on your system.
 #
 # Note that the script makes no attempt to clean up after itself and assumes

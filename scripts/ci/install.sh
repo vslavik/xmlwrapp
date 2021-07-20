@@ -1,10 +1,11 @@
 #!/bin/sh
-# Used to install dependencies for Travis CI builds.
+# Used to install dependencies for the CI builds.
 set -e
 
-. ${TRAVIS_BUILD_DIR}/scripts/travis/common.sh
+. ${XMLWRAPP_SOURCE_DIR}/scripts/ci/common.sh
 
 # Arch-independent dependencies.
+sudo apt-get update -qq
 sudo apt-get install -qq --no-install-recommends doxygen graphviz
 
 case "$HOST" in
@@ -35,7 +36,7 @@ case "$HOST" in
         $HOST-g++ --version
 
         # Download and build the required dependencies ourselves.
-        ${TRAVIS_BUILD_DIR}/scripts/install_deps.sh
+        ${XMLWRAPP_SOURCE_DIR}/scripts/install_deps.sh
         ;;
 
     *)

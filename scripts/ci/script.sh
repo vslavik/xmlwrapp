@@ -1,8 +1,8 @@
 #!/bin/sh
-# Main build script for Travis CI builds.
+# Main build script for the CI builds.
 set -e
 
-. ${TRAVIS_BUILD_DIR}/scripts/travis/common.sh
+. ${XMLWRAPP_SOURCE_DIR}/scripts/ci/common.sh
 
 autoreconf --symlink --install
 
