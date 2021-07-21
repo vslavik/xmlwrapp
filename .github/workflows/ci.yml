@@ -26,6 +26,10 @@ jobs:
             cxxflags: -std=c++11
           - name: Ubuntu 20.04
             runner: ubuntu-20.04
+          - name: Ubuntu 20.04 ASAN
+            runner: ubuntu-20.04
+            cxxflags: -fsanitize=address -fno-omit-frame-pointer
+            ldflags: -fsanitize=address
           - name: Ubuntu 20.04 clang
             runner: ubuntu-20.04
             compiler: clang++
@@ -44,6 +48,7 @@ jobs:
       HOST: ${{ matrix.host }}
       CXX: ${{ matrix.compiler || 'g++' }}
       CXXFLAGS: ${{ matrix.cxxflags }}
+      LDFLAGS: ${{ matrix.ldflags }}
       TEST_DIST: ${{ matrix.test_dist }}
 
     steps:

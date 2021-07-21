@@ -24,7 +24,7 @@ case "$HOST" in
         ;;
 esac
 
-./configure CXXFLAGS="$CXXFLAGS" $configure_args
+./configure CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" $configure_args
 
 # Test building from a distribution archive, rather than from Git sources.
 if [ "$TEST_DIST" = 1 ]; then
