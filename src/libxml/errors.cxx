@@ -116,11 +116,8 @@ std::string build_message(const std::string& what, const xmlError& error)
     // representation as it doesn't seem to be worth it in practice, the error
     // message is usually clear enough, while these numbers can be used for
     // automatic classification of messages.
-    oss << "XML " << what << " " << error.domain << "." << error.code << ": ";
-    if (error.message)
-    {
-        oss << error.message;
-    }
+    oss << "XML " << what << " " << error.domain << "." << error.code << ": "
+        << error.message;
 
     if (error.file)
     {
@@ -156,17 +153,16 @@ bool treat_warning_as_error(const xmlError& error)
     if (error.code != XML_IO_LOAD_ERROR)
         return false;
 
-    // But even for them we only treat them as errors if we get them for the
-    // file itself and not something else, e.g. a DTD included from it because
-    // failure to open it is indeed just a warning.
-    if (!error.message)
-        return false;
-
-    // Compare if the error message complains about loading the file being
-    // processed. This is trickier than it ought to be because when we get the
-    // error about an XML file directly, "file" field is NULL and the XML file
-    // path is in "str1", while errors about loading DTD contain DTD itself in
-    // "str1" for some reason, while the XML file being processed is in "file".
+    // But even warnings using this error code are not always errors, as we
+    // also get them when a DTD referenced in the file being parsed can't be
+    // opened -- which is really just a warning.
+    //
+    // So check that the warning is really about the file itself by checking
+    // the error message, which always references the file in this case. Be
+    // careful to not suppose that either file or str1 fields are set, as
+    // "file" field is NULL and the XML file path is in "str1" for the warnings
+    // concerning the file itself while warnings about loading DTD contain DTD
+    // itself in "str1" and the XML file being processed is in "file".
     std::string load_error = "failed to load external entity \"";
     load_error += error.file ? error.file : error.str1 ? error.str1 : "";
     load_error += "\"";
