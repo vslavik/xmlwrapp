@@ -80,7 +80,7 @@ void replace_ns_recursively(xmlNodePtr node, xmlNsPtr old_ns, xmlNsPtr new_ns)
         return;
     }
 
-    node->ns = new_ns;
+    xmlSetNs(node, new_ns);
 
     for ( xmlNodePtr child = node->children; child; child = child->next )
         replace_ns_recursively(child, old_ns, new_ns);
@@ -206,4 +206,9 @@ xmlNodePtr xml::impl::node_erase(xmlNodePtr to_erase)
     xmlFreeNode(to_erase);
 
     return after;
+}
+
+void xml::impl::node_set_ns_recursively(xmlNodePtr node, xmlNsPtr ns)
+{
+    replace_ns_recursively(node, NULL, ns);
 }

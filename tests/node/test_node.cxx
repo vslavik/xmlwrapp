@@ -724,37 +724,82 @@ class NamespaceTest : private SrcdirConfig
 public:
     NamespaceTest()
         : parser(test_file_path("node/data/namespace.xml").c_str()),
-          doc(parser.get_document())
+          doc(parser.get_document()),
+          root(doc.get_root_node()),
+          foo(root.find("foo"))
     {
+        REQUIRE( foo != root.end() );
     }
 
 protected:
     xml::tree_parser parser;
     xml::document doc;
+    xml::node& root;
+    xml::node::iterator foo;
 };
+
+// Helper macro for checking that the given namespace is equal to the correct
+// value. It is used because get_namespace() may return NULL, and so can't be
+// just compared with the expected string because comparison function would
+// crash if it were used with a NULL pointer and it is a macro rather than a
+// function to point to the correct line number in case of failure.
+#define XMLWRAPP_CHECK_NS(ns, expected)         \
+    CHECK( ns );                                \
+    if ( ns )                                   \
+        CHECK( std::string(ns) == expected )
 
 TEST_CASE_METHOD( NamespaceTest, "node/get_namespace", "[node][ns]" )
 {
-    CHECK_THAT
-    (
-        doc.get_root_node().get_namespace(),
-        Catch::Matchers::Equals("http://pmade.org/namespace/test")
-    );
+    XMLWRAPP_CHECK_NS( root.get_namespace(), "http://pmade.org/namespace/test" );
+    XMLWRAPP_CHECK_NS( foo->get_namespace(), "http://pmade.org/namespace/test" );
 }
 
 TEST_CASE_METHOD( NamespaceTest, "node/set_namespace", "[node][ns]" )
 {
-    doc.get_root_node().set_namespace("http://pmade.org/namespace/newOne");
+    root.set_namespace("http://pmade.org/namespace/newOne");
 
     CHECK( is_same_as_file(doc, "node/data/namespace.out") );
+
+    XMLWRAPP_CHECK_NS( foo->get_namespace(), "http://pmade.org/namespace/newOne" );
+}
+
+TEST_CASE( "node/set_namespace_new", "[node][ns]" )
+{
+    xml::node root("root");
+    xml::node child("child");
+    child.push_back(xml::node("grandchild"));
+    root.push_back(child);
+
+    const std::string nsChild("http://pmade.org/namespace/childNS");
+    xml::node child_with_ns("child_with_ns");
+    child_with_ns.set_namespace(nsChild);
+    child_with_ns.push_back(xml::node("grandchild"));
+    root.push_back(child_with_ns);
+
+    const std::string nsNew("http://pmade.org/namespace/newOne");
+    root.set_namespace(nsNew);
+
+    XMLWRAPP_CHECK_NS( root.get_namespace(), nsNew );
+
+    xml::node::const_iterator it = root.find("child");
+    REQUIRE( it != root.end() );
+    XMLWRAPP_CHECK_NS( it->get_namespace(), nsNew );
+
+    xml::node::const_iterator it2 = it->find("grandchild");
+    REQUIRE( it2 != it->end() );
+    XMLWRAPP_CHECK_NS( it2->get_namespace(), nsNew );
+
+    it = root.find("child_with_ns");
+    REQUIRE( it != root.end() );
+    XMLWRAPP_CHECK_NS( it->get_namespace(), nsChild );
+
+    it2 = it->find("grandchild");
+    REQUIRE( it2 != it->end() );
+    XMLWRAPP_CHECK_NS( it2->get_namespace(), nsChild );
 }
 
 TEST_CASE_METHOD( NamespaceTest, "node/copy_ns", "[node][ns]" )
 {
-    xml::node& root = doc.get_root_node();
-    xml::node::iterator foo = root.find("foo");
-    REQUIRE( foo != root.end() );
-
     xml::node child_with_same_ns("child_with_same_ns");
     child_with_same_ns.set_namespace("http://pmade.org/namespace/test");
     foo->insert(child_with_same_ns);
