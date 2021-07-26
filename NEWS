@@ -4,6 +4,9 @@ Version 0.9.2
     node children when the node hadn't had any namespace before too, instead
     of only doing it when the node namespace is being changed.
 
+    Improve error reporting again by including more details. This changes the
+    error messages format compared to the previous versions.
+
 Version 0.9.1
 
     Added return value for xml::init methods setting various boolean flags:
