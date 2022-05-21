@@ -88,7 +88,10 @@ struct node_impl
 };
 
 
-struct node_cmp : public std::binary_function<xmlNodePtr, xmlNodePtr, bool>
+struct node_cmp
+#ifndef XMLWRAPP_CPP11
+    : public std::binary_function<xmlNodePtr, xmlNodePtr, bool>
+#endif // !XMLWRAPP_CPP11
 {
     node_cmp (cbfo_node_compare &cb) : cb_(cb) {}
 
@@ -154,7 +157,10 @@ private:
 
 
 // sort compare function to sort based on attribute
-struct compare_attr : public std::binary_function<xmlNodePtr, xmlNodePtr, bool>
+struct compare_attr
+#ifndef XMLWRAPP_CPP11
+    : public std::binary_function<xmlNodePtr, xmlNodePtr, bool>
+#endif // !XMLWRAPP_CPP11
 {
     compare_attr(const char *attr_name) : name_(attr_name) {}
 
@@ -198,7 +204,10 @@ struct compare_attr : public std::binary_function<xmlNodePtr, xmlNodePtr, bool>
 
 
 // add a node as a child
-struct insert_node : public std::unary_function<xmlNodePtr, void>
+struct insert_node
+#ifndef XMLWRAPP_CPP11
+    : public std::unary_function<xmlNodePtr, void>
+#endif // !XMLWRAPP_CPP11
 {
     insert_node(xmlNodePtr parent) : parent_(parent) {}
     void operator()(xmlNodePtr child) { xmlAddChild(parent_, child); }

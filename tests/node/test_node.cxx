@@ -524,7 +524,10 @@ TEST_CASE_METHOD( SrcdirConfig, "node/sort_by_attr", "[node]" )
 namespace
 {
 
-struct node_sort_cmp : public std::binary_function<xml::node, xml::node, bool>
+struct node_sort_cmp
+#if __cplusplus < 201103L
+    : public std::binary_function<xml::node, xml::node, bool>
+#endif // C++ 98
 {
     bool operator() (const xml::node &lhs, const xml::node &rhs)
     {
