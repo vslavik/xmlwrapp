@@ -16,8 +16,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: Ubuntu 16.04
-            runner: ubuntu-16.04
           - name: Ubuntu 18.04
             runner: ubuntu-18.04
             test_dist: 1
@@ -37,6 +35,8 @@ jobs:
             runner: ubuntu-20.04
             compiler: clang++
             cxxflags: -std=c++11
+          - name: Ubuntu 22.04
+            runner: ubuntu-22.04
           - name: MSW 32
             runner: ubuntu-20.04
             host: i686-w64-mingw32
