@@ -522,6 +522,7 @@ void document::set_doc_data_from_xslt(void *data, xslt::impl::result *xr)
 {
     // this document came from a XSLT transformation
     pimpl_->set_doc_data(static_cast<xmlDocPtr>(data), false);
+    delete pimpl_->xslt_result_;
     pimpl_->xslt_result_ = xr;
 }
 
