@@ -55,6 +55,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Install CCache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ matrix.name }}
+
       - name: Set environment variables
         run: |
           set_env_var() {
@@ -62,6 +67,7 @@ jobs:
             echo $1=$2 >> $GITHUB_ENV
           }
 
+          set_env_var PATH /usr/lib/ccache:$PATH
           set_env_var XMLWRAPP_CI_BRANCH $GITHUB_REF
           set_env_var XMLWRAPP_SOURCE_DIR $GITHUB_WORKSPACE
 
