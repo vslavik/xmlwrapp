@@ -15,6 +15,7 @@ case "$HOST" in
         case "$arch" in
             i686)
                 sudo dpkg --add-architecture i386
+                sudo apt-get update -qq
                 wine_package=wine32-development
                 ;;
 
