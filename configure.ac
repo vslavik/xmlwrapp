@@ -54,8 +54,7 @@ m4_divert_text([DEFAULTS],[enable_option_checking=fatal])
 dnl === Command line options ===
 
 AC_ARG_ENABLE(docs,
-             [AC_HELP_STRING([--disable-docs],
-                             [don't build the documentation (requires Doxygen)])],
+             [AS_HELP_STRING([--disable-docs],[don't build the documentation (requires Doxygen)])],
              [case "x${enableval}" in
                    x) build_docs=no ;;
                 xyes) build_docs=yes ;;
@@ -65,8 +64,7 @@ AC_ARG_ENABLE(docs,
              [build_docs=yes])
 
 AC_ARG_ENABLE(examples,
-             [AC_HELP_STRING([--disable-examples],
-                             [don't build the examples])],
+             [AS_HELP_STRING([--disable-examples],[don't build the examples])],
              [case "x${enableval}" in
                    x) build_examples=no ;;
                 xyes) build_examples=yes ;;
@@ -76,8 +74,7 @@ AC_ARG_ENABLE(examples,
              [build_examples=yes])
 
 AC_ARG_ENABLE(tests,
-             [AC_HELP_STRING([--disable-tests],
-                             [don't build the tests])],
+             [AS_HELP_STRING([--disable-tests],[don't build the tests])],
              [case "x${enableval}" in
                    x) build_tests=no ;;
                 xyes) build_tests=yes ;;
@@ -87,8 +84,7 @@ AC_ARG_ENABLE(tests,
              [build_tests=yes])
 
 AC_ARG_ENABLE(xslt,
-             [AC_HELP_STRING([--disable-xslt],
-                             [don't build libxsltwrapp library])],
+             [AS_HELP_STRING([--disable-xslt],[don't build libxsltwrapp library])],
              [case "x${enableval}" in
                    x) build_xslt=no ;;
                 xyes) build_xslt=yes ;;
@@ -101,7 +97,7 @@ AC_ARG_ENABLE(xslt,
 dnl === Program checks ===
 
 AC_PROG_CXX
-AC_PROG_LD
+LT_PATH_LD
 
 dnl This is a workaround for the harmless but annoying warning
 dnl
