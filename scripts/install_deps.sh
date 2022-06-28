@@ -29,5 +29,5 @@ install_lib() {
     sudo make install
 }
 
-install_lib libxml2 2.9.9 --without-lzma --without-modules --without-zlib
-install_lib libxslt 1.1.33 --without-crypto
+install_lib libxml2 2.9.12 --without-lzma --without-modules --without-zlib
+install_lib libxslt 1.1.34 --without-crypto
