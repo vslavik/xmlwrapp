@@ -46,6 +46,9 @@ jobs:
           - name: MSW 64
             runner: ubuntu-22.04
             host: x86_64-w64-mingw32
+          - name: macOS 11
+            runner: macos-11
+            compiler: clang++
 
     env:
       HOST: ${{ matrix.host }}
@@ -76,7 +79,14 @@ jobs:
             echo $1=$2 >> $GITHUB_ENV
           }
 
-          set_env_var PATH /usr/lib/ccache:$PATH
+          case `uname` in
+              Darwin) ccache_path=/usr/local/opt/ccache/libexec ;;
+              Linux)  ccache_path=/usr/lib/ccache ;;
+              *)
+                echo "::warning ::Unknown ccache path for this platform"
+          esac
+
+          set_env_var PATH ${ccache_path}:$PATH
           set_env_var XMLWRAPP_CI_BRANCH $GITHUB_REF
           set_env_var XMLWRAPP_SOURCE_DIR $GITHUB_WORKSPACE
 
