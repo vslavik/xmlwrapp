@@ -37,8 +37,8 @@ case "$HOST" in
         $HOST-g++ --version
 
         # Download the previously built required dependencies.
-        wget https://github.com/vslavik/xmlwrapp/releases/download/xmllibs/xmllibs-${HOST}.zip
-        sudo unzip xmllibs-${HOST}.zip -d /usr/local
+        wget --no-verbose https://github.com/vslavik/xmlwrapp/releases/download/xmllibs/xmllibs-${HOST}.zip
+        sudo unzip -q xmllibs-${HOST}.zip -d /usr/local
         ;;
 
     *)
