@@ -19,12 +19,14 @@ install_lib() {
     [ -e $lib_archive ] || wget http://xmlsoft.org/sources/$lib_archive
     tar xzf $lib_archive
     cd $lib_basename
-    # Use minimal and fastest options.
-    configure_args='--disable-dependency-tracking --disable-static --without-python'
+    # Use minimal and build maximally self-contained library.
+    configure_args='LDFLAGS=-static-libgcc --disable-dependency-tracking --disable-static --without-python'
     if [ -n "$HOST" ]; then
         configure_args="$configure_args --host=$HOST"
     fi
-    ./configure $configure_args "$@"
+    mkdir build-${HOST-native}
+    cd build-${HOST-native}
+    ../configure $configure_args "$@"
     make
     sudo make install
 }
