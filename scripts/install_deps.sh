@@ -27,7 +27,7 @@ install_lib() {
     mkdir build-${HOST-native}
     cd build-${HOST-native}
     ../configure $configure_args "$@"
-    make --no-print-directory
+    make --no-print-directory -j`nproc`
     sudo make --no-print-directory install
     cd ../..
 }
