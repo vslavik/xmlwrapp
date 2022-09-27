@@ -29,6 +29,7 @@ install_lib() {
     ../configure $configure_args "$@"
     make
     sudo make install
+    cd ../..
 }
 
 install_lib libxml2 2.9.12 --without-lzma --without-modules --without-zlib
