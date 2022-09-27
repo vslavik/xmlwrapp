@@ -36,8 +36,9 @@ case "$HOST" in
         echo -n "Cross-compiling for $HOST using "
         $HOST-g++ --version
 
-        # Download and build the required dependencies ourselves.
-        ${XMLWRAPP_SOURCE_DIR}/scripts/install_deps.sh
+        # Download the previously built required dependencies.
+        wget https://github.com/vslavik/xmlwrapp/releases/download/xmllibs/xmllibs-${HOST}.zip
+        sudo unzip xmllibs-${HOST}.zip -d /usr/local
         ;;
 
     *)
