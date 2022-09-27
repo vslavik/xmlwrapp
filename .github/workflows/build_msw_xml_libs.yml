@@ -18,11 +18,11 @@ jobs:
 
       - name: Build 32-bit Libraries
         run: |
-          HOST=i686-w64-mingw32 ./scripts/ci/install.sh
+          HOST=i686-w64-mingw32 ./scripts/install_deps.sh
 
       - name: Build 64-bit Libraries
         run: |
-          HOST=x86_64-w64-mingw32 ./scripts/ci/install.sh
+          HOST=x86_64-w64-mingw32 ./scripts/install_deps.sh
 
       - name: Upload
         uses: actions/upload-artifact@v3
