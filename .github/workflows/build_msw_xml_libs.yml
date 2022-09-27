@@ -1,0 +1,31 @@
+name: XML MSW binaries
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-xml-libs:
+    name: Build XML binaries
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Compiler
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -qq --no-install-recommends g++-mingw-w64-i686 g++-mingw-w64-x86-64
+
+      - name: Build 32-bit Libraries
+        run: |
+          HOST=i686-w64-mingw32 ./scripts/ci/install.sh
+
+      - name: Build 64-bit Libraries
+        run: |
+          HOST=x86_64-w64-mingw32 ./scripts/ci/install.sh
+
+      - name: Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: xml-libs
+          path: /usr/local
