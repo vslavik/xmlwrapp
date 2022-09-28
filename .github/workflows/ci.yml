@@ -12,15 +12,18 @@ jobs:
   build:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.runner }}
+    container: ${{ matrix.container }}
     strategy:
       fail-fast: false
       matrix:
         include:
           - name: Ubuntu 18.04
-            runner: ubuntu-18.04
+            runner: ubuntu-latest
+            container: ubuntu:18.04
             test_dist: 1
           - name: Ubuntu 18.04 C++11
-            runner: ubuntu-18.04
+            runner: ubuntu-latest
+            container: ubuntu:18.04
             cxxflags: -std=c++11
           - name: Ubuntu 20.04
             runner: ubuntu-20.04
