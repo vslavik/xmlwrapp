@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  build:
+  build-autoconf:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.runner }}
     strategy:
@@ -76,3 +76,89 @@ jobs:
 
       - name: Build and test
         run: ./scripts/ci/script.sh
+
+
+  build-msvs:
+    name: MSVS ${{ matrix.vsversion }} ${{ matrix.arch }}
+    runs-on: windows-${{ matrix.vsversion }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - vsversion: 2019
+            arch: x86
+            platform: Win32
+          - vsversion: 2022
+            arch: x64
+            platform: x64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Add nmake to PATH
+        uses: ilammy/msvc-dev-cmd@v1.10.0
+        with:
+          arch: ${{ matrix.arch }}
+
+      - name: Set Up Dependencies
+        run: |
+          $triplet = switch ('${{ matrix.platform }}') {
+            'Win32' { 'i686-w64-mingw32'   }
+            'x64'   { 'x86_64-w64-mingw32' }
+            default { throw 'Unknown architecture ${{ matrix.platform }}' }
+          }
+          curl -LO https://github.com/vslavik/xmlwrapp/releases/download/xmllibs/xmllibs-${triplet}.zip
+          Expand-Archive xmllibs-${triplet}.zip -DestinationPath platform\Win32
+
+          Set-Location -Path platform\Win32
+          New-Item -ItemType "directory" -Path bin\${{ matrix.platform }}
+          Move-Item -Path bin\*.* -Destination bin\${{ matrix.platform }}
+
+          Set-Location -Path lib
+          New-Item -ItemType "directory" -Path ${{ matrix.platform }}
+
+          # We need to create import libraries for the DLLs, as MinGW .dll.a
+          # files can't be used directly by MSVS (even though it might seem
+          # that they can, after renaming them to .lib -- but this actually
+          # results in bad binaries, using symbols from wrong DLLs, so don't
+          # do this), so do it using dumpbin and lib tools.
+          #
+          # The code of this function is based on
+          # https://emsea.github.io/2018/07/13/lib-from-dll/
+          function create-import-lib([string]$libName, [string]$dllName) {
+            $lines = @("LIBRARY $dllName", 'EXPORTS')
+
+            $exports = (dumpbin /nologo /exports ../bin/${{ matrix.platform }}/$dllName.dll) | Out-String
+            $tabStart = $exports.IndexOf("ordinal hint")
+            $exportsTab = $exports.Substring($tabStart) -split "\s+"
+
+            for($i = 4; $exportsTab[$i] -ne "Summary"; $i += 4) {
+              $lines += $exportsTab[$i + 3]
+            }
+
+            ($lines -join "`r`n") | Out-File "$libName.def"
+
+            Invoke-Expression ("lib /nologo /machine:${{ matrix.arch }} /def:$libName.def /out:${{ matrix.platform }}\$libName.lib")
+          }
+
+          create-import-lib libxml2 libxml2-2
+          create-import-lib libxslt libxslt-1
+          create-import-lib libexslt libexslt-0
+
+      - name: Build Debug
+        run: |
+          msbuild /noLogo /m /warnaserror /p:Configuration=Debug /p:Platform=${{ matrix.platform }} platform\Win32\xmlwrapp.sln
+
+      - name: Build Release
+        run: |
+          msbuild /noLogo /m /warnaserror /p:Configuration=Release /p:Platform=${{ matrix.platform }} platform\Win32\xmlwrapp.sln
+
+      - name: Run Tests
+        working-directory: tests
+        run: |
+          ${env:PATH} += ';../platform/Win32/bin/${{ matrix.platform }}'
+          ../platform/Win32/${{ matrix.platform }}/Release/test.exe
