@@ -27,8 +27,11 @@ bin_SCRIPTS = xmlwrapp-config
 EXTRA_DIST = \
 		LICENSE \
 		$(srcdir)/platform/Win32/README \
-		$(srcdir)/platform/Win32/*.ds? \
 		$(srcdir)/platform/Win32/*.proj \
+		$(srcdir)/platform/Win32/*.sln \
+		$(srcdir)/platform/Win32/*.vcxproj \
+		$(srcdir)/platform/Win32/*.vcxproj.filters \
+		$(srcdir)/platform/Win32/libxml.props \
 		$(srcdir)/platform/Win32/xmlwrapp.bkl
 
 dist-hook:
