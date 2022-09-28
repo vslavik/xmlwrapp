@@ -52,16 +52,22 @@ jobs:
       TEST_DIST: ${{ matrix.test_dist }}
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Install CCache
-        uses: hendrikmuhs/ccache-action@v1.2
-        with:
-          key: ${{ matrix.name }}
-
       - name: Set up build environment
         run: |
+          case '${{ matrix.container }}' in
+            ubuntu:*)
+              apt-get update -qq
+              apt-get install -qq autoconf automake g++ git libtool make pkg-config python sudo wget
+              ;;
+
+            '')
+              ;;
+
+            *)
+              echo '::error ::Unknown container kind.'
+              exit 1
+          esac
+
           set_env_var() {
             echo "Setting environment variable $1=$2"
             echo $1=$2 >> $GITHUB_ENV
@@ -73,6 +79,14 @@ jobs:
 
           echo 'Compiler version:'
           $CXX --version
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install CCache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ matrix.name }}
 
       - name: Install dependencies
         run: ./scripts/ci/install.sh
