@@ -36,7 +36,7 @@ if [ "$TEST_DIST" = 1 ]; then
     BKL_VERSION=1.2.6
     BKL_ARCHIVE=bakefile-${BKL_VERSION}-bin.tar.bz2
 
-    curl --remote-name --location https://github.com/vslavik/bakefile/releases/download/v${BKL_VERSION}/${BKL_ARCHIVE}
+    wget --no-verbose https://github.com/vslavik/bakefile/releases/download/v${BKL_VERSION}/${BKL_ARCHIVE}
 
     # We assume we're using GNU tar, which can uncompress .bz2 files on its own.
     tar xf ${BKL_ARCHIVE}
