@@ -4,23 +4,17 @@
 //
 
 srcdir ../..;
-toolsets = vs2003 vs2005 vs2008 vs2010 vs2012 vs2013 vs2015 vs2017 vs2019;
+toolsets = msvs;
 
 WIN32_DIR = platform/Win32;
 
-vs2003.solutionfile = $(WIN32_DIR)/VC7/xmlwrapp.sln;
-vs2005.solutionfile = $(WIN32_DIR)/VC8/xmlwrapp.sln;
-vs2008.solutionfile = $(WIN32_DIR)/VC9/xmlwrapp.sln;
-vs2010.solutionfile = $(WIN32_DIR)/VC10/xmlwrapp.sln;
-vs2012.solutionfile = $(WIN32_DIR)/VC11/xmlwrapp.sln;
-vs2013.solutionfile = $(WIN32_DIR)/VC12/xmlwrapp.sln;
-vs2015.solutionfile = $(WIN32_DIR)/VC14/xmlwrapp.sln;
-vs2017.solutionfile = $(WIN32_DIR)/VC141/xmlwrapp.sln;
-vs2019.solutionfile = $(WIN32_DIR)/VC142/xmlwrapp.sln;
+msvs.solutionfile = $(WIN32_DIR)/xmlwrapp.sln;
+
+vs.property-sheets = $(WIN32_DIR)/libxml.props;
+
+archs = x86 x86_64;
 
 includedirs += include;
-includedirs += $(WIN32_DIR)/include;
-libdirs += $(WIN32_DIR)/lib;
 
 // Disable many warnings about the deprecated standard functions for all
 // MSVS versions since 2005 that introduced them.
@@ -32,7 +26,11 @@ defines += _CRT_SECURE_NO_DEPRECATE
 
 warnings = all;
 
-library xmlwrapp {
+shared-library xmlwrapp {
+    libs = libxml2;
+
+    defines += DLL_EXPORT XMLWRAPP_BUILD;
+
     headers {
         include/xmlwrapp/attributes.h
         include/xmlwrapp/_cbfo.h
@@ -77,9 +75,12 @@ library xmlwrapp {
     }
 }
 
-
-library xsltwrapp {
+shared-library xsltwrapp {
     deps = xmlwrapp;
+
+    libs = libexslt libxslt libxml2;
+
+    defines += DLL_EXPORT XSLTWRAPP_BUILD;
 
     headers {
         include/xsltwrapp/init.h
@@ -101,7 +102,7 @@ program test {
 
     deps = xmlwrapp xsltwrapp;
 
-    libs = libexslt libxslt libxml2;
+    defines += XMLWRAPP_USE_DLL;
 
     headers {
         tests/test.h

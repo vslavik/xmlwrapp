@@ -1,6 +1,11 @@
+This directory contains the projects for building the library with Microsoft
+Visual C++.
 
-Please use Bakefile (http://www.bakefile.org) to generate Visual C++ project
-files.
+Please see comments in libxml.props for configuring the location of the
+required XML libraries.
+
+You will need to use Bakefile (http://www.bakefile.org) to regenerate these
+projects, but you don't need it to simply use them.
 
 
 For convience, master.proj msbuild project is included. This downloads all

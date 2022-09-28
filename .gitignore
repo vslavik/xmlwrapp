@@ -1,11 +1,6 @@
 /BUILD-*
 docs/html
 
-*.vcproj
-*.vcproj.*
-*.vcxproj
-*.vcxproj.*
-*.sln
 *.ncb
 *.suo
 Debug/

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" InitialTargets="CheckXMLLibs" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PropertySheetDisplayName>XML libraries</_PropertySheetDisplayName>
+  </PropertyGroup>
+
+  <!--
+    XMLLIBS_DIR can be set to the directory containing libxml2 and libxslt
+    headers and libraries in the environment. Alternatively, this file can
+    be just edited directly. Finally, you can simply remove this file if
+    the libraries are available in some default/globally configured locations
+    and you don't need to check for their existence.
+
+    By default we expect to find them in platform\Win32 subdirectory, i.e.
+    near this file itself.
+    -->
+  <PropertyGroup Label="UserMacros">
+    <XMLLIBS_DIR Condition="'$(XMLLIBS_DIR)' == ''">$(MSBuildThisFileDirectory)</XMLLIBS_DIR>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <BuildMacro Include="XMLLIBS_DIR">
+      <Value>$(XMLLIBS_DIR)</Value>
+    </BuildMacro>
+  </ItemGroup>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(XMLLIBS_DIR)\include\libxml2;$(XMLLIBS_DIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(XMLLIBS_DIR)\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <Target Name="CheckXMLLibs">
+    <Error
+      Condition="!Exists('$(XMLLIBS_DIR)\include\libxml2\libxml\xmlversion.h')"
+      Text="libxml2 headers not found under &quot;$(XMLLIBS_DIR)\include\libxml2&quot;." />
+    <Error
+      Condition="!Exists('$(XMLLIBS_DIR)\include\libxslt\xsltconfig.h')"
+      Text="libxslt headers not found under &quot;$(XMLLIBS_DIR)\include&quot;." />
+    <Error
+      Condition="!Exists('$(XMLLIBS_DIR)\include\libexslt\exsltconfig.h')"
+      Text="libexslt headers not found under &quot;$(XMLLIBS_DIR)\include&quot;." />
+    <Error
+      Condition="!Exists('$(XMLLIBS_DIR)\lib\$(Platform)\libxml2.lib')"
+      Text="libxml2 libraries for $(Platform) not found under &quot;$(XMLLIBS_DIR)\lib&quot;." />
+    <Error
+      Condition="!Exists('$(XMLLIBS_DIR)\lib\$(Platform)\libxslt.lib')"
+      Text="libxslt libraries for $(Platform) not found under &quot;$(XMLLIBS_DIR)\lib&quot;." />
+    <Error
+      Condition="!Exists('$(XMLLIBS_DIR)\lib\$(Platform)\libexslt.lib')"
+      Text="libexslt libraries for $(Platform) not found under &quot;$(XMLLIBS_DIR)\lib&quot;." />
+  </Target>
+</Project>
