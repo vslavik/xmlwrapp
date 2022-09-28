@@ -24,6 +24,10 @@ case "$HOST" in
         ;;
 esac
 
+if [ "$TEST_DIST" != 1 ]; then
+    configure_args="$configure_args --disable-docs"
+fi
+
 ./configure CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" $configure_args
 
 # Test building from a distribution archive, rather than from Git sources.
