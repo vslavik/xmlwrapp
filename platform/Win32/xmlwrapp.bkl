@@ -14,6 +14,10 @@ vs.property-sheets = $(WIN32_DIR)/libxml.props;
 
 archs = x86 x86_64;
 
+// By default Win32 files don't use platform in their path, get rid of this
+// historical inconsistency.
+outputdir = $(WIN32_DIR)/$(arch)/$(config);
+
 includedirs += include;
 
 // Disable many warnings about the deprecated standard functions for all
