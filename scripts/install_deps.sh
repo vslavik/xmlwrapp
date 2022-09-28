@@ -20,14 +20,27 @@ install_lib() {
     tar xzf $lib_archive
     cd $lib_basename
     # Use minimal and build maximally self-contained library.
-    configure_args='LDFLAGS=-static-libgcc --disable-dependency-tracking --disable-static --without-python'
+    configure_args='--disable-dependency-tracking --disable-static --without-python'
     if [ -n "$HOST" ]; then
         configure_args="$configure_args --host=$HOST"
     fi
     mkdir build-${HOST-native}
     cd build-${HOST-native}
     ../configure $configure_args "$@"
-    make --no-print-directory -j`nproc`
+
+    # Note that we can't just set LDFLAGS to -static-libgcc during configure
+    # because they end up in the generated libtool and libtool then simply
+    # silently discards this "unknown" (to it) flag. And while libtool would
+    # pass on the -Wc,xxx flag, we can't use it as it prevents configure tests
+    # from working. So instead we pass it to make, where libtool does add it
+    # to the linker command line, ensuring that we link runtime libraries
+    # statically, as we want.
+    #
+    # Also, there is a bug in libxslt configure in all versions in [1.1.34,
+    # 1.1.37] range which incorrectly set LDFLAGS to "-no-undefined" in
+    # configure, so we have to use this option too (it's always required for
+    # Win32 DLLs).
+    make --no-print-directory -j`nproc` LDFLAGS='-Wc,-static-libgcc -no-undefined'
     ${SUDO-sudo} make --no-print-directory install
     cd ../..
 }
