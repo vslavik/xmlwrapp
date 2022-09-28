@@ -60,11 +60,11 @@ namespace xslt
           use. This is no longer true: user code doesn't have to create any
           instances, but it @em can create as many instances as it wants.
  */
-class XSLTWRAPP_API init : public xml::init
+class init : public xml::init
 {
 public:
-    init();
-    ~init();
+    XSLTWRAPP_API init();
+    XSLTWRAPP_API ~init();
 
     /**
         This function controls whether or not the XSLT engine will process
@@ -73,7 +73,7 @@ public:
 
         @param flag True to enable XInclusing processing; False otherwise.
      */
-    static void process_xincludes(bool flag);
+    XSLTWRAPP_API static void process_xincludes(bool flag);
 
 private:
     init(const init&);
