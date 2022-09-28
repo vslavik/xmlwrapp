@@ -15,7 +15,13 @@ case "$HOST" in
         case "$arch" in
             i686)
                 sudo dpkg --add-architecture i386
+
+                # Workaround for https://github.com/actions/runner-images/issues/4589
+                # (normally only apt-get update should have been needed)
+                sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list
                 sudo apt-get update -qq
+                sudo apt-get remove -qq libmono* moby* mono* nginx* php* libgdiplus libpcre2-posix3 libzip4
+
                 wine_package=wine32-development
                 ;;
 
@@ -36,8 +42,9 @@ case "$HOST" in
         echo -n "Cross-compiling for $HOST using "
         $HOST-g++ --version
 
-        # Download and build the required dependencies ourselves.
-        ${XMLWRAPP_SOURCE_DIR}/scripts/install_deps.sh
+        # Download the previously built required dependencies.
+        wget --no-verbose https://github.com/vslavik/xmlwrapp/releases/download/xmllibs/xmllibs-${HOST}.zip
+        sudo unzip -q xmllibs-${HOST}.zip -d /usr/local
         ;;
 
     *)
