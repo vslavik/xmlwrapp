@@ -60,7 +60,7 @@ jobs:
         with:
           key: ${{ matrix.name }}
 
-      - name: Set environment variables
+      - name: Set up build environment
         run: |
           set_env_var() {
             echo "Setting environment variable $1=$2"
@@ -70,6 +70,9 @@ jobs:
           set_env_var PATH /usr/lib/ccache:$PATH
           set_env_var XMLWRAPP_CI_BRANCH $GITHUB_REF
           set_env_var XMLWRAPP_SOURCE_DIR $GITHUB_WORKSPACE
+
+          echo 'Compiler version:'
+          $CXX --version
 
       - name: Install dependencies
         run: ./scripts/ci/install.sh
