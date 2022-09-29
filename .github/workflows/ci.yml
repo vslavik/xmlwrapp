@@ -17,6 +17,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - name: CentOS 7
+            runner: ubuntu-latest
+            container: centos:7
           - name: Ubuntu 18.04
             runner: ubuntu-latest
             container: ubuntu:18.04
@@ -63,6 +66,12 @@ jobs:
       - name: Set up build environment
         run: |
           case '${{ matrix.container }}' in
+            centos:*)
+              # Needed to be able to install ccache.
+              yum -y install epel-release
+              yum -y install autoconf automake ccache gcc-c++ git libtool make pkgconfig sudo wget which
+              ;;
+
             ubuntu:*)
               apt-get update -qq
               apt-get install -qq autoconf automake g++ git libtool make pkg-config python sudo wget

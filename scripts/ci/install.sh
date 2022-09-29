@@ -8,6 +8,8 @@ case $(uname -s) in
   Linux)
     if [ -f /etc/apt/sources.list ]; then
       platform=debian
+    elif [ -f /etc/redhat-release ]; then
+      platform=redhat
     else
       echo 'Unknown Linux distribution.' >&2
       exit 1
