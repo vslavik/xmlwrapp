@@ -24,6 +24,10 @@ case "$HOST" in
         ;;
 esac
 
+if [ "$TEST_DIST" != 1 ]; then
+    configure_args="$configure_args --disable-docs"
+fi
+
 ./configure CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" $configure_args
 
 # Test building from a distribution archive, rather than from Git sources.
@@ -32,7 +36,7 @@ if [ "$TEST_DIST" = 1 ]; then
     BKL_VERSION=1.2.6
     BKL_ARCHIVE=bakefile-${BKL_VERSION}-bin.tar.bz2
 
-    curl --remote-name --location https://github.com/vslavik/bakefile/releases/download/v${BKL_VERSION}/${BKL_ARCHIVE}
+    wget --no-verbose https://github.com/vslavik/bakefile/releases/download/v${BKL_VERSION}/${BKL_ARCHIVE}
 
     # We assume we're using GNU tar, which can uncompress .bz2 files on its own.
     tar xf ${BKL_ARCHIVE}

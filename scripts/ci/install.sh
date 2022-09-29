@@ -6,7 +6,11 @@ set -e
 
 # Arch-independent dependencies.
 sudo apt-get update -qq
-sudo apt-get install -qq --no-install-recommends doxygen graphviz
+
+# We only build documentation in the build from the distribution archive.
+if [ "$TEST_DIST" = 1 ]; then
+    sudo apt-get install -qq --no-install-recommends doxygen graphviz
+fi
 
 case "$HOST" in
     *-w64-mingw32)
