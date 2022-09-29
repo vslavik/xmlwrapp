@@ -65,10 +65,10 @@ class error_messages;
 class XMLWRAPP_INLINE_API exception : public std::runtime_error
 {
 public:
-    explicit exception(const std::string& what)
-        : std::runtime_error(what)
+    explicit exception(const std::string& what_arg)
+        : std::runtime_error(what_arg)
     {}
-    explicit exception(const error_messages& what);
+    explicit exception(const error_messages& what_arg);
 };
 
 
@@ -245,8 +245,8 @@ private:
 };
 
 
-inline exception::exception(const error_messages& what)
-    : std::runtime_error(what.print())
+inline exception::exception(const error_messages& what_arg)
+    : std::runtime_error(what_arg.print())
 {
 }
 
