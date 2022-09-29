@@ -62,7 +62,7 @@ class error_messages;
 
     @since 0.7.0
  */
-class exception : public std::runtime_error
+class XMLWRAPP_INLINE_API exception : public std::runtime_error
 {
 public:
     explicit exception(const std::string& what)

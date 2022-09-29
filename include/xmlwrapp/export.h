@@ -67,6 +67,21 @@
     #define XSLTWRAPP_API
 #endif
 
+// Special case of classes having only inline functions: they don't need to be
+// DLL-exported when using MSVS and, if they derive from any standard classes,
+// exporting them just results in annoying warnings, but they do have to have
+// public visibility when using clang/libc++ under macOS as otherwise their
+// type info would be different in the application and the library, resulting
+// in fatal problems, such as inability to catch the exceptions thrown by the
+// library.
+//
+// So define a special macro which must be used for such classes only.
+#if defined(_WIN32)
+    #define XMLWRAPP_INLINE_API
+#else
+    #define XMLWRAPP_INLINE_API XMLWRAPP_API
+#endif
+
 #if defined(__clang__)
     #if defined(__has_extension) && __has_extension(attribute_deprecated_with_message)
         #define XMLWRAPP_DEPRECATED(msg) __attribute__((deprecated(msg)))
