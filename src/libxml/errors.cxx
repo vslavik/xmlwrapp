@@ -52,13 +52,13 @@ error_handler_throw_on_error_or_warning  throw_on_error_or_warning;
 
 void error_messages::on_error(const std::string& msg)
 {
-    messages_.push_back(error_message(msg, error_message::type_error));
+    messages_.emplace_back(msg, error_message::type_error);
     has_errors_ = true;
 }
 
 void error_messages::on_warning(const std::string& msg)
 {
-    messages_.push_back(error_message(msg, error_message::type_warning));
+    messages_.emplace_back(msg, error_message::type_warning);
     has_warnings_ = true;
 }
 
