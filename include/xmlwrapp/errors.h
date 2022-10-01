@@ -190,7 +190,7 @@ public:
     /// A type to store multiple messages
     typedef std::list<error_message> messages_type;
 
-    error_messages() : has_errors_(false), has_warnings_(false) {}
+    error_messages() {}
 
     /// Get the error messages.
     const messages_type& messages() const { return messages_; }
@@ -240,8 +240,8 @@ private:
     messages_type messages_;
     XMLWRAPP_MSVC_RESTORE_DLL_MEMBER_WARN
 
-    bool          has_errors_;
-    bool          has_warnings_;
+    bool          has_errors_{false};
+    bool          has_warnings_{false};
 };
 
 

@@ -71,7 +71,7 @@ namespace impl
 
 struct node_impl
 {
-    node_impl() : xmlnode_(nullptr), owner_(true), attrs_(0) {}
+    node_impl() : attrs_(0) {}
     ~node_impl() { release(); }
 
     void release()
@@ -80,8 +80,8 @@ struct node_impl
             xmlFreeNode(xmlnode_);
     }
 
-    xmlNodePtr xmlnode_;
-    bool owner_;
+    xmlNodePtr xmlnode_{nullptr};
+    bool owner_{true};
     attributes attrs_;
     std::string tmp_string;
 };
@@ -118,7 +118,7 @@ class node2doc
 {
 public:
     node2doc(xmlNodePtr xmlnode_)
-        : xmlnode__(xmlnode_), prev_(nullptr), next_(nullptr)
+        : xmlnode__(xmlnode_)
     {
         xmldoc_ = xmlNewDoc(nullptr);
         if (!xmldoc_)
@@ -147,8 +147,8 @@ public:
 private:
     xmlDocPtr xmldoc_;
     xmlNodePtr xmlnode__;
-    xmlNodePtr prev_;
-    xmlNodePtr next_;
+    xmlNodePtr prev_{nullptr};
+    xmlNodePtr next_{nullptr};
 };
 
 

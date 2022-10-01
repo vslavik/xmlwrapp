@@ -128,8 +128,8 @@ public:
         const char* get_value() const;
 
     private:
-        void *node_;
-        void *prop_;
+        void *node_{nullptr};
+        void *prop_{nullptr};
 
         XMLWRAPP_MSVC_SUPPRESS_DLL_MEMBER_WARN
         std::string name_;

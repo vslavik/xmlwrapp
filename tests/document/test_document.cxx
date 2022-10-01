@@ -416,8 +416,7 @@ TEST_CASE_METHOD( SrcdirConfig, "document/error_from_ctor", "[document][error]" 
 class temp_test_file
 {
 public:
-    temp_test_file() :
-        used_(false)
+    temp_test_file()
     {
     }
 
@@ -434,7 +433,7 @@ public:
     }
 
 private:
-    bool used_;
+    bool used_{false};
 
     temp_test_file(const temp_test_file&);
     temp_test_file& operator=(const temp_test_file&);

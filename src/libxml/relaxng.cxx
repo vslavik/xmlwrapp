@@ -55,7 +55,6 @@ namespace impl
 struct relaxng_impl
 {
     relaxng_impl(xmlDocPtr xmldoc, error_handler& on_error)
-        : relaxng_(nullptr)
     {
         impl::errors_collector err;
 
@@ -84,7 +83,7 @@ struct relaxng_impl
             xmlRelaxNGFree(relaxng_);
     }
 
-    xmlRelaxNGPtr relaxng_;
+    xmlRelaxNGPtr relaxng_{nullptr};
 };
 
 } // namespace impl

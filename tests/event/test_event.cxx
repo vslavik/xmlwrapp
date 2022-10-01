@@ -144,8 +144,7 @@ namespace
 struct failing_parser : public xml::event_parser
 {
     failing_parser(const char *callback_to_test, bool should_throw)
-        : calls_count_(0),
-          callback_to_test_(callback_to_test),
+        : callback_to_test_(callback_to_test),
           should_throw_(should_throw)
     {}
 
@@ -181,7 +180,7 @@ struct failing_parser : public xml::event_parser
 
     bool called_after_error() const { return calls_count_ > 0; }
 
-    int calls_count_;
+    int calls_count_{0};
     std::string callback_to_test_;
     bool should_throw_;
 };

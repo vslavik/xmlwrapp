@@ -299,7 +299,7 @@ attributes::const_iterator attributes::const_iterator::operator++(int)
 // xml::attributes::attr
 // ------------------------------------------------------------------------
 
-attributes::attr::attr() : node_(nullptr), prop_(nullptr)
+attributes::attr::attr()
 {
 }
 

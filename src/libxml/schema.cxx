@@ -55,7 +55,6 @@ namespace impl
 struct schema_impl
 {
     schema_impl(xmlDocPtr xmldoc, error_handler& on_error)
-        : schema_(nullptr), retainDoc_(nullptr)
     {
         impl::errors_collector err;
 
@@ -86,8 +85,8 @@ struct schema_impl
             xmlFreeDoc(retainDoc_);
     }
 
-    xmlSchemaPtr schema_;
-    xmlDocPtr    retainDoc_;
+    xmlSchemaPtr schema_{nullptr};
+    xmlDocPtr    retainDoc_{nullptr};
 };
 
 } // namespace impl

@@ -67,7 +67,7 @@ public:
 
     xmlSAXHandler sax_handler_;
     xmlParserCtxt *parser_context_;
-    bool parser_status_;
+    bool parser_status_{true};
     std::string last_error_message_;
 
     void event_start_element(const xmlChar *tag, const xmlChar **props);
@@ -146,7 +146,7 @@ void cb_ignore(void*, const xmlChar*, int)
 
 
 epimpl::epimpl(event_parser& parent)
-    : parser_status_(true), parent_(parent)
+    : parent_(parent)
 {
     std::memset(&sax_handler_, 0, sizeof(sax_handler_));
 

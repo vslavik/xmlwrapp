@@ -55,7 +55,7 @@ namespace impl
 class iter_advance_functor
 {
 public:
-    iter_advance_functor() : refcnt_(1) {}
+    iter_advance_functor() {}
 
     void inc_ref()
     {
@@ -80,7 +80,7 @@ private:
     iter_advance_functor& operator=(const iter_advance_functor& other);
 
 private:
-    int refcnt_;
+    int refcnt_{1};
 };
 
 // base iterator class

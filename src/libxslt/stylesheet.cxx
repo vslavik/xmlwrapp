@@ -62,12 +62,12 @@
 
 struct xslt::stylesheet::pimpl
 {
-    pimpl () : ss_(nullptr), errors_occured_(false) { }
+    pimpl () { }
 
-    xsltStylesheetPtr ss_;
+    xsltStylesheetPtr ss_{nullptr};
     xml::document doc_;
     std::string get_error_message_cache_;
-    bool errors_occured_;
+    bool errors_occured_{false};
 };
 
 namespace
