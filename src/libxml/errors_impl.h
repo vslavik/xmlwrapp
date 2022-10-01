@@ -33,9 +33,9 @@
 #ifndef _xmlwrapp_errors_impl_h_
 #define _xmlwrapp_errors_impl_h_
 
-#include <stdarg.h>
-#include <xmlwrapp/errors.h>
+#include <cstdarg>
 #include <libxml/xmlerror.h>
+#include <xmlwrapp/errors.h>
 
 namespace xml
 {

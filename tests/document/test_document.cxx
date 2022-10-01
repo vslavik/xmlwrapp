@@ -33,7 +33,7 @@
 
 #include "../test.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 
 /*
  * This test checks xml::document iteration.
