@@ -59,9 +59,9 @@ struct impl::nipimpl
 {
     node_iterator it;
 
-    nipimpl() {}
+    nipimpl() = default;
     nipimpl(xmlNodePtr ptr) : it(ptr) {}
-    nipimpl(const nipimpl& other) : it(other.it) {}
+    nipimpl(const nipimpl& other)  = default;
 };
 
 // ------------------------------------------------------------------------

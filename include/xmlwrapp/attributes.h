@@ -136,9 +136,9 @@ public:
         mutable std::string value_;
         XMLWRAPP_MSVC_RESTORE_DLL_MEMBER_WARN
 
-        attr();
-        attr(const attr& other);
-        attr& operator=(const attr& other);
+        attr() = default;
+        attr(const attr& other) = default;
+        attr& operator=(const attr& other) = default;
         void swap(attr& other);
 
         void set_data(void *node, void *prop);

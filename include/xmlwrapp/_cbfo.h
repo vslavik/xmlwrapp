@@ -47,7 +47,7 @@ namespace impl
     // helper for xml::node::sort()
     struct XMLWRAPP_API cbfo_node_compare
     {
-        virtual ~cbfo_node_compare() {}
+        virtual ~cbfo_node_compare() = default;
         virtual bool operator()(const xml::node& lhs, const xml::node& rhs) = 0;
     };
 

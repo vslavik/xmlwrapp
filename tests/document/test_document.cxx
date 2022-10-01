@@ -416,9 +416,7 @@ TEST_CASE_METHOD( SrcdirConfig, "document/error_from_ctor", "[document][error]" 
 class temp_test_file
 {
 public:
-    temp_test_file()
-    {
-    }
+    temp_test_file() = default;
 
     ~temp_test_file()
     {

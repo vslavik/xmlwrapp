@@ -86,7 +86,7 @@ public:
 class XMLWRAPP_API error_handler
 {
 public:
-    virtual ~error_handler() {}
+    virtual ~error_handler() = default;
 
     /// Called by xmlwrapp to report an error.
     virtual void on_error(const std::string& msg) = 0;
@@ -190,7 +190,7 @@ public:
     /// A type to store multiple messages
     typedef std::list<error_message> messages_type;
 
-    error_messages() {}
+    error_messages() = default;
 
     /// Get the error messages.
     const messages_type& messages() const { return messages_; }

@@ -55,7 +55,7 @@ namespace impl
 class iter_advance_functor
 {
 public:
-    iter_advance_functor() {}
+    iter_advance_functor() = default;
 
     void inc_ref()
     {
@@ -72,7 +72,7 @@ public:
 
 protected:
     // use inc_ref(), dec_ref() instead of using the dtor explicitly
-    virtual ~iter_advance_functor() {}
+    virtual ~iter_advance_functor() = default;
 
 private:
     // no copy ctor or assignment

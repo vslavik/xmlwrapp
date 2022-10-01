@@ -299,28 +299,6 @@ attributes::const_iterator attributes::const_iterator::operator++(int)
 // xml::attributes::attr
 // ------------------------------------------------------------------------
 
-attributes::attr::attr()
-{
-}
-
-
-attributes::attr::attr(const attr& other)
-    : node_(other.node_),
-      prop_(other.prop_),
-      name_(other.name_),
-      value_(other.value_)
-{
-}
-
-
-attributes::attr& attributes::attr::operator=(const attr& other)
-{
-    attr tmp(other);
-    swap(tmp);
-    return *this;
-}
-
-
 void attributes::attr::swap(attr& other)
 {
     std::swap(node_, other.node_);

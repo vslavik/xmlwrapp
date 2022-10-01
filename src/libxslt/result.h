@@ -87,7 +87,7 @@ public:
                               int compression_level) const = 0;
 
     /// Trivial but virtual base class destructor.
-    virtual ~result() {}
+    virtual ~result() = default;
 };
 
 } // end impl namespace
