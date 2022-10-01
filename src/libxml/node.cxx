@@ -71,7 +71,7 @@ namespace impl
 
 struct node_impl
 {
-    node_impl() : xmlnode_(0), owner_(true), attrs_(0) {}
+    node_impl() : xmlnode_(nullptr), owner_(true), attrs_(0) {}
     ~node_impl() { release(); }
 
     void release()
@@ -118,9 +118,9 @@ class node2doc
 {
 public:
     node2doc(xmlNodePtr xmlnode_)
-        : xmlnode__(xmlnode_), prev_(0), next_(0)
+        : xmlnode__(xmlnode_), prev_(nullptr), next_(nullptr)
     {
-        xmldoc_ = xmlNewDoc(0);
+        xmldoc_ = xmlNewDoc(nullptr);
         if (!xmldoc_)
             throw std::bad_alloc();
 
@@ -133,8 +133,8 @@ public:
 
     ~node2doc()
     {
-        xmldoc_->children   = 0;
-        xmldoc_->last   = 0;
+        xmldoc_->children   = nullptr;
+        xmldoc_->last   = nullptr;
 
         xmlFreeDoc(xmldoc_);
 
@@ -160,14 +160,14 @@ struct compare_attr
     bool operator()(xmlNodePtr lhs, xmlNodePtr rhs)
     {
         xmlAttrPtr attr_l, attr_r;
-        xmlAttributePtr dtd_l(0), dtd_r(0);
+        xmlAttributePtr dtd_l(nullptr), dtd_r(nullptr);
 
         attr_l = find_prop(lhs, name_);
-        if (attr_l == 0 && (dtd_l = find_default_prop(lhs, name_)) == 0)
+        if (attr_l == nullptr && (dtd_l = find_default_prop(lhs, name_)) == nullptr)
             return true;
 
         attr_r = find_prop(rhs, name_);
-        if (attr_r == 0 && (dtd_r = find_default_prop(rhs, name_)) == 0)
+        if (attr_r == nullptr && (dtd_r = find_default_prop(rhs, name_)) == nullptr)
             return false;
 
         xmlChar *value_l, *value_r;
@@ -209,7 +209,7 @@ struct insert_node
 // an element node finder
 xmlNodePtr find_element(const char *name, xmlNodePtr first)
 {
-    while (first != 0)
+    while (first != nullptr)
     {
         if (first->type == XML_ELEMENT_NODE && xmlStrcmp(first->name, reinterpret_cast<const xmlChar*>(name)) == 0)
         {
@@ -218,20 +218,20 @@ xmlNodePtr find_element(const char *name, xmlNodePtr first)
         first = first->next;
     }
 
-    return 0;
+    return nullptr;
 }
 
 
 xmlNodePtr find_element(xmlNodePtr first)
 {
-    while (first != 0)
+    while (first != nullptr)
     {
         if (first->type == XML_ELEMENT_NODE)
             return first;
         first = first->next;
     }
 
-    return 0;
+    return nullptr;
 }
 
 
@@ -270,7 +270,7 @@ node::node()
 {
     std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
 
-    pimpl_->xmlnode_ = xmlNewNode(0, reinterpret_cast<const xmlChar*>("blank"));
+    pimpl_->xmlnode_ = xmlNewNode(nullptr, reinterpret_cast<const xmlChar*>("blank"));
     if (!pimpl_->xmlnode_)
         throw std::bad_alloc();
 
@@ -282,7 +282,7 @@ node::node (const char *name)
 {
     std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
 
-    pimpl_->xmlnode_ = xmlNewNode(0, reinterpret_cast<const xmlChar*>(name));
+    pimpl_->xmlnode_ = xmlNewNode(nullptr, reinterpret_cast<const xmlChar*>(name));
     if (!pimpl_->xmlnode_)
         throw std::bad_alloc();
 
@@ -294,7 +294,7 @@ node::node (const char *name, const char *content)
 {
     std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
 
-    pimpl_->xmlnode_ = xmlNewNode(0, reinterpret_cast<const xmlChar*>(name));
+    pimpl_->xmlnode_ = xmlNewNode(nullptr, reinterpret_cast<const xmlChar*>(name));
     if (!pimpl_->xmlnode_)
         throw std::bad_alloc();
 
@@ -321,7 +321,7 @@ node::node(cdata cdata_info)
 
     std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
 
-    if ( (pimpl_->xmlnode_ = xmlNewCDataBlock(0, reinterpret_cast<const xmlChar*>(cdata_info.t), len)) == 0)
+    if ( (pimpl_->xmlnode_ = xmlNewCDataBlock(nullptr, reinterpret_cast<const xmlChar*>(cdata_info.t), len)) == nullptr)
     {
         throw std::bad_alloc();
     }
@@ -334,7 +334,7 @@ node::node(comment comment_info)
 {
     std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
 
-    if ( (pimpl_->xmlnode_ =  xmlNewComment(reinterpret_cast<const xmlChar*>(comment_info.t))) == 0)
+    if ( (pimpl_->xmlnode_ =  xmlNewComment(reinterpret_cast<const xmlChar*>(comment_info.t))) == nullptr)
     {
         throw std::bad_alloc();
     }
@@ -347,7 +347,7 @@ node::node(pi pi_info)
 {
     std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
 
-    if ( (pimpl_->xmlnode_ = xmlNewPI(reinterpret_cast<const xmlChar*>(pi_info.n), reinterpret_cast<const xmlChar*>(pi_info.c))) == 0)
+    if ( (pimpl_->xmlnode_ = xmlNewPI(reinterpret_cast<const xmlChar*>(pi_info.n), reinterpret_cast<const xmlChar*>(pi_info.c))) == nullptr)
     {
         throw std::bad_alloc();
     }
@@ -360,7 +360,7 @@ node::node(text text_info)
 {
     std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
 
-    if ( (pimpl_->xmlnode_ =  xmlNewText(reinterpret_cast<const xmlChar*>(text_info.t))) == 0)
+    if ( (pimpl_->xmlnode_ =  xmlNewText(reinterpret_cast<const xmlChar*>(text_info.t))) == nullptr)
     {
         throw std::bad_alloc();
     }
@@ -436,7 +436,7 @@ void node::move_under(node& new_parent)
     // Update the pointers inside this node itself.
     this_node->parent = new_parent_node;
     this_node->prev = new_parent_node->last;
-    this_node->next = NULL;
+    this_node->next = nullptr;
 
     // And update the new parent too.
     if (this_node->prev)
@@ -506,7 +506,7 @@ const char* node::get_content() const
 {
     xmlchar_helper content(xmlNodeGetContent(pimpl_->xmlnode_));
     if (!content.get())
-        return NULL;
+        return nullptr;
 
     pimpl_->tmp_string = content.get();
     return pimpl_->tmp_string.c_str();
@@ -582,7 +582,7 @@ const char *node::get_namespace() const
 {
     return pimpl_->xmlnode_->ns
         ? reinterpret_cast<const char*>(pimpl_->xmlnode_->ns->href)
-        : NULL;
+        : nullptr;
 }
 
 
@@ -593,7 +593,7 @@ void node::set_namespace(const std::string& href)
     if (pimpl_->xmlnode_->type != XML_ELEMENT_NODE)
         throw xml::exception("set_namespace called on non-element node");
 
-    xmlNsPtr ns = xmlNewNs(pimpl_->xmlnode_, xmlHref, NULL);
+    xmlNsPtr ns = xmlNewNs(pimpl_->xmlnode_, xmlHref, nullptr);
 
     if ( !ns )
     {
@@ -601,7 +601,7 @@ void node::set_namespace(const std::string& href)
         // we must change its URI.
         for ( ns = pimpl_->xmlnode_->nsDef; ns; ns = ns->next )
         {
-            if ( ns->prefix == NULL )
+            if ( ns->prefix == nullptr )
             {
                 xmlFree(const_cast<xmlChar*>(ns->href));
                 ns->href = xmlStrdup(xmlHref);
@@ -633,7 +633,7 @@ bool node::is_text() const
 
 void node::push_back (const node &child)
 {
-    xml::impl::node_insert(pimpl_->xmlnode_, 0, child.pimpl_->xmlnode_);
+    xml::impl::node_insert(pimpl_->xmlnode_, nullptr, child.pimpl_->xmlnode_);
 }
 
 
@@ -646,7 +646,7 @@ node::size_type node::size() const
 
 bool node::empty() const
 {
-    return pimpl_->xmlnode_->children == 0;
+    return pimpl_->xmlnode_->children == nullptr;
 }
 
 
@@ -711,7 +711,7 @@ node::const_iterator node::find(const char *name) const
 node::iterator node::find(const char *name, const iterator& start)
 {
     xmlNodePtr n = static_cast<xmlNodePtr>(start.get_raw_node());
-    if ((n = find_element(name, n)) != NULL)
+    if ((n = find_element(name, n)) != nullptr)
         return iterator(n);
     return end();
 }
@@ -720,7 +720,7 @@ node::iterator node::find(const char *name, const iterator& start)
 node::const_iterator node::find(const char *name, const const_iterator& start) const
 {
     xmlNodePtr n = static_cast<xmlNodePtr>(start.get_raw_node());
-    if ((n = find_element(name, n)) != NULL)
+    if ((n = find_element(name, n)) != nullptr)
         return const_iterator(n);
     return end();
 }
@@ -764,7 +764,7 @@ xml::const_nodes_view node::elements(const char *name) const
 
 node::iterator node::insert(const node &n)
 {
-    return iterator(xml::impl::node_insert(pimpl_->xmlnode_, 0, n.pimpl_->xmlnode_));
+    return iterator(xml::impl::node_insert(pimpl_->xmlnode_, nullptr, n.pimpl_->xmlnode_));
 }
 
 
@@ -818,16 +818,16 @@ void node::clear()
 
     xmlFreeNodeList(n->children);
     n->children =
-    n->last = NULL;
+    n->last = nullptr;
 }
 
 
 void node::sort(const char *node_name, const char *attr_name)
 {
-    xmlNodePtr i(pimpl_->xmlnode_->children), next(0);
+    xmlNodePtr i(pimpl_->xmlnode_->children), next(nullptr);
     std::vector<xmlNodePtr> node_list;
 
-    while (i!=0)
+    while (i!=nullptr)
     {
         next = i->next;
 
@@ -850,10 +850,10 @@ void node::sort(const char *node_name, const char *attr_name)
 
 void node::sort_fo(cbfo_node_compare& cb)
 {
-    xmlNodePtr i(pimpl_->xmlnode_->children), next(0);
+    xmlNodePtr i(pimpl_->xmlnode_->children), next(nullptr);
     std::vector<xmlNodePtr> node_list;
 
-    while (i!=0)
+    while (i!=nullptr)
     {
         next = i->next;
 

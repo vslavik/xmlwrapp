@@ -62,7 +62,7 @@
 
 struct xslt::stylesheet::pimpl
 {
-    pimpl (void) : ss_(0), errors_occured_(false) { }
+    pimpl (void) : ss_(nullptr), errors_occured_(false) { }
 
     xsltStylesheetPtr ss_;
     xml::document doc_;
@@ -120,7 +120,7 @@ void make_vector_param(std::vector<const char*> &v,
         v.push_back(i->second.c_str());
     }
 
-    v.push_back(static_cast<const char*>(0));
+    v.push_back(nullptr);
 }
 
 
@@ -144,7 +144,7 @@ public:
 xmlDocPtr apply_stylesheet(xslt::stylesheet::pimpl *impl,
                            xml::error_handler& on_error,
                            xmlDocPtr doc,
-                           const xslt::stylesheet::param_type *p = NULL)
+                           const xslt::stylesheet::param_type *p = nullptr)
 {
     xsltStylesheetPtr style = impl->ss_;
 
@@ -161,7 +161,7 @@ xmlDocPtr apply_stylesheet(xslt::stylesheet::pimpl *impl,
     xsltSetTransformErrorFunc(ctxt, &err, xml::impl::cb_messages_error);
 
     xmlDocPtr result =
-        xsltApplyStylesheetUser(style, doc, p ? &v[0] : 0, NULL, NULL, ctxt);
+        xsltApplyStylesheetUser(style, doc, p ? &v[0] : nullptr, nullptr, nullptr, ctxt);
 
     xsltFreeTransformContext(ctxt);
 
@@ -171,7 +171,7 @@ xmlDocPtr apply_stylesheet(xslt::stylesheet::pimpl *impl,
     {
         xmlFreeDoc(result);
         err.replay(on_error);
-        return NULL;
+        return nullptr;
     }
 
     if ( !result )
@@ -180,7 +180,7 @@ xmlDocPtr apply_stylesheet(xslt::stylesheet::pimpl *impl,
         if ( !err.has_errors() )
             err.on_error("unknown XSLT transformation error");
         err.replay(on_error);
-        return NULL;
+        return nullptr;
     }
 
     err.replay(on_error);
@@ -207,7 +207,7 @@ void xslt::stylesheet::init(xml::document& doc, xml::error_handler& on_error)
     xmlDocPtr xmldoc = static_cast<xmlDocPtr>(doc.get_doc_data());
     std::unique_ptr<pimpl> ap(pimpl_ = new pimpl);
 
-    if ( (pimpl_->ss_ = xsltParseStylesheetDoc(xmldoc)) == 0)
+    if ( (pimpl_->ss_ = xsltParseStylesheetDoc(xmldoc)) == nullptr)
     {
         // TODO error_ can't get set yet. Need changes from libxslt first
         on_error.on_error("unknown XSLT parser error");

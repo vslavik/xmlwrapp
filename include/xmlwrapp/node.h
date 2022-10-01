@@ -148,7 +148,7 @@ public:
      */
     struct pi
     {
-        explicit pi (const char *name, const char *content = NULL)
+        explicit pi (const char *name, const char *content = nullptr)
             : n(name), c(content) {}
         const char *n, *c;
     };
@@ -358,7 +358,7 @@ public:
     /**
         Get the namespace of this xml::node.
 
-        @return The namespace of this node or NULL if no namespace is
+        @return The namespace of this node or nullptr if no namespace is
                 associated.
         @since  0.6.0
      */
@@ -449,7 +449,7 @@ public:
         typedef value_type& reference;
         typedef std::forward_iterator_tag iterator_category;
 
-        iterator() : pimpl_(NULL) {}
+        iterator() : pimpl_(nullptr) {}
         iterator(const iterator& other);
         iterator& operator=(const iterator& other);
         ~iterator();
@@ -492,7 +492,7 @@ public:
         typedef value_type& reference;
         typedef std::forward_iterator_tag iterator_category;
 
-        const_iterator() : pimpl_(NULL) {}
+        const_iterator() : pimpl_(nullptr) {}
         const_iterator(const const_iterator &other);
         const_iterator(const iterator &other);
         const_iterator& operator=(const const_iterator& other);

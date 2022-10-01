@@ -87,7 +87,7 @@ private:
 class node_iterator
 {
 public:
-    node_iterator() : fake_node_(0), node_(0) {}
+    node_iterator() : fake_node_(0), node_(nullptr) {}
 
     node_iterator(node &parent)
         : fake_node_(0),

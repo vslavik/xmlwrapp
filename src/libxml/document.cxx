@@ -77,30 +77,30 @@ namespace impl
 struct doc_impl
 {
     doc_impl()
-        : doc_(0), xslt_result_(0)
+        : doc_(nullptr), xslt_result_(nullptr)
     {
         xmlDocPtr tmpdoc;
-        if ( (tmpdoc = xmlNewDoc(0)) == 0)
+        if ( (tmpdoc = xmlNewDoc(nullptr)) == nullptr)
             throw std::bad_alloc();
         set_doc_data(tmpdoc, true);
     }
 
 
     doc_impl(const char *root_name)
-        : doc_(0), xslt_result_(0), root_(root_name)
+        : doc_(nullptr), xslt_result_(nullptr), root_(root_name)
     {
         xmlDocPtr tmpdoc;
-        if ( (tmpdoc = xmlNewDoc(0)) == 0)
+        if ( (tmpdoc = xmlNewDoc(nullptr)) == nullptr)
             throw std::bad_alloc();
         set_doc_data(tmpdoc, true);
     }
 
 
     doc_impl(const doc_impl& other)
-        : doc_(0), xslt_result_(0)
+        : doc_(nullptr), xslt_result_(nullptr)
     {
         xmlDocPtr tmpdoc;
-        if ( (tmpdoc = xmlCopyDoc(other.doc_, 1)) == 0)
+        if ( (tmpdoc = xmlCopyDoc(other.doc_, 1)) == nullptr)
             throw std::bad_alloc();
         set_doc_data(tmpdoc, false);
     }
@@ -150,7 +150,7 @@ struct doc_impl
         if (old_root_node)
             xmlFreeNode(old_root_node);
 
-        xslt_result_ = 0;
+        xslt_result_ = nullptr;
     }
 
 
@@ -195,7 +195,7 @@ document::document(const node& n)
 
 document::document(const char *filename, error_handler& on_error)
 {
-    pimpl_ = NULL;
+    pimpl_ = nullptr;
     tree_parser p(filename, on_error);
     if ( !p )
         throw exception(p.messages());
@@ -204,7 +204,7 @@ document::document(const char *filename, error_handler& on_error)
 
 document::document(const char *data, size_type len, error_handler& on_error)
 {
-    pimpl_ = NULL;
+    pimpl_ = nullptr;
     tree_parser p(data, len, on_error);
     if ( !p )
         throw exception(p.messages());
@@ -264,7 +264,7 @@ const std::string& document::get_version() const
 void document::set_version(const char *version)
 {
     const xmlChar *old_version = pimpl_->doc_->version;
-    if ( (pimpl_->doc_->version = xmlStrdup(reinterpret_cast<const xmlChar*>(version))) == 0)
+    if ( (pimpl_->doc_->version = xmlStrdup(reinterpret_cast<const xmlChar*>(version))) == nullptr)
         throw std::bad_alloc();
 
     pimpl_->version_ = version;
@@ -318,13 +318,13 @@ bool document::process_xinclude()
 
 bool document::has_internal_subset() const
 {
-    return pimpl_->doc_->intSubset != 0;
+    return pimpl_->doc_->intSubset != nullptr;
 }
 
 
 bool document::has_external_subset() const
 {
-    return pimpl_->doc_->extSubset != 0;
+    return pimpl_->doc_->extSubset != nullptr;
 }
 
 
@@ -345,7 +345,7 @@ bool document::validate(const char *dtdname)
         return false;
 
     // remove the old DTD
-    if (pimpl_->doc_->extSubset != 0)
+    if (pimpl_->doc_->extSubset != nullptr)
         xmlFreeDtd(pimpl_->doc_->extSubset);
 
     pimpl_->doc_->extSubset = dtd.release();
@@ -375,13 +375,13 @@ node::const_iterator document::begin() const
 
 node::iterator document::end()
 {
-    return node::iterator(0);
+    return node::iterator(nullptr);
 }
 
 
 node::const_iterator document::end() const
 {
-    return node::const_iterator(0);
+    return node::const_iterator(nullptr);
 }
 
 
@@ -393,7 +393,7 @@ void document::push_back(const node& child)
     impl::node_insert
           (
               reinterpret_cast<xmlNodePtr>(pimpl_->doc_),
-              0,
+              nullptr,
               static_cast<xmlNodePtr>(const_cast<node&>(child).get_node_data())
           );
 }
@@ -404,7 +404,7 @@ node::iterator document::insert(const node& n)
     if (n.get_type() == node::type_element)
         throw xml::exception("xml::document::insert can't take element type nodes");
 
-    return node::iterator(xml::impl::node_insert(reinterpret_cast<xmlNodePtr>(pimpl_->doc_), 0, static_cast<xmlNodePtr>(const_cast<node&>(n).get_node_data())));
+    return node::iterator(xml::impl::node_insert(reinterpret_cast<xmlNodePtr>(pimpl_->doc_), nullptr, static_cast<xmlNodePtr>(const_cast<node&>(n).get_node_data())));
 }
 
 
@@ -448,7 +448,7 @@ void document::save_to_string(std::string& s, error_handler& on_error) const
 {
     impl::global_errors_collector err;
 
-    if (pimpl_->xslt_result_ != 0)
+    if (pimpl_->xslt_result_ != nullptr)
     {
         pimpl_->xslt_result_->save_to_string(s);
     }
@@ -494,7 +494,7 @@ bool document::save_to_file(const char *filename, int compression_level, error_h
     } set_compression(pimpl_->doc_, compression_level);
 
     bool rc;
-    if (pimpl_->xslt_result_ != 0)
+    if (pimpl_->xslt_result_ != nullptr)
     {
         rc = pimpl_->xslt_result_->save_to_file(filename, compression_level);
     }
@@ -513,7 +513,7 @@ void document::set_doc_data(void *data)
 {
     // we own the doc now, don't free it!
     pimpl_->set_doc_data(static_cast<xmlDocPtr>(data), false);
-    pimpl_->xslt_result_ = 0;
+    pimpl_->xslt_result_ = nullptr;
 }
 
 
@@ -541,7 +541,7 @@ void* document::get_doc_data_read_only() const
 void* document::release_doc_data()
 {
     xmlDocPtr xmldoc = pimpl_->doc_;
-    pimpl_->doc_ = 0;
+    pimpl_->doc_ = nullptr;
 
     return xmldoc;
 }

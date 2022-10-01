@@ -112,7 +112,7 @@ xmlNodePtr copy_node_under_parent(xmlNodePtr parent, xmlNodePtr orig_node)
     // xmlCopyNode() creates an artificial definition for it at the node
     // level in this case and we want to remove this redundant definition
     // if possible.
-    xmlNsPtr nsToBeFreed = NULL;
+    xmlNsPtr nsToBeFreed = nullptr;
     if ( new_xml_node->ns && are_same(new_xml_node->ns, parent->ns) )
     {
         // We can indeed remove this namespace definition, so do it.
@@ -153,10 +153,10 @@ xml::impl::node_insert(xmlNodePtr parent, xmlNodePtr before, xmlNodePtr to_add)
 {
     xmlNodePtr const new_xml_node = copy_node_under_parent(parent, to_add);
 
-    if ( before == 0 )
+    if ( before == nullptr )
     {
         // insert at the end of the child list
-        if ( xmlAddChild(parent, new_xml_node) == 0 )
+        if ( xmlAddChild(parent, new_xml_node) == nullptr )
         {
             xmlFreeNode(new_xml_node);
             throw xml::exception("failed to insert xml::node; xmlAddChild failed");
@@ -164,7 +164,7 @@ xml::impl::node_insert(xmlNodePtr parent, xmlNodePtr before, xmlNodePtr to_add)
     }
     else
     {
-        if ( xmlAddPrevSibling(before, new_xml_node) == 0 )
+        if ( xmlAddPrevSibling(before, new_xml_node) == nullptr )
         {
             xmlFreeNode(new_xml_node);
             throw xml::exception("failed to insert xml::node; xmlAddPrevSibling failed");
@@ -210,5 +210,5 @@ xmlNodePtr xml::impl::node_erase(xmlNodePtr to_erase)
 
 void xml::impl::node_set_ns_recursively(xmlNodePtr node, xmlNsPtr ns)
 {
-    replace_ns_recursively(node, NULL, ns);
+    replace_ns_recursively(node, nullptr, ns);
 }

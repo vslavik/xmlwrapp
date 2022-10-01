@@ -43,7 +43,7 @@ table lists the most common node types and what they store in their name data.
     </tr>
     <tr>
         <td>CDATA node (type_cdata)</td>
-        <td>NULL (zero) pointer</td>
+        <td><tt>nullptr</tt></td>
     </tr>
     <tr>
         <td>processing instruction node (type_pi)</td>
@@ -56,7 +56,7 @@ table lists the most common node types and what they store in their name data.
 </table>
 
 @note You should be prepared to handle the case where
-      xml::node::get_name() returns a NULL (zero) pointer.
+      xml::node::get_name() returns <tt>nullptr</tt>.
 
 
 @section node_contents The Node Contents
@@ -116,7 +116,7 @@ function returns for the common node types:
 
 @note
 You should be prepared to handle the case where the xml::node::get_content()
-function returns a NULL (zero) pointer.
+function returns <tt>nullptr</tt>.
 
 The function for setting the node's content is xml::node::set_content(). This
 function performs the same magic that the get_content() function does. That is,

@@ -55,7 +55,7 @@ namespace impl
 struct relaxng_impl
 {
     relaxng_impl(xmlDocPtr xmldoc, error_handler& on_error)
-        : relaxng_(NULL)
+        : relaxng_(nullptr)
     {
         impl::errors_collector err;
 

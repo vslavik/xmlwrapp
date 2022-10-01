@@ -106,8 +106,8 @@ TEST_CASE_METHOD( SrcdirConfig, "attributes/find", "[attributes]" )
     CHECK( do_attr_find(doc, "one", "1") == true );
     CHECK( do_attr_find(doc, "two", "2") == true );
     CHECK( do_attr_find(doc, "three", "3") == true );
-    CHECK( do_attr_find(doc, "missing", NULL) == false );
-    CHECK( do_attr_find(doc, "also_missing", NULL) == false );
+    CHECK( do_attr_find(doc, "missing", nullptr) == false );
+    CHECK( do_attr_find(doc, "also_missing", nullptr) == false );
 }
 
 

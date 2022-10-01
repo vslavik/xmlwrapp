@@ -121,7 +121,7 @@ impl::tree_impl::tree_impl()
 
 tree_parser::tree_parser(const char *name, bool allow_exceptions)
 {
-    init(name, allow_exceptions ? &throw_on_error : NULL);
+    init(name, allow_exceptions ? &throw_on_error : nullptr);
 }
 
 tree_parser::tree_parser(const char *name, error_handler& on_error)
@@ -168,7 +168,7 @@ void tree_parser::init(const char *name, error_handler *on_error)
 
 tree_parser::tree_parser(const char *data, size_type size, bool allow_exceptions)
 {
-    init(data, size, allow_exceptions ? &throw_on_error : NULL);
+    init(data, size, allow_exceptions ? &throw_on_error : nullptr);
 }
 
 tree_parser::tree_parser(const char *data, size_type size, error_handler& on_error)
@@ -181,7 +181,7 @@ void tree_parser::init(const char *data, size_type size, error_handler *on_error
     std::unique_ptr<tree_impl> ap(pimpl_ = new tree_impl);
     xmlParserCtxtPtr ctxt;
 
-    if ( (ctxt = xmlCreateMemoryParserCtxt(data, xml::impl::checked_int_cast(size))) == 0)
+    if ( (ctxt = xmlCreateMemoryParserCtxt(data, xml::impl::checked_int_cast(size))) == nullptr)
         throw std::bad_alloc();
 
     if (ctxt->sax)
@@ -196,8 +196,8 @@ void tree_parser::init(const char *data, size_type size, error_handler *on_error
     if (!ctxt->wellFormed || retval != 0 || pimpl_->messages_.has_errors())
     {
         xmlFreeDoc(ctxt->myDoc);
-        ctxt->myDoc = 0;
-        ctxt->sax = 0;
+        ctxt->myDoc = nullptr;
+        ctxt->sax = nullptr;
         xmlFreeParserCtxt(ctxt);
 
         if (on_error)
@@ -208,7 +208,7 @@ void tree_parser::init(const char *data, size_type size, error_handler *on_error
     }
 
     pimpl_->doc_.set_doc_data(ctxt->myDoc);
-    ctxt->sax = 0;
+    ctxt->sax = nullptr;
 
     xmlFreeParserCtxt(ctxt);
     ap.release();

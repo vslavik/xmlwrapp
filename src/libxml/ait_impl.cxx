@@ -62,7 +62,7 @@ ait_impl::ait_impl(xmlNodePtr node, xmlAttrPtr prop)
 
 
 ait_impl::ait_impl(const char *name, const char *value, bool)
-    : xmlnode_(0), xmlattr_(0), fake_(true)
+    : xmlnode_(nullptr), xmlattr_(nullptr), fake_(true)
 {
     // in this constructor and in the functions to follow, the last
     // parameter, the bool, is only used to create a unique signature
@@ -133,7 +133,7 @@ ait_impl ait_impl::operator++(int)
 
 attributes::iterator::iterator()
 {
-    pimpl_ = new ait_impl(0, 0);
+    pimpl_ = new ait_impl(nullptr, nullptr);
 }
 
 
@@ -214,7 +214,7 @@ attributes::iterator attributes::iterator::operator++(int)
 
 attributes::const_iterator::const_iterator()
 {
-    pimpl_ = new ait_impl(0, 0);
+    pimpl_ = new ait_impl(nullptr, nullptr);
 }
 
 
@@ -299,7 +299,7 @@ attributes::const_iterator attributes::const_iterator::operator++(int)
 // xml::attributes::attr
 // ------------------------------------------------------------------------
 
-attributes::attr::attr() : node_(0), prop_(0)
+attributes::attr::attr() : node_(nullptr), prop_(nullptr)
 {
 }
 
@@ -341,8 +341,8 @@ void attributes::attr::set_data(void *node, void *prop)
 
 void attributes::attr::set_data(const char *name, const char *value, bool)
 {
-    node_ = 0;
-    prop_ = 0;
+    node_ = nullptr;
+    prop_ = nullptr;
     name_ = name;
     value_ = value;
 }
@@ -369,7 +369,7 @@ const char* attributes::attr::get_value() const
         throw xml::exception("access to invalid attributes::attr object!");
 
     xmlChar *tmpstr = xmlNodeListGetString(reinterpret_cast<xmlNodePtr>(node_)->doc, reinterpret_cast<xmlAttrPtr>(prop_)->children, 1);
-    if (tmpstr == 0)
+    if (tmpstr == nullptr)
         return "";
 
     xmlchar_helper helper(tmpstr);
@@ -415,31 +415,31 @@ xmlAttrPtr find_prop(xmlNodePtr xmlnode, const char *name)
             return prop;
     }
 
-    return 0;
+    return nullptr;
 }
 
 
 xmlAttributePtr find_default_prop(xmlNodePtr xmlnode, const char *name)
 {
-    if (xmlnode->doc != 0)
+    if (xmlnode->doc != nullptr)
     {
-        xmlAttributePtr dtd_attr=0;
+        xmlAttributePtr dtd_attr=nullptr;
 
-        if (xmlnode->doc->intSubset != 0)
+        if (xmlnode->doc->intSubset != nullptr)
         {
             dtd_attr = xmlGetDtdAttrDesc(xmlnode->doc->intSubset, xmlnode->name, reinterpret_cast<const xmlChar*>(name));
         }
 
-        if (dtd_attr == 0 && xmlnode->doc->extSubset != 0)
+        if (dtd_attr == nullptr && xmlnode->doc->extSubset != nullptr)
         {
             dtd_attr = xmlGetDtdAttrDesc(xmlnode->doc->extSubset, xmlnode->name, reinterpret_cast<const xmlChar*>(name));
         }
 
-        if (dtd_attr != 0 && dtd_attr->defaultValue != 0)
+        if (dtd_attr != nullptr && dtd_attr->defaultValue != nullptr)
             return dtd_attr;
     }
 
-    return 0;
+    return nullptr;
 }
 
 bool operator==(const ait_impl& lhs, const ait_impl& rhs)

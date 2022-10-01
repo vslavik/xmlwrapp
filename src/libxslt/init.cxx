@@ -86,8 +86,8 @@ void xslt::init::init_library()
 
     // keep libxslt silent; we install context-specific error handler to
     // catch errors while applying a stylesheet
-    xsltSetGenericErrorFunc(0, xslt_error);
-    xsltSetGenericDebugFunc(0, xslt_error);
+    xsltSetGenericErrorFunc(nullptr, xslt_error);
+    xsltSetGenericDebugFunc(nullptr, xslt_error);
 
     // load EXSLT
     exsltRegisterAll();

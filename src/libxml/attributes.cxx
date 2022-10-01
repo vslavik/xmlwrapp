@@ -54,7 +54,7 @@ struct attributes::pimpl
 {
     pimpl() : owner_(true)
     {
-        xmlnode_ = xmlNewNode(0, reinterpret_cast<const xmlChar*>("blank"));
+        xmlnode_ = xmlNewNode(nullptr, reinterpret_cast<const xmlChar*>("blank"));
         if (!xmlnode_)
             throw std::bad_alloc();
     }
@@ -63,7 +63,7 @@ struct attributes::pimpl
 
     pimpl(const pimpl& other) : owner_(true)
     {
-        xmlnode_ = xmlNewNode(0, reinterpret_cast<const xmlChar*>("blank"));
+        xmlnode_ = xmlNewNode(nullptr, reinterpret_cast<const xmlChar*>("blank"));
         if (!xmlnode_)
             throw std::bad_alloc();
 
@@ -71,16 +71,16 @@ struct attributes::pimpl
         xmlAttrPtr copy;
 
         // work around bug in libxml
-        for ( ; i != 0; i = i->next )
+        for ( ; i != nullptr; i = i->next )
         {
-            if ( (copy = xmlCopyProp(0, i)) == 0)
+            if ( (copy = xmlCopyProp(nullptr, i)) == nullptr)
             {
                 xmlFreeNode(xmlnode_);
                 throw std::bad_alloc();
             }
 
-            copy->prev = 0;
-            copy->next = 0;
+            copy->prev = nullptr;
+            copy->next = nullptr;
             xmlAddChild(xmlnode_, reinterpret_cast<xmlNodePtr>(copy));
         }
     }
@@ -113,7 +113,7 @@ attributes::attributes()
 
 attributes::attributes(int)
 {
-    pimpl_ = new pimpl(0);
+    pimpl_ = new pimpl(nullptr);
 }
 
 
@@ -194,11 +194,11 @@ void attributes::insert(const char *name, const char *value)
 attributes::iterator attributes::find(const char *name)
 {
     xmlAttrPtr prop = find_prop(pimpl_->xmlnode_, name);
-    if ( prop != 0 )
+    if ( prop != nullptr )
         return iterator(pimpl_->xmlnode_, prop);
 
     xmlAttributePtr dtd_prop = find_default_prop(pimpl_->xmlnode_, name);
-    if ( dtd_prop != 0 )
+    if ( dtd_prop != nullptr )
         return iterator(name, reinterpret_cast<const char*>(dtd_prop->defaultValue), true);
 
     return iterator();
@@ -208,12 +208,12 @@ attributes::iterator attributes::find(const char *name)
 attributes::const_iterator attributes::find(const char *name) const
 {
     xmlAttrPtr prop = find_prop(pimpl_->xmlnode_, name);
-    if (prop != 0)
+    if (prop != nullptr)
         return const_iterator(pimpl_->xmlnode_, prop);
 
     xmlAttributePtr dtd_prop = find_default_prop(pimpl_->xmlnode_, name);
 
-    if (dtd_prop != 0)
+    if (dtd_prop != nullptr)
     {
         return const_iterator(name, reinterpret_cast<const char*>(dtd_prop->defaultValue), true);
     }
@@ -225,7 +225,7 @@ attributes::const_iterator attributes::find(const char *name) const
 attributes::iterator attributes::erase (iterator to_erase)
 {
     xmlNodePtr prop = static_cast<xmlNodePtr>(to_erase.get_raw_attr());
-    if (prop == 0)
+    if (prop == nullptr)
         return iterator(); // handle fake and bad iterators
     ++to_erase;
 
@@ -244,7 +244,7 @@ void attributes::erase(const char *name)
 
 bool attributes::empty() const
 {
-    return pimpl_->xmlnode_->properties == 0;
+    return pimpl_->xmlnode_->properties == nullptr;
 }
 
 
@@ -253,7 +253,7 @@ attributes::size_type attributes::size() const
     size_type count = 0;
 
     xmlAttrPtr prop = pimpl_->xmlnode_->properties;
-    while (prop != 0)
+    while (prop != nullptr)
     {
         ++count;
         prop = prop->next;

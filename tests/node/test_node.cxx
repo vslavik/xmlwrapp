@@ -742,9 +742,9 @@ protected:
 };
 
 // Helper macro for checking that the given namespace is equal to the correct
-// value. It is used because get_namespace() may return NULL, and so can't be
+// value. It is used because get_namespace() may return nullptr, and so can't be
 // just compared with the expected string because comparison function would
-// crash if it were used with a NULL pointer and it is a macro rather than a
+// crash if it were used with nullptr and it is a macro rather than a
 // function to point to the correct line number in case of failure.
 #define XMLWRAPP_CHECK_NS(ns, expected)         \
     CHECK( ns );                                \

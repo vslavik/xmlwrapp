@@ -87,7 +87,7 @@ node::iterator::iterator(void *data)
 
 node::iterator::iterator(const iterator& other)
 {
-    pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : 0;
+    pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : nullptr;
 }
 
 
@@ -140,7 +140,7 @@ node::iterator node::iterator::operator++(int)
 
 void* node::iterator::get_raw_node() const
 {
-    return pimpl_ ? pimpl_->it.get_raw_node() : 0;
+    return pimpl_ ? pimpl_->it.get_raw_node() : nullptr;
 }
 
 
@@ -156,13 +156,13 @@ node::const_iterator::const_iterator(void *data)
 
 node::const_iterator::const_iterator(const const_iterator& other)
 {
-    pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : 0;
+    pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : nullptr;
 }
 
 
 node::const_iterator::const_iterator(const iterator& other)
 {
-    pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : 0;
+    pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : nullptr;
 }
 
 
@@ -215,7 +215,7 @@ node::const_iterator node::const_iterator::operator++(int)
 
 void* node::const_iterator::get_raw_node() const
 {
-    return pimpl_ ? pimpl_->it.get_raw_node() : 0;
+    return pimpl_ ? pimpl_->it.get_raw_node() : nullptr;
 }
 
 // ------------------------------------------------------------------------
@@ -224,7 +224,7 @@ void* node::const_iterator::get_raw_node() const
 
 nodes_view::iterator::iterator(const iterator& other)
 {
-    pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : 0;
+    pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : nullptr;
     advance_func_ = other.advance_func_;
 }
 
@@ -276,13 +276,13 @@ nodes_view::iterator nodes_view::iterator::operator++(int)
 
 void* nodes_view::iterator::get_raw_node() const
 {
-    return pimpl_ ? pimpl_->it.get_raw_node() : 0;
+    return pimpl_ ? pimpl_->it.get_raw_node() : nullptr;
 }
 
 
 nodes_view::iterator::iterator(void *data, impl::iter_advance_functor *advance_func)
 {
-    pimpl_ = data ? new nipimpl(static_cast<xmlNodePtr>(data)) : 0;
+    pimpl_ = data ? new nipimpl(static_cast<xmlNodePtr>(data)) : nullptr;
     advance_func_ = advance_func;
 }
 
@@ -299,14 +299,14 @@ void nodes_view::iterator::swap(iterator& other)
 
 nodes_view::const_iterator::const_iterator(const const_iterator& other)
 {
-    pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : 0;
+    pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : nullptr;
     advance_func_ = other.advance_func_;
 }
 
 
 nodes_view::const_iterator::const_iterator(const iterator& other)
 {
-    pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : 0;
+    pimpl_ = other.pimpl_ ? new nipimpl(*(other.pimpl_)) : nullptr;
     advance_func_ = other.advance_func_;
 }
 
@@ -367,13 +367,13 @@ nodes_view::const_iterator nodes_view::const_iterator::operator++(int)
 
 void* nodes_view::const_iterator::get_raw_node() const
 {
-    return pimpl_ ? pimpl_->it.get_raw_node() : 0;
+    return pimpl_ ? pimpl_->it.get_raw_node() : nullptr;
 }
 
 
 nodes_view::const_iterator::const_iterator(void *data, impl::iter_advance_functor *advance_func)
 {
-    pimpl_ = data ? new nipimpl(static_cast<xmlNodePtr>(data)) : 0;
+    pimpl_ = data ? new nipimpl(static_cast<xmlNodePtr>(data)) : nullptr;
     advance_func_ = advance_func;
 }
 

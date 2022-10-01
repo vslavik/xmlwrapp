@@ -165,7 +165,7 @@ epimpl::epimpl(event_parser& parent)
     else
         sax_handler_.ignorableWhitespace = cb_text;
 
-    if ( (parser_context_ = xmlCreatePushParserCtxt(&sax_handler_, this, 0, 0, 0)) == 0)
+    if ( (parser_context_ = xmlCreatePushParserCtxt(&sax_handler_, this, nullptr, 0, nullptr)) == nullptr)
     {
         throw std::bad_alloc();
     }
@@ -400,7 +400,7 @@ bool xml::event_parser::parse_chunk(const char *chunk, size_type length)
 
 bool event_parser::parse_finish()
 {
-    xmlParseChunk(pimpl_->parser_context_, 0, 0, 0);
+    xmlParseChunk(pimpl_->parser_context_, nullptr, 0, 0);
     return pimpl_->parser_status_;
 }
 

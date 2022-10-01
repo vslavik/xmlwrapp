@@ -55,7 +55,7 @@ namespace impl
 struct schema_impl
 {
     schema_impl(xmlDocPtr xmldoc, error_handler& on_error)
-        : schema_(NULL), retainDoc_(NULL)
+        : schema_(nullptr), retainDoc_(nullptr)
     {
         impl::errors_collector err;
 

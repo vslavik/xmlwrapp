@@ -92,7 +92,7 @@ public:
     {
         const NextNodeMap::const_iterator i = m_next.find(node);
         if ( i == m_next.end() )
-            return NULL;
+            return nullptr;
         else
             return i->second;
     }

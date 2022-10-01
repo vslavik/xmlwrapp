@@ -69,9 +69,9 @@ extern "C" void dtd_warning(void *ctxt, const char*, ...)
 
 
 dtd_impl::dtd_impl(const char *filename)
-    : warnings_(0), dtd_(0)
+    : warnings_(0), dtd_(nullptr)
 {
-    if ( (dtd_ = xmlParseDTD(0, reinterpret_cast<const xmlChar*>(filename))) == 0)
+    if ( (dtd_ = xmlParseDTD(nullptr, reinterpret_cast<const xmlChar*>(filename))) == nullptr)
     {
         error_ = "unable to parse DTD ";
         error_ += filename;
@@ -79,7 +79,7 @@ dtd_impl::dtd_impl(const char *filename)
 }
 
 
-dtd_impl::dtd_impl() : warnings_(0), dtd_(0)
+dtd_impl::dtd_impl() : warnings_(0), dtd_(nullptr)
 {
 }
 
@@ -115,6 +115,6 @@ bool dtd_impl::validate(xmlDocPtr xmldoc)
 xmlDtdPtr dtd_impl::release()
 {
     xmlDtdPtr xmldtd = dtd_;
-    dtd_ = 0;
+    dtd_ = nullptr;
     return xmldtd;
 }
