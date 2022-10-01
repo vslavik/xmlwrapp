@@ -64,7 +64,7 @@ jobs:
 
             ubuntu:*)
               apt-get update -qq
-              apt-get install -qq autoconf automake g++ git libtool make pkg-config python sudo wget
+              apt-get install -qq autoconf automake g++ git libtool make pkg-config ${TEST_DIST+python} sudo wget
               ;;
 
             '')
