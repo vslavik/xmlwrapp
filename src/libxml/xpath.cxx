@@ -98,7 +98,7 @@ public:
     }
 
 private:
-    typedef std::map<xmlNodePtr, xmlNodePtr> NextNodeMap;
+    using NextNodeMap = std::map<xmlNodePtr, xmlNodePtr>;
     NextNodeMap m_next;
 };
 

@@ -67,9 +67,9 @@ class XMLWRAPP_API event_parser
 {
 public:
     /// a type for holding XML node attributes
-    typedef std::map<std::string, std::string> attrs_type;
+    using attrs_type = std::map<std::string, std::string>;
     /// size type
-    typedef std::size_t size_type;
+    using size_type = std::size_t;
 
     /// Default constructor.
     event_parser();

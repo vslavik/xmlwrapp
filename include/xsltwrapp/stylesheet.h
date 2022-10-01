@@ -64,7 +64,7 @@ public:
     struct pimpl;
 
     /// Type for passing parameters to the stylesheet
-    typedef std::map<std::string, std::string> param_type;
+    using param_type = std::map<std::string, std::string>;
 
     /**
         Create a new xslt::stylesheet object and load and parse the

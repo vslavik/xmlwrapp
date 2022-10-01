@@ -90,7 +90,7 @@ public:
     class change_flag
     {
     public:
-        typedef bool (*change_func_t)(bool);
+        using change_func_t = bool (*)(bool);
 
         /**
             Constructor changes the flag using the specified function.

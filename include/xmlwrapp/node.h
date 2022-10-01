@@ -89,7 +89,7 @@ class XMLWRAPP_API node
 {
 public:
     /// size type
-    typedef std::size_t size_type;
+    using size_type = std::size_t;
 
     /// enum for the different types of XML nodes
     enum node_type
@@ -443,11 +443,11 @@ public:
     class XMLWRAPP_API iterator
     {
     public:
-        typedef node value_type;
-        typedef int difference_type;
-        typedef value_type* pointer;
-        typedef value_type& reference;
-        typedef std::forward_iterator_tag iterator_category;
+        using value_type = node;
+        using difference_type = int;
+        using pointer = value_type *;
+        using reference = value_type &;
+        using iterator_category = std::forward_iterator_tag;
 
         iterator() : pimpl_(nullptr) {}
         iterator(const iterator& other);
@@ -486,11 +486,11 @@ public:
     class XMLWRAPP_API const_iterator
     {
     public:
-        typedef const node value_type;
-        typedef int difference_type;
-        typedef value_type* pointer;
-        typedef value_type& reference;
-        typedef std::forward_iterator_tag iterator_category;
+        using value_type = const node;
+        using difference_type = int;
+        using pointer = value_type *;
+        using reference = value_type &;
+        using iterator_category = std::forward_iterator_tag;
 
         const_iterator() : pimpl_(nullptr) {}
         const_iterator(const const_iterator &other);

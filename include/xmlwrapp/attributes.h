@@ -72,7 +72,7 @@ class XMLWRAPP_API attributes
 {
 public:
     /// size type
-    typedef std::size_t size_type;
+    using size_type = std::size_t;
 
     /**
         Create a new xml::attributes object with no attributes.
@@ -153,11 +153,11 @@ public:
     class XMLWRAPP_API iterator
     {
     public:
-        typedef attr value_type;
-        typedef std::ptrdiff_t difference_type;
-        typedef value_type* pointer;
-        typedef value_type& reference;
-        typedef std::forward_iterator_tag iterator_category;
+        using value_type = attr;
+        using difference_type = std::ptrdiff_t;
+        using pointer = value_type *;
+        using reference = value_type &;
+        using iterator_category = std::forward_iterator_tag;
 
         iterator();
         iterator(const iterator& other);
@@ -194,11 +194,11 @@ public:
     class XMLWRAPP_API const_iterator
     {
     public:
-        typedef const attr value_type;
-        typedef std::ptrdiff_t difference_type;
-        typedef value_type* pointer;
-        typedef value_type& reference;
-        typedef std::forward_iterator_tag iterator_category;
+        using value_type = const attr;
+        using difference_type = std::ptrdiff_t;
+        using pointer = value_type *;
+        using reference = value_type &;
+        using iterator_category = std::forward_iterator_tag;
 
         const_iterator();
         const_iterator(const const_iterator& other);

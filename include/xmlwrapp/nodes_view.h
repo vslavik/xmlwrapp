@@ -79,7 +79,7 @@ class XMLWRAPP_API nodes_view
 {
 public:
     /// Size type.
-    typedef std::size_t size_type;
+    using size_type = std::size_t;
 
     nodes_view() : data_begin_(nullptr), advance_func_(nullptr) {}
     nodes_view(const nodes_view& other);
@@ -98,11 +98,11 @@ public:
     class XMLWRAPP_API iterator
     {
     public:
-        typedef node value_type;
-        typedef int difference_type;
-        typedef value_type* pointer;
-        typedef value_type& reference;
-        typedef std::forward_iterator_tag iterator_category;
+        using value_type = node;
+        using difference_type = int;
+        using pointer = value_type *;
+        using reference = value_type &;
+        using iterator_category = std::forward_iterator_tag;
 
         iterator() : pimpl_(nullptr), advance_func_(nullptr) {}
         iterator(const iterator& other);
@@ -141,11 +141,11 @@ public:
     class XMLWRAPP_API const_iterator
     {
     public:
-        typedef const node value_type;
-        typedef int difference_type;
-        typedef value_type* pointer;
-        typedef value_type& reference;
-        typedef std::forward_iterator_tag iterator_category;
+        using value_type = const node;
+        using difference_type = int;
+        using pointer = value_type *;
+        using reference = value_type &;
+        using iterator_category = std::forward_iterator_tag;
 
         const_iterator() : pimpl_(nullptr), advance_func_(nullptr) {}
         const_iterator(const const_iterator& other);
@@ -253,7 +253,7 @@ class XMLWRAPP_API const_nodes_view
 {
 public:
     /// Size type.
-    typedef std::size_t size_type;
+    using size_type = std::size_t;
 
     const_nodes_view() : data_begin_(nullptr), advance_func_(nullptr) {}
     const_nodes_view(const const_nodes_view& other);
@@ -263,8 +263,8 @@ public:
     const_nodes_view& operator=(const const_nodes_view& other);
     const_nodes_view& operator=(const nodes_view& other);
 
-    typedef nodes_view::const_iterator iterator;
-    typedef nodes_view::const_iterator const_iterator;
+    using iterator = nodes_view::const_iterator;
+    using const_iterator = nodes_view::const_iterator;
 
     /// Get an iterator that points to the beginning of this view's nodes.
     const_iterator begin() const

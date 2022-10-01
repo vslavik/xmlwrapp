@@ -188,7 +188,7 @@ class XMLWRAPP_API error_messages : public error_handler
 {
 public:
     /// A type to store multiple messages
-    typedef std::list<error_message> messages_type;
+    using messages_type = std::list<error_message>;
 
     error_messages() = default;
 
