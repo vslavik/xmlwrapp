@@ -81,8 +81,8 @@ public:
 private:
     event_parser& parent_;
 
-    epimpl(const epimpl&);
-    epimpl& operator=(const epimpl&);
+    epimpl(const epimpl&) = delete;
+    epimpl& operator=(const epimpl&) = delete;
 };
 
 

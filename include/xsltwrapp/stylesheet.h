@@ -226,8 +226,8 @@ private:
     pimpl *pimpl_;
 
     // an xslt::stylesheet cannot yet be copied or assigned to.
-    stylesheet(const stylesheet&);
-    stylesheet& operator=(const stylesheet&);
+    stylesheet(const stylesheet&) = delete;
+    stylesheet& operator=(const stylesheet&) = delete;
 }; // end xslt::stylesheet class
 
 } // end xslt namespace

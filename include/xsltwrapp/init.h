@@ -76,8 +76,8 @@ public:
     XSLTWRAPP_API static void process_xincludes(bool flag);
 
 private:
-    init(const init&);
-    init& operator=(const init&);
+    init(const init&) = delete;
+    init& operator=(const init&) = delete;
 
     void init_library();
     void shutdown_library();

@@ -137,8 +137,8 @@ public:
 
 private:
     // no copying
-    xpath_context(const xpath_context&);
-    xpath_context& operator=(const xpath_context&);
+    xpath_context(const xpath_context&) = delete;
+    xpath_context& operator=(const xpath_context&) = delete;
 
     impl::xpath_context_impl *pimpl_;
 };

@@ -154,8 +154,8 @@ struct xpath_context_impl
 
 private:
     // non-copyable
-    xpath_context_impl(const xpath_context_impl&);
-    xpath_context_impl& operator=(const xpath_context_impl&);
+    xpath_context_impl(const xpath_context_impl&) = delete;
+    xpath_context_impl& operator=(const xpath_context_impl&) = delete;
 };
 
 } // namespace impl

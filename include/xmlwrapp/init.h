@@ -170,8 +170,8 @@ public:
     static bool validate_xml(bool flag);
 
 private:
-    init(const init&);
-    init& operator=(const init&);
+    init(const init&) = delete;
+    init& operator=(const init&) = delete;
 
     void init_library();
     void shutdown_library();

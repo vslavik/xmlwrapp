@@ -94,8 +94,8 @@ private:
     impl::schema_impl *pimpl_;
 
     // Schema class is not copyable
-    schema(const schema&);
-    schema& operator=(const schema&);
+    schema(const schema&) = delete;
+    schema& operator=(const schema&) = delete;
 };
 
 } // namespace xml

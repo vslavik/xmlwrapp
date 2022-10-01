@@ -196,8 +196,8 @@ private:
     // Don't allow anyone to copy construct a xml::tree_parser or allow the
     // assignment operator to be called. It is not very useful to copy a
     // parser that has already parsed half a document.
-    tree_parser(const tree_parser&);
-    tree_parser& operator=(const tree_parser&);
+    tree_parser(const tree_parser&) = delete;
+    tree_parser& operator=(const tree_parser&) = delete;
 };
 
 } // end xml namespace

@@ -67,8 +67,8 @@ public:
     ~global_errors_installer();
 
 private:
-    global_errors_installer(const global_errors_installer&);
-    global_errors_installer& operator=(const global_errors_installer&);
+    global_errors_installer(const global_errors_installer&) = delete;
+    global_errors_installer& operator=(const global_errors_installer&) = delete;
 
     xmlGenericErrorFunc xml_generic_error_orig_;
     void *xml_generic_error_context_orig_;
@@ -91,8 +91,8 @@ public:
     }
 
 private:
-    global_errors_collector(const global_errors_collector&);
-    global_errors_collector& operator=(const global_errors_collector&);
+    global_errors_collector(const global_errors_collector&) = delete;
+    global_errors_collector& operator=(const global_errors_collector&) = delete;
 };
 
 // These functions can be used as error callbacks in various libxml2 functions.

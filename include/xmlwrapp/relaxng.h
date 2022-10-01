@@ -95,8 +95,8 @@ private:
     impl::relaxng_impl *pimpl_;
 
     // This class is not copyable
-    relaxng(const relaxng&);
-    relaxng& operator=(const relaxng&);
+    relaxng(const relaxng&) = delete;
+    relaxng& operator=(const relaxng&) = delete;
 };
 
 } // namespace xml

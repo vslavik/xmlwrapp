@@ -433,8 +433,8 @@ public:
 private:
     bool used_{false};
 
-    temp_test_file(const temp_test_file&);
-    temp_test_file& operator=(const temp_test_file&);
+    temp_test_file(const temp_test_file&) = delete;
+    temp_test_file& operator=(const temp_test_file&) = delete;
 };
 
 /*

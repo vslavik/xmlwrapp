@@ -221,8 +221,8 @@ private:
     // Don't allow anyone to copy construct an event_parser or to call the
     // assignment operator. It does not make sense to copy a parser if it is
     // half way done parsing. Plus, it would be a pain!
-    event_parser(const event_parser&);
-    event_parser& operator=(const event_parser&);
+    event_parser(const event_parser&) = delete;
+    event_parser& operator=(const event_parser&) = delete;
 };
 
 } // namespace xml

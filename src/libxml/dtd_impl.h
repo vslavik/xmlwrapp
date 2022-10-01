@@ -76,8 +76,8 @@ private:
     xmlValidCtxt vctxt_;
     xmlDtdPtr dtd_;
 
-    dtd_impl(const dtd_impl&);
-    dtd_impl& operator=(const dtd_impl&);
+    dtd_impl(const dtd_impl&) = delete;
+    dtd_impl& operator=(const dtd_impl&) = delete;
     void init_ctxt();
 };
 
