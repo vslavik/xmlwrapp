@@ -97,6 +97,7 @@ AC_ARG_ENABLE(xslt,
 dnl === Program checks ===
 
 AC_PROG_CXX
+AX_CXX_COMPILE_STDCXX(11)
 LT_PATH_LD
 
 dnl This is a workaround for the harmless but annoying warning
