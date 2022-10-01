@@ -53,7 +53,7 @@ public:
     void replay(error_handler& dest);
 
 protected:
-    virtual std::string format_for_print(const error_message& msg) const;
+    std::string format_for_print(const error_message& msg) const override;
 };
 
 // RAII helper installing the given error collector as the global error sink

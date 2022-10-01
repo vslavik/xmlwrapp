@@ -56,7 +56,7 @@ namespace impl
     {
         sort_callback(T& t) : t_(t) {}
 
-        bool operator()(const xml::node& lhs, const xml::node& rhs)
+        bool operator()(const xml::node& lhs, const xml::node& rhs) override
             { return t_(lhs, rhs); }
 
         T &t_;

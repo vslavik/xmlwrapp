@@ -42,41 +42,41 @@ TEST_CASE_METHOD( SrcdirConfig, "event/callbacks", "[event]" )
         test_parser(std::ostream& stream) : stream_(stream)
             { stream_ << "-- CTOR:\n"; }
 
-        ~test_parser (void)
+        ~test_parser (void) override
             { stream_ << "-- DTOR:\n"; }
 
     private:
-        bool start_element (const std::string &name, const xml::event_parser::attrs_type&)
+        bool start_element (const std::string &name, const xml::event_parser::attrs_type&) override
         {
             stream_ << "-- START_ELEMENT: " << name << "\n";
             return true;
         }
 
-        bool end_element (const std::string &name)
+        bool end_element (const std::string &name) override
         {
             stream_ << "-- END_ELEMENT: " << name << "\n";
             return true;
         }
 
-        bool text (const std::string &contents)
+        bool text (const std::string &contents) override
         {
             stream_ << "-- TEXT: " << contents << "\n";
             return true;
         }
 
-        bool processing_instruction (const std::string &target, const std::string &data)
+        bool processing_instruction (const std::string &target, const std::string &data) override
         {
             stream_ << "-- PI: TARGET=" << target << " DATA=" << data << "\n";
             return true;
         }
 
-        bool comment (const std::string &contents)
+        bool comment (const std::string &contents) override
         {
             stream_ << "-- COMMENT: " << contents << "\n";
             return true;
         }
 
-        bool cdata (const std::string &contents)
+        bool cdata (const std::string &contents) override
         {
             stream_ << "-- CDATA: " << contents << "\n";
             return true;
@@ -105,17 +105,17 @@ TEST_CASE_METHOD( SrcdirConfig, "event/cdata_to_text_fallback", "[event]" )
 {
     struct test_parser : public xml::event_parser
     {
-        bool start_element(const std::string&, const xml::event_parser::attrs_type&)
+        bool start_element(const std::string&, const xml::event_parser::attrs_type&) override
         {
             return true;
         }
 
-        bool end_element(const std::string&)
+        bool end_element(const std::string&) override
         {
             return true;
         }
 
-        bool text(const std::string &contents)
+        bool text(const std::string &contents) override
         {
             text_ += contents;
             return true;
@@ -149,17 +149,17 @@ struct failing_parser : public xml::event_parser
           should_throw_(should_throw)
     {}
 
-    bool start_element(const std::string&, const xml::event_parser::attrs_type&)
+    bool start_element(const std::string&, const xml::event_parser::attrs_type&) override
         { return handle("start_element"); }
-    bool end_element(const std::string&)
+    bool end_element(const std::string&) override
         { return handle("end_element"); }
-    bool text(const std::string&)
+    bool text(const std::string&) override
         { return handle("text"); }
-    bool processing_instruction(const std::string&, const std::string&)
+    bool processing_instruction(const std::string&, const std::string&) override
         { return handle("processing_instruction"); }
-    bool comment(const std::string&)
+    bool comment(const std::string&) override
         { return handle("comment"); }
-    bool cdata(const std::string&)
+    bool cdata(const std::string&) override
         { return handle("cdata"); }
 
     bool handle(const char *callback)

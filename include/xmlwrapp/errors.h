@@ -104,8 +104,8 @@ public:
 class error_handler_ignore_errors : public error_handler
 {
 public:
-    void on_error(const std::string&) {}
-    void on_warning(const std::string&) {}
+    void on_error(const std::string&) override {}
+    void on_warning(const std::string&) override {}
 };
 
 /**
@@ -116,8 +116,8 @@ public:
 class error_handler_throw_on_error : public error_handler
 {
 public:
-    void on_error(const std::string& msg) { throw exception(msg); }
-    void on_warning(const std::string&) {}
+    void on_error(const std::string& msg) override { throw exception(msg); }
+    void on_warning(const std::string&) override {}
 };
 
 /**
@@ -128,7 +128,7 @@ public:
 class error_handler_throw_on_error_or_warning : public error_handler_throw_on_error
 {
 public:
-    void on_warning(const std::string& msg) { on_error(msg); }
+    void on_warning(const std::string& msg) override { on_error(msg); }
 };
 
 /// Error handler ignoring all errors, its use is strongly discouraged.
@@ -228,8 +228,8 @@ public:
 
 
     // Implementation of error_handler methods:
-    void on_error(const std::string& msg);
-    void on_warning(const std::string& msg);
+    void on_error(const std::string& msg) override;
+    void on_warning(const std::string& msg) override;
 
 protected:
     /// Called by print() to format a single message.

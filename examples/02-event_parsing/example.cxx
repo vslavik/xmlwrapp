@@ -52,16 +52,16 @@ public:
     myparser (void)
     { std::cout << "myparser constructor\n"; }
 
-    ~myparser (void)
+    ~myparser (void) override
     { std::cout << "myparser destructor\n"; }
 private:
-    bool start_element (const std::string &name, const attrs_type&)
+    bool start_element (const std::string &name, const attrs_type&) override
     { std::cout << "begin tag '" << name << "'\n"; return true; }
 
-    bool end_element (const std::string &name)
+    bool end_element (const std::string &name) override
     { std::cout << "end tag '" << name << "'\n"; return true;   }
 
-    bool text (const std::string&)
+    bool text (const std::string&) override
     { return true; }
 };
 

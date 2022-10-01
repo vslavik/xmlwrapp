@@ -238,7 +238,7 @@ xmlNodePtr find_element(xmlNodePtr first)
 class next_element_functor : public iter_advance_functor
 {
 public:
-    virtual xmlNodePtr operator()(xmlNodePtr node) const
+    xmlNodePtr operator()(xmlNodePtr node) const override
         { return find_element(node->next); }
 };
 
@@ -247,7 +247,7 @@ class next_named_element_functor : public iter_advance_functor
 {
 public:
     next_named_element_functor(const char *name) : name_(name) {}
-    virtual xmlNodePtr operator()(xmlNodePtr node) const
+    xmlNodePtr operator()(xmlNodePtr node) const override
         { return find_element(name_.c_str(), node->next); }
 private:
     std::string name_;

@@ -88,7 +88,7 @@ public:
             m_next[table[i]] = table[i+1];
     }
 
-    virtual xmlNodePtr operator()(xmlNodePtr node) const
+    xmlNodePtr operator()(xmlNodePtr node) const override
     {
         const NextNodeMap::const_iterator i = m_next.find(node);
         if ( i == m_next.end() )

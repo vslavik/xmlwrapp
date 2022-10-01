@@ -83,7 +83,7 @@ public:
     // than the lifetime of this object.
     result_impl(xmlDocPtr doc, xsltStylesheetPtr ss) : doc_(doc), ss_(ss) {}
 
-    virtual void save_to_string(std::string &s) const
+    void save_to_string(std::string &s) const override
     {
         xmlChar *xml_string;
         int xml_string_length;
@@ -96,8 +96,8 @@ public:
         }
     }
 
-    virtual bool
-    save_to_file(const char *filename, int /* compression_level */) const
+    bool
+    save_to_file(const char *filename, int /* compression_level */) const override
     {
         return xsltSaveResultToFilename(filename, doc_, ss_, 0) >= 0;
     }
@@ -129,7 +129,7 @@ class xslt_errors_collector : public xml::impl::errors_collector
 public:
     xslt_errors_collector(xsltTransformContextPtr c) : ctxt_(c) {}
 
-    virtual void on_error(const std::string& msg)
+    void on_error(const std::string& msg) override
     {
         xml::impl::errors_collector::on_error(msg);
 
