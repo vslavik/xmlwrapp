@@ -42,7 +42,7 @@ TEST_CASE_METHOD( SrcdirConfig, "event/callbacks", "[event]" )
         test_parser(std::ostream& stream) : stream_(stream)
             { stream_ << "-- CTOR:\n"; }
 
-        ~test_parser (void) override
+        ~test_parser () override
             { stream_ << "-- DTOR:\n"; }
 
     private:

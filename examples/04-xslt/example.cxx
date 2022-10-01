@@ -42,7 +42,7 @@
 #include <iostream>
 #include <exception>
 
-int main (void) {
+int main () {
     try {
 	// parse the input XML document
 	xml::tree_parser parser("example.xml");

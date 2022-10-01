@@ -66,7 +66,7 @@ xslt::init::init()
 }
 
 
-xslt::init::~init(void)
+xslt::init::~init()
 {
     if ( --ms_counter == 0 )
         shutdown_library();

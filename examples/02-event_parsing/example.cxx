@@ -49,10 +49,10 @@
  */
 class myparser : public xml::event_parser {
 public:
-    myparser (void)
+    myparser ()
     { std::cout << "myparser constructor\n"; }
 
-    ~myparser (void) override
+    ~myparser () override
     { std::cout << "myparser destructor\n"; }
 private:
     bool start_element (const std::string &name, const attrs_type&) override

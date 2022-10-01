@@ -62,7 +62,7 @@
 
 struct xslt::stylesheet::pimpl
 {
-    pimpl (void) : ss_(nullptr), errors_occured_(false) { }
+    pimpl () : ss_(nullptr), errors_occured_(false) { }
 
     xsltStylesheetPtr ss_;
     xml::document doc_;
