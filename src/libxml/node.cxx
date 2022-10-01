@@ -36,7 +36,6 @@
 #include "xmlwrapp/nodes_view.h"
 #include "xmlwrapp/attributes.h"
 #include "xmlwrapp/errors.h"
-#include "cpp11.h"
 #include "utility.h"
 #include "ait_impl.h"
 #include "node_manip.h"
@@ -89,9 +88,6 @@ struct node_impl
 
 
 struct node_cmp
-#ifndef XMLWRAPP_CPP11
-    : public std::binary_function<xmlNodePtr, xmlNodePtr, bool>
-#endif // !XMLWRAPP_CPP11
 {
     node_cmp (cbfo_node_compare &cb) : cb_(cb) {}
 
@@ -158,9 +154,6 @@ private:
 
 // sort compare function to sort based on attribute
 struct compare_attr
-#ifndef XMLWRAPP_CPP11
-    : public std::binary_function<xmlNodePtr, xmlNodePtr, bool>
-#endif // !XMLWRAPP_CPP11
 {
     compare_attr(const char *attr_name) : name_(attr_name) {}
 
@@ -205,9 +198,6 @@ struct compare_attr
 
 // add a node as a child
 struct insert_node
-#ifndef XMLWRAPP_CPP11
-    : public std::unary_function<xmlNodePtr, void>
-#endif // !XMLWRAPP_CPP11
 {
     insert_node(xmlNodePtr parent) : parent_(parent) {}
     void operator()(xmlNodePtr child) { xmlAddChild(parent_, child); }
@@ -278,7 +268,7 @@ node::node(int)
 
 node::node()
 {
-    xml::impl::auto_ptr<node_impl> ap(pimpl_ = new node_impl);
+    std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
 
     pimpl_->xmlnode_ = xmlNewNode(0, reinterpret_cast<const xmlChar*>("blank"));
     if (!pimpl_->xmlnode_)
@@ -290,7 +280,7 @@ node::node()
 
 node::node (const char *name)
 {
-    xml::impl::auto_ptr<node_impl> ap(pimpl_ = new node_impl);
+    std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
 
     pimpl_->xmlnode_ = xmlNewNode(0, reinterpret_cast<const xmlChar*>(name));
     if (!pimpl_->xmlnode_)
@@ -302,7 +292,7 @@ node::node (const char *name)
 
 node::node (const char *name, const char *content)
 {
-    xml::impl::auto_ptr<node_impl> ap(pimpl_ = new node_impl);
+    std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
 
     pimpl_->xmlnode_ = xmlNewNode(0, reinterpret_cast<const xmlChar*>(name));
     if (!pimpl_->xmlnode_)
@@ -329,7 +319,7 @@ node::node(cdata cdata_info)
 {
     const int len = xml::impl::checked_int_cast(std::strlen(cdata_info.t));
 
-    xml::impl::auto_ptr<node_impl> ap(pimpl_ = new node_impl);
+    std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
 
     if ( (pimpl_->xmlnode_ = xmlNewCDataBlock(0, reinterpret_cast<const xmlChar*>(cdata_info.t), len)) == 0)
     {
@@ -342,7 +332,7 @@ node::node(cdata cdata_info)
 
 node::node(comment comment_info)
 {
-    xml::impl::auto_ptr<node_impl> ap(pimpl_ = new node_impl);
+    std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
 
     if ( (pimpl_->xmlnode_ =  xmlNewComment(reinterpret_cast<const xmlChar*>(comment_info.t))) == 0)
     {
@@ -355,7 +345,7 @@ node::node(comment comment_info)
 
 node::node(pi pi_info)
 {
-    xml::impl::auto_ptr<node_impl> ap(pimpl_ = new node_impl);
+    std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
 
     if ( (pimpl_->xmlnode_ = xmlNewPI(reinterpret_cast<const xmlChar*>(pi_info.n), reinterpret_cast<const xmlChar*>(pi_info.c))) == 0)
     {
@@ -368,7 +358,7 @@ node::node(pi pi_info)
 
 node::node(text text_info)
 {
-    xml::impl::auto_ptr<node_impl> ap(pimpl_ = new node_impl);
+    std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
 
     if ( (pimpl_->xmlnode_ =  xmlNewText(reinterpret_cast<const xmlChar*>(text_info.t))) == 0)
     {
@@ -381,7 +371,7 @@ node::node(text text_info)
 
 node::node(const node& other)
 {
-    xml::impl::auto_ptr<node_impl> ap(pimpl_ = new node_impl);
+    std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
 
     pimpl_->xmlnode_ = xmlCopyNode(other.pimpl_->xmlnode_, 1);
     if (!pimpl_->xmlnode_)

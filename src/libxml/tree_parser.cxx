@@ -35,7 +35,6 @@
 #include "xmlwrapp/tree_parser.h"
 #include "xmlwrapp/document.h"
 #include "xmlwrapp/errors.h"
-#include "cpp11.h"
 #include "utility.h"
 #include "errors_impl.h"
 
@@ -132,7 +131,7 @@ tree_parser::tree_parser(const char *name, error_handler& on_error)
 
 void tree_parser::init(const char *name, error_handler *on_error)
 {
-    xml::impl::auto_ptr<tree_impl> ap(pimpl_ = new tree_impl);
+    std::unique_ptr<tree_impl> ap(pimpl_ = new tree_impl);
 
     // Errors happening before the document is parsed, e.g. IO errors, are
     // logged using the global function and not the SAX handler callbacks, so
@@ -179,7 +178,7 @@ tree_parser::tree_parser(const char *data, size_type size, error_handler& on_err
 
 void tree_parser::init(const char *data, size_type size, error_handler *on_error)
 {
-    xml::impl::auto_ptr<tree_impl> ap(pimpl_ = new tree_impl);
+    std::unique_ptr<tree_impl> ap(pimpl_ = new tree_impl);
     xmlParserCtxtPtr ctxt;
 
     if ( (ctxt = xmlCreateMemoryParserCtxt(data, xml::impl::checked_int_cast(size))) == 0)
