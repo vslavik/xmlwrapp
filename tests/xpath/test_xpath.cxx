@@ -82,11 +82,9 @@ TEST_CASE_METHOD( SrcdirConfig, "xpath/node_set_iterators", "[xpath]" )
     CHECK( ++it != ns.begin() );
 
 
-    for (it = ns.begin(); it != ns.end(); ++it)
+    for (auto const& n : ns)
     {
-        CHECK( it->get_name() );
-        CHECK( (*it).get_name() );
-        CHECK( strcmp((*it).get_name(), it->get_name()) == 0 );
+        CHECK( n.get_name() );
     }
 }
 

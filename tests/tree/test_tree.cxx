@@ -177,9 +177,8 @@ void dump_node(std::ostream& s, const xml::node &n, int space_counter = 0)
         s << " ";
     s << n.get_name() << std::endl;
 
-    xml::node::const_iterator i(n.begin()), end(n.end());
-    for (; i != end; ++i)
-        dump_node(s, *i, space_counter + 4);
+    for (auto const& child : n)
+        dump_node(s, child, space_counter + 4);
 }
 
 } // anonymous namespace

@@ -190,8 +190,8 @@ inline void dump_node_type(std::ostream& s, const xml::node &n, int indent = 0)
             break;
     }
 
-    for ( xml::node::const_iterator i = n.begin(); i != n.end(); ++i )
-        dump_node_type(s, *i, indent + 4);
+    for (auto const& child : n)
+        dump_node_type(s, child, indent + 4);
 }
 
 #endif // _xmlwrapp_test_h_

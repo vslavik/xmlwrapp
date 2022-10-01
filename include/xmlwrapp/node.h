@@ -680,8 +680,7 @@ public:
 
         Example:
         @code
-        xml::nodes_view view(root.elements());
-        for (xml::nodes_view::iterator i = view.begin(); i != view.end(); ++i)
+        for (const auto& elem : root.elements())
         {
           ...
         }
@@ -701,9 +700,7 @@ public:
         Example:
         @code
         xml::const_nodes_view view(root.elements());
-        for (xml::const_nodes_view::const_iterator i = view.begin();
-             i != view.end();
-             ++i)
+        for (const auto& elem : root.elements())
         {
           ...
         }
@@ -722,8 +719,7 @@ public:
 
         Example:
         @code
-        xml::nodes_view view(root.elements("person"));
-        for (xml::nodes_view::iterator i = view.begin(); i != view.end(); ++i)
+        for (const auto& elem : root.elements("person"))
         {
           ...
         }
@@ -741,10 +737,7 @@ public:
 
         Example:
         @code
-        xml::const_nodes_view view(root.elements("person"));
-        for (xml::const_nodes_view::const_iterator i = view.begin();
-             i != view.end();
-             ++i)
+        for (const auto& elem : root.elements("person"))
         {
           ...
         }

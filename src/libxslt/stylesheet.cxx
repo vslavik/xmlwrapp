@@ -113,11 +113,10 @@ void make_vector_param(std::vector<const char*> &v,
 {
     v.reserve(p.size());
 
-    xslt::stylesheet::param_type::const_iterator i = p.begin(), end = p.end();
-    for (; i != end; ++i)
+    for (auto const& param : p)
     {
-        v.push_back(i->first.c_str());
-        v.push_back(i->second.c_str());
+        v.push_back(param.first.c_str());
+        v.push_back(param.second.c_str());
     }
 
     v.push_back(nullptr);

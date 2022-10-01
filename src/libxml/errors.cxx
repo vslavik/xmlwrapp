@@ -66,13 +66,11 @@ std::string error_messages::print() const
 {
     std::string buffer;
 
-    messages_type::const_iterator begin(messages_.begin());
-    messages_type::const_iterator end(messages_.end());
-    for (messages_type::const_iterator k = begin; k != end; ++k)
+    for (const auto& msg : messages_)
     {
-        if (k != begin)
+        if (!buffer.empty())
             buffer += "\n";
-        buffer += format_for_print(*k);
+        buffer += format_for_print(msg);
     }
 
     return buffer;
@@ -268,19 +266,15 @@ extern "C" void cb_messages_error(void *out, const char *message, ...)
 
 void errors_collector::replay(error_handler& dest)
 {
-    const messages_type& msg = messages();
-
-    for ( messages_type::const_iterator i = msg.begin();
-          i != msg.end();
-          ++i )
+    for (const auto& msg : messages())
     {
-        switch ( i->type() )
+        switch (msg.type())
         {
             case error_message::type_error:
-                dest.on_error(i->message());
+                dest.on_error(msg.message());
                 break;
             case error_message::type_warning:
-                dest.on_warning(i->message());
+                dest.on_warning(msg.message());
                 break;
         }
     }

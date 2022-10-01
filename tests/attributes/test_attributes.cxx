@@ -45,11 +45,9 @@ static void do_attr_read(const std::string& prefix)
 
     xml::tree_parser parser(test_file_path(prefix + ".xml").c_str());
 
-    const xml::attributes &attrs = parser.get_document().get_root_node().get_attributes();
-    xml::attributes::const_iterator i=attrs.begin(), end=attrs.end();
-    for (; i!=end; ++i)
+    for (auto const& attr : parser.get_document().get_root_node().get_attributes())
     {
-        ostr << i->get_name() << "=" << i->get_value() << "\n";
+        ostr << attr.get_name() << "=" << attr.get_value() << "\n";
     }
 
     CHECK( is_same_as_file(ostr, prefix + ".out") );
@@ -230,11 +228,8 @@ TEST_CASE_METHOD( SrcdirConfig, "attributes/attr_copy_ctor", "[attributes]" )
     xml::tree_parser parser(test_file_path("attributes/data/08.xml").c_str());
 
     // make a copy
-    xml::attributes attrs = parser.get_document().get_root_node().get_attributes();
-    xml::attributes::const_iterator i = attrs.begin(), end = attrs.end();
-
-    for ( ; i != end; ++i )
-        ostr << i->get_name() << "=" << i->get_value() << "\n";
+    for (auto const& attr : parser.get_document().get_root_node().get_attributes())
+        ostr << attr.get_name() << "=" << attr.get_value() << "\n";
 
     CHECK( is_same_as_file(ostr, "attributes/data/08.out") );
 }

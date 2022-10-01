@@ -46,10 +46,8 @@ TEST_CASE_METHOD( SrcdirConfig, "document/dump_type", "[document]" )
     xml::tree_parser parser(test_file_path("document/data/01.xml").c_str());
 
     std::ostringstream ostr;
-    xml::node::iterator i = parser.get_document().begin(),
-                        end = parser.get_document().end();
-    for (; i!=end; ++i)
-        dump_node_type(ostr, *i);
+    for (auto const& node : parser.get_document())
+        dump_node_type(ostr, node);
 
     CHECK( is_same_as_file(ostr, "document/data/01.out") );
 }

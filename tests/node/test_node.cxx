@@ -150,9 +150,9 @@ TEST_CASE_METHOD( SrcdirConfig, "node/elements", "[node]" )
 
     std::ostringstream ostr;
 
-    for (xml::nodes_view::const_iterator i = persons.begin(); i != persons.end(); ++i)
+    for (auto const& p : persons)
     {
-        ostr << *i;
+        ostr << p;
     }
 
     CHECK( is_same_as_file( ostr, "node/data/02c.out") );
@@ -174,9 +174,9 @@ TEST_CASE_METHOD( SrcdirConfig, "node/elements_const", "[node]" )
 
     std::ostringstream ostr;
 
-    for (xml::const_nodes_view::const_iterator i = persons.begin(); i != persons.end(); ++i)
+    for (auto const& p : persons)
     {
-        ostr << *i;
+        ostr << p;
     }
 
     CHECK( is_same_as_file( ostr, "node/data/02c.out") );
@@ -196,9 +196,9 @@ TEST_CASE_METHOD( SrcdirConfig, "node/elements_all", "[node]" )
 
     std::ostringstream ostr;
 
-    for (xml::nodes_view::const_iterator i = all.begin(); i != all.end(); ++i)
+    for (auto const& node : all)
     {
-        ostr << *i;
+        ostr << node;
     }
 
     CHECK( is_same_as_file( ostr, "node/data/02g.out") );
@@ -218,9 +218,9 @@ TEST_CASE_METHOD( SrcdirConfig, "node/elements_all_const", "[node]" )
 
     std::ostringstream ostr;
 
-    for (xml::const_nodes_view::const_iterator i = all.begin(); i != all.end(); ++i)
+    for (auto const& node : all)
     {
-        ostr << *i;
+        ostr << node;
     }
 
     CHECK( is_same_as_file( ostr, "node/data/02g.out") );

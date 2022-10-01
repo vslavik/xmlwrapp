@@ -18,19 +18,15 @@ int main(int argc, char *argv[])
     // execute the query //child (finds all "child"-nodes)
     xml::const_nodes_view children = ctxt.evaluate("//child");
 
-    // as you can see, node_set supports a standard set of
-    // functions to iterate over the result-nodes.
-    // a dereferenced iterator is a xml::node-reference.
-    for (xml::const_nodes_view::iterator it = children.begin(); it != children.end(); ++it)
+    // as you can see, node_set can be iterated over as any range.
+    for (auto const& child : children)
     {
-        std::cout << "//child : " << it->get_name() << std::endl;
+        std::cout << "//child : " << child.get_name() << std::endl;
     }
 
-    xml::const_nodes_view children_with_attribute = ctxt.evaluate("//child[@attrib=\"value\"]");
-    
-    for (xml::const_nodes_view::iterator it = children_with_attribute.begin(); it != children_with_attribute.end(); ++it)
+    for (auto const& child_with_attr : ctxt.evaluate("//child[@attrib=\"value\"]"))
     {
-        std::cout << "//child[@attrib=\"value\"] : " << it->get_name() << std::endl;
+        std::cout << "//child[@attrib=\"value\"] : " << child_with_attr.get_name() << std::endl;
     }
 
 
@@ -38,10 +34,9 @@ int main(int argc, char *argv[])
     ctxt.register_namespace("p", "http://example.com/a");
 
     const char *xpath = argc > 1 ? argv[1] : "/child/p:subchild";
-    xml::const_nodes_view subchildren = ctxt.evaluate(xpath);
-    for (xml::const_nodes_view::iterator it = subchildren.begin(); it != subchildren.end(); ++it)
+    for (auto const& subchild : ctxt.evaluate(xpath))
     {
-        std::cout << "/child/p:subchild : " << it->get_name() << std::endl;
+        std::cout << "/child/p:subchild : " << subchild.get_name() << std::endl;
     }
 
 

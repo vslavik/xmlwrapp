@@ -56,10 +56,9 @@ int main (int argc, char *argv[]) {
 	xml::node &root = parser.get_document().get_root_node();
 	std::cout << "root node is '" << root.get_name() << "'\n";
 
-	xml::node::const_iterator child(root.begin()), child_end(root.end());
-	for (; child != child_end; ++child) {
-	    if (child->is_text()) continue;
-	    std::cout << "child node '" << child->get_name() << "'\n";
+	for (auto const& child : root) {
+	    if (child.is_text()) continue;
+	    std::cout << "child node '" << child.get_name() << "'\n";
 	}
 
     } catch (std::exception &e) {
