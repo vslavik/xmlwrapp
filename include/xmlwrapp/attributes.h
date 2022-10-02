@@ -70,6 +70,11 @@ struct node_impl;
 
     The iterator classes allow you to access one XML attribute. This is done
     using the xml::attributes::attr class interface.
+
+    Objects of this class are copyable and movable, with the latter being more
+    efficient, but leaving the source object in a special state in which only
+    asignment operator and empty() and size() member functions can be used on
+    it.
  */
 class XMLWRAPP_API attributes
 {
@@ -90,12 +95,31 @@ public:
     attributes(const attributes& other);
 
     /**
+        Move construct a xml::attributes object.
+
+        @param other The xml::attributes object to move from.
+
+        @since 0.10.0
+     */
+    attributes(attributes&& other);
+
+    /**
         Copy the given xml::attributes object into this one.
 
         @param other The xml::attributes object to copy from.
         @return   *this.
      */
     attributes& operator=(const attributes& other);
+
+    /**
+        Move the given xml::attributes object into this one.
+
+        @param other The xml::attributes object to move from.
+        @return   *this.
+
+        @since 0.10.0
+     */
+    attributes& operator=(attributes&& other);
 
     /**
         Swap this xml::attributes object with another one.
@@ -162,7 +186,9 @@ public:
 
         iterator();
         iterator(const iterator& other);
+        iterator(iterator&& other);
         iterator& operator=(const iterator& other);
+        iterator& operator=(iterator&& other);
         ~iterator();
 
         reference operator*() const;
@@ -203,8 +229,10 @@ public:
 
         const_iterator();
         const_iterator(const const_iterator& other);
+        const_iterator(const_iterator&& other);
         const_iterator(const iterator& other);
         const_iterator& operator=(const const_iterator& other);
+        const_iterator& operator=(const_iterator&& other);
         ~const_iterator();
 
         reference operator*() const;
