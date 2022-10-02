@@ -98,7 +98,7 @@ relaxng::relaxng(const document& doc, error_handler& on_error)
     // Note that, unlike xmlSchemaNewDocParserCtxt(), we don't need to make a
     // copy of the document here as xmlRelaxNGNewDocParserCtxt() already does
     // it internally.
-    xmlDocPtr xmldoc = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
+    auto xmldoc = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
 
     pimpl_ = new relaxng_impl(xmldoc, on_error);
 }
@@ -110,7 +110,7 @@ relaxng::~relaxng()
 
 bool relaxng::validate(const document& doc, error_handler& on_error) const
 {
-    xmlDocPtr xmldoc = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
+    auto xmldoc = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
 
     xmlRelaxNGValidCtxtPtr ctxt = xmlRelaxNGNewValidCtxt(pimpl_->relaxng_);
     if ( !ctxt )

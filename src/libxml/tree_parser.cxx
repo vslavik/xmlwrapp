@@ -86,9 +86,9 @@ const char DEFAULT_ERROR[] = "unknown XML parsing error";
 
 extern "C" void cb_tree_structured_error(void *out, xmlErrorPtr error)
 {
-    xmlParserCtxtPtr ctxt = static_cast<xmlParserCtxtPtr>(out);
+    auto ctxt = static_cast<xmlParserCtxtPtr>(out);
 
-    tree_impl* const p = static_cast<tree_impl*>(ctxt->_private);
+    auto* const p = static_cast<tree_impl*>(ctxt->_private);
 
     cb_messages_structured_error(&p->messages_, error);
 }

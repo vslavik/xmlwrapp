@@ -102,7 +102,7 @@ schema::schema(const document& doc, error_handler& on_error)
     // so we have to make a private copy first
     document mydoc(doc);
 
-    xmlDocPtr xmldoc = static_cast<xmlDocPtr>(mydoc.get_doc_data_read_only());
+    auto xmldoc = static_cast<xmlDocPtr>(mydoc.get_doc_data_read_only());
     pimpl_ = new schema_impl(xmldoc, on_error);
 
     // xmldoc is still used in the schema_, but it's not owned (and thus freed)
@@ -122,7 +122,7 @@ schema::~schema()
 
 bool schema::validate(const document& doc, error_handler& on_error) const
 {
-    xmlDocPtr xmldoc = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
+    auto xmldoc = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
 
     xmlSchemaValidCtxtPtr ctxt = xmlSchemaNewValidCtxt(pimpl_->schema_);
     if ( !ctxt )

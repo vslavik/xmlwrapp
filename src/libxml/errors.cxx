@@ -190,7 +190,7 @@ extern "C" void cb_messages_structured_error(void *out, xmlErrorPtr error)
                 error->message[len - 1] = '\0';
         }
 
-        error_messages* const messages = static_cast<error_messages*>(out);
+        auto* const messages = static_cast<error_messages*>(out);
 
         switch (error->level)
         {
@@ -231,7 +231,7 @@ extern "C" void cb_messages_warning_v(void *out, const char *message, va_list ap
 {
     try
     {
-        error_messages *err = static_cast<error_messages*>(out);
+        auto *err = static_cast<error_messages*>(out);
 
         std::string text;
         printf2string(text, message, ap);
@@ -244,7 +244,7 @@ extern "C" void cb_messages_error_v(void *out, const char *message, va_list ap)
 {
     try
     {
-        error_messages *err = static_cast<error_messages*>(out);
+        auto *err = static_cast<error_messages*>(out);
 
         std::string text;
         printf2string(text, message, ap);

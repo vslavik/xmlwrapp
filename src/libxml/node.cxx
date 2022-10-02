@@ -588,7 +588,7 @@ const char *node::get_namespace() const
 
 void node::set_namespace(const std::string& href)
 {
-    const xmlChar *xmlHref = reinterpret_cast<const xmlChar*>(href.c_str());
+    const auto *xmlHref = reinterpret_cast<const xmlChar*>(href.c_str());
 
     if (pimpl_->xmlnode_->type != XML_ELEMENT_NODE)
         throw xml::exception("set_namespace called on non-element node");
@@ -710,7 +710,7 @@ node::const_iterator node::find(const char *name) const
 
 node::iterator node::find(const char *name, const iterator& start)
 {
-    xmlNodePtr n = static_cast<xmlNodePtr>(start.get_raw_node());
+    auto n = static_cast<xmlNodePtr>(start.get_raw_node());
     if ((n = find_element(name, n)) != nullptr)
         return iterator(n);
     return end();
@@ -719,7 +719,7 @@ node::iterator node::find(const char *name, const iterator& start)
 
 node::const_iterator node::find(const char *name, const const_iterator& start) const
 {
-    xmlNodePtr n = static_cast<xmlNodePtr>(start.get_raw_node());
+    auto n = static_cast<xmlNodePtr>(start.get_raw_node());
     if ((n = find_element(name, n)) != nullptr)
         return const_iterator(n);
     return end();

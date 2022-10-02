@@ -51,7 +51,7 @@ namespace
 
 extern "C" void dtd_error(void *ctxt, const char *message, ...)
 {
-    dtd_impl *dtd = static_cast<dtd_impl*>(ctxt);
+    auto *dtd = static_cast<dtd_impl*>(ctxt);
 
     va_list ap;
     va_start(ap, message);
@@ -61,7 +61,7 @@ extern "C" void dtd_error(void *ctxt, const char *message, ...)
 
 extern "C" void dtd_warning(void *ctxt, const char*, ...)
 {
-    dtd_impl *dtd = static_cast<dtd_impl*>(ctxt);
+    auto *dtd = static_cast<dtd_impl*>(ctxt);
     ++dtd->warnings_;
 }
 

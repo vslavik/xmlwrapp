@@ -203,7 +203,7 @@ xslt::stylesheet::stylesheet(xml::document doc, xml::error_handler& on_error)
 
 void xslt::stylesheet::init(xml::document& doc, xml::error_handler& on_error)
 {
-    xmlDocPtr xmldoc = static_cast<xmlDocPtr>(doc.get_doc_data());
+    auto xmldoc = static_cast<xmlDocPtr>(doc.get_doc_data());
     std::unique_ptr<pimpl> ap(pimpl_ = new pimpl);
 
     if ( (pimpl_->ss_ = xsltParseStylesheetDoc(xmldoc)) == nullptr)
@@ -253,7 +253,7 @@ bool xslt::stylesheet::apply(const xml::document &doc,
                              xml::document &result,
                              xml::error_handler& on_error)
 {
-    xmlDocPtr input = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
+    auto input = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
     xmlDocPtr xmldoc = apply_stylesheet(pimpl_, on_error, input);
 
     if (xmldoc)
@@ -271,7 +271,7 @@ bool xslt::stylesheet::apply(const xml::document &doc,
                              const param_type &with_params,
                              xml::error_handler& on_error)
 {
-    xmlDocPtr input = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
+    auto input = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
     xmlDocPtr xmldoc = apply_stylesheet(pimpl_, on_error, input, &with_params);
 
     if (xmldoc)
@@ -287,7 +287,7 @@ bool xslt::stylesheet::apply(const xml::document &doc,
 xml::document& xslt::stylesheet::apply(const xml::document &doc,
                                        xml::error_handler& on_error)
 {
-    xmlDocPtr input = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
+    auto input = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
     xmlDocPtr xmldoc = apply_stylesheet(pimpl_, on_error, input);
 
     if (!xmldoc)
@@ -305,7 +305,7 @@ xml::document& xslt::stylesheet::apply(const xml::document &doc,
                                        const param_type &with_params,
                                        xml::error_handler& on_error)
 {
-    xmlDocPtr input = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
+    auto input = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
     xmlDocPtr xmldoc = apply_stylesheet(pimpl_, on_error, input, &with_params);
 
     if (!xmldoc)

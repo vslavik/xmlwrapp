@@ -151,7 +151,7 @@ void* attributes::get_data()
 
 void attributes::set_data(void *node)
 {
-    xmlNodePtr x = static_cast<xmlNodePtr>(node);
+    auto x = static_cast<xmlNodePtr>(node);
 
     pimpl_->release();
     pimpl_->owner_ = false;
@@ -224,7 +224,7 @@ attributes::const_iterator attributes::find(const char *name) const
 
 attributes::iterator attributes::erase (iterator to_erase)
 {
-    xmlNodePtr prop = static_cast<xmlNodePtr>(to_erase.get_raw_attr());
+    auto prop = static_cast<xmlNodePtr>(to_erase.get_raw_attr());
     if (prop == nullptr)
         return iterator(); // handle fake and bad iterators
     ++to_erase;
