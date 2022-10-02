@@ -51,6 +51,8 @@
 #include <memory>
 #include <string>
 
+XMLWRAPP_MSVC_SUPPRESS_DLL_MEMBER_WARN
+
 namespace xslt
 {
 
@@ -231,5 +233,7 @@ private:
 }; // end xslt::stylesheet class
 
 } // end xslt namespace
+
+XMLWRAPP_MSVC_RESTORE_DLL_MEMBER_WARN
 
 #endif // _xsltwrapp_stylesheet_h_

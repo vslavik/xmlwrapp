@@ -48,6 +48,8 @@
 #include <iterator>
 #include <memory>
 
+XMLWRAPP_MSVC_SUPPRESS_DLL_MEMBER_WARN
+
 namespace xml
 {
 
@@ -306,5 +308,7 @@ inline bool operator!=(const nodes_view::const_iterator& lhs, const nodes_view::
     { return !(lhs == rhs); }
 
 } // end xml namespace
+
+XMLWRAPP_MSVC_RESTORE_DLL_MEMBER_WARN
 
 #endif // _xmlwrapp_nodes_view_h_

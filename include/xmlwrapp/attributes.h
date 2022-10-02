@@ -49,6 +49,8 @@
 #include <memory>
 #include <string>
 
+XMLWRAPP_MSVC_SUPPRESS_DLL_MEMBER_WARN
+
 namespace xml
 {
 
@@ -132,10 +134,8 @@ public:
         void *node_{nullptr};
         void *prop_{nullptr};
 
-        XMLWRAPP_MSVC_SUPPRESS_DLL_MEMBER_WARN
         std::string name_;
         mutable std::string value_;
-        XMLWRAPP_MSVC_RESTORE_DLL_MEMBER_WARN
 
         attr() = default;
         attr(const attr& other) = default;
@@ -350,5 +350,7 @@ private:
 };
 
 } // namespace xml
+
+XMLWRAPP_MSVC_RESTORE_DLL_MEMBER_WARN
 
 #endif // _xmlwrapp_attributes_h_

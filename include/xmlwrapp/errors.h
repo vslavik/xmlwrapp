@@ -47,6 +47,8 @@
 #include <string>
 #include <list>
 
+XMLWRAPP_MSVC_SUPPRESS_DLL_MEMBER_WARN
+
 /// XML library namespace
 namespace xml
 {
@@ -236,9 +238,7 @@ protected:
     virtual std::string format_for_print(const error_message& msg) const;
 
 private:
-    XMLWRAPP_MSVC_SUPPRESS_DLL_MEMBER_WARN
     messages_type messages_;
-    XMLWRAPP_MSVC_RESTORE_DLL_MEMBER_WARN
 
     bool          has_errors_{false};
     bool          has_warnings_{false};
@@ -252,5 +252,7 @@ inline exception::exception(const error_messages& what_arg)
 
 
 } // namespace xml
+
+XMLWRAPP_MSVC_RESTORE_DLL_MEMBER_WARN
 
 #endif // _xmlwrapp_errors_h_

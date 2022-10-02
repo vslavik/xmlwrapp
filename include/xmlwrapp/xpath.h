@@ -50,6 +50,8 @@
 #include <memory>
 #include <string>
 
+XMLWRAPP_MSVC_SUPPRESS_DLL_MEMBER_WARN
+
 namespace xml
 {
 
@@ -145,5 +147,7 @@ private:
 };
 
 } // namespace xml
+
+XMLWRAPP_MSVC_RESTORE_DLL_MEMBER_WARN
 
 #endif // _xmlwrapp_xpath_h_
