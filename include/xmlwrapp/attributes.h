@@ -46,6 +46,7 @@
 // standard includes
 #include <cstddef>
 #include <iosfwd>
+#include <memory>
 #include <string>
 
 namespace xml
@@ -177,7 +178,7 @@ public:
         friend bool XMLWRAPP_API operator!=(const iterator& lhs, const iterator& rhs);
 
     private:
-        impl::ait_impl *pimpl_;
+        std::unique_ptr<impl::ait_impl> pimpl_;
 
         iterator(void *node, void *prop);
         iterator(const char *name, const char *value, bool);
@@ -219,7 +220,7 @@ public:
         friend bool XMLWRAPP_API operator!= (const const_iterator &lhs, const const_iterator &rhs);
 
     private:
-        impl::ait_impl *pimpl_;
+        std::unique_ptr<impl::ait_impl> pimpl_;
 
         const_iterator(void *node, void *prop);
         const_iterator(const char *name, const char *value, bool);
@@ -336,7 +337,8 @@ public:
     size_type size() const;
 
 private:
-    struct pimpl; pimpl *pimpl_;
+    struct pimpl;
+    std::unique_ptr<pimpl> pimpl_;
 
     // private ctor to create uninitialized instance
     explicit attributes (int);

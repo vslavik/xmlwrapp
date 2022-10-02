@@ -132,26 +132,26 @@ ait_impl ait_impl::operator++(int)
 // ------------------------------------------------------------------------
 
 attributes::iterator::iterator()
+    : pimpl_{new ait_impl(nullptr, nullptr)}
 {
-    pimpl_ = new ait_impl(nullptr, nullptr);
 }
 
 
 attributes::iterator::iterator(void *node, void *prop)
+    : pimpl_{new ait_impl(static_cast<xmlNodePtr>(node), static_cast<xmlAttrPtr>(prop))}
 {
-    pimpl_ = new ait_impl(static_cast<xmlNodePtr>(node), static_cast<xmlAttrPtr>(prop));
 }
 
 
 attributes::iterator::iterator(const char *name, const char *value, bool)
+    : pimpl_{new ait_impl(name, value, true)}
 {
-    pimpl_ = new ait_impl(name, value, true);
 }
 
 
 attributes::iterator::iterator (const iterator &other)
+    : pimpl_{new ait_impl(*other.pimpl_)}
 {
-    pimpl_ = new ait_impl(*other.pimpl_);
 }
 
 
@@ -169,10 +169,7 @@ void attributes::iterator::swap(iterator& other)
 }
 
 
-attributes::iterator::~iterator()
-{
-    delete pimpl_;
-}
+attributes::iterator::~iterator() = default;
 
 
 void* attributes::iterator::get_raw_attr()
@@ -213,32 +210,32 @@ attributes::iterator attributes::iterator::operator++(int)
 // ------------------------------------------------------------------------
 
 attributes::const_iterator::const_iterator()
+    : pimpl_{new ait_impl(nullptr, nullptr)}
 {
-    pimpl_ = new ait_impl(nullptr, nullptr);
 }
 
 
 attributes::const_iterator::const_iterator(void *node, void *prop)
+    : pimpl_{new ait_impl(static_cast<xmlNodePtr>(node), static_cast<xmlAttrPtr>(prop))}
 {
-    pimpl_ = new ait_impl(static_cast<xmlNodePtr>(node), static_cast<xmlAttrPtr>(prop));
 }
 
 
 attributes::const_iterator::const_iterator(const char *name, const char *value, bool)
+    : pimpl_{new ait_impl(name, value, true)}
 {
-    pimpl_ = new ait_impl(name, value, true);
 }
 
 
 attributes::const_iterator::const_iterator(const const_iterator& other)
+    : pimpl_{new ait_impl(*other.pimpl_)}
 {
-    pimpl_ = new ait_impl(*other.pimpl_);
 }
 
 
 attributes::const_iterator::const_iterator(const iterator& other)
+    : pimpl_{new ait_impl(*other.pimpl_)}
 {
-    pimpl_ = new ait_impl(*other.pimpl_);
 }
 
 
@@ -256,10 +253,7 @@ void attributes::const_iterator::swap(const_iterator& other)
 }
 
 
-attributes::const_iterator::~const_iterator()
-{
-    delete pimpl_;
-}
+attributes::const_iterator::~const_iterator() = default;
 
 
 void* attributes::const_iterator::get_raw_attr()

@@ -131,7 +131,7 @@ tree_parser::tree_parser(const char *name, error_handler& on_error)
 
 void tree_parser::init(const char *name, error_handler *on_error)
 {
-    std::unique_ptr<tree_impl> ap(pimpl_ = new tree_impl);
+    pimpl_.reset(new tree_impl());
 
     // Errors happening before the document is parsed, e.g. IO errors, are
     // logged using the global function and not the SAX handler callbacks, so
@@ -139,7 +139,7 @@ void tree_parser::init(const char *name, error_handler *on_error)
     // these messages too.
     impl::global_errors_installer install_as_global(pimpl_->messages_);
 
-    xmlDocPtr tmpdoc = xmlSAXParseFileWithData(&(pimpl_->sax_), name, 0, pimpl_);
+    xmlDocPtr tmpdoc = xmlSAXParseFileWithData(&(pimpl_->sax_), name, 0, pimpl_.get());
 
     if (tmpdoc && !pimpl_->messages_.has_errors())
     {
@@ -161,8 +161,6 @@ void tree_parser::init(const char *name, error_handler *on_error)
         if (on_error)
             pimpl_->messages_.replay(*on_error);
     }
-
-    ap.release();
 }
 
 
@@ -178,7 +176,7 @@ tree_parser::tree_parser(const char *data, size_type size, error_handler& on_err
 
 void tree_parser::init(const char *data, size_type size, error_handler *on_error)
 {
-    std::unique_ptr<tree_impl> ap(pimpl_ = new tree_impl);
+    pimpl_.reset(new tree_impl());
     xmlParserCtxtPtr ctxt;
 
     if ( (ctxt = xmlCreateMemoryParserCtxt(data, xml::impl::checked_int_cast(size))) == nullptr)
@@ -189,7 +187,7 @@ void tree_parser::init(const char *data, size_type size, error_handler *on_error
 
     ctxt->sax = &(pimpl_->sax_);
 
-    ctxt->_private = pimpl_;
+    ctxt->_private = pimpl_.get();
 
     const int retval = xmlParseDocument(ctxt);
 
@@ -203,7 +201,6 @@ void tree_parser::init(const char *data, size_type size, error_handler *on_error
         if (on_error)
             pimpl_->messages_.replay(*on_error);
 
-        ap.release();
         return; // handle non-exception case
     }
 
@@ -211,14 +208,11 @@ void tree_parser::init(const char *data, size_type size, error_handler *on_error
     ctxt->sax = nullptr;
 
     xmlFreeParserCtxt(ctxt);
-    ap.release();
 }
 
 
-tree_parser::~tree_parser()
-{
-    delete pimpl_;
-}
+tree_parser::~tree_parser() = default;
+
 
 
 bool tree_parser::operator!() const

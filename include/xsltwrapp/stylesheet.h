@@ -48,6 +48,7 @@
 
 // standard includes
 #include <map>
+#include <memory>
 #include <string>
 
 namespace xslt
@@ -222,8 +223,7 @@ public:
 private:
     void init(xml::document& doc, xml::error_handler& on_error);
 
-private:
-    pimpl *pimpl_;
+    std::unique_ptr<pimpl> pimpl_;
 
     // an xslt::stylesheet cannot yet be copied or assigned to.
     stylesheet(const stylesheet&) = delete;

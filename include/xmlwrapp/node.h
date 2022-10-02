@@ -50,6 +50,7 @@
 // standard includes
 #include <cstddef>
 #include <iosfwd>
+#include <memory>
 #include <string>
 
 namespace xml
@@ -449,7 +450,7 @@ public:
         using reference = value_type &;
         using iterator_category = std::forward_iterator_tag;
 
-        iterator() : pimpl_(nullptr) {}
+        iterator();
         iterator(const iterator& other);
         iterator& operator=(const iterator& other);
         ~iterator();
@@ -464,7 +465,7 @@ public:
         iterator  operator++ (int);
 
     private:
-        impl::nipimpl *pimpl_;
+        std::unique_ptr<impl::nipimpl> pimpl_;
 
         explicit iterator (void *data);
         void* get_raw_node() const;
@@ -492,7 +493,7 @@ public:
         using reference = value_type &;
         using iterator_category = std::forward_iterator_tag;
 
-        const_iterator() : pimpl_(nullptr) {}
+        const_iterator();
         const_iterator(const const_iterator &other);
         const_iterator(const iterator &other);
         const_iterator& operator=(const const_iterator& other);
@@ -508,7 +509,7 @@ public:
         const_iterator  operator++ (int);
 
     private:
-        impl::nipimpl *pimpl_;
+        std::unique_ptr<impl::nipimpl> pimpl_;
 
         explicit const_iterator (void *data);
         void* get_raw_node() const;
@@ -872,7 +873,7 @@ public:
     friend XMLWRAPP_API std::ostream& operator<< (std::ostream &stream, const node &n);
 
 private:
-    impl::node_impl *pimpl_;
+    std::unique_ptr<impl::node_impl> pimpl_;
 
     // private ctor to create uninitialized instance
     explicit node(int);

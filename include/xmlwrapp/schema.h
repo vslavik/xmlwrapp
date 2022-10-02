@@ -44,6 +44,8 @@
 #include "xmlwrapp/export.h"
 #include "xmlwrapp/errors.h"
 
+#include <memory>
+
 namespace xml
 {
 
@@ -91,7 +93,7 @@ public:
     bool validate(const document& doc, error_handler& on_error = throw_on_error) const;
 
 private:
-    impl::schema_impl *pimpl_;
+    std::unique_ptr<impl::schema_impl> pimpl_;
 
     // Schema class is not copyable
     schema(const schema&) = delete;

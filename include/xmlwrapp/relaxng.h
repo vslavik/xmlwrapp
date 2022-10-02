@@ -44,6 +44,8 @@
 #include "xmlwrapp/export.h"
 #include "xmlwrapp/errors.h"
 
+#include <memory>
+
 namespace xml
 {
 
@@ -92,7 +94,7 @@ public:
     bool validate(const document& doc, error_handler& on_error = throw_on_error) const;
 
 private:
-    impl::relaxng_impl *pimpl_;
+    std::unique_ptr<impl::relaxng_impl> pimpl_;
 
     // This class is not copyable
     relaxng(const relaxng&) = delete;

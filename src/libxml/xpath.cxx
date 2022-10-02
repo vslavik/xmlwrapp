@@ -162,14 +162,11 @@ private:
 
 
 xpath_context::xpath_context(const document& doc)
+    : pimpl_{new impl::xpath_context_impl(doc)}
 {
-    pimpl_ = new impl::xpath_context_impl(doc);
 }
 
-xpath_context::~xpath_context()
-{
-    delete pimpl_;
-}
+xpath_context::~xpath_context() = default;
 
 void xpath_context::register_namespace(const std::string& prefix, const std::string& href)
 {

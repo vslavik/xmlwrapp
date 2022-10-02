@@ -48,6 +48,7 @@
 
 // standard includes
 #include <iosfwd>
+#include <memory>
 #include <string>
 #include <cstddef>
 
@@ -499,7 +500,7 @@ public:
     friend XMLWRAPP_API std::ostream& operator<< (std::ostream &stream, const document &doc);
 
 private:
-    impl::doc_impl *pimpl_;
+    std::unique_ptr<impl::doc_impl> pimpl_;
 
     void set_doc_data (void *data);
     void set_doc_data_from_xslt (void *data, xslt::impl::result *xr);

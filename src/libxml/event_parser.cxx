@@ -346,15 +346,12 @@ void epimpl::event_error(const std::string& message)
 // ------------------------------------------------------------------------
 
 event_parser::event_parser()
+    : pimpl_{new epimpl(*this)}
 {
-    pimpl_ = new epimpl(*this);
 }
 
 
-event_parser::~event_parser()
-{
-    delete pimpl_;
-}
+event_parser::~event_parser() = default;
 
 
 bool event_parser::parse_file(const char *filename)

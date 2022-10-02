@@ -47,6 +47,7 @@
 
 // standard includes
 #include <cstddef>
+#include <memory>
 #include <string>
 
 namespace xml
@@ -191,7 +192,7 @@ private:
     void init(const char *filename, error_handler *on_error);
     void init(const char *data, size_type size, error_handler *on_error);
 
-    impl::tree_impl *pimpl_; // private implementation
+    std::unique_ptr<impl::tree_impl> pimpl_;
 
     // Don't allow anyone to copy construct a xml::tree_parser or allow the
     // assignment operator to be called. It is not very useful to copy a

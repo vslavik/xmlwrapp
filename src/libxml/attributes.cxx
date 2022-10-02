@@ -87,10 +87,10 @@ struct attributes::pimpl
 
     ~pimpl()
     {
-        release();
+        free_node_if_owned();
     }
 
-    void release()
+    void free_node_if_owned()
     {
         if (owner_ && xmlnode_)
             xmlFreeNode(xmlnode_);
@@ -106,20 +106,20 @@ struct attributes::pimpl
 // ------------------------------------------------------------------------
 
 attributes::attributes()
+    : pimpl_{new pimpl}
 {
-    pimpl_ = new pimpl;
 }
 
 
 attributes::attributes(int)
+    : pimpl_{new pimpl(nullptr)}
 {
-    pimpl_ = new pimpl(nullptr);
 }
 
 
 attributes::attributes(const attributes& other)
+    : pimpl_{new pimpl(*other.pimpl_)}
 {
-    pimpl_ = new pimpl(*other.pimpl_);
 }
 
 
@@ -137,10 +137,7 @@ void attributes::swap(attributes& other)
 }
 
 
-attributes::~attributes()
-{
-    delete pimpl_;
-}
+attributes::~attributes() = default;
 
 
 void* attributes::get_data()
@@ -153,7 +150,7 @@ void attributes::set_data(void *node)
 {
     auto x = static_cast<xmlNodePtr>(node);
 
-    pimpl_->release();
+    pimpl_->free_node_if_owned();
     pimpl_->owner_ = false;
     pimpl_->xmlnode_ = x;
 }

@@ -175,27 +175,25 @@ struct doc_impl
 // ------------------------------------------------------------------------
 
 document::document()
+    : pimpl_{new doc_impl}
 {
-    pimpl_ = new doc_impl;
 }
 
 
 document::document(const char *root_name)
+    : pimpl_{new doc_impl(root_name)}
 {
-    pimpl_ = new doc_impl(root_name);
 }
 
 
 document::document(const node& n)
+    : pimpl_{new doc_impl}
 {
-    std::unique_ptr<doc_impl> ap(pimpl_ = new doc_impl);
     pimpl_->set_root_node(n);
-    ap.release();
 }
 
 document::document(const char *filename, error_handler& on_error)
 {
-    pimpl_ = nullptr;
     tree_parser p(filename, on_error);
     if ( !p )
         throw exception(p.messages());
@@ -204,7 +202,6 @@ document::document(const char *filename, error_handler& on_error)
 
 document::document(const char *data, size_type len, error_handler& on_error)
 {
-    pimpl_ = nullptr;
     tree_parser p(data, len, on_error);
     if ( !p )
         throw exception(p.messages());
@@ -212,8 +209,8 @@ document::document(const char *data, size_type len, error_handler& on_error)
 }
 
 document::document(const document& other)
+    : pimpl_{new doc_impl(*(other.pimpl_))}
 {
-    pimpl_ = new doc_impl(*(other.pimpl_));
 }
 
 
@@ -231,10 +228,7 @@ void document::swap(document& other)
 }
 
 
-document::~document()
-{
-    delete pimpl_;
-}
+document::~document() = default;
 
 
 const node& document::get_root_node() const

@@ -140,7 +140,7 @@ public:
     xsltTransformContextPtr ctxt_;
 };
 
-xmlDocPtr apply_stylesheet(xslt::stylesheet::pimpl *impl,
+xmlDocPtr apply_stylesheet(std::unique_ptr<xslt::stylesheet::pimpl> const& impl,
                            xml::error_handler& on_error,
                            xmlDocPtr doc,
                            const xslt::stylesheet::param_type *p = nullptr)
@@ -152,7 +152,7 @@ xmlDocPtr apply_stylesheet(xslt::stylesheet::pimpl *impl,
         make_vector_param(v, *p);
 
     xsltTransformContextPtr ctxt = xsltNewTransformContext(style, doc);
-    ctxt->_private = impl;
+    ctxt->_private = impl.get();
 
     xslt_errors_collector err(ctxt);
     xml::impl::global_errors_installer install_as_global(err);
@@ -204,7 +204,7 @@ xslt::stylesheet::stylesheet(xml::document doc, xml::error_handler& on_error)
 void xslt::stylesheet::init(xml::document& doc, xml::error_handler& on_error)
 {
     auto xmldoc = static_cast<xmlDocPtr>(doc.get_doc_data());
-    std::unique_ptr<pimpl> ap(pimpl_ = new pimpl);
+    pimpl_.reset(new pimpl());
 
     if ( (pimpl_->ss_ = xsltParseStylesheetDoc(xmldoc)) == nullptr)
     {
@@ -216,7 +216,6 @@ void xslt::stylesheet::init(xml::document& doc, xml::error_handler& on_error)
     // if we got this far, the xmldoc we gave to xsltParseStylesheetDoc is
     // now owned by the stylesheet and will be cleaned up in our destructor.
     doc.release_doc_data();
-    ap.release();
 }
 
 
@@ -224,7 +223,6 @@ xslt::stylesheet::~stylesheet()
 {
     if (pimpl_->ss_)
         xsltFreeStylesheet(pimpl_->ss_);
-    delete pimpl_;
 }
 
 

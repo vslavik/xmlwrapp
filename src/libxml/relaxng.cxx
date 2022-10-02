@@ -100,13 +100,11 @@ relaxng::relaxng(const document& doc, error_handler& on_error)
     // it internally.
     auto xmldoc = static_cast<xmlDocPtr>(doc.get_doc_data_read_only());
 
-    pimpl_ = new relaxng_impl(xmldoc, on_error);
+    pimpl_.reset(new relaxng_impl(xmldoc, on_error));
 }
 
-relaxng::~relaxng()
-{
-    delete pimpl_;
-}
+relaxng::~relaxng() = default;
+
 
 bool relaxng::validate(const document& doc, error_handler& on_error) const
 {

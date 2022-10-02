@@ -47,6 +47,7 @@
 #include "xmlwrapp/export.h"
 #include "xmlwrapp/nodes_view.h"
 
+#include <memory>
 #include <string>
 
 namespace xml
@@ -140,7 +141,7 @@ private:
     xpath_context(const xpath_context&) = delete;
     xpath_context& operator=(const xpath_context&) = delete;
 
-    impl::xpath_context_impl *pimpl_;
+    std::unique_ptr<impl::xpath_context_impl> pimpl_;
 };
 
 } // namespace xml

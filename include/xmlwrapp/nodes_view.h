@@ -46,6 +46,7 @@
 
 // standard includes
 #include <iterator>
+#include <memory>
 
 namespace xml
 {
@@ -104,7 +105,7 @@ public:
         using reference = value_type &;
         using iterator_category = std::forward_iterator_tag;
 
-        iterator() : pimpl_(nullptr), advance_func_(nullptr) {}
+        iterator();
         iterator(const iterator& other);
         iterator& operator=(const iterator& other);
         ~iterator();
@@ -120,11 +121,11 @@ public:
         void* get_raw_node() const;
         void swap(iterator& other);
 
-        impl::nipimpl *pimpl_;
+        std::unique_ptr<impl::nipimpl> pimpl_;
         // function for advancing the iterator (note that it is "owned" by the
         // parent view object, so we don't have to care about its reference
         // count here)
-        impl::iter_advance_functor *advance_func_;
+        impl::iter_advance_functor *advance_func_ = nullptr;
 
         friend class nodes_view;
         friend class const_iterator;
@@ -147,7 +148,7 @@ public:
         using reference = value_type &;
         using iterator_category = std::forward_iterator_tag;
 
-        const_iterator() : pimpl_(nullptr), advance_func_(nullptr) {}
+        const_iterator();
         const_iterator(const const_iterator& other);
         const_iterator(const iterator& other);
         const_iterator& operator=(const const_iterator& other);
@@ -165,11 +166,11 @@ public:
         void* get_raw_node() const;
         void swap(const_iterator& other);
 
-        impl::nipimpl *pimpl_;
+        std::unique_ptr<impl::nipimpl> pimpl_;
         // function for advancing the iterator (note that it is "owned" by the
         // parent view object, so we don't have to care about its reference
         // count here)
-        impl::iter_advance_functor *advance_func_;
+        impl::iter_advance_functor *advance_func_ = nullptr;
 
         friend class const_nodes_view;
         friend class nodes_view;

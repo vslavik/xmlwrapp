@@ -103,7 +103,7 @@ schema::schema(const document& doc, error_handler& on_error)
     document mydoc(doc);
 
     auto xmldoc = static_cast<xmlDocPtr>(mydoc.get_doc_data_read_only());
-    pimpl_ = new schema_impl(xmldoc, on_error);
+    pimpl_.reset(new schema_impl(xmldoc, on_error));
 
     // xmldoc is still used in the schema_, but it's not owned (and thus freed)
     // by it, we have to manage its lifetime outselves. Transfer the ownership
@@ -115,10 +115,8 @@ schema::schema(const document& doc, error_handler& on_error)
     pimpl_->retainDoc_ = xmldoc;
 }
 
-schema::~schema()
-{
-    delete pimpl_;
-}
+schema::~schema() = default;
+
 
 bool schema::validate(const document& doc, error_handler& on_error) const
 {

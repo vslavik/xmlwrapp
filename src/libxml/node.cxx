@@ -72,9 +72,9 @@ namespace impl
 struct node_impl
 {
     node_impl() : attrs_(0) {}
-    ~node_impl() { release(); }
+    ~node_impl() { free_node_if_owned(); }
 
-    void release()
+    void free_node_if_owned()
     {
         if (xmlnode_ && owner_)
             xmlFreeNode(xmlnode_);
@@ -261,39 +261,32 @@ private:
 // ------------------------------------------------------------------------
 
 node::node(int)
+    : pimpl_{new node_impl}
 {
-    pimpl_ = new node_impl;
 }
 
 
 node::node()
+    : pimpl_{new node_impl}
 {
-    std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
-
     pimpl_->xmlnode_ = xmlNewNode(nullptr, reinterpret_cast<const xmlChar*>("blank"));
     if (!pimpl_->xmlnode_)
         throw std::bad_alloc();
-
-    ap.release();
 }
 
 
 node::node (const char *name)
+    : pimpl_{new node_impl}
 {
-    std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
-
     pimpl_->xmlnode_ = xmlNewNode(nullptr, reinterpret_cast<const xmlChar*>(name));
     if (!pimpl_->xmlnode_)
         throw std::bad_alloc();
-
-    ap.release();
 }
 
 
 node::node (const char *name, const char *content)
+    : pimpl_{new node_impl}
 {
-    std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
-
     pimpl_->xmlnode_ = xmlNewNode(nullptr, reinterpret_cast<const xmlChar*>(name));
     if (!pimpl_->xmlnode_)
         throw std::bad_alloc();
@@ -310,74 +303,49 @@ node::node (const char *name, const char *content)
             throw std::bad_alloc();
         }
     }
-
-    ap.release();
 }
 
 
 node::node(cdata cdata_info)
+    : pimpl_{new node_impl}
 {
     const int len = xml::impl::checked_int_cast(std::strlen(cdata_info.t));
 
-    std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
-
     if ( (pimpl_->xmlnode_ = xmlNewCDataBlock(nullptr, reinterpret_cast<const xmlChar*>(cdata_info.t), len)) == nullptr)
-    {
         throw std::bad_alloc();
-    }
-
-    ap.release();
 }
 
 
 node::node(comment comment_info)
+    : pimpl_{new node_impl}
 {
-    std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
-
     if ( (pimpl_->xmlnode_ =  xmlNewComment(reinterpret_cast<const xmlChar*>(comment_info.t))) == nullptr)
-    {
         throw std::bad_alloc();
-    }
-
-    ap.release();
 }
 
 
 node::node(pi pi_info)
+    : pimpl_{new node_impl}
 {
-    std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
-
     if ( (pimpl_->xmlnode_ = xmlNewPI(reinterpret_cast<const xmlChar*>(pi_info.n), reinterpret_cast<const xmlChar*>(pi_info.c))) == nullptr)
-    {
         throw std::bad_alloc();
-    }
-
-    ap.release();
 }
 
 
 node::node(text text_info)
+    : pimpl_{new node_impl}
 {
-    std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
-
     if ( (pimpl_->xmlnode_ =  xmlNewText(reinterpret_cast<const xmlChar*>(text_info.t))) == nullptr)
-    {
         throw std::bad_alloc();
-    }
-
-    ap.release();
 }
 
 
 node::node(const node& other)
+    : pimpl_{new node_impl}
 {
-    std::unique_ptr<node_impl> ap(pimpl_ = new node_impl);
-
     pimpl_->xmlnode_ = xmlCopyNode(other.pimpl_->xmlnode_, 1);
     if (!pimpl_->xmlnode_)
         throw std::bad_alloc();
-
-    ap.release();
 }
 
 
@@ -447,15 +415,12 @@ void node::move_under(node& new_parent)
 }
 
 
-node::~node()
-{
-    delete pimpl_;
-}
+node::~node() = default;
 
 
 void node::set_node_data(void *data)
 {
-    pimpl_->release();
+    pimpl_->free_node_if_owned();
     pimpl_->xmlnode_ = static_cast<xmlNodePtr>(data);
     pimpl_->owner_ = false;
 }

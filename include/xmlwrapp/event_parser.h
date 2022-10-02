@@ -48,6 +48,7 @@
 #include <string>
 #include <iosfwd>
 #include <map>
+#include <memory>
 
 namespace xml
 {
@@ -216,7 +217,7 @@ protected:
 
 private:
     friend struct impl::epimpl;
-    impl::epimpl *pimpl_; // private implementation
+    std::unique_ptr<impl::epimpl> pimpl_;
 
     // Don't allow anyone to copy construct an event_parser or to call the
     // assignment operator. It does not make sense to copy a parser if it is
