@@ -49,7 +49,7 @@ if [ "$TEST_DIST" = 1 ]; then
     exit 0
 fi
 
-make
+make --keep-going
 
 if ! make check; then
     echo 'Test suite log contents'
