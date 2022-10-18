@@ -180,11 +180,14 @@ xml::impl::node_replace(xmlNodePtr old_node, xmlNodePtr new_node)
 {
     xmlNodePtr const copied_node = copy_node_under_parent(old_node->parent, new_node);
 
-    // hack to see if xmlReplaceNode was successful
-    copied_node->doc = reinterpret_cast<xmlDocPtr>(old_node);
+    // hack to see if xmlReplaceNode was successful: it only updates doc
+    // pointer of the new node if everything went well, so check that it will
+    // change
+    xmlDoc dummyDoc{};
+    copied_node->doc = &dummyDoc;
     xmlReplaceNode(old_node, copied_node);
 
-    if ( copied_node->doc == reinterpret_cast<xmlDocPtr>(old_node) )
+    if ( copied_node->doc == &dummyDoc )
     {
         xmlFreeNode(copied_node);
         throw xml::exception("failed to replace xml::node; xmlReplaceNode() failed");

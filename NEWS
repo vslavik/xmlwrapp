@@ -9,6 +9,8 @@ Version 0.10.0 [not released yet]
     Improve error reporting again by including more details. This changes the
     error messages format compared to the previous versions.
 
+    Fix replacing nodes with libxml 2.10 and later (#87).
+
 Version 0.9.1 [2020-11-01]
 
     Added return value for xml::init methods setting various boolean flags:
