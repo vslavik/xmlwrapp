@@ -40,7 +40,7 @@ TEST_CASE_METHOD( SrcdirConfig, "relaxng/load_non_relaxng_file", "[relaxng]" )
     CHECK_THROWS_AS
     (
         xml::relaxng(sch_doc),
-        xml::exception&
+        xml::exception
     );
 
     xml::error_messages log;
@@ -48,7 +48,7 @@ TEST_CASE_METHOD( SrcdirConfig, "relaxng/load_non_relaxng_file", "[relaxng]" )
     CHECK_THROWS_AS
     (
         xml::relaxng(sch_doc, log),
-        xml::exception&
+        xml::exception
     );
     CHECK( log.has_errors() );
 }
@@ -85,7 +85,7 @@ TEST_CASE_METHOD( SrcdirConfig, "relaxng/validate_invalid", "[relaxng]" )
     CHECK_THROWS_AS
     (
         sch.validate(doc),
-        xml::exception&
+        xml::exception
     );
 
     // And the same with logging:
@@ -107,7 +107,7 @@ TEST_CASE_METHOD( SrcdirConfig, "relaxng/validate_nonvalid", "[relaxng]" )
     CHECK_THROWS_AS
     (
         sch.validate(doc),
-        xml::exception&
+        xml::exception
     );
 
     // And the same with logging:

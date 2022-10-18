@@ -308,19 +308,19 @@ TEST_CASE_METHOD( SrcdirConfig, "document/push_back_and_insert_throw", "[documen
     REQUIRE_THROWS_AS
     (
         doc.push_back(xml::node("noway")),
-        xml::exception&
+        xml::exception
     );
 
     REQUIRE_THROWS_AS
     (
         doc.insert(xml::node("noway")),
-        xml::exception&
+        xml::exception
     );
 
     REQUIRE_THROWS_AS
     (
         doc.insert(doc.end(), xml::node("noway")),
-        xml::exception&
+        xml::exception
     );
 }
 
@@ -352,13 +352,13 @@ TEST_CASE_METHOD( SrcdirConfig, "document/replace_throw", "[document]" )
     REQUIRE_THROWS_AS
     (
         doc.replace(n, xml::node("noway")),
-        xml::exception&
+        xml::exception
     );
 
     REQUIRE_THROWS_AS
     (
         doc.replace(doc.begin(), xml::node(xml::node::comment(" no way "))),
-        xml::exception&
+        xml::exception
     );
 }
 
@@ -391,7 +391,7 @@ TEST_CASE_METHOD( SrcdirConfig, "document/cant_erase_root", "[document]" )
     REQUIRE_THROWS_AS
     (
         doc.erase(doc.begin(), doc.end()),
-        xml::exception&
+        xml::exception
     );
 }
 
@@ -461,14 +461,14 @@ TEST_CASE_METHOD( SrcdirConfig, "document/save_throws_on_failure", "[document]" 
     REQUIRE_THROWS_AS
     (
         doc.save_to_string(s),
-        xml::exception&
+        xml::exception
     );
 
     temp_test_file test_file;
     REQUIRE_THROWS_AS
     (
         doc.save_to_file(test_file.get_name()),
-        xml::exception&
+        xml::exception
     );
 }
 

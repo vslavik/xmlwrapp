@@ -111,7 +111,7 @@ TEST_CASE_METHOD( SrcdirConfig, "tree/bad_xml_throw", "[tree]" )
     CHECK_THROWS_AS
     (
         xml::tree_parser(test_file_path("tree/data/bad.xml").c_str()),
-        xml::exception&
+        xml::exception
     );
 }
 
@@ -138,7 +138,7 @@ TEST_CASE_METHOD( SrcdirConfig, "tree/bad_xml_data_throw", "[tree]" )
     CHECK_THROWS_AS
     (
         xml::tree_parser(XMLDATA_BAD.c_str(), XMLDATA_BAD.size()),
-        xml::exception&
+        xml::exception
     );
 }
 
@@ -156,7 +156,7 @@ TEST_CASE_METHOD( SrcdirConfig, "tree/nonexistent_file_throw", "[tree]" )
     CHECK_THROWS_AS
     (
         xml::tree_parser("doesnt_exist.xml"),
-        xml::exception&
+        xml::exception
     );
 }
 
@@ -223,7 +223,7 @@ TEST_CASE_METHOD( SrcdirConfig, "tree/bad_ns_xml_data_throw", "[tree]" )
     CHECK_THROWS_AS
     (
         xml::tree_parser( XMLDATA_BAD_NS.c_str(), XMLDATA_BAD_NS.size()),
-        xml::exception&
+        xml::exception
     );
 }
 

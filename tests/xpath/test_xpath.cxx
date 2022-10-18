@@ -110,6 +110,6 @@ TEST_CASE_METHOD( SrcdirConfig, "xpath/illegal_xpath", "[xpath]" )
     CHECK_THROWS_AS
     (
         ctxt.evaluate("ANOTHER ILLEGAL QUERY"),
-        xml::exception&
+        xml::exception
     );
 }
