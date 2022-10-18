@@ -40,7 +40,7 @@ TEST_CASE_METHOD( SrcdirConfig, "schema/load_non_schema_file", "[schema]" )
     CHECK_THROWS_AS
     (
         xml::schema(sch_doc),
-        xml::exception&
+        xml::exception
     );
 
     xml::error_messages log;
@@ -48,7 +48,7 @@ TEST_CASE_METHOD( SrcdirConfig, "schema/load_non_schema_file", "[schema]" )
     CHECK_THROWS_AS
     (
         xml::schema(sch_doc, log),
-        xml::exception&
+        xml::exception
     );
     CHECK( log.has_errors() );
 }
@@ -85,7 +85,7 @@ TEST_CASE_METHOD( SrcdirConfig, "schema/validate_fail", "[schema]" )
     CHECK_THROWS_AS
     (
         sch.validate(doc),
-        xml::exception&
+        xml::exception
     );
 
     // And the same with logging:

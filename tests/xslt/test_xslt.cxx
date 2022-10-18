@@ -44,7 +44,7 @@ TEST_CASE_METHOD( SrcdirConfig, "xslt/creation_fail1", "[xslt]" )
     CHECK_THROWS_AS
     (
         xslt::stylesheet(test_file_path("xslt/data/01a.xsl").c_str()),
-        xml::exception&
+        xml::exception
     );
 }
 
@@ -58,7 +58,7 @@ TEST_CASE_METHOD( SrcdirConfig, "xslt/creation_fail2", "[xslt]" )
     CHECK_THROWS_AS
     (
         xslt::stylesheet(test_file_path("xslt/data/01c.xsl").c_str()),
-        xml::exception&
+        xml::exception
     );
 }
 
@@ -152,6 +152,6 @@ TEST_CASE_METHOD( SrcdirConfig, "xslt/xsl_with_errors_throw", "[xslt]" )
     CHECK_THROWS_AS
     (
         style.apply(parser.get_document()),
-        xml::exception&
+        xml::exception
     );
 }

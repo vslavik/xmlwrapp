@@ -422,7 +422,7 @@ TEST_CASE_METHOD( SrcdirConfig, "node/node_move_under", "[node]" )
     CHECK_THROWS_AS
     (
         i->move_under(*i->find("name")),
-        xml::exception&
+        xml::exception
     );
 
     i->move_under(*root.find("unrelated_element"));
