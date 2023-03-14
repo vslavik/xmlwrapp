@@ -132,7 +132,6 @@ ait_impl ait_impl::operator++(int)
 // ------------------------------------------------------------------------
 
 attributes::iterator::iterator()
-    : pimpl_{new ait_impl(nullptr, nullptr)}
 {
 }
 
@@ -161,6 +160,10 @@ attributes::iterator& attributes::iterator::operator=(const iterator& other)
     swap(tmp);
     return *this;
 }
+
+
+attributes::iterator::iterator (iterator&&) = default;
+attributes::iterator& attributes::iterator::operator=(iterator&&) = default;
 
 
 void attributes::iterator::swap(iterator& other)
@@ -210,7 +213,6 @@ attributes::iterator attributes::iterator::operator++(int)
 // ------------------------------------------------------------------------
 
 attributes::const_iterator::const_iterator()
-    : pimpl_{new ait_impl(nullptr, nullptr)}
 {
 }
 
@@ -245,6 +247,10 @@ attributes::const_iterator& attributes::const_iterator::operator=(const const_it
     swap(tmp);
     return *this;
 }
+
+
+attributes::const_iterator::const_iterator(const_iterator&&) = default;
+attributes::const_iterator& attributes::const_iterator::operator=(const_iterator&&) = default;
 
 
 void attributes::const_iterator::swap(const_iterator& other)
@@ -355,7 +361,7 @@ const char* attributes::attr::get_value() const
 
 bool operator==(const attributes::iterator& lhs, const attributes::iterator& rhs)
 {
-    return *(lhs.pimpl_) == *(rhs.pimpl_);
+    return ait_impl::are_equal(lhs.pimpl_.get(), rhs.pimpl_.get());
 }
 
 bool operator!=(const attributes::iterator& lhs, const attributes::iterator& rhs)
@@ -365,7 +371,7 @@ bool operator!=(const attributes::iterator& lhs, const attributes::iterator& rhs
 
 bool operator==(const attributes::const_iterator& lhs, const attributes::const_iterator& rhs)
 {
-    return *(lhs.pimpl_) == *(rhs.pimpl_);
+    return ait_impl::are_equal(lhs.pimpl_.get(), rhs.pimpl_.get());
 }
 
 bool operator!=(const attributes::const_iterator& lhs, const attributes::const_iterator& rhs)
@@ -414,16 +420,35 @@ xmlAttributePtr find_default_prop(xmlNodePtr xmlnode, const char *name)
     return nullptr;
 }
 
-bool operator==(const ait_impl& lhs, const ait_impl& rhs)
+bool ait_impl::are_equal(const ait_impl* lhs, const ait_impl* rhs)
 {
-    if (lhs.fake_ || rhs.fake_)
-        return false;
-    return lhs.xmlattr_ == rhs.xmlattr_;
-}
+    xmlAttrPtr lhsAttr;
+    if (lhs)
+    {
+        if (lhs->fake_)
+            return false;
 
-bool operator!=(const ait_impl& lhs, const ait_impl& rhs)
-{
-    return !(lhs == rhs);
+        lhsAttr = lhs->xmlattr_;
+    }
+    else
+    {
+        lhsAttr = nullptr;
+    }
+
+    xmlAttrPtr rhsAttr;
+    if (rhs)
+    {
+        if (rhs->fake_)
+            return false;
+
+        rhsAttr = rhs->xmlattr_;
+    }
+    else
+    {
+        rhsAttr = nullptr;
+    }
+
+    return lhsAttr == rhsAttr;
 }
 
 } // namespace impl

@@ -61,8 +61,8 @@ public:
     ait_impl& operator++();
     ait_impl  operator++(int);
 
-    friend bool operator==(const ait_impl& lhs, const ait_impl& rhs);
-    friend bool operator!=(const ait_impl& lhs, const ait_impl& rhs);
+    // Pointer arguments may be null, representing invalid attribute.
+    static bool are_equal(const ait_impl* lhs, const ait_impl* rhs);
 
 private:
     xmlNodePtr xmlnode_;
