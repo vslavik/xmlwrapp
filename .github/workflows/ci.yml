@@ -30,10 +30,10 @@ jobs:
             compiler: clang++
           - name: Ubuntu 22.04
             runner: ubuntu-22.04
-          - name: MSW 32
+          - name: MinGW 32
             runner: ubuntu-22.04
             host: i686-w64-mingw32
-          - name: MSW 64
+          - name: MinGW 64
             runner: ubuntu-22.04
             host: x86_64-w64-mingw32
           - name: macOS 11 ASAN
