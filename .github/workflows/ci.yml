@@ -36,8 +36,8 @@ jobs:
           - name: MinGW 64
             runner: ubuntu-22.04
             host: x86_64-w64-mingw32
-          - name: macOS 11 ASAN
-            runner: macos-11
+          - name: macOS 13 ASAN
+            runner: macos-13
             compiler: clang++
             cxxflags: -fsanitize=address -fno-omit-frame-pointer
             ldflags: -fsanitize=address
