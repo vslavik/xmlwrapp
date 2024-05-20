@@ -96,6 +96,7 @@ jobs:
 
       - name: Install CCache
         uses: hendrikmuhs/ccache-action@v1.2
+        if: matrix.container != 'ubuntu:18.04'
         with:
           key: ${{ matrix.name }}
 
