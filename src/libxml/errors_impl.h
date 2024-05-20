@@ -101,7 +101,11 @@ private:
 extern "C"
 {
 
+#if LIBXML_VERSION >= 21200
+XMLWRAPP_API void cb_messages_structured_error(void *out, const xmlError *error);
+#else
 XMLWRAPP_API void cb_messages_structured_error(void *out, xmlErrorPtr error);
+#endif
 
 XMLWRAPP_API void cb_messages_warning(void *out, const char *message, ...);
 XMLWRAPP_API void cb_messages_error(void *out, const char *message, ...);

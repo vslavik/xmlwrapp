@@ -173,7 +173,11 @@ bool treat_warning_as_error(const xmlError& error)
     return true;
 }
 
+#if LIBXML_VERSION >= 21200
+extern "C" void cb_messages_structured_error(void *out, const xmlError *error)
+#else
 extern "C" void cb_messages_structured_error(void *out, xmlErrorPtr error)
+#endif
 {
     try
     {

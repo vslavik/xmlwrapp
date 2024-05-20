@@ -84,7 +84,11 @@ namespace
 
 const char DEFAULT_ERROR[] = "unknown XML parsing error";
 
+#if LIBXML_VERSION >= 21200
+extern "C" void cb_tree_structured_error(void *out, const xmlError *error)
+#else
 extern "C" void cb_tree_structured_error(void *out, xmlErrorPtr error)
+#endif
 {
     auto ctxt = static_cast<xmlParserCtxtPtr>(out);
 
