@@ -9,8 +9,61 @@ on:
       - master
 
 jobs:
+  build-cmake:
+    name: ${{ matrix.name }} CMake
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Ubuntu 24.04
+            runner: ubuntu-24.04
+          - name: macOS 15 ARM
+            runner: macos-15
+    steps:
+      - name: Set up build environment
+        run: |
+          set_env_var() {
+            echo "Setting environment variable $1=$2"
+            echo $1=$2 >> $GITHUB_ENV
+          }
+
+          case `uname` in
+              Darwin) ccache_path=/usr/local/opt/ccache/libexec ;;
+              Linux)  ccache_path=/usr/lib/ccache ;;
+              *)
+                echo "::warning ::Unknown ccache path for this platform"
+          esac
+
+          set_env_var PATH ${ccache_path}:$PATH
+          set_env_var XMLWRAPP_CI_BRANCH $GITHUB_REF
+          set_env_var XMLWRAPP_SOURCE_DIR $GITHUB_WORKSPACE
+
+          echo 'Compiler version:'
+          c++ --version
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install CCache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ matrix.name }}-cmake
+
+      - name: Install dependencies
+        run: ./scripts/ci/install.sh
+
+      - name: Configure
+        run: cmake -S . -B build-cmake
+
+      - name: Build
+        run: cmake --build build-cmake
+
+      - name: Test
+        run: ctest --test-dir build-cmake
+
   build-autoconf:
-    name: ${{ matrix.name }}
+    name: ${{ matrix.name }} autoconf
     runs-on: ${{ matrix.runner }}
     container: ${{ matrix.container }}
     strategy:
