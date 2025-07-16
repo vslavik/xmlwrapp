@@ -26,7 +26,7 @@ if(XMLWRAPP_BUILD_XSLTWRAPP)
 endif(XMLWRAPP_BUILD_XSLTWRAPP)
 
 
-target_link_libraries(test_xmlwrapp ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} ${Boost_IOSTREAMS_LIBRARY} ${LIBXML2_LIBRARIES})
+target_link_libraries(test_xmlwrapp ${LIBXML2_LIBRARIES})
 target_link_libraries(test_xmlwrapp xmlwrapp_static)
 
 file(COPY ${TEST_DATA_DIRS} DESTINATION ${CMAKE_CURRENT_BINARY_DIR} PATTERN "*.cxx" EXCLUDE)

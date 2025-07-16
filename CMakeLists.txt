@@ -42,13 +42,6 @@ if (LIBXML2_FOUND)
     link_directories( ${LIBXML2_LIBRARY_DIRS} )
 endif (LIBXML2_FOUND)
 
-#find_package (Boost COMPONENTS pool unit_test_framework iostreams)
-# -- removing pool from the components as pool currently has no real checks
-find_package (Boost COMPONENTS unit_test_framework iostreams)
-if (BOOST_FOUND)
-    include_directories( ${Boost_INCLUDE_DIRS} )
-endif(BOOST_FOUND)
-
 if( XMLWRAPP_BUILD_XSLTWRAPP )
     pkg_search_module(LIBXSLT REQUIRED libxslt >= 1.1.6)
     pkg_search_module(LIBEXSLT REQUIRED libexslt)
