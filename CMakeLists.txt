@@ -32,10 +32,8 @@ find_package(PkgConfig)
 
 pkg_search_module(LIBXML2 REQUIRED libxml-2.0 >= 2.4.28)
 
-if (LIBXML2_FOUND)
-    include_directories( ${LIBXML2_INCLUDE_DIRS} )
-    link_directories( ${LIBXML2_LIBRARY_DIRS} )
-endif (LIBXML2_FOUND)
+include_directories( ${LIBXML2_INCLUDE_DIRS} )
+link_directories( ${LIBXML2_LIBRARY_DIRS} )
 
 if( XMLWRAPP_BUILD_XSLTWRAPP )
     pkg_search_module(LIBXSLT REQUIRED libxslt >= 1.1.6)
