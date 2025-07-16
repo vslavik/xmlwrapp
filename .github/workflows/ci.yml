@@ -22,7 +22,8 @@ jobs:
             container: ubuntu:18.04
             test_dist: 1
           - name: Ubuntu 20.04 ASAN
-            runner: ubuntu-20.04
+            runner: ubuntu-latest
+            container: ubuntu:20.04
             cxxflags: -fsanitize=address -fno-omit-frame-pointer
             ldflags: -fsanitize=address
           - name: Ubuntu 22.04 clang
