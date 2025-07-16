@@ -14,7 +14,6 @@ enable_testing ()
 option(XMLWRAPP_DOC "Build and install the documentation (requires Doxygen)" ON)
 option(XMLWRAPP_TEST "Build test" ON)
 option(XMLWRAPP_BUILD_XSLTWRAPP "Build libxsltwrapp library" ON)
-option(XMLWRAPP_NO_CPP11 "Prevent the use of C++11 features even if they are deemed to be available")
 
 set(INSTALL_LIBRARY_DIR ${CMAKE_INSTALL_PREFIX}/lib)
 set(INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include)
@@ -28,10 +27,6 @@ endif(WIN32 AND NOT CYGWIN)
 set(INSTALL_CMAKE_DIR ${CMAKE_INSTALL_PREFIX}/${DEF_INSTALL_CMAKE_DIR})
 
 set(CMAKE_CXX_COMPILER_VISIBILITY_PRESET hidden)
-
-if(XMLWRAPP_NO_CPP11)
-  add_definitions( -DXMLWRAPP_NO_CPP11 )
-endif(XMLWRAPP_NO_CPP11)
 
 find_package(PkgConfig)
 
