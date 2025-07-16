@@ -104,7 +104,7 @@ jobs:
         run: ./scripts/ci/install.sh
 
       - name: Build and test
-        run: ./scripts/ci/script.sh
+        run: ./scripts/ci/autoconf.sh
 
 
   build-msvs:
