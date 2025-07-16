@@ -51,6 +51,7 @@ endif(BOOST_FOUND)
 
 if( XMLWRAPP_BUILD_XSLTWRAPP )
     pkg_search_module(LIBXSLT REQUIRED libxslt >= 1.1.6)
+    pkg_search_module(LIBEXSLT REQUIRED libexslt)
     include_directories( ${LIBXSLT_INCLUDE_DIRS} )
 endif( XMLWRAPP_BUILD_XSLTWRAPP )
 

@@ -51,7 +51,7 @@ if( XMLWRAPP_BUILD_XSLTWRAPP )
                               $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
                               $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>)
         install (TARGETS ${arg1} EXPORT XmlwrappTargets DESTINATION lib)
-        target_link_libraries(${arg1} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES})
+        target_link_libraries(${arg1} ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${LIBEXSLT_LIBRARIES})
         set_target_properties(${arg1} PROPERTIES VERSION 4.0.0 SOVERSION 4 OUTPUT_NAME xsltwrapp)
     endmacro(define_libxsltwrapp)
 
