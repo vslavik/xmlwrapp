@@ -22,14 +22,15 @@ jobs:
             container: ubuntu:18.04
             test_dist: 1
           - name: Ubuntu 20.04 ASAN
-            runner: ubuntu-20.04
+            runner: ubuntu-latest
+            container: ubuntu:20.04
             cxxflags: -fsanitize=address -fno-omit-frame-pointer
             ldflags: -fsanitize=address
-          - name: Ubuntu 20.04 clang
-            runner: ubuntu-20.04
-            compiler: clang++
-          - name: Ubuntu 22.04
+          - name: Ubuntu 22.04 clang
             runner: ubuntu-22.04
+            compiler: clang++
+          - name: Ubuntu 24.04
+            runner: ubuntu-24.04
           - name: MinGW 32
             runner: ubuntu-22.04
             host: i686-w64-mingw32
@@ -60,8 +61,24 @@ jobs:
               ;;
 
             ubuntu:*)
+              export DEBIAN_FRONTEND=noninteractive
+
               apt-get update -qq
               apt-get install -qq autoconf automake g++ git libtool make pkg-config ${TEST_DIST+python} sudo wget
+
+              # Checkout action doesn't work under Ubuntu 18.04 any more, so
+              # run checkout manually.
+              if [ '${{ matrix.container }}' = 'ubuntu:18.04' ]; then
+                git config --global --add safe.directory $GITHUB_WORKSPACE
+                git config --global gc.auto 0
+                git init $GITHUB_WORKSPACE
+                cd $GITHUB_WORKSPACE
+                git remote add origin $GITHUB_SERVER_URL/$GITHUB_REPOSITORY
+                git fetch --depth=1 origin $GITHUB_REF
+                git checkout FETCH_HEAD
+                git submodule update --init --depth=1 --recursive
+                git log -1 --format='%H'
+              fi
               ;;
 
             '')
@@ -92,6 +109,7 @@ jobs:
           $CXX --version
 
       - name: Checkout
+        if: matrix.container != 'ubuntu:18.04'
         uses: actions/checkout@v3
 
       - name: Install CCache
@@ -108,17 +126,15 @@ jobs:
 
 
   build-msvs:
-    name: MSVS ${{ matrix.vsversion }} ${{ matrix.arch }}
-    runs-on: windows-${{ matrix.vsversion }}
+    name: MSVS ${{ matrix.arch }}
+    runs-on: windows-2022
     strategy:
       fail-fast: false
       matrix:
         include:
-          - vsversion: 2019
-            arch: x86
+          - arch: x86
             platform: Win32
-          - vsversion: 2022
-            arch: x64
+          - arch: x64
             platform: x64
 
     steps:
