@@ -108,17 +108,15 @@ jobs:
 
 
   build-msvs:
-    name: MSVS ${{ matrix.vsversion }} ${{ matrix.arch }}
-    runs-on: windows-${{ matrix.vsversion }}
+    name: MSVS ${{ matrix.arch }}
+    runs-on: windows-2022
     strategy:
       fail-fast: false
       matrix:
         include:
-          - vsversion: 2019
-            arch: x86
+          - arch: x86
             platform: Win32
-          - vsversion: 2022
-            arch: x64
+          - arch: x64
             platform: x64
 
     steps:
