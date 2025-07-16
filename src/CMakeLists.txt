@@ -2,21 +2,20 @@ set( XMLWRAPP_SRCS
     libxml/ait_impl.cxx
     libxml/ait_impl.h
     libxml/attributes.cxx
-    libxml/cpp11.h
     libxml/document.cxx
     libxml/dtd_impl.cxx
     libxml/dtd_impl.h
-    libxml/event_parser.cxx
     libxml/errors.cxx
     libxml/errors_impl.h
+    libxml/event_parser.cxx
     libxml/init.cxx
     libxml/node.cxx
-    libxml/nodes_view.cxx
     libxml/node_iterator.cxx
     libxml/node_iterator.h
     libxml/node_manip.cxx
     libxml/node_manip.h
-    libxml/pimpl_base.h
+    libxml/nodes_view.cxx
+    libxml/relaxng.cxx
     libxml/schema.cxx
     libxml/tree_parser.cxx
     libxml/utility.cxx
