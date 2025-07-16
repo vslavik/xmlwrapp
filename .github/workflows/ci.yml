@@ -20,6 +20,8 @@ jobs:
             runner: ubuntu-24.04
           - name: macOS 15 ARM
             runner: macos-15
+    env:
+      XMLWRAPP_CMAKE: 1
     steps:
       - name: Set up build environment
         run: |
