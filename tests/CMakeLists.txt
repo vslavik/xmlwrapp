@@ -31,4 +31,4 @@ target_link_libraries(test_xmlwrapp xmlwrapp_static)
 
 file(COPY ${TEST_DATA_DIRS} DESTINATION ${CMAKE_CURRENT_BINARY_DIR} PATTERN "*.cxx" EXCLUDE)
 
-add_test(NAME "xmlwrapp test" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND test_xmlwrapp)
+add_test(NAME "test_xmlwrapp" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND test_xmlwrapp)
