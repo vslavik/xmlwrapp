@@ -61,6 +61,8 @@ jobs:
               ;;
 
             ubuntu:*)
+              export DEBIAN_FRONTEND=noninteractive
+
               apt-get update -qq
               apt-get install -qq autoconf automake g++ git libtool make pkg-config ${TEST_DIST+python} sudo wget
 
