@@ -25,11 +25,11 @@ jobs:
             runner: ubuntu-20.04
             cxxflags: -fsanitize=address -fno-omit-frame-pointer
             ldflags: -fsanitize=address
-          - name: Ubuntu 20.04 clang
-            runner: ubuntu-20.04
-            compiler: clang++
-          - name: Ubuntu 22.04
+          - name: Ubuntu 22.04 clang
             runner: ubuntu-22.04
+            compiler: clang++
+          - name: Ubuntu 24.04
+            runner: ubuntu-24.04
           - name: MinGW 32
             runner: ubuntu-22.04
             host: i686-w64-mingw32
