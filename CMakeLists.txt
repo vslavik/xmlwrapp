@@ -1,11 +1,21 @@
 cmake_minimum_required(VERSION 3.16)
 
-PROJECT (xmlwrapp)
-enable_language(CXX)
-set(XMLWRAPP_VERSION_MAJOR 0)
-set(XMLWRAPP_VERSION_MINOR 8)
-set(XMLWRAPP_VERSION_PATCH 1)
+# Extract version from the header which is the source of truth for it.
+file(READ "${CMAKE_CURRENT_SOURCE_DIR}/include/xmlwrapp/version.h" VERSION_H_CONTENT)
+string(REGEX MATCH "#define +XMLWRAPP_VERSION_MAJOR +([0-9]+)" _ "${VERSION_H_CONTENT}")
+set(XMLWRAPP_VERSION_MAJOR "${CMAKE_MATCH_1}")
+string(REGEX MATCH "#define +XMLWRAPP_VERSION_MINOR +([0-9]+)" _ "${VERSION_H_CONTENT}")
+set(XMLWRAPP_VERSION_MINOR "${CMAKE_MATCH_1}")
+string(REGEX MATCH "#define +XMLWRAPP_VERSION_MICRO +([0-9]+)" _ "${VERSION_H_CONTENT}")
+set(XMLWRAPP_VERSION_PATCH "${CMAKE_MATCH_1}")
+
 set(XMLWRAPP_VERSION "${XMLWRAPP_VERSION_MAJOR}.${XMLWRAPP_VERSION_MINOR}.${XMLWRAPP_VERSION_PATCH}")
+
+project(xmlwrapp
+  VERSION ${XMLWRAPP_VERSION}
+  DESCRIPTION "C++ library for working with XML data, built atop the venerable libxml2 C library."
+  LANGUAGES CXX
+)
 
 enable_testing ()
 
@@ -152,7 +162,7 @@ install(EXPORT XmlwrappTargets DESTINATION "${DEF_INSTALL_CMAKE_DIR}" COMPONENT 
 
 
 
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "xmlwrapp is a modern style C++ library for working with XML data, built atop the venerable libxml2 C library.")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "xmlwrapp is a C++ library for working with XML data, built atop the venerable libxml2 C library.")
 set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_VERSION_MAJOR ${XMLWRAPP_VERSION_MAJOR})
