@@ -23,10 +23,9 @@ target_include_directories(test_xmlwrapp PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 if(XMLWRAPP_BUILD_XSLTWRAPP)
   target_link_libraries(test_xmlwrapp xsltwrapp)
+else()
+  target_link_libraries(test_xmlwrapp xmlwrapp)
 endif(XMLWRAPP_BUILD_XSLTWRAPP)
-
-
-target_link_libraries(test_xmlwrapp xmlwrapp)
 
 file(COPY ${TEST_DATA_DIRS} DESTINATION ${CMAKE_CURRENT_BINARY_DIR} PATTERN "*.cxx" EXCLUDE)
 
