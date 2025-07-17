@@ -16,4 +16,7 @@ if(DOXYGEN_FOUND)
     VERBATIM
   )
   install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/html" DESTINATION share/xmlwrapp/doc)
+else()
+  message(WARNING "Doxygen not found, documentation will not be built.")
+  set(XMLWRAPP_DOC OFF PARENT_SCOPE)
 endif(DOXYGEN_FOUND)
