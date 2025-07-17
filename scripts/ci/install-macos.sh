@@ -1,5 +1,5 @@
 # Used to install dependencies for the CI builds under macOS.
 
 if [ -z "$XMLWRAPP_CMAKE" ]; then
-  brew install autoconf automake
+  brew install automake
 fi
