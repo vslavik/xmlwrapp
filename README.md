@@ -26,8 +26,11 @@ are available from [libxml2 home page](https://xmlsoft.org).
 2. Building on Unix
 -------------------
 
-On Unix, the usual Autotools-based build system is used. Building xmlwrapp is
-usually as simple as running the following three commands:
+On Unix, either autotools-based build system or CMake can be used.
+
+## Building using Autotools
+
+Building xmlwrapp is usually as simple as running the following three commands:
 
     $ ./configure
     $ make
@@ -44,6 +47,18 @@ release archives, `configure` script won't exist and you will need to run
     $ autoreconf -i
 
 to create it and other build files.
+
+## Building using CMake
+
+Building xmlwrapp using CMake is also straightforward. Just do the following:
+
+    $ cmake -S . -B build-dir
+    $ cmake --build build-dir
+    $ cmake --install build-dir
+
+The usual CMake `BUILD_SHARED_LIBS` option is supported for selecting whether
+shared (default) or static libraries should be built, use `cmake -L` to see the
+other available options.
 
 
 3. Building on Windows
