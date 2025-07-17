@@ -41,6 +41,7 @@ else()
 endif()
 
 option(XMLWRAPP_DOC "Build and install the documentation (requires Doxygen)" ON)
+option(XMLWRAPP_EXAMPLES "Build examples" ON)
 option(XMLWRAPP_TESTS "Build test" ON)
 option(XMLWRAPP_BUILD_XSLTWRAPP "Build libxsltwrapp library" ON)
 
@@ -70,8 +71,10 @@ endif( XMLWRAPP_BUILD_XSLTWRAPP )
 add_subdirectory(include)
 add_subdirectory(src)
 
-#TODO install examples in <prefix>/share/xmlwrapp/examples/01-.. 02-.. etc
-add_subdirectory(examples)
+if( XMLWRAPP_EXAMPLES )
+  #TODO install examples in <prefix>/share/xmlwrapp/examples/01-.. 02-.. etc
+  add_subdirectory(examples)
+endif( XMLWRAPP_EXAMPLES )
 
 if( XMLWRAPP_TESTS )
   include(CTest)
@@ -211,4 +214,5 @@ endif()
 message(STATUS "xmlwrapp ${XMLWRAPP_VERSION} will be built as ${XMLWRAPP_LIB_TYPE} library${XMLWRAPP_CONFIG_DESCRIPTION}.")
 message(STATUS "  Build xsltwrapp: ${XMLWRAPP_BUILD_XSLTWRAPP}")
 message(STATUS "  Documentation:   ${XMLWRAPP_DOC}")
+message(STATUS "  Examples:        ${XMLWRAPP_EXAMPLES}")
 message(STATUS "  Tests:           ${XMLWRAPP_TESTS}")
