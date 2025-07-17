@@ -24,27 +24,6 @@ jobs:
     env:
       XMLWRAPP_CMAKE: 1
     steps:
-      - name: Set up build environment
-        run: |
-          set_env_var() {
-            echo "Setting environment variable $1=$2"
-            echo $1=$2 >> $GITHUB_ENV
-          }
-
-          case `uname` in
-              Darwin) ccache_path=/usr/local/opt/ccache/libexec ;;
-              Linux)  ccache_path=/usr/lib/ccache ;;
-              *)
-                echo "::warning ::Unknown ccache path for this platform"
-          esac
-
-          set_env_var PATH ${ccache_path}:$PATH
-          set_env_var XMLWRAPP_CI_BRANCH $GITHUB_REF
-          set_env_var XMLWRAPP_SOURCE_DIR $GITHUB_WORKSPACE
-
-          echo 'Compiler version:'
-          c++ --version
-
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -144,25 +123,6 @@ jobs:
               echo '::error ::Unknown container kind.'
               exit 1
           esac
-
-          set_env_var() {
-            echo "Setting environment variable $1=$2"
-            echo $1=$2 >> $GITHUB_ENV
-          }
-
-          case `uname` in
-              Darwin) ccache_path=/usr/local/opt/ccache/libexec ;;
-              Linux)  ccache_path=/usr/lib/ccache ;;
-              *)
-                echo "::warning ::Unknown ccache path for this platform"
-          esac
-
-          set_env_var PATH ${ccache_path}:$PATH
-          set_env_var XMLWRAPP_CI_BRANCH $GITHUB_REF
-          set_env_var XMLWRAPP_SOURCE_DIR $GITHUB_WORKSPACE
-
-          echo 'Compiler version:'
-          $CXX --version
 
       - name: Checkout
         if: matrix.container != 'ubuntu:18.04'

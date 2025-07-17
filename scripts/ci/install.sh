@@ -2,7 +2,17 @@
 # Used to install dependencies for the CI builds.
 set -e
 
-. ${XMLWRAPP_SOURCE_DIR}/scripts/ci/common.sh
+# This function sets the environment variable to the given value not only for
+# this script itself, but persistently, by using GITHUB_ENV feature provided
+# by the CI environment.
+set_env_var() {
+  echo "Setting environment variable $1=$2"
+  echo $1=$2 >> $GITHUB_ENV
+  eval "export $1=$2"
+}
+
+echo 'Compiler version:'
+$CXX --version
 
 case $(uname -s) in
   Linux)
@@ -14,15 +24,23 @@ case $(uname -s) in
       echo 'Unknown Linux distribution.' >&2
       exit 1
     fi
+    ccache_path=/usr/lib/ccache
     ;;
 
   Darwin)
     platform=macos
+    ccache_path=/opt/homebrew/opt/ccache/libexec
     ;;
 
   *)
     echo "Unknown platform `uname`." >&2
     exit 1
 esac
+
+set_env_var PATH ${ccache_path}:$PATH
+set_env_var XMLWRAPP_CI_BRANCH $GITHUB_REF
+set_env_var XMLWRAPP_SOURCE_DIR $GITHUB_WORKSPACE
+
+. ${XMLWRAPP_SOURCE_DIR}/scripts/ci/common.sh
 
 . ${XMLWRAPP_SOURCE_DIR}/scripts/ci/install-${platform}.sh
