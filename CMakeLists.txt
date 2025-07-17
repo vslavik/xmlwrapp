@@ -22,8 +22,6 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-enable_testing ()
-
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # Decide whether to build xmlwrapp as static or shared library: this can be
@@ -43,7 +41,7 @@ else()
 endif()
 
 option(XMLWRAPP_DOC "Build and install the documentation (requires Doxygen)" ON)
-option(XMLWRAPP_TEST "Build test" ON)
+option(XMLWRAPP_TESTS "Build test" ON)
 option(XMLWRAPP_BUILD_XSLTWRAPP "Build libxsltwrapp library" ON)
 
 set(INSTALL_LIBRARY_DIR ${CMAKE_INSTALL_PREFIX}/lib)
@@ -75,10 +73,10 @@ add_subdirectory(src)
 #TODO install examples in <prefix>/share/xmlwrapp/examples/01-.. 02-.. etc
 add_subdirectory(examples)
 
-if( XMLWRAPP_TEST )
-  #TODO configure with ctest
+if( XMLWRAPP_TESTS )
+  include(CTest)
   add_subdirectory(tests)
-endif( XMLWRAPP_TEST)
+endif( XMLWRAPP_TESTS)
 
 if( XMLWRAPP_DOC )
   #TODO build and install docs in <prefix>/share/xmlwrapp/doc/html/
@@ -213,4 +211,4 @@ endif()
 message(STATUS "xmlwrapp ${XMLWRAPP_VERSION} will be built as ${XMLWRAPP_LIB_TYPE} library${XMLWRAPP_CONFIG_DESCRIPTION}.")
 message(STATUS "  Build xsltwrapp: ${XMLWRAPP_BUILD_XSLTWRAPP}")
 message(STATUS "  Documentation:   ${XMLWRAPP_DOC}")
-message(STATUS "  Tests:           ${XMLWRAPP_TEST}")
+message(STATUS "  Tests:           ${XMLWRAPP_TESTS}")
