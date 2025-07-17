@@ -205,3 +205,12 @@ set(CPACK_SOURCE_IGNORE_FILES
   "^*.git"
 )
 include(CPack)
+
+# Give build summary at the end.
+if (CMAKE_BUILD_TYPE)
+  set(XMLWRAPP_CONFIG_DESCRIPTION " in ${CMAKE_BUILD_TYPE} configuration")
+endif()
+message(STATUS "xmlwrapp ${XMLWRAPP_VERSION} will be built as ${XMLWRAPP_LIB_TYPE} library${XMLWRAPP_CONFIG_DESCRIPTION}.")
+message(STATUS "  Build xsltwrapp: ${XMLWRAPP_BUILD_XSLTWRAPP}")
+message(STATUS "  Documentation:   ${XMLWRAPP_DOC}")
+message(STATUS "  Tests:           ${XMLWRAPP_TEST}")
