@@ -5,14 +5,14 @@ xmlwrapp is a modern style C++ library for working with XML data, built atop
 the venerable libxml2 C library.
 
 Additional resources, bug reports, latest sources etc. can be found on the
-project page at http://vslavik.github.io/xmlwrapp/
+[project page](https://vslavik.github.io/xmlwrapp/).
 
-Packages tarballs can be downloaded from the same location or from
-https://github.com/vslavik/xmlwrapp/releases
+Packages tarballs can be downloaded from the same location or from the
+[release page](https://github.com/vslavik/xmlwrapp/releases).
 
 If you need help or want to discuss xmlwrapp, feel free to join the discussion
-group hosted at http://groups.google.com/group/xmlwrapp or email directly to
-xmlwrapp@googlegroups.com.
+group hosted at [Google Groups](https://groups.google.com/group/xmlwrapp)
+or email directly to xmlwrapp@googlegroups.com.
 
 
 1. Requirements
@@ -20,7 +20,7 @@ xmlwrapp@googlegroups.com.
 
 In order to build xmlwrapp, you need libxml2 version 2.4.28 or newer. When
 building with XSLT support, libxslt 1.1.6 or newer is required. Both libraries
-are available from http://xmlsoft.org.
+are available from [libxml2 home page](https://xmlsoft.org).
 
 
 2. Building on Unix
@@ -36,7 +36,7 @@ usually as simple as running the following three commands:
 See the output of `./configure --help` for additional settings and options.
 
 Cross-compiling, notably for Windows, is also supported using the usual
---host option, e.g. --host=x86_64-w64-mingw32.
+`--host` option, e.g. `--host=x86_64-w64-mingw32`.
 
 Note that if you obtained the library sources from Git, and not from the
 release archives, `configure` script won't exist and you will need to run
