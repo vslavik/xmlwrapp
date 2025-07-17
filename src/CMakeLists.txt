@@ -26,9 +26,15 @@ target_sources(xmlwrapp
 )
 
 target_include_directories(xmlwrapp
+  PRIVATE
+    ${LIBXML2_INCLUDE_DIRS}
   PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>
+)
+target_link_options(xmlwrapp
+  PUBLIC
+    ${LIBXML2_LDFLAGS}
 )
 target_link_libraries(xmlwrapp
   PUBLIC
@@ -46,9 +52,17 @@ if( XMLWRAPP_BUILD_XSLTWRAPP )
       libxslt/result.h
   )
   target_include_directories(xsltwrapp
+    PRIVATE
+      ${LIBXSLT_INCLUDE_DIRS}
+      ${LIBEXSLT_INCLUDE_DIRS}
     PUBLIC
       $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
       $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>
+  )
+  target_link_options(xsltwrapp
+    PUBLIC
+      ${LIBXSLT_LDFLAGS}
+      ${LIBEXSLT_LDFLAGS}
   )
   target_link_libraries(xsltwrapp
     PUBLIC
