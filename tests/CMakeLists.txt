@@ -27,6 +27,12 @@ else()
   target_link_libraries(test_xmlwrapp xmlwrapp)
 endif(XMLWRAPP_BUILD_XSLTWRAPP)
 
-file(COPY ${TEST_DATA_DIRS} DESTINATION ${CMAKE_CURRENT_BINARY_DIR} PATTERN "*.cxx" EXCLUDE)
+add_test(NAME "test_xmlwrapp" COMMAND test_xmlwrapp)
 
-add_test(NAME "test_xmlwrapp" WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND test_xmlwrapp)
+# Allow test must to find the data files (alternative could be to run it in
+# this directory using WORKING_DIRECTORY in add_test() above, but this seems
+# better because it's more explicit).
+set_tests_properties(test_xmlwrapp
+  PROPERTIES
+    ENVIRONMENT "srcdir=${CMAKE_CURRENT_SOURCE_DIR}"
+)
