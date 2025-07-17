@@ -29,7 +29,15 @@ case $(uname -s) in
 
   Darwin)
     platform=macos
-    ccache_path=/opt/homebrew/opt/ccache/libexec
+    # The directory used for ccache symlinks has changed and differs between
+    # macOS 13 and 15, so detect it dynamically.
+    if [ -d /opt/homebrew/opt/ccache/libexec ]; then
+      ccache_path=/opt/homebrew/opt/ccache/libexec
+    elif [ -d /usr/local/opt/ccache/libexec ]; then
+      ccache_path=/usr/local/opt/ccache/libexec
+    else
+      echo 'Warning: unknown macOS ccache path.' >&2
+    fi
     ;;
 
   *)
