@@ -12,7 +12,7 @@ set_env_var() {
 }
 
 echo 'Compiler version:'
-$CXX --version
+${CXX-c++} --version
 
 case $(uname -s) in
   Linux)
