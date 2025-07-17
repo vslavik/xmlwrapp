@@ -12,20 +12,20 @@ set(TEST_SRCS
 
 set(TEST_DATA_DIRS attributes document event node tree schema xpath)
 
-if(XMLWRAPP_BUILD_XSLTWRAPP)
+if(XMLWRAPP_WITH_LIBXSLT)
   LIST(APPEND TEST_SRCS xslt/test_xslt.cxx)
   LIST(APPEND TEST_DATA_DIRS xslt)
-endif(XMLWRAPP_BUILD_XSLTWRAPP)
+endif(XMLWRAPP_WITH_LIBXSLT)
 
 add_executable(test_xmlwrapp ${TEST_SRCS})
 
 target_include_directories(test_xmlwrapp PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
-if(XMLWRAPP_BUILD_XSLTWRAPP)
+if(XMLWRAPP_WITH_LIBXSLT)
   target_link_libraries(test_xmlwrapp xsltwrapp)
 else()
   target_link_libraries(test_xmlwrapp xmlwrapp)
-endif(XMLWRAPP_BUILD_XSLTWRAPP)
+endif(XMLWRAPP_WITH_LIBXSLT)
 
 add_test(NAME "test_xmlwrapp" COMMAND test_xmlwrapp)
 

@@ -43,7 +43,7 @@ endif()
 option(XMLWRAPP_DOC "Build and install the documentation (requires Doxygen)" ON)
 option(XMLWRAPP_EXAMPLES "Build examples" ON)
 option(XMLWRAPP_TESTS "Build test" ON)
-option(XMLWRAPP_BUILD_XSLTWRAPP "Build libxsltwrapp library" ON)
+option(XMLWRAPP_WITH_LIBXSLT "Build libxsltwrapp library" ON)
 
 set(INSTALL_LIBRARY_DIR ${CMAKE_INSTALL_PREFIX}/lib)
 set(INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include)
@@ -62,10 +62,10 @@ find_package(PkgConfig)
 
 pkg_search_module(LIBXML2 REQUIRED libxml-2.0 >= 2.4.28)
 
-if( XMLWRAPP_BUILD_XSLTWRAPP )
+if( XMLWRAPP_WITH_LIBXSLT )
   pkg_search_module(LIBXSLT REQUIRED libxslt >= 1.1.6)
   pkg_search_module(LIBEXSLT REQUIRED libexslt)
-endif( XMLWRAPP_BUILD_XSLTWRAPP )
+endif( XMLWRAPP_WITH_LIBXSLT )
 
 
 add_subdirectory(include)
@@ -113,7 +113,7 @@ function(config_pkgconf
 
   set(LEGACY_LINK_FLAGS "-lxmlwrapp ${XML2_LIBS}")
 
-  if( XMLWRAPP_BUILD_XSLTWRAPP )
+  if( XMLWRAPP_WITH_LIBXSLT )
     set(XSLT_LIBS "")
     foreach(p ${xsltdirs})
       list(APPEND XSLT_LIBS "-L${p}")
@@ -122,7 +122,7 @@ function(config_pkgconf
       list(APPEND XSLT_LIBS "-l${lib}")
     endforeach()
     list(APPEND LEGACY_LINK_FLAGS "-lxsltwrapp ${XSLT_LIBS}")
-  endif( XMLWRAPP_BUILD_XSLTWRAPP )
+  endif( XMLWRAPP_WITH_LIBXSLT )
 
   configure_file( "xmlwrapp.pc.in" "xmlwrapp.pc" @ONLY)
   install (FILES "${binarydir}/xmlwrapp.pc" DESTINATION lib/pkgconfig)
@@ -131,10 +131,10 @@ function(config_pkgconf
   install (PROGRAMS "${binarydir}/xmlwrapp-config"
            DESTINATION bin)
 
-  if( XMLWRAPP_BUILD_XSLTWRAPP )
+  if( XMLWRAPP_WITH_LIBXSLT )
     configure_file( "xsltwrapp.pc.in" "xsltwrapp.pc" @ONLY)
     install (FILES "${binarydir}/xsltwrapp.pc" DESTINATION lib/pkgconfig)
-  endif( XMLWRAPP_BUILD_XSLTWRAPP )
+  endif( XMLWRAPP_WITH_LIBXSLT )
 
 endfunction()
 
@@ -154,9 +154,9 @@ config_pkgconf("${CMAKE_INSTALL_PREFIX}"
 
 # add all targets to build-tree export set
 export(TARGETS xmlwrapp FILE "${PROJECT_BINARY_DIR}/XmlwrappTargets.cmake")
-if( XMLWRAPP_BUILD_XSLTWRAPP )
+if( XMLWRAPP_WITH_LIBXSLT )
   export(TARGETS xsltwrapp APPEND FILE "${PROJECT_BINARY_DIR}/XmlwrappTargets.cmake")
-endif( XMLWRAPP_BUILD_XSLTWRAPP )
+endif( XMLWRAPP_WITH_LIBXSLT )
 
 # Export the package for use from the build-tree
 # (this registers the build-tree with a global CMake-registry)
@@ -212,7 +212,7 @@ if (CMAKE_BUILD_TYPE)
   set(XMLWRAPP_CONFIG_DESCRIPTION " in ${CMAKE_BUILD_TYPE} configuration")
 endif()
 message(STATUS "xmlwrapp ${XMLWRAPP_VERSION} will be built as ${XMLWRAPP_LIB_TYPE} library${XMLWRAPP_CONFIG_DESCRIPTION}.")
-message(STATUS "  Build xsltwrapp: ${XMLWRAPP_BUILD_XSLTWRAPP}")
+message(STATUS "  Build xsltwrapp: ${XMLWRAPP_WITH_LIBXSLT}")
 message(STATUS "  Documentation:   ${XMLWRAPP_DOC}")
 message(STATUS "  Examples:        ${XMLWRAPP_EXAMPLES}")
 message(STATUS "  Tests:           ${XMLWRAPP_TESTS}")

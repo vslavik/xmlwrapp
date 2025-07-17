@@ -43,7 +43,7 @@ target_link_libraries(xmlwrapp
 set_target_properties(xmlwrapp PROPERTIES VERSION 6.0.0 SOVERSION 6)
 install (TARGETS xmlwrapp EXPORT XmlwrappTargets DESTINATION lib)
 
-if( XMLWRAPP_BUILD_XSLTWRAPP )
+if( XMLWRAPP_WITH_LIBXSLT )
   add_library(xsltwrapp ${XMLWRAPP_LIB_TYPE})
   target_sources(xsltwrapp
     PRIVATE
@@ -72,4 +72,4 @@ if( XMLWRAPP_BUILD_XSLTWRAPP )
   )
   set_target_properties(xsltwrapp PROPERTIES VERSION 4.0.0 SOVERSION 4)
   install (TARGETS xsltwrapp EXPORT XmlwrappTargets DESTINATION lib)
-endif( XMLWRAPP_BUILD_XSLTWRAPP )
+endif( XMLWRAPP_WITH_LIBXSLT )
