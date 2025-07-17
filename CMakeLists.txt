@@ -26,6 +26,22 @@ enable_testing ()
 
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 
+# Decide whether to build xmlwrapp as static or shared library: this can be
+# controlled by it specifically by setting XMLWRAPP_SHARED option and inherits
+# the value of the standard BUILD_SHARED_LIBS option if not set.
+if(DEFINED BUILD_SHARED_LIBS)
+  set(XMLWRAPP_SHARED_DEFAULT ${BUILD_SHARED_LIBS})
+else()
+  set(XMLWRAPP_SHARED_DEFAULT ON)
+endif()
+option(XMLWRAPP_SHARED "Build using shared libraries" ${XMLWRAPP_SHARED_DEFAULT})
+
+if (XMLWRAPP_SHARED)
+  set(XMLWRAPP_LIB_TYPE "SHARED")
+else()
+  set(XMLWRAPP_LIB_TYPE "STATIC")
+endif()
+
 option(XMLWRAPP_DOC "Build and install the documentation (requires Doxygen)" ON)
 option(XMLWRAPP_TEST "Build test" ON)
 option(XMLWRAPP_BUILD_XSLTWRAPP "Build libxsltwrapp library" ON)
@@ -140,9 +156,9 @@ config_pkgconf("${CMAKE_INSTALL_PREFIX}"
 
 
 # add all targets to build-tree export set
-export(TARGETS xmlwrapp_shared xmlwrapp_static FILE "${PROJECT_BINARY_DIR}/XmlwrappTargets.cmake")
+export(TARGETS xmlwrapp FILE "${PROJECT_BINARY_DIR}/XmlwrappTargets.cmake")
 if( XMLWRAPP_BUILD_XSLTWRAPP )
-  export(TARGETS xsltwrapp_shared xsltwrapp_static APPEND FILE "${PROJECT_BINARY_DIR}/XmlwrappTargets.cmake")
+  export(TARGETS xsltwrapp APPEND FILE "${PROJECT_BINARY_DIR}/XmlwrappTargets.cmake")
 endif( XMLWRAPP_BUILD_XSLTWRAPP )
 
 # Export the package for use from the build-tree

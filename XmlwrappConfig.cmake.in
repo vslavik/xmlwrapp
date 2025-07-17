@@ -14,11 +14,6 @@
 # XMLWRAPP_XSLT_LIBRARIES   - Component libraries for xsltwrapp only
 # XMLWRAPP_XML_LIBRARIES    - Component libraries for xmlwrapp only
 #
-# Static or shared libraries
-# To use static libraries
-# set(XMLWRAPP_USE_STATIC_LIBS ON)
-# find_package(Xmlwrapp)
-#
 # Compute paths
 get_filename_component(XMLWRAPP_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
 set(XMLWRAPP_INCLUDE_DIR "@CONF_INCLUDE_DIR@")
@@ -32,28 +27,15 @@ if(XMLWRAPP_XSLT_FOUND)
 endif(XMLWRAPP_XSLT_FOUND)
 
 # Our libary dependencies (contains definitions form IMPORTED targets)
-if( NOT (TARGET xmlwrapp_shared OR TARGET xmlwrapp_static) AND NOT XMLWRAPP_BINARY_DIR)
+if( NOT TARGET xmlwrapp AND NOT XMLWRAPP_BINARY_DIR)
   include("${XMLWRAPP_CMAKE_DIR}/XmlwrappTargets.cmake")
 endif()
 
-#set(XMLWRAPP_USE_STATIC_LIBS OFF)
 # These are imported targets created by XmlwrappTargets.cmake
-if(XMLWRAPP_USE_STATIC_LIBS)
-  if(XMLWRAPP_XSLT_FOUND)
-    set(XMLWRAPP_LIBRARIES xmlwrapp_static xsltwrapp_static)
-    set(XMLWRAPP_XML_LIBRARIES xmlwrapp_static)
-    set(XMLWRAPP_XSLT_LIBRARIES xsltwrapp_static)
-  else()
-    set(XMLWRAPP_LIBRARIES xmlwrapp_static)
-    set(XMLWRAPP_XML_LIBRARIES xmlwrapp_static)
-  endif(XMLWRAPP_XSLT_FOUND)
+set(XMLWRAPP_XML_LIBRARIES xmlwrapp)
+if(XMLWRAPP_XSLT_FOUND)
+  set(XMLWRAPP_LIBRARIES xmlwrapp xsltwrapp)
+  set(XMLWRAPP_XSLT_LIBRARIES xsltwrapp)
 else()
-  if(XMLWRAPP_XSLT_FOUND)
-    set(XMLWRAPP_LIBRARIES xmlwrapp_shared xsltwrapp_shared)
-    set(XMLWRAPP_XML_LIBRARIES xmlwrapp_shared)
-    set(XMLWRAPP_XSLT_LIBRARIES xsltwrapp_shared)
-  else()
-    set(XMLWRAPP_LIBRARIES xmlwrapp_shared)
-    set(XMLWRAPP_XML_LIBRARIES xmlwrapp_shared)
-  endif(XMLWRAPP_XSLT_FOUND)
-elseif(XMLWRAPP_USE_STATIC_LIBS)
+  set(XMLWRAPP_LIBRARIES xmlwrapp)
+endif(XMLWRAPP_XSLT_FOUND)
