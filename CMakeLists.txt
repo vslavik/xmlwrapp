@@ -162,8 +162,13 @@ endif( XMLWRAPP_WITH_LIBXSLT )
 # (this registers the build-tree with a global CMake-registry)
 export(PACKAGE Xmlwrapp)
 
+# Generate config file for find_package(xmlwrapp).
 include (CMakePackageConfigHelpers)
 
+write_basic_package_version_file(
+  "${PROJECT_BINARY_DIR}/XmlwrappConfigVersion.cmake"
+  COMPATIBILITY SameMinorVersion
+)
 
 file(RELATIVE_PATH REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}" "${INSTALL_INCLUDE_DIR}")
 file(RELATIVE_PATH REL_LIBRARY_DIR "${INSTALL_CMAKE_DIR}" "${INSTALL_LIBRARY_DIR}")
@@ -177,7 +182,6 @@ configure_package_config_file(
   INSTALL_DESTINATION
     ${INSTALL_CMAKE_DIR}
 )
-configure_file( XmlwrappConfigVersion.cmake.in "${PROJECT_BINARY_DIR}/XmlwrappConfigVersion.cmake" @ONLY)
 
 install(
   FILES
