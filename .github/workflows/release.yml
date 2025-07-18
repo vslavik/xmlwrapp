@@ -33,6 +33,6 @@ jobs:
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2.2.2
         with:
-          files: xmlwrapp-*.tar.*z
+          files: build-cmake/xmlwrapp-*.tar.*z
           fail_on_unmatched_files: true
           draft: true
