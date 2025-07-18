@@ -32,17 +32,6 @@ fi
 
 # Test building from a distribution archive, rather than from Git sources.
 if [ "$TEST_DIST" = 1 ]; then
-    # We need bkl in order to build the distribution archives, so get it.
-    BKL_VERSION=1.2.6
-    BKL_ARCHIVE=bakefile-${BKL_VERSION}-bin.tar.bz2
-
-    wget --no-verbose https://github.com/vslavik/bakefile/releases/download/v${BKL_VERSION}/${BKL_ARCHIVE}
-
-    # We assume we're using GNU tar, which can uncompress .bz2 files on its own.
-    tar xf ${BKL_ARCHIVE}
-
-    PATH=$(pwd)/bakefile-${BKL_VERSION}:${PATH}
-
     make distcheck DISTCHECK_CONFIGURE_FLAGS="$configure_args"
 
     # No need to build and test again, this is already done by distcheck.
