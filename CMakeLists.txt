@@ -58,11 +58,11 @@ set(CMAKE_CXX_COMPILER_VISIBILITY_PRESET hidden)
 
 find_package(PkgConfig)
 
-pkg_search_module(LIBXML2 REQUIRED libxml-2.0 >= 2.4.28)
+pkg_check_modules(LIBXML2 REQUIRED libxml-2.0>=2.4.28)
 
 if( XMLWRAPP_WITH_LIBXSLT )
-  pkg_search_module(LIBXSLT REQUIRED libxslt >= 1.1.6)
-  pkg_search_module(LIBEXSLT REQUIRED libexslt)
+  pkg_check_modules(LIBXSLT REQUIRED libxslt>=1.1.6)
+  pkg_check_modules(LIBEXSLT REQUIRED libexslt)
 endif( XMLWRAPP_WITH_LIBXSLT )
 
 
