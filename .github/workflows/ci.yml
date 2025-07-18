@@ -16,6 +16,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - name: Ubuntu 24.04
+            runner: ubuntu-24.04
+            test_install: 1
           - name: Ubuntu 24.04 Static
             runner: ubuntu-24.04
             cmake_args: '-DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF'
@@ -43,6 +46,17 @@ jobs:
 
       - name: Test
         run: ctest --test-dir build-cmake
+
+      - name: Install
+        if: matrix.test_install
+        run: |
+          cmake --install build-cmake --prefix $HOME/xmlwrapp
+          echo "++ Installation done, building the example now."
+          rm -rf build-cmake # Just to ensure it's not used somehow.
+          cmake -S examples/find_package -B build-example -DCMAKE_PREFIX_PATH=$HOME/xmlwrapp
+          cmake --build build-example
+          echo "++ Build done, running the example now."
+          ./build-example/example
 
   build-autoconf:
     name: ${{ matrix.name }} autoconf
