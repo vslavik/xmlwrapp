@@ -81,7 +81,6 @@ if( XMLWRAPP_TESTS )
 endif( XMLWRAPP_TESTS)
 
 if( XMLWRAPP_DOC )
-  #TODO build and install docs in <prefix>/share/xmlwrapp/doc/html/
   add_subdirectory(docs)
 endif( XMLWRAPP_DOC )
 
