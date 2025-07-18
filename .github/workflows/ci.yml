@@ -120,7 +120,6 @@ jobs:
           - name: Ubuntu 18.04
             runner: ubuntu-latest
             container: ubuntu:18.04
-            test_dist: 1
           - name: Ubuntu 20.04 ASAN
             runner: ubuntu-latest
             container: ubuntu:20.04
@@ -131,6 +130,7 @@ jobs:
             compiler: clang++
           - name: Ubuntu 24.04
             runner: ubuntu-24.04
+            test_dist: 1
           - name: MinGW 32
             runner: ubuntu-22.04
             host: i686-w64-mingw32
