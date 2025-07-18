@@ -47,8 +47,8 @@ option(XMLWRAPP_DOC "Build and install the documentation (requires Doxygen)" ${P
 option(XMLWRAPP_EXAMPLES "Build examples" ${PROJECT_IS_TOP_LEVEL})
 option(XMLWRAPP_TESTS "Build tests" ${PROJECT_IS_TOP_LEVEL})
 
-# This is always disabled but can be disabled by the super-project if it is
-# not needed before calling add_subdirectory().
+# This is always enabled but can be disabled by the super-project if it is not
+# needed before calling add_subdirectory().
 option(XMLWRAPP_WITH_LIBXSLT "Build libxsltwrapp library" ON)
 
 include(GNUInstallDirs)
