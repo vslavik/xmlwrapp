@@ -53,7 +53,7 @@ jobs:
           cmake --install build-cmake --prefix $HOME/xmlwrapp
           echo "++ Installation done, building the example now."
           rm -rf build-cmake # Just to ensure it's not used somehow.
-          cmake -S examples/find_package -B build-example -DCMAKE_PREFIX_PATH=$HOME/xmlwrapp
+          cmake -S examples/cmake/find_package -B build-example -DCMAKE_PREFIX_PATH=$HOME/xmlwrapp
           cmake --build build-example
           echo "++ Build done, running the example now."
           ./build-example/example
