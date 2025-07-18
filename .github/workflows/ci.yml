@@ -62,6 +62,7 @@ jobs:
     name: Ubuntu 24.04 CMake Dist
     runs-on: ubuntu-24.04
     env:
+      XMLWRAPP_WITH_DOCS: 1
       XMLWRAPP_CMAKE: 1
     steps:
       - name: Checkout
@@ -73,12 +74,13 @@ jobs:
           key: "Ubuntu 24.04-cmake"
 
       - name: Install dependencies
-        env:
-          TEST_DIST: 1
         run: ./scripts/ci/install.sh
 
       - name: Configure
         run: cmake -S . -B build-cmake
+
+      - name: Create distribution
+        run: cmake --build build-cmake --target dist
 
       - name: Check distribution
         run: cmake --build build-cmake --target distcheck
@@ -148,7 +150,7 @@ jobs:
       CXX: ${{ matrix.compiler || 'g++' }}
       CXXFLAGS: ${{ matrix.cxxflags }}
       LDFLAGS: ${{ matrix.ldflags }}
-      TEST_DIST: ${{ matrix.test_dist }}
+      XMLWRAPP_WITH_DOCS: ${{ matrix.test_dist }}
 
     steps:
       - name: Set up build environment
@@ -164,7 +166,7 @@ jobs:
               export DEBIAN_FRONTEND=noninteractive
 
               apt-get update -qq
-              apt-get install -qq autoconf automake g++ git libtool make pkg-config ${TEST_DIST+python} sudo wget
+              apt-get install -qq autoconf automake g++ git libtool make pkg-config sudo wget
 
               # Checkout action doesn't work under Ubuntu 18.04 any more, so
               # run checkout manually.
@@ -205,6 +207,9 @@ jobs:
       - name: Build and test
         run: ./scripts/ci/autoconf.sh
 
+      - name: Check distribution
+        if: matrix.test_dist
+        run: make distcheck
 
   build-msvs:
     name: MSVS ${{ matrix.arch }}

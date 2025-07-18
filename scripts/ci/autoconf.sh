@@ -24,19 +24,11 @@ case "$HOST" in
         ;;
 esac
 
-if [ "$TEST_DIST" != 1 ]; then
+if [ "$XMLWRAPP_WITH_DOCS" != 1 ]; then
     configure_args="$configure_args --disable-docs"
 fi
 
 ./configure CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" $configure_args
-
-# Test building from a distribution archive, rather than from Git sources.
-if [ "$TEST_DIST" = 1 ]; then
-    make distcheck DISTCHECK_CONFIGURE_FLAGS="$configure_args"
-
-    # No need to build and test again, this is already done by distcheck.
-    exit 0
-fi
 
 make --keep-going
 

@@ -46,7 +46,6 @@ case $(uname -s) in
 esac
 
 set_env_var PATH ${ccache_path}:$PATH
-set_env_var XMLWRAPP_CI_BRANCH $GITHUB_REF
 set_env_var XMLWRAPP_SOURCE_DIR $GITHUB_WORKSPACE
 
 . ${XMLWRAPP_SOURCE_DIR}/scripts/ci/common.sh
