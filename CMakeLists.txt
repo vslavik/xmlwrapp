@@ -51,6 +51,11 @@ option(XMLWRAPP_TESTS "Build tests" ${PROJECT_IS_TOP_LEVEL})
 # needed before calling add_subdirectory().
 option(XMLWRAPP_WITH_LIBXSLT "Build libxsltwrapp library" ON)
 
+# These options are not set by default but can be used to customize the naming
+# of the produced libraries.
+set(XMLWRAPP_NAME_PREFIX "" CACHE STRING "Use the given prefix for the libraries")
+set(XMLWRAPP_NAME_SUFFIX "" CACHE STRING "Use the given suffix for the libraries")
+
 include(GNUInstallDirs)
 set(INSTALL_CMAKE_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/xmlwrapp)
 

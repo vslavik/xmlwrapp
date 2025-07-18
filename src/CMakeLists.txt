@@ -19,7 +19,16 @@ function(setup_shared_library target version)
     string(REPLACE "." ";" version_as_list ${version})
     list(GET version_as_list 0 soversion)
 
+    set(output_name "${target}")
+    if( XMLWRAPP_NAME_PREFIX )
+      set(output_name "${XMLWRAPP_NAME_PREFIX}${output_name}")
+    endif()
+    if( XMLWRAPP_NAME_SUFFIX )
+      set(output_name "${output_name}${XMLWRAPP_NAME_SUFFIX}")
+    endif()
+
     set_target_properties(${target} PROPERTIES
+      OUTPUT_NAME ${output_name}
       BUILD_RPATH_USE_ORIGIN ON
       DEFINE_SYMBOL "DLL_EXPORT"
       CXX_VISIBILITY_PRESET hidden
