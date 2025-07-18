@@ -72,7 +72,6 @@ add_subdirectory(include)
 add_subdirectory(src)
 
 if( XMLWRAPP_EXAMPLES )
-  #TODO install examples in <prefix>/share/xmlwrapp/examples/01-.. 02-.. etc
   add_subdirectory(examples)
 endif( XMLWRAPP_EXAMPLES )
 
