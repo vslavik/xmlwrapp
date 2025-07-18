@@ -40,8 +40,8 @@
 #define _xmlwrapp_version_h_
 
 #define XMLWRAPP_VERSION_MAJOR   0
-#define XMLWRAPP_VERSION_MINOR   9
-#define XMLWRAPP_VERSION_MICRO   1
+#define XMLWRAPP_VERSION_MINOR  10
+#define XMLWRAPP_VERSION_MICRO   0
 
 /**
     Checks if xmlwrapp version is at least @a major.@a minor.@a micro.

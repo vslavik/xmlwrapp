@@ -2,6 +2,8 @@ Version 0.10.0 [not released yet]
 
     Building xmlwrapp now requires C++11 compiler.
 
+    Add CMake build system (#92).
+
     New behaviour: xml::node::set_namespace() now sets the namespace for all
     node children when the node hadn't had any namespace before too, instead
     of only doing it when the node namespace is being changed.

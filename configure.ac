@@ -34,7 +34,7 @@ dnl SUCH DAMAGE.
 dnl === Prologue ===
 
 AC_PREREQ(2.61)
-AC_INIT(xmlwrapp, 0.9.1, [xmlwrapp@googlegroups.com])
+AC_INIT(xmlwrapp, 0.10.0, [xmlwrapp@googlegroups.com])
 
 AC_CONFIG_SRCDIR([xmlwrapp.pc.in])
 AC_CONFIG_AUX_DIR([admin])
