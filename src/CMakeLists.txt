@@ -1,10 +1,10 @@
-# Configure shared library with the given name.
+# Configure shared library with the given name and (full) ELF version.
 #
 # Set properties for using hidden ELF visibility, defining proper DLL-related
 # symbols and use $ORIGIN in the runpath.
 #
 # Note that this does nothing when shared libraries are not used.
-function(setup_shared_library target)
+function(setup_shared_library target version)
   if (XMLWRAPP_SHARED)
     # Construct XMLWRAPP_USE_DLL or XSLTWRAPP_USE_DLL symbol name.
     string(TOUPPER "${target}_USE_DLL" use_dll_symbol)
@@ -14,11 +14,18 @@ function(setup_shared_library target)
       INTERFACE
         ${use_dll_symbol}
     )
+
+    # Set SOVERSION to the major VERSION component.
+    string(REPLACE "." ";" version_as_list ${version})
+    list(GET version_as_list 0 soversion)
+
     set_target_properties(${target} PROPERTIES
       BUILD_RPATH_USE_ORIGIN ON
       DEFINE_SYMBOL "DLL_EXPORT"
       CXX_VISIBILITY_PRESET hidden
       VISIBILITY_INLINES_HIDDEN ON
+      VERSION ${version}
+      SOVERSION ${soversion}
     )
   endif()
 endfunction()
@@ -66,8 +73,7 @@ target_link_libraries(xmlwrapp
   PUBLIC
     ${LIBXML2_LIBRARIES}
 )
-set_target_properties(xmlwrapp PROPERTIES VERSION 6.0.0 SOVERSION 6)
-setup_shared_library(xmlwrapp)
+setup_shared_library(xmlwrapp 6.0.0)
 install (TARGETS xmlwrapp EXPORT XmlwrappTargets DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 if( XMLWRAPP_WITH_LIBXSLT )
@@ -97,7 +103,6 @@ if( XMLWRAPP_WITH_LIBXSLT )
       ${LIBXSLT_LIBRARIES}
       ${LIBEXSLT_LIBRARIES}
   )
-  set_target_properties(xsltwrapp PROPERTIES VERSION 4.0.0 SOVERSION 4)
-  setup_shared_library(xsltwrapp)
+  setup_shared_library(xsltwrapp 4.0.0)
   install (TARGETS xsltwrapp EXPORT XmlwrappTargets DESTINATION ${CMAKE_INSTALL_LIBDIR})
 endif( XMLWRAPP_WITH_LIBXSLT )
