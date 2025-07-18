@@ -1,5 +1,7 @@
 # Used to install dependencies for the CI builds under Debian/Ubuntu.
 
+export DEBIAN_FRONTEND=noninteractive
+
 run_apt_install() {
     echo "-> Running apt-get install $@"
 
