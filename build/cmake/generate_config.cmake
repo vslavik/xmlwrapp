@@ -38,13 +38,18 @@ string(STRIP ${LEGACY_LINK_FLAGS} LEGACY_LINK_FLAGS)
 # Function to configure a file if it is necessary, i.e. if it doesn't exist or
 # its contents has changed.
 #
+# It always uses "@ONLY" and allows specifying "EXECUTABLE" option argument to
+# make the installed file executable.
+#
 # This outputs the same messages as CMake install(), making the installation of
 # the config files here consistent with all the other ones.
-function(configure_file_if_necessary input_file output_file make_executable)
+function(configure_file_if_necessary input_file output_file)
+  cmake_parse_arguments(PARSE_ARGV 2 args "EXECUTABLE" "" "")
+
   # Create temporary file
   set(temp_file "${output_file}.tmp")
   set(configure_args "@ONLY")
-  if(make_executable)
+  if(args_EXECUTABLE)
       list(APPEND configure_args "FILE_PERMISSIONS")
       list(APPEND configure_args "OWNER_EXECUTE")
       list(APPEND configure_args "OWNER_WRITE")
@@ -80,19 +85,17 @@ endfunction()
 configure_file_if_necessary(
   ${PROJECT_SOURCE_DIR}/xmlwrapp.pc.in
   ${CMAKE_INSTALL_FULL_LIBDIR}/pkgconfig/xmlwrapp.pc
-  OFF
 )
 
 configure_file_if_necessary(
   ${PROJECT_SOURCE_DIR}/xmlwrapp-config.in
   ${CMAKE_INSTALL_FULL_BINDIR}/xmlwrapp-config
-  ON
+  EXECUTABLE
 )
 
 if( XMLWRAPP_WITH_LIBXSLT )
   configure_file_if_necessary(
     ${PROJECT_SOURCE_DIR}/xsltwrapp.pc.in
     ${CMAKE_INSTALL_FULL_LIBDIR}/pkgconfig/xsltwrapp.pc
-    OFF
   )
 endif( XMLWRAPP_WITH_LIBXSLT )
