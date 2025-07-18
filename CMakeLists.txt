@@ -174,6 +174,21 @@ add_custom_target(dist
   VERBATIM
 )
 
+# Create another custom target to check that the created package works.
+add_custom_target(distcheck
+  WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
+  COMMAND ${CMAKE_COMMAND} -E remove_directory xmlwrapp-${XMLWRAPP_VERSION} distcheck-build distcheck-install
+  COMMAND ${CMAKE_COMMAND} -E tar xzf ${CPACK_SOURCE_PACKAGE_FILE_NAME}.tar.gz
+  COMMAND ${CMAKE_COMMAND} -S xmlwrapp-${XMLWRAPP_VERSION} -B distcheck-build -DCMAKE_BUILD_TYPE=Release
+  COMMAND ${CMAKE_COMMAND} --build distcheck-build
+  COMMAND ${CMAKE_COMMAND} --build distcheck-build --target test
+  COMMAND ${CMAKE_COMMAND} --install distcheck-build --prefix distcheck-install
+  COMMAND ${CMAKE_COMMAND} -E echo "Package xmlwrapp-${XMLWRAPP_VERSION} is ready."
+  DEPENDS dist
+  COMMENT "Checking that the source package is usable."
+  VERBATIM
+)
+
 # Give build summary at the end.
 if (CMAKE_BUILD_TYPE)
   set(XMLWRAPP_CONFIG_DESCRIPTION " in ${CMAKE_BUILD_TYPE} configuration")
