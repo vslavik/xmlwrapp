@@ -150,11 +150,13 @@ install(EXPORT XmlwrappTargets DESTINATION ${INSTALL_CMAKE_DIR})
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "xmlwrapp is a C++ library for working with XML data, built atop the venerable libxml2 C library.")
 set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+set(CPACK_SOURCE_GENERATOR "TGZ;TXZ")
+set(CPACK_SOURCE_PACKAGE_FILE_NAME "xmlwrapp-${XMLWRAPP_VERSION}")
 
 set(CPACK_SOURCE_IGNORE_FILES
-  "~$"
-  "^.gitignore$"
-  "^*.git"
+  "[.]swp\$"
+  "autom4te[.]cache"
+  "/[.]git"
 )
 include(CPack)
 
