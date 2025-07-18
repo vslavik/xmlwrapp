@@ -30,7 +30,7 @@ target_include_directories(xmlwrapp
     ${LIBXML2_INCLUDE_DIRS}
   PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 target_link_options(xmlwrapp
   PUBLIC
@@ -41,7 +41,7 @@ target_link_libraries(xmlwrapp
     ${LIBXML2_LIBRARIES}
 )
 set_target_properties(xmlwrapp PROPERTIES VERSION 6.0.0 SOVERSION 6)
-install (TARGETS xmlwrapp EXPORT XmlwrappTargets DESTINATION lib)
+install (TARGETS xmlwrapp EXPORT XmlwrappTargets DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 if( XMLWRAPP_WITH_LIBXSLT )
   add_library(xsltwrapp ${XMLWRAPP_LIB_TYPE})
@@ -57,7 +57,7 @@ if( XMLWRAPP_WITH_LIBXSLT )
       ${LIBEXSLT_INCLUDE_DIRS}
     PUBLIC
       $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-      $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>
+      $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   )
   target_link_options(xsltwrapp
     PUBLIC
@@ -71,5 +71,5 @@ if( XMLWRAPP_WITH_LIBXSLT )
       ${LIBEXSLT_LIBRARIES}
   )
   set_target_properties(xsltwrapp PROPERTIES VERSION 4.0.0 SOVERSION 4)
-  install (TARGETS xsltwrapp EXPORT XmlwrappTargets DESTINATION lib)
+  install (TARGETS xsltwrapp EXPORT XmlwrappTargets DESTINATION ${CMAKE_INSTALL_LIBDIR})
 endif( XMLWRAPP_WITH_LIBXSLT )

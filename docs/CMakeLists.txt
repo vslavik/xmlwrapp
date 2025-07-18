@@ -15,7 +15,7 @@ if(DOXYGEN_FOUND)
     COMMENT "Generating API documentation with Doxygen"
     VERBATIM
   )
-  install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/html" DESTINATION share/xmlwrapp/doc)
+  install(DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/html" DESTINATION ${CMAKE_INSTALL_DOCDIR})
 else()
   message(WARNING "Doxygen not found, documentation will not be built.")
   set(XMLWRAPP_DOC OFF PARENT_SCOPE)

@@ -45,16 +45,8 @@ option(XMLWRAPP_EXAMPLES "Build examples" ON)
 option(XMLWRAPP_TESTS "Build test" ON)
 option(XMLWRAPP_WITH_LIBXSLT "Build libxsltwrapp library" ON)
 
-set(INSTALL_LIBRARY_DIR ${CMAKE_INSTALL_PREFIX}/lib)
-set(INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include)
-set(INSTALL_DOC_DIR ${CMAKE_INSTALL_PREFIX}/share/xmlwrapp/doc)
-
-if(WIN32 AND NOT CYGWIN)
-  set(DEF_INSTALL_CMAKE_DIR CMake)
-else()
-  set(DEF_INSTALL_CMAKE_DIR lib/cmake/xmlwrapp)
-endif(WIN32 AND NOT CYGWIN)
-set(INSTALL_CMAKE_DIR ${CMAKE_INSTALL_PREFIX}/${DEF_INSTALL_CMAKE_DIR})
+include(GNUInstallDirs)
+set(INSTALL_CMAKE_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/xmlwrapp)
 
 set(CMAKE_CXX_COMPILER_VISIBILITY_PRESET hidden)
 
@@ -123,22 +115,22 @@ function(config_pkgconf
   endif( XMLWRAPP_WITH_LIBXSLT )
 
   configure_file( "xmlwrapp.pc.in" "xmlwrapp.pc" @ONLY)
-  install (FILES "${binarydir}/xmlwrapp.pc" DESTINATION lib/pkgconfig)
+  install (FILES "${binarydir}/xmlwrapp.pc" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 
   configure_file( "xmlwrapp-config.in" "xmlwrapp-config" @ONLY)
   install (PROGRAMS "${binarydir}/xmlwrapp-config"
-           DESTINATION bin)
+           DESTINATION ${CMAKE_INSTALL_BINDIR})
 
   if( XMLWRAPP_WITH_LIBXSLT )
     configure_file( "xsltwrapp.pc.in" "xsltwrapp.pc" @ONLY)
-    install (FILES "${binarydir}/xsltwrapp.pc" DESTINATION lib/pkgconfig)
+    install (FILES "${binarydir}/xsltwrapp.pc" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
   endif( XMLWRAPP_WITH_LIBXSLT )
 
 endfunction()
 
 config_pkgconf("${CMAKE_INSTALL_PREFIX}"
-               "${INSTALL_LIBRARY_DIR}"
-               "${INSTALL_INCLUDE_DIR}"
+               "${CMAKE_INSTALL_LIBDIR}"
+               "${CMAKE_INSTALL_INCLUDEDIR}"
                "${PROJECT_BINARY_DIR}"
                "${XMLWRAPP_VERSION}"
                "${LIBXMLS2_LIBRARY_DIRS}"
@@ -168,17 +160,16 @@ write_basic_package_version_file(
   COMPATIBILITY SameMinorVersion
 )
 
-file(RELATIVE_PATH REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}" "${INSTALL_INCLUDE_DIR}")
-file(RELATIVE_PATH REL_LIBRARY_DIR "${INSTALL_CMAKE_DIR}" "${INSTALL_LIBRARY_DIR}")
-
-set(CONF_INCLUDE_DIR "\${XMLWRAPP_CMAKE_DIR}/${REL_INCLUDE_DIR}")
-set(CONF_LIBRARY_DIR "\${XMLWRAPP_CMAKE_DIR}/${REL_LIBRARY_DIR}")
-
 configure_package_config_file(
   XmlwrappConfig.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/XmlwrappConfig.cmake
+  PATH_VARS
+    CMAKE_INSTALL_INCLUDEDIR
+    CMAKE_INSTALL_LIBDIR
   INSTALL_DESTINATION
     ${INSTALL_CMAKE_DIR}
+  # We don't use components, although we probably should for xsltwrapp.
+  NO_CHECK_REQUIRED_COMPONENTS_MACRO
 )
 
 install(
@@ -189,7 +180,7 @@ install(
     ${INSTALL_CMAKE_DIR}
 )
 
-install(EXPORT XmlwrappTargets DESTINATION "${DEF_INSTALL_CMAKE_DIR}")
+install(EXPORT XmlwrappTargets DESTINATION ${INSTALL_CMAKE_DIR})
 
 
 
