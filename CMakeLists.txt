@@ -153,12 +153,26 @@ set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_SOURCE_GENERATOR "TGZ;TXZ")
 set(CPACK_SOURCE_PACKAGE_FILE_NAME "xmlwrapp-${XMLWRAPP_VERSION}")
 
+set(CPACK_SOURCE_INSTALLED_DIRECTORIES
+  "${CMAKE_SOURCE_DIR};/;${CMAKE_BINARY_DIR}/docs/html;/docs/html"
+)
 set(CPACK_SOURCE_IGNORE_FILES
   "[.]swp\$"
   "autom4te[.]cache"
   "/[.]git"
 )
 include(CPack)
+
+# Create a custom target to ensure that we build the docs that must be
+# included in the package.
+add_custom_target(dist
+  COMMAND "${CMAKE_COMMAND}"
+    --build "${CMAKE_BINARY_DIR}"
+    --target package_source
+  DEPENDS xmlwrapp_docs
+  COMMENT "Creating source package."
+  VERBATIM
+)
 
 # Give build summary at the end.
 if (CMAKE_BUILD_TYPE)
