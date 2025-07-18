@@ -54,8 +54,6 @@ option(XMLWRAPP_WITH_LIBXSLT "Build libxsltwrapp library" ON)
 include(GNUInstallDirs)
 set(INSTALL_CMAKE_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/xmlwrapp)
 
-set(CMAKE_CXX_COMPILER_VISIBILITY_PRESET hidden)
-
 find_package(PkgConfig)
 
 pkg_check_modules(LIBXML2 REQUIRED libxml-2.0>=2.4.28)
