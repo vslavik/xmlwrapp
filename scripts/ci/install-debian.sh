@@ -3,8 +3,7 @@
 # Arch-independent dependencies.
 sudo apt-get update -qq
 
-# We only build documentation in the build from the distribution archive.
-if [ "$TEST_DIST" = 1 ]; then
+if [ "$XMLWRAPP_WITH_DOCS" = 1 ]; then
     sudo apt-get install -qq --no-install-recommends doxygen graphviz
 fi
 
