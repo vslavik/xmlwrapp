@@ -119,7 +119,7 @@ write_basic_package_version_file(
 )
 
 configure_package_config_file(
-  XmlwrappConfig.cmake.in
+  build/cmake/XmlwrappConfig.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/XmlwrappConfig.cmake
   PATH_VARS
     CMAKE_INSTALL_INCLUDEDIR
