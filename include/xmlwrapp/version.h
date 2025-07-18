@@ -39,6 +39,8 @@
 #ifndef _xmlwrapp_version_h_
 #define _xmlwrapp_version_h_
 
+#include "xmlwrapp/export.h"
+
 /**
     Compile-time major version of the library.
 
@@ -118,7 +120,7 @@ namespace xml
 
     @since 0.10.0
  */
-int get_major_version();
+XMLWRAPP_API int get_major_version();
 
 /**
     Return minor runtime version of xmlwrapp library.
@@ -127,7 +129,7 @@ int get_major_version();
 
     @since 0.10.0
  */
-int get_minor_version();
+XMLWRAPP_API int get_minor_version();
 
 /**
     Return micro runtime version of xmlwrapp library.
@@ -136,7 +138,7 @@ int get_minor_version();
 
     @since 0.10.0
  */
-int get_micro_version();
+XMLWRAPP_API int get_micro_version();
 
 /**
     Return the full runtime version of xmlwrapp library.
@@ -147,7 +149,7 @@ int get_micro_version();
 
     @since 0.10.0
  */
-const char* get_version_string();
+XMLWRAPP_API const char* get_version_string();
 
 /**
     Check that the library version is at least the given one.
@@ -159,7 +161,7 @@ const char* get_version_string();
 
     @since 0.10.0
  */
-bool check_version(int major, int minor, int micro);
+XMLWRAPP_API bool check_version(int major, int minor, int micro);
 
 } // namespace xml
 
