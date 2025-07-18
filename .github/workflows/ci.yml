@@ -79,6 +79,9 @@ jobs:
       - name: Configure
         run: cmake -S . -B build-cmake
 
+      - name: Create distribution
+        run: cmake --build build-cmake --target dist
+
       - name: Check distribution
         run: cmake --build build-cmake --target distcheck
 
