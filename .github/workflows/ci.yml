@@ -58,6 +58,32 @@ jobs:
           echo "++ Build done, running the example now."
           ./build-example/example
 
+  build-cmake-subproject:
+    name: Ubuntu 24.04 As CMake Subproject
+    runs-on: ubuntu-24.04
+    env:
+      XMLWRAPP_CMAKE: 1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install CCache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: "Ubuntu 24.04-cmake"
+
+      - name: Install dependencies
+        run: ./scripts/ci/install.sh
+
+      - name: Configure Example
+        run: cmake -S examples/cmake/add_subdirectory/ -B build-example
+
+      - name: Build Example
+        run: cmake --build build-example
+
+      - name: Run Example
+        run: ./build-example/example
+
   build-autoconf:
     name: ${{ matrix.name }} autoconf
     runs-on: ${{ matrix.runner }}
