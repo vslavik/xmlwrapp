@@ -187,11 +187,9 @@ install(
     ${PROJECT_BINARY_DIR}/XmlwrappConfigVersion.cmake
   DESTINATION
     ${INSTALL_CMAKE_DIR}
-  COMPONENT
-    dev
 )
 
-install(EXPORT XmlwrappTargets DESTINATION "${DEF_INSTALL_CMAKE_DIR}" COMPONENT dev)
+install(EXPORT XmlwrappTargets DESTINATION "${DEF_INSTALL_CMAKE_DIR}")
 
 
 
