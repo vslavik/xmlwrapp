@@ -78,8 +78,11 @@ endif( XMLWRAPP_DOC )
 
 
 #----------------------------------------------
-# pkg-config files use autoconf variable names
-# placed in function to keep project namespace free of autoconf build sys var names
+# pkg-config files use autoconf variable names, i.e. the same ones that are
+# used in the .in files.
+#
+# Because of this, this we generate them from a function to keep project
+# namespace free of autoconf variables that use common names (e.g. VERSION).
 function(config_pkgconf
   prefix
   libdir
@@ -101,6 +104,8 @@ function(config_pkgconf
       list(APPEND XML2_LIBS "-l${lib}")
   endforeach()
 
+  # This is another variable which must have this name because this is what is
+  # used in xmlwrapp-config.in.
   set(LEGACY_LINK_FLAGS "-lxmlwrapp ${XML2_LIBS}")
 
   if( XMLWRAPP_WITH_LIBXSLT )
