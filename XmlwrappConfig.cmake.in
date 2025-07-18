@@ -24,6 +24,7 @@ find_package(PkgConfig)
 pkg_search_module(LIBXML2 REQUIRED libxml-2.0 >= 2.4.28)
 if(XMLWRAPP_XSLT_FOUND)
   pkg_search_module(LIBXSLT REQUIRED libxslt >= 1.1.6)
+  pkg_search_module(LIBEXSLT REQUIRED libexslt)
 endif(XMLWRAPP_XSLT_FOUND)
 
 # Our libary dependencies (contains definitions form IMPORTED targets)
