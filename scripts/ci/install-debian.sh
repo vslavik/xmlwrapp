@@ -1,10 +1,22 @@
 # Used to install dependencies for the CI builds under Debian/Ubuntu.
 
+run_apt_install() {
+    echo "-> Running apt-get install $@"
+
+    # Disable some (but not all) output.
+    sudo apt-get -q -o=Dpkg::Use-Pty=0 install -y "$@"
+
+    rc=$?
+    echo "-> Done with $rc"
+
+    return $rc
+}
+
 # Arch-independent dependencies.
 sudo apt-get update -qq
 
 if [ "$XMLWRAPP_WITH_DOCS" = 1 ]; then
-    sudo apt-get install -qq --no-install-recommends doxygen graphviz
+    doc_packages='doxygen graphviz'
 fi
 
 case "$HOST" in
@@ -34,9 +46,7 @@ case "$HOST" in
                 ;;
         esac
 
-        sudo apt-get update
-        sudo apt-get install -qq --no-install-recommends g++-mingw-w64-$arch \
-            $wine_package wine-development
+        run_apt_install $doc_packages g++-mingw-w64-$arch $wine_package wine-development
 
         echo -n "Cross-compiling for $HOST using "
         $HOST-g++ --version
@@ -48,6 +58,6 @@ case "$HOST" in
 
     *)
         # Assume native build.
-        sudo apt-get install -qq libxml2-dev libxslt1-dev
+        run_apt_install $doc_packages libxml2-dev libxslt1-dev
         ;;
 esac
