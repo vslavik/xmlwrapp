@@ -55,7 +55,7 @@
             ||                                                \
             (XMLWRAPP_VERSION_MAJOR == (major) &&             \
             (XMLWRAPP_VERSION_MINOR == (minor) &&             \
-             XMLWRAPP_VERSION_MICRO >= (micro))               \
+             XMLWRAPP_VERSION_MICRO >= (micro)))              \
         )
 
 #endif // _xmlwrapp_version_h_
