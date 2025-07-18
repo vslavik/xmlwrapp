@@ -58,6 +58,31 @@ jobs:
           echo "++ Build done, running the example now."
           ./build-example/example
 
+  build-cmake-dist:
+    name: Ubuntu 24.04 CMake Dist
+    runs-on: ubuntu-24.04
+    env:
+      XMLWRAPP_CMAKE: 1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install CCache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: "Ubuntu 24.04-cmake"
+
+      - name: Install dependencies
+        env:
+          TEST_DIST: 1
+        run: ./scripts/ci/install.sh
+
+      - name: Configure
+        run: cmake -S . -B build-cmake
+
+      - name: Check distribution
+        run: cmake --build build-cmake --target distcheck
+
   build-cmake-subproject:
     name: Ubuntu 24.04 As CMake Subproject
     runs-on: ubuntu-24.04
