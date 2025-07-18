@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.16)
+# 3.20 is required due to the of configure_file(FILE_PERMISSIONS).
+cmake_minimum_required(VERSION 3.20)
 
 # Extract version from the header which is the source of truth for it.
 file(READ "${CMAKE_CURRENT_SOURCE_DIR}/include/xmlwrapp/version.h" VERSION_H_CONTENT)
@@ -77,74 +78,26 @@ if( XMLWRAPP_DOC )
 endif( XMLWRAPP_DOC )
 
 
-#----------------------------------------------
-# pkg-config files use autoconf variable names, i.e. the same ones that are
-# used in the .in files.
+# Delegate to another script for pkg-config and xmlwrapp-config creation as
+# the paths used in them are only known at install time and not at configure
+# time (installtion prefix can be changed when using "cmake --install").
 #
-# Because of this, this we generate them from a function to keep project
-# namespace free of autoconf variables that use common names (e.g. VERSION).
-function(config_pkgconf
-  prefix
-  libdir
-  includedir
-  binarydir
-  VERSION
-  xml2dirs
-  xml2libs
-  xsltdirs
-  xsltlibs
-)
-
-  set(exec_prefix ${prefix})
-  set(XML2_LIBS "")
-  foreach(p ${xml2dirs})
-      list(APPEND XML2_LIBS "-L${p}")
-  endforeach()
-  foreach(lib ${xml2libs})
-      list(APPEND XML2_LIBS "-l${lib}")
-  endforeach()
-
-  # This is another variable which must have this name because this is what is
-  # used in xmlwrapp-config.in.
-  set(LEGACY_LINK_FLAGS "-lxmlwrapp ${XML2_LIBS}")
-
-  if( XMLWRAPP_WITH_LIBXSLT )
-    set(XSLT_LIBS "")
-    foreach(p ${xsltdirs})
-      list(APPEND XSLT_LIBS "-L${p}")
-    endforeach()
-    foreach(lib ${xsltlibs})
-      list(APPEND XSLT_LIBS "-l${lib}")
-    endforeach()
-    list(APPEND LEGACY_LINK_FLAGS "-lxsltwrapp ${XSLT_LIBS}")
-  endif( XMLWRAPP_WITH_LIBXSLT )
-
-  configure_file( "xmlwrapp.pc.in" "xmlwrapp.pc" @ONLY)
-  install (FILES "${binarydir}/xmlwrapp.pc" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
-
-  configure_file( "xmlwrapp-config.in" "xmlwrapp-config" @ONLY)
-  install (PROGRAMS "${binarydir}/xmlwrapp-config"
-           DESTINATION ${CMAKE_INSTALL_BINDIR})
-
-  if( XMLWRAPP_WITH_LIBXSLT )
-    configure_file( "xsltwrapp.pc.in" "xsltwrapp.pc" @ONLY)
-    install (FILES "${binarydir}/xsltwrapp.pc" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
-  endif( XMLWRAPP_WITH_LIBXSLT )
-
-endfunction()
-
-config_pkgconf("${CMAKE_INSTALL_PREFIX}"
-               "${CMAKE_INSTALL_LIBDIR}"
-               "${CMAKE_INSTALL_INCLUDEDIR}"
-               "${PROJECT_BINARY_DIR}"
-               "${XMLWRAPP_VERSION}"
-               "${LIBXML2_LIBRARY_DIRS}"
-               "${LIBXML2_LIBRARIES}"
-               "${LIBXSLT_LIBRARY_DIRS}"
-               "${LIBXSLT_LIBRARIES}"
-               )
-#----------------------------------------------
-
+# CMAKE_SYSTEM_NAME and CMAKE_SIZEOF_VOID_P must be set to avoid warning from
+# GNUInstallDirs, we can do it as their values won't change between configure
+# and install time.
+install(CODE "
+  set(CMAKE_SYSTEM_NAME ${CMAKE_SYSTEM_NAME})
+  set(CMAKE_SIZEOF_VOID_P ${CMAKE_SIZEOF_VOID_P})
+  include(GNUInstallDirs)
+  set(XMLWRAPP_VERSION \"${XMLWRAPP_VERSION}\")
+  set(XMLWRAPP_WITH_LIBXSLT \"${XMLWRAPP_WITH_LIBXSLT}\")
+  set(LIBXML2_LIBRARY_DIRS \"${LIBXML2_LIBRARY_DIRS}\")
+  set(LIBXML2_LIBRARIES \"${LIBXML2_LIBRARIES}\")
+  set(LIBXSLT_LIBRARY_DIRS \"${LIBXSLT_LIBRARY_DIRS}\")
+  set(LIBXSLT_LIBRARIES \"${LIBXSLT_LIBRARIES}\")
+  set(PROJECT_SOURCE_DIR \"${PROJECT_SOURCE_DIR}\")
+  include(\"${CMAKE_CURRENT_SOURCE_DIR}/build/cmake/generate_config.cmake\")
+")
 
 
 # add all targets to build-tree export set
