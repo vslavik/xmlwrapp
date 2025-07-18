@@ -30,7 +30,7 @@ fi
 
 ./configure CXXFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" $configure_args
 
-make --keep-going
+make -j`nproc` --keep-going
 
 if ! make check; then
     echo 'Test suite log contents'
