@@ -121,6 +121,9 @@
     <ClCompile Include="..\..\src\libxml\utility.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\libxml\version.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\libxml\xpath.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>

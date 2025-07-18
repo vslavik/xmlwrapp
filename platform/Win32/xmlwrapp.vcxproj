@@ -199,6 +199,7 @@
     <ClCompile Include="..\..\src\libxml\schema.cxx" />
     <ClCompile Include="..\..\src\libxml\tree_parser.cxx" />
     <ClCompile Include="..\..\src\libxml\utility.cxx" />
+    <ClCompile Include="..\..\src\libxml\version.cxx" />
     <ClCompile Include="..\..\src\libxml\xpath.cxx" />
   </ItemGroup>
   <ItemGroup>

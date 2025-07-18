@@ -39,12 +39,58 @@
 #ifndef _xmlwrapp_version_h_
 #define _xmlwrapp_version_h_
 
+/**
+    Compile-time major version of the library.
+
+    This is the first version component.
+
+    @see XMLWRAPP_CHECK_VERSION()
+ */
 #define XMLWRAPP_VERSION_MAJOR   0
+
+/**
+    Compile-time minor version of the library.
+
+    This is the second version component.
+
+    @see XMLWRAPP_CHECK_VERSION()
+ */
 #define XMLWRAPP_VERSION_MINOR  10
+
+/**
+    Compile-time micro version of the library.
+
+    This is the third version component.
+
+    @see XMLWRAPP_CHECK_VERSION()
+ */
 #define XMLWRAPP_VERSION_MICRO   0
+
+#define XMLWRAPP_VERSION_STRING_CONCAT(major, minor, micro) \
+  #major "." #minor "." #micro
+
+#define XMLWRAPP_VERSION_STRING_IMPL(major, minor, micro) \
+  XMLWRAPP_VERSION_STRING_CONCAT(major, minor, micro)
+
+/**
+    Compile-time version of the library as a string.
+
+    This is a string in the form "major.minor.micro".
+
+    @see XMLWRAPP_VERSION_MAJOR, XMLWRAPP_VERSION_MINOR,
+         XMLWRAPP_VERSION_MICRO, XMLWRAPP_CHECK_VERSION()
+
+    @since 0.10.0
+ */
+#define XMLWRAPP_VERSION_STRING \
+  XMLWRAPP_VERSION_STRING_IMPL(XMLWRAPP_VERSION_MAJOR, \
+                               XMLWRAPP_VERSION_MINOR, \
+                               XMLWRAPP_VERSION_MICRO)
 
 /**
     Checks if xmlwrapp version is at least @a major.@a minor.@a micro.
+
+    This is a compile-time check, see check_version() for a runtime check.
  */
 #define XMLWRAPP_CHECK_VERSION(major, minor, micro)           \
         (                                                     \
@@ -57,5 +103,64 @@
             (XMLWRAPP_VERSION_MINOR == (minor) &&             \
              XMLWRAPP_VERSION_MICRO >= (micro)))              \
         )
+
+namespace xml
+{
+
+/**
+    Return major runtime version of xmlwrapp library.
+
+    This can be different from XMLWRAPP_VERSION_MAJOR if a different version of
+    the library is used at runtime than the one that was used to compile the
+    code.
+
+    @see XMLWRAPP_VERSION_MAJOR
+
+    @since 0.10.0
+ */
+int get_major_version();
+
+/**
+    Return minor runtime version of xmlwrapp library.
+
+    @see get_major_version(), XMLWRAPP_VERSION_MINOR
+
+    @since 0.10.0
+ */
+int get_minor_version();
+
+/**
+    Return micro runtime version of xmlwrapp library.
+
+    @see get_major_version(), get_minor_version(), XMLWRAPP_VERSION_MICRO
+
+    @since 0.10.0
+ */
+int get_micro_version();
+
+/**
+    Return the full runtime version of xmlwrapp library.
+
+    This is a string in the form "major.minor.micro".
+
+    @see get_major_version(), get_minor_version(), get_micro_version()
+
+    @since 0.10.0
+ */
+const char* get_version_string();
+
+/**
+    Check that the library version is at least the given one.
+
+    Returns true if the version is at least @a major.@a minor.@a micro, false
+    otherwise,
+
+    @see XMLWRAPP_CHECK_VERSION(), get_version_string()
+
+    @since 0.10.0
+ */
+bool check_version(int major, int minor, int micro);
+
+} // namespace xml
 
 #endif // _xmlwrapp_version_h_

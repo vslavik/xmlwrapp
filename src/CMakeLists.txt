@@ -22,6 +22,7 @@ target_sources(xmlwrapp
     libxml/tree_parser.cxx
     libxml/utility.cxx
     libxml/utility.h
+    libxml/version.cxx
     libxml/xpath.cxx
 )
 
