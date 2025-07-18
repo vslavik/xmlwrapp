@@ -5,7 +5,16 @@
 # It's supported by Git 2.23 or later and to use it by default for all the
 # future git-blame invocations, run the following command:
 #
-#   git config blame.ignoreRevsFile admin/git/ignore_revs
+#   git config blame.ignoreRevsFile .git-blame-ignore-revs
+#
+# When adding entries to this file, please keep them in reverse chronological
+# order (the newest ones are added at the top).
+#
+# You can use
+#
+#   $ git show -s --format='# %s, %cs%n%H%n'
+#
+# incantation to directly create an entry in the format used here.
 
 # Reformatted source code for better readibility., 2009-12-20
 58ab58f90d6d973cdbca3e3e49ffa3e71df6c24f
