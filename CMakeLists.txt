@@ -47,22 +47,25 @@ option(XMLWRAPP_DOC "Build and install the documentation (requires Doxygen)" ${P
 option(XMLWRAPP_EXAMPLES "Build examples" ${PROJECT_IS_TOP_LEVEL})
 option(XMLWRAPP_TESTS "Build tests" ${PROJECT_IS_TOP_LEVEL})
 
-# This is always disabled but can be disabled by the super-project if it is
-# not needed before calling add_subdirectory().
+# This is always enabled but can be disabled by the super-project if it is not
+# needed before calling add_subdirectory().
 option(XMLWRAPP_WITH_LIBXSLT "Build libxsltwrapp library" ON)
+
+# These options are not set by default but can be used to customize the naming
+# of the produced libraries.
+set(XMLWRAPP_NAME_PREFIX "" CACHE STRING "Use the given prefix for the libraries")
+set(XMLWRAPP_NAME_SUFFIX "" CACHE STRING "Use the given suffix for the libraries")
 
 include(GNUInstallDirs)
 set(INSTALL_CMAKE_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/xmlwrapp)
 
-set(CMAKE_CXX_COMPILER_VISIBILITY_PRESET hidden)
-
 find_package(PkgConfig)
 
-pkg_search_module(LIBXML2 REQUIRED libxml-2.0 >= 2.4.28)
+pkg_check_modules(LIBXML2 REQUIRED libxml-2.0>=2.4.28)
 
 if( XMLWRAPP_WITH_LIBXSLT )
-  pkg_search_module(LIBXSLT REQUIRED libxslt >= 1.1.6)
-  pkg_search_module(LIBEXSLT REQUIRED libexslt)
+  pkg_check_modules(LIBXSLT REQUIRED libxslt>=1.1.6)
+  pkg_check_modules(LIBEXSLT REQUIRED libexslt)
 endif( XMLWRAPP_WITH_LIBXSLT )
 
 
