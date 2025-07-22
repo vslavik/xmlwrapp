@@ -192,7 +192,14 @@ add_custom_target(distcheck
   VERBATIM
 )
 
-# Give build summary at the end.
+# Give build summary at the end but only if it's the first time we're running,
+# as indicated by XMLWRAPP_SUMMARY not being cached yet, or if it has changed.
+set(XMLWRAPP_SUMMARY_NOW
+  "${XMLWRAPP_VERSION}-${XMLWRAPP_LIB_TYPE}-${CMAKE_BUILD_TYPE}-${XMLWRAPP_WITH_LIBXSLT}-${XMLWRAPP_DOC}-${XMLWRAPP_EXAMPLES}-${XMLWRAPP_TESTS}"
+)
+if(NOT "${XMLWRAPP_SUMMARY_NOW}" STREQUAL "$CACHE{XMLWRAPP_SUMMARY}")
+set(XMLWRAPP_SUMMARY ${XMLWRAPP_SUMMARY_NOW} CACHE INTERNAL "xmlwrapp internal build summary")
+
 if (CMAKE_BUILD_TYPE)
   set(XMLWRAPP_CONFIG_DESCRIPTION " in ${CMAKE_BUILD_TYPE} configuration")
 endif()
@@ -201,3 +208,5 @@ message(STATUS "  Build xsltwrapp: ${XMLWRAPP_WITH_LIBXSLT}")
 message(STATUS "  Documentation:   ${XMLWRAPP_DOC}")
 message(STATUS "  Examples:        ${XMLWRAPP_EXAMPLES}")
 message(STATUS "  Tests:           ${XMLWRAPP_TESTS}")
+
+endif()
