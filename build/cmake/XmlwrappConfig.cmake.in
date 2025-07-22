@@ -31,6 +31,15 @@ endif(XMLWRAPP_XSLT_FOUND)
 # Our library dependencies (contains definitions form IMPORTED targets)
 include("${CMAKE_CURRENT_LIST_DIR}/XmlwrappTargets.cmake")
 
+# Create alias targets if they don't exist yet (normally they should not, but
+# if find_package() is somehow used twice, this might happen).
+if(NOT TARGET xmlwrapp::xmlwrapp)
+  add_library(xmlwrapp::xmlwrapp ALIAS xmlwrapp)
+endif()
+if(XMLWRAPP_XSLT_FOUND AND NOT TARGET xmlwrapp::xsltwrapp)
+  add_library(xmlwrapp::xsltwrapp ALIAS xsltwrapp)
+endif()
+
 # These are imported targets created by XmlwrappTargets.cmake
 set(XMLWRAPP_XML_LIBRARIES xmlwrapp)
 if(XMLWRAPP_XSLT_FOUND)

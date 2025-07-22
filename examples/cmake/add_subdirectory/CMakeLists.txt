@@ -43,4 +43,4 @@ set(XMLWRAPP_WITH_LIBXSLT OFF)
 add_subdirectory(../../.. ${CMAKE_CURRENT_BINARY_DIR}/xmlwrapp)
 
 add_executable(example example.cpp)
-target_link_libraries(example PRIVATE xmlwrapp)
+target_link_libraries(example PRIVATE xmlwrapp::xmlwrapp)

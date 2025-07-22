@@ -85,6 +85,8 @@ target_link_libraries(xmlwrapp
 setup_shared_library(xmlwrapp 6.0.0)
 install (TARGETS xmlwrapp EXPORT XmlwrappTargets DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
+add_library(xmlwrapp::xmlwrapp ALIAS xmlwrapp)
+
 if( XMLWRAPP_WITH_LIBXSLT )
   add_library(xsltwrapp ${XMLWRAPP_LIB_TYPE})
   target_sources(xsltwrapp
@@ -114,4 +116,6 @@ if( XMLWRAPP_WITH_LIBXSLT )
   )
   setup_shared_library(xsltwrapp 4.0.0)
   install (TARGETS xsltwrapp EXPORT XmlwrappTargets DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
+  add_library(xmlwrapp::xsltwrapp ALIAS xsltwrapp)
 endif( XMLWRAPP_WITH_LIBXSLT )

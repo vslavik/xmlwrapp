@@ -38,4 +38,4 @@ project(XmlwrappFindPackageExample
 find_package(Xmlwrapp 0.10 REQUIRED)
 
 add_executable(example example.cpp)
-target_link_libraries(example PRIVATE xmlwrapp)
+target_link_libraries(example PRIVATE xmlwrapp::xmlwrapp)
