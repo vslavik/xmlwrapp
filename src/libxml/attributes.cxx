@@ -112,23 +112,26 @@ attributes::attributes()
 
 
 attributes::attributes(int)
-    : pimpl_{new pimpl(nullptr)}
 {
 }
 
 
 attributes::attributes(const attributes& other)
-    : pimpl_{new pimpl(*other.pimpl_)}
 {
+    if (other.pimpl_)
+        pimpl_.reset(new pimpl(*other.pimpl_));
 }
 
 
 attributes& attributes::operator=(const attributes& other)
 {
-    attributes tmp(other);
-    swap(tmp);
+    pimpl_.reset(other.pimpl_ ? new pimpl(*other.pimpl_) : nullptr);
     return *this;
 }
+
+attributes::attributes(attributes&&) = default;
+
+attributes& attributes::operator=(attributes&&) = default;
 
 
 void attributes::swap(attributes& other)
@@ -150,9 +153,16 @@ void attributes::set_data(void *node)
 {
     auto x = static_cast<xmlNodePtr>(node);
 
-    pimpl_->free_node_if_owned();
-    pimpl_->owner_ = false;
-    pimpl_->xmlnode_ = x;
+    if (pimpl_)
+    {
+        pimpl_->free_node_if_owned();
+        pimpl_->owner_ = false;
+        pimpl_->xmlnode_ = x;
+    }
+    else
+    {
+        pimpl_.reset(new pimpl(x));
+    }
 }
 
 
@@ -241,7 +251,7 @@ void attributes::erase(const char *name)
 
 bool attributes::empty() const
 {
-    return pimpl_->xmlnode_->properties == nullptr;
+    return !pimpl_ || pimpl_->xmlnode_->properties == nullptr;
 }
 
 
@@ -249,7 +259,7 @@ attributes::size_type attributes::size() const
 {
     size_type count = 0;
 
-    xmlAttrPtr prop = pimpl_->xmlnode_->properties;
+    xmlAttrPtr prop = pimpl_ ? pimpl_->xmlnode_->properties : nullptr;
     while (prop != nullptr)
     {
         ++count;
