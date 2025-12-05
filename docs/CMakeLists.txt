@@ -6,12 +6,16 @@
 find_package(Doxygen)
 
 if(DOXYGEN_FOUND)
-  file(COPY Doxyfile manual DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-  add_custom_target(xmlwrapp_docs ALL DEPENDS html)
-  add_custom_command(OUTPUT html
-    COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile > /dev/null 2>&1
-    MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  add_custom_target(xmlwrapp_docs ALL DEPENDS html/index.html)
+  add_custom_command(
+    OUTPUT
+      html/index.html
+    COMMAND
+      ${CMAKE_COMMAND} -E env
+        DOXYGEN_OUTPUT_DIRECTORY_SLASH=${CMAKE_CURRENT_BINARY_DIR}/
+        ${DOXYGEN_EXECUTABLE} Doxyfile
+    MAIN_DEPENDENCY Doxyfile
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     COMMENT "Generating API documentation with Doxygen"
     VERBATIM
   )
