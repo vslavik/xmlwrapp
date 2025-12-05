@@ -1,5 +1,4 @@
-0. Introduction
----------------
+## 0. Introduction
 
 xmlwrapp is a modern style C++ library for working with XML data, built atop
 the venerable libxml2 C library.
@@ -15,20 +14,18 @@ group hosted at [Google Groups](https://groups.google.com/group/xmlwrapp)
 or email directly to xmlwrapp@googlegroups.com.
 
 
-1. Requirements
----------------
+## 1. Requirements
 
 In order to build xmlwrapp, you need libxml2 version 2.4.28 or newer. When
 building with XSLT support, libxslt 1.1.6 or newer is required. Both libraries
 are available from [libxml2 home page](https://xmlsoft.org).
 
 
-2. Building on Unix
--------------------
+## 2. Building on Unix
 
 On Unix, either autotools-based build system or CMake can be used.
 
-## Building using Autotools
+### Building using Autotools
 
 Building xmlwrapp is usually as simple as running the following three commands:
 
@@ -48,7 +45,7 @@ release archives, `configure` script won't exist and you will need to run
 
 to create it and other build files.
 
-## Building using CMake
+### Building using CMake
 
 Building xmlwrapp using CMake is also straightforward. Just do the following:
 
@@ -61,8 +58,7 @@ shared (default) or static libraries should be built, use `cmake -L` to see the
 other available options.
 
 
-3. Building on Windows
-----------------------
+## 3. Building on Windows
 
 The library can be built either with Microsoft Visual C++ compiler, using the
 project files from located in platform/Win32 directory or in the same way as
@@ -73,8 +69,7 @@ either build libxml and libxslt for Windows yourself or download the already
 built versions from http://www.zlatkovic.com/libxml.en.html or elsewhere.
 
 
-4. Using xmlwrapp
------------------
+## Using xmlwrapp
 
 On Unix, you should use pkg-config to get compiler flags for xmlwrapp or
 xsltwrapp libraries:
