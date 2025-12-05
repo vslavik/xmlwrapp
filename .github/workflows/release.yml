@@ -25,13 +25,13 @@ jobs:
         run: ./scripts/ci/install.sh
 
       - name: Configure
-        run: cmake -S . -B build-cmake
+        run: cmake -S . -B ../build-cmake
 
       - name: Create release archives
-        run: cmake --build build-cmake --target dist
+        run: cmake --build ../build-cmake --target dist
 
       - name: Check release archives
-        run: cmake --build build-cmake --target distcheck
+        run: cmake --build ../build-cmake --target distcheck
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2.2.2
