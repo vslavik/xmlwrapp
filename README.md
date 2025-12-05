@@ -79,3 +79,7 @@ xsltwrapp libraries:
 
 On Windows, you need to link against xmlwrapp libraries and add the include/
 directory to compiler's headers search path.
+
+Under either platform you may consume the library using CMake in the usual way,
+i.e. using either `find_package(xmlwrapp)` or `add_subdirectory(xmlwrapp)` and
+then linking to the `xmlwrapp::xmlwrapp` target.
