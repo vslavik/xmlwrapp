@@ -22,8 +22,8 @@
 
 
         <ul>
-          <li><a href="https://github.com/vslavik/xmlwrapp/releases/download/v0.9.0/xmlwrapp-0.9.0.tar.gz">
-                 Download<strong>0.9.0 release</strong>
+          <li><a href="https://github.com/vslavik/xmlwrapp/releases/download/v0.10.0/xmlwrapp-0.10.0.tar.gz">
+                 Download<strong>0.10.0 release</strong>
           </a></li>
           <li><a href="https://github.com/vslavik/xmlwrapp/tarball/master">Get latest<strong>snapshot</strong></a></li>
           <li><a href="manual/index.html">Read the<strong>manual</strong></a></li>
@@ -63,12 +63,16 @@ usually as simple as running the following three commands:</p>
 
 <p>See the output of <code>./configure --help</code> for additional settings and options.</p>
 
+<p>Alternatively, you can use CMake to build the project in the usual way.</p>
+
 <h3>Building on Windows</h3>
 
 <p>At this time, only building with Visual C++ compiler is supported. The required
 project files are located in platform/Win32 directory. You will need libxml
 and libxslt libraries built for Windows, e.g. the binaries from
 <a href="http://www.zlatkovic.com/libxml.en.html">http://www.zlatkovic.com/libxml.en.html</a>.</p>
+
+<p>You can also use CMake to build the project under Windows.</p>
 
 <h3>Using xmlwrapp</h3>
 
@@ -81,6 +85,10 @@ c++ -o ... $(pkg-config --libs xmlwrapp)
 
 <p>On Windows, you need to link against xmlwrapp libraries and add the include/
 directory to compiler's headers search path.</p>
+
+<p>Alternatively, use <tt>find_package(xmlwrapp)</tt> or <tt>add_subdirectory(xmlwrapp)</tt>
+to consume the library from a project using CMake.</p>
+
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/vslavik">vslavik</a></p>
