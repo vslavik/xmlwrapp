@@ -1,4 +1,7 @@
 <map id="xmlwrapp/tree_parser.h" name="xmlwrapp/tree_parser.h">
-<area shape="rect" id="node2" href="$xmlwrapp_8h_source.html" title="xmlwrapp/xmlwrapp.h" alt="" coords="10,80,159,107"/>
-<area shape="rect" id="node3" href="$xsltwrapp_8h_source.html" title="xsltwrapp/xsltwrapp.h" alt="" coords="10,155,159,181"/>
+<area shape="rect" id="Node000001" title="This file contains the definition of the xml::tree_parser class." alt="" coords="5,5,181,31"/>
+<area shape="rect" id="Node000002" href="$xmlwrapp_8h_source.html" title=" " alt="" coords="9,79,177,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,44,96,79,91,79,91,44"/>
+<area shape="rect" id="Node000003" href="$xsltwrapp_8h_source.html" title=" " alt="" coords="10,152,177,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="96,118,96,152,91,152,91,118"/>
 </map>

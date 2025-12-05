@@ -1,5 +1,19 @@
 <map id="xmlwrapp/relaxng.h" name="xmlwrapp/relaxng.h">
-<area shape="rect" id="node2" href="$xmlwrapp_2init_8h.html" title="This file contains the definition of the xml::init class. " alt="" coords="5,80,116,107"/>
-<area shape="rect" id="node3" href="$export_8h_source.html" title="xmlwrapp/export.h" alt="" coords="29,155,159,181"/>
-<area shape="rect" id="node4" href="$errors_8h.html" title="This file contains errors&#45;handling classes: xml::exception and xml::error_handler and derived classes..." alt="" coords="192,80,319,107"/>
+<area shape="rect" id="Node000001" title="This file contains the definition of the xml::relaxng class." alt="" coords="145,5,297,31"/>
+<area shape="rect" id="Node000002" href="$xmlwrapp_2init_8h.html" title="This file contains the definition of the xml::init class." alt="" coords="5,79,129,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,33,106,75,104,70,195,28"/>
+<area shape="rect" id="Node000003" href="$export_8h_source.html" title=" " alt="" coords="28,152,173,177"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="213,33,121,143,117,140,209,29"/>
+<area shape="rect" id="Node000004" href="$errors_8h.html" title="This file contains errors&#45;handling classes: xml::exception and xml::error_handler and derived classes..." alt="" coords="205,79,346,104"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="232,29,260,66,256,69,228,33"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="370,79,447,104"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="252,28,366,71,364,76,250,33"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="75,103,92,139,87,141,70,105"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="248,106,143,149,141,144,246,102"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="197,152,284,177"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="272,106,255,141,250,138,267,103"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="309,152,367,177"/>
+<area shape="poly" id="edge7_Node000004_Node000006" title=" " alt="" coords="288,103,321,140,317,143,284,106"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="391,152,434,177"/>
+<area shape="poly" id="edge8_Node000004_Node000007" title=" " alt="" coords="299,102,380,144,378,148,296,106"/>
 </map>

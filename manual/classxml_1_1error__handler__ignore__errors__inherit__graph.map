@@ -1,3 +1,5 @@
 <map id="xml::error_handler_ignore_errors" name="xml::error_handler_ignore_errors">
-<area shape="rect" id="node2" href="$classxml_1_1error__handler.html" title="The xml::error_handler class is used to handle libxml2 errors and warnings emitted during parsing..." alt="" coords="5,5,132,32"/>
+<area shape="rect" id="Node000001" title="An error handler that ignores both errors and warnings." alt="" coords="5,79,148,119"/>
+<area shape="rect" id="Node000002" href="$classxml_1_1error__handler.html" title="The xml::error_handler class is used to handle libxml2 errors and warnings emitted during parsing,..." alt="" coords="5,5,148,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,44,79,79,74,79,74,44"/>
 </map>

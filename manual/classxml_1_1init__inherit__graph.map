@@ -1,3 +1,5 @@
 <map id="xml::init" name="xml::init">
-<area shape="rect" id="node2" href="$classxslt_1_1init.html" title="The xslt::init class is used to configure the XSLT engine. " alt="" coords="5,80,73,107"/>
+<area shape="rect" id="Node000001" title="The xml::init class is used to configure the XML parser." alt="" coords="5,5,81,31"/>
+<area shape="rect" id="Node000002" href="$classxslt_1_1init.html" title="The xslt::init class is used to configure the XSLT engine." alt="" coords="6,79,81,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="46,44,46,79,41,79,41,44"/>
 </map>

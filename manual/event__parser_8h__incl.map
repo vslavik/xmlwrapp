@@ -1,4 +1,18 @@
 <map id="xmlwrapp/event_parser.h" name="xmlwrapp/event_parser.h">
-<area shape="rect" id="node2" href="$xmlwrapp_2init_8h.html" title="This file contains the definition of the xml::init class. " alt="" coords="5,80,116,107"/>
-<area shape="rect" id="node3" href="$export_8h_source.html" title="xmlwrapp/export.h" alt="" coords="43,155,172,181"/>
+<area shape="rect" id="Node000001" title="This file contains the definition of the xml::event_parser class." alt="" coords="237,5,423,31"/>
+<area shape="rect" id="Node000002" href="$xmlwrapp_2init_8h.html" title="This file contains the definition of the xml::init class." alt="" coords="5,79,129,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="288,33,124,78,122,72,287,28"/>
+<area shape="rect" id="Node000003" href="$export_8h_source.html" title=" " alt="" coords="44,152,189,177"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="294,33,245,53,196,81,162,111,135,142,131,139,158,107,192,76,243,48,292,28"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="205,79,276,104"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="317,33,268,72,264,68,314,29"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="301,79,359,104"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="333,31,333,65,327,65,327,31"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="383,79,447,104"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="345,29,393,68,389,72,342,33"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="471,79,522,104"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="358,28,460,71,458,76,356,33"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="546,79,623,104"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="372,28,534,73,532,78,370,33"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="78,103,103,139,99,142,73,106"/>
 </map>

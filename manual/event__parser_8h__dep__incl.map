@@ -1,4 +1,7 @@
 <map id="xmlwrapp/event_parser.h" name="xmlwrapp/event_parser.h">
-<area shape="rect" id="node2" href="$xmlwrapp_8h_source.html" title="xmlwrapp/xmlwrapp.h" alt="" coords="15,80,164,107"/>
-<area shape="rect" id="node3" href="$xsltwrapp_8h_source.html" title="xsltwrapp/xsltwrapp.h" alt="" coords="15,155,164,181"/>
+<area shape="rect" id="Node000001" title="This file contains the definition of the xml::event_parser class." alt="" coords="5,5,192,31"/>
+<area shape="rect" id="Node000002" href="$xmlwrapp_8h_source.html" title=" " alt="" coords="15,79,183,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,44,101,79,96,79,96,44"/>
+<area shape="rect" id="Node000003" href="$xsltwrapp_8h_source.html" title=" " alt="" coords="15,152,182,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="101,118,101,152,96,152,96,118"/>
 </map>

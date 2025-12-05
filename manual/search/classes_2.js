@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['document',['document',['../classxml_1_1document.html',1,'xml']]]
+  ['document_0',['document',['../classxml_1_1document.html',1,'xml']]]
 ];

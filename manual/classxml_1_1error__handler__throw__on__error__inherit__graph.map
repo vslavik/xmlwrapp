@@ -1,4 +1,7 @@
 <map id="xml::error_handler_throw_on_error" name="xml::error_handler_throw_on_error">
-<area shape="rect" id="node3" href="$classxml_1_1error__handler__throw__on__error__or__warning.html" title="Specialization of error_handler that throws on any error or warning. " alt="" coords="5,169,191,211"/>
-<area shape="rect" id="node2" href="$classxml_1_1error__handler.html" title="The xml::error_handler class is used to handle libxml2 errors and warnings emitted during parsing..." alt="" coords="35,5,161,32"/>
+<area shape="rect" id="Node000001" title="Specialization of error_handler that throws on any error." alt="" coords="37,79,180,119"/>
+<area shape="rect" id="Node000003" href="$classxml_1_1error__handler__throw__on__error__or__warning.html" title="Specialization of error_handler that throws on any error or warning." alt="" coords="5,167,212,207"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="111,133,111,166,106,166,106,133"/>
+<area shape="rect" id="Node000002" href="$classxml_1_1error__handler.html" title="The xml::error_handler class is used to handle libxml2 errors and warnings emitted during parsing,..." alt="" coords="37,5,180,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,44,111,79,106,79,106,44"/>
 </map>

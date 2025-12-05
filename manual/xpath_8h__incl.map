@@ -1,6 +1,27 @@
 <map id="xmlwrapp/xpath.h" name="xmlwrapp/xpath.h">
-<area shape="rect" id="node2" href="$xmlwrapp_2init_8h.html" title="This file contains the definition of the xml::init class. " alt="" coords="275,155,386,181"/>
-<area shape="rect" id="node3" href="$export_8h_source.html" title="xmlwrapp/export.h" alt="" coords="97,229,226,256"/>
-<area shape="rect" id="node4" href="$errors_8h.html" title="This file contains errors&#45;handling classes: xml::exception and xml::error_handler and derived classes..." alt="" coords="63,80,190,107"/>
-<area shape="rect" id="node8" href="$nodes__view_8h.html" title="This file contains the definition of the xml::nodes_view and xml::const_nodes_view classes..." alt="" coords="339,80,501,107"/>
+<area shape="rect" id="Node000001" title="This files contains definitions for XPath&#45;related classes." alt="" coords="235,5,375,31"/>
+<area shape="rect" id="Node000002" href="$xmlwrapp_2init_8h.html" title="This file contains the definition of the xml::init class." alt="" coords="294,152,418,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="312,30,350,138,345,140,307,32"/>
+<area shape="rect" id="Node000003" href="$export_8h_source.html" title=" " alt="" coords="102,225,247,251"/>
+<area shape="poly" id="edge8_Node000001_Node000003" title=" " alt="" coords="235,27,173,40,108,62,78,79,51,99,28,124,11,153,8,166,10,178,16,188,26,197,54,212,89,222,87,227,52,217,23,202,12,192,5,180,3,166,6,151,24,121,47,95,75,74,106,57,172,34,234,22"/>
+<area shape="rect" id="Node000004" href="$errors_8h.html" title="This file contains errors&#45;handling classes: xml::exception and xml::error_handler and derived classes..." alt="" coords="94,79,236,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="284,33,201,75,199,70,281,28"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="210,152,269,177"/>
+<area shape="poly" id="edge15_Node000001_Node000006" title=" " alt="" coords="302,32,253,141,248,138,297,30"/>
+<area shape="rect" id="Node000008" href="$nodes__view_8h.html" title="This file contains the definition of the xml::nodes_view and xml::const_nodes_view classes." alt="" coords="388,79,566,104"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="334,28,437,71,435,76,332,33"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="588,152,665,177"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="376,17,424,21,478,31,531,49,580,77,594,90,606,106,621,138,616,140,601,108,590,93,577,81,529,54,476,36,423,26,375,22"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="327,180,218,223,216,218,326,175"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="105,107,67,118,35,133,24,143,17,153,16,163,22,176,35,191,51,204,90,221,87,226,49,208,32,195,17,179,11,164,12,151,20,139,32,129,65,113,104,101"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="32,152,119,177"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="152,106,103,145,99,141,149,102"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="179,102,219,141,216,144,175,106"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="144,152,186,177"/>
+<area shape="poly" id="edge7_Node000004_Node000007" title=" " alt="" coords="168,104,168,138,162,138,162,104"/>
+<area shape="poly" id="edge10_Node000008_Node000002" title=" " alt="" coords="459,106,388,147,386,143,456,102"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="494,103,510,118,525,137,532,158,531,169,526,179,508,193,482,205,415,221,336,232,261,237,261,232,336,226,414,216,481,200,505,189,522,176,526,167,527,159,520,140,506,122,490,106"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="442,152,512,177"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="480,104,480,138,474,138,474,104"/>
+<area shape="poly" id="edge13_Node000008_Node000010" title=" " alt="" coords="502,102,591,144,588,148,500,106"/>
 </map>

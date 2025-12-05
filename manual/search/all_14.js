@@ -1,9 +1,26 @@
 var searchData=
 [
-  ['xml_20nodes',['XML Nodes',['../node.html',1,'index']]],
-  ['xml',['xml',['../namespacexml.html',1,'']]],
-  ['xmlwrapp_5fcheck_5fversion',['XMLWRAPP_CHECK_VERSION',['../version_8h.html#a7cf32c100e097993fd13cabbee0c5e18',1,'version.h']]],
-  ['xpath_2eh',['xpath.h',['../xpath_8h.html',1,'']]],
-  ['xpath_5fcontext',['xpath_context',['../classxml_1_1xpath__context.html',1,'xml::xpath_context'],['../classxml_1_1xpath__context.html#a1ac25af268784acee9877670a7c8bf79',1,'xml::xpath_context::xpath_context()']]],
-  ['xslt',['xslt',['../namespacexslt.html',1,'']]]
+  ['xinclusions_0',['Processing XInclusions',['../documents.html#documents_xinclude',1,'']]],
+  ['xml_1',['xml',['../documents.html#documents_save',1,'Converting and Saving the Document as XML'],['../parsing.html',1,'Parsing XML'],['../namespacexml.html',1,'xml']]],
+  ['xml_20and_20c_2',['XML and C++',['../intro.html#intro_xml',1,'']]],
+  ['xml_20and_20valid_20xml_3',['Well Formed XML and Valid XML',['../intro.html#intro_terms_valid',1,'']]],
+  ['xml_20document_4',['Using the Derived Class to Parse an XML Document',['../parsing.html#parsing_event_use',1,'']]],
+  ['xml_20documents_5',['xml documents',['../parsing.html#parsing_event_wellformed',1,'Parse Status and Well Formed XML Documents'],['../documents.html',1,'Working with XML Documents']]],
+  ['xml_20nodes_6',['xml nodes',['../intro.html#intro_terms_nodes',1,'XML Nodes'],['../node.html',1,'XML Nodes']]],
+  ['xml_20parser_7',['Initializing the XML Parser',['../prepare.html#prepare_init',1,'']]],
+  ['xmlwrapp_8',['xmlwrapp',['../prepare.html',1,'Preparing To Use xmlwrapp'],['../index.html',1,'xmlwrapp']]],
+  ['xmlwrapp_20header_20files_9',['xmlwrapp header files',['../prepare.html#prepare_headers_example2',1,'Include All xmlwrapp Header Files'],['../prepare.html#prepare_headers_example1',1,'Include xmlwrapp Header Files']]],
+  ['xmlwrapp_20namespace_10',['The xmlwrapp Namespace',['../prepare.html#prepare_namespace',1,'']]],
+  ['xmlwrapp_20software_20license_11',['xmlwrapp Software License',['../intro.html#intro_license',1,'']]],
+  ['xmlwrapp_5fcheck_5fversion_12',['XMLWRAPP_CHECK_VERSION',['../version_8h.html#a7cf32c100e097993fd13cabbee0c5e18',1,'version.h']]],
+  ['xmlwrapp_5fversion_5fmajor_13',['XMLWRAPP_VERSION_MAJOR',['../version_8h.html#ab5c42dda0c001d7092045b3ae58917d3',1,'version.h']]],
+  ['xmlwrapp_5fversion_5fmicro_14',['XMLWRAPP_VERSION_MICRO',['../version_8h.html#abbdb0bc37b060776be8d26213fbf8e00',1,'version.h']]],
+  ['xmlwrapp_5fversion_5fminor_15',['XMLWRAPP_VERSION_MINOR',['../version_8h.html#a51b6443dd1bfac7026fd5a158f1fdba1',1,'version.h']]],
+  ['xmlwrapp_5fversion_5fstring_16',['XMLWRAPP_VERSION_STRING',['../version_8h.html#a7a0bc7741ff83b3cd2f6162f3e159a32',1,'version.h']]],
+  ['xpath_2eh_17',['xpath.h',['../xpath_8h.html',1,'']]],
+  ['xpath_5fcontext_18',['xpath_context',['../classxml_1_1xpath__context.html',1,'xml::xpath_context'],['../classxml_1_1xpath__context.html#a1ac25af268784acee9877670a7c8bf79',1,'xml::xpath_context::xpath_context()']]],
+  ['xslt_19',['xslt',['../namespacexslt.html',1,'']]],
+  ['xslt_20support_20',['Using the XSLT Support',['../xslt.html',1,'index']]],
+  ['xslt_3a_3astylesheet_20class_21',['The xslt::stylesheet Class',['../xslt.html#xslt_stylesheet',1,'']]],
+  ['xsltwrapp_22',['Configuring xsltwrapp',['../xslt.html#xslt_init',1,'']]]
 ];

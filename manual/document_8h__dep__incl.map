@@ -1,5 +1,10 @@
 <map id="xmlwrapp/document.h" name="xmlwrapp/document.h">
-<area shape="rect" id="node2" href="$xmlwrapp_8h_source.html" title="xmlwrapp/xmlwrapp.h" alt="" coords="5,80,155,107"/>
-<area shape="rect" id="node4" href="$stylesheet_8h.html" title="This file contains the definition of the xslt::stylesheet class. " alt="" coords="179,80,333,107"/>
-<area shape="rect" id="node3" href="$xsltwrapp_8h_source.html" title="xsltwrapp/xsltwrapp.h" alt="" coords="93,155,243,181"/>
+<area shape="rect" id="Node000001" title="This file contains the definition of the xml::document class." alt="" coords="101,5,269,31"/>
+<area shape="rect" id="Node000002" href="$xmlwrapp_8h_source.html" title=" " alt="" coords="5,79,173,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,41,107,81,103,76,157,37"/>
+<area shape="rect" id="Node000004" href="$stylesheet_8h.html" title="This file contains the definition of the xslt::stylesheet class." alt="" coords="197,79,368,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="214,37,268,76,265,81,211,41"/>
+<area shape="rect" id="Node000003" href="$xsltwrapp_8h_source.html" title=" " alt="" coords="102,152,269,177"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="117,110,171,150,168,154,114,114"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="257,114,203,154,200,150,254,110"/>
 </map>

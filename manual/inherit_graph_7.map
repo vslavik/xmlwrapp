@@ -1,3 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classxml_1_1error__message.html" title="Single message in error_messages. " alt="" coords="5,5,143,32"/>
+<area shape="rect" id="Node000000" href="$classxml_1_1error__handler.html" title="The xml::error_handler class is used to handle libxml2 errors and warnings emitted during parsing,..." alt="" coords="5,77,148,102"/>
+<area shape="rect" id="Node000001" href="$classxml_1_1error__handler__ignore__errors.html" title="An error handler that ignores both errors and warnings." alt="" coords="204,5,347,45"/>
+<area shape="poly" id="edge3_Node000000_Node000001" title=" " alt="" coords="129,70,212,43,213,48,131,75"/>
+<area shape="rect" id="Node000002" href="$classxml_1_1error__handler__throw__on__error.html" title="Specialization of error_handler that throws on any error." alt="" coords="204,69,347,109"/>
+<area shape="poly" id="edge4_Node000000_Node000002" title=" " alt="" coords="162,87,204,87,204,92,162,92"/>
+<area shape="rect" id="Node000004" href="$classxml_1_1error__messages.html" title="The xml::error_messages class is used to store all the error messages which are collected while parsi..." alt="" coords="196,134,355,159"/>
+<area shape="poly" id="edge6_Node000000_Node000004" title=" " alt="" coords="135,103,231,131,230,137,134,108"/>
+<area shape="rect" id="Node000003" href="$classxml_1_1error__handler__throw__on__error__or__warning.html" title="Specialization of error_handler that throws on any error or warning." alt="" coords="403,69,609,109"/>
+<area shape="poly" id="edge5_Node000002_Node000003" title=" " alt="" coords="360,87,402,87,402,92,360,92"/>
 </map>

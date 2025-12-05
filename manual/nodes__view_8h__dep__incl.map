@@ -1,5 +1,10 @@
 <map id="xmlwrapp/nodes_view.h" name="xmlwrapp/nodes_view.h">
-<area shape="rect" id="node2" href="$xmlwrapp_8h_source.html" title="xmlwrapp/xmlwrapp.h" alt="" coords="12,155,161,181"/>
-<area shape="rect" id="node4" href="$xpath_8h.html" title="This files contains definitions for XPath&#45;related classes. " alt="" coords="75,80,200,107"/>
-<area shape="rect" id="node3" href="$xsltwrapp_8h_source.html" title="xsltwrapp/xsltwrapp.h" alt="" coords="12,229,161,256"/>
+<area shape="rect" id="Node000001" title="This file contains the definition of the xml::nodes_view and xml::const_nodes_view classes." alt="" coords="5,5,184,31"/>
+<area shape="rect" id="Node000002" href="$xmlwrapp_8h_source.html" title=" " alt="" coords="11,152,179,177"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,44,69,79,68,99,73,118,89,150,84,153,68,120,63,99,64,78,78,42"/>
+<area shape="rect" id="Node000004" href="$xpath_8h.html" title="This files contains definitions for XPath&#45;related classes." alt="" coords="79,79,219,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="114,40,143,77,138,80,110,43"/>
+<area shape="rect" id="Node000003" href="$xsltwrapp_8h_source.html" title=" " alt="" coords="11,225,178,251"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="97,191,97,225,92,225,92,191"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="134,117,106,154,101,150,130,113"/>
 </map>

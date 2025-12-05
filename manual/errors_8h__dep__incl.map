@@ -1,10 +1,26 @@
 <map id="xmlwrapp/errors.h" name="xmlwrapp/errors.h">
-<area shape="rect" id="node2" href="$document_8h.html" title="This file contains the definition of the xml::document class. " alt="" coords="680,80,830,107"/>
-<area shape="rect" id="node3" href="$xmlwrapp_8h_source.html" title="xmlwrapp/xmlwrapp.h" alt="" coords="351,155,500,181"/>
-<area shape="rect" id="node5" href="$stylesheet_8h.html" title="This file contains the definition of the xslt::stylesheet class. " alt="" coords="678,155,832,181"/>
-<area shape="rect" id="node6" href="$relaxng_8h.html" title="This file contains the definition of the xml::relaxng class. " alt="" coords="24,80,158,107"/>
-<area shape="rect" id="node7" href="$schema_8h.html" title="This file contains the definition of the xml::schema class. " alt="" coords="183,80,322,107"/>
-<area shape="rect" id="node8" href="$tree__parser_8h.html" title="This file contains the definition of the xml::tree_parser class. " alt="" coords="346,80,505,107"/>
-<area shape="rect" id="node9" href="$xpath_8h.html" title="This files contains definitions for XPath&#45;related classes. " alt="" coords="530,80,655,107"/>
-<area shape="rect" id="node4" href="$xsltwrapp_8h_source.html" title="xsltwrapp/xsltwrapp.h" alt="" coords="515,229,664,256"/>
+<area shape="rect" id="Node000001" title="This file contains errors&#45;handling classes: xml::exception and xml::error_handler and derived classes..." alt="" coords="396,5,537,31"/>
+<area shape="rect" id="Node000002" href="$document_8h.html" title="This file contains the definition of the xml::document class." alt="" coords="744,79,912,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="538,31,770,76,769,81,537,36"/>
+<area shape="rect" id="Node000003" href="$xmlwrapp_8h_source.html" title=" " alt="" coords="382,152,550,177"/>
+<area shape="poly" id="edge12_Node000001_Node000003" title=" " alt="" coords="382,27,159,47,63,62,30,71,14,81,9,89,10,97,17,105,29,112,69,126,124,136,256,151,382,158,382,163,256,156,123,142,68,131,27,117,13,109,5,100,3,88,10,77,28,66,62,57,159,42,382,22"/>
+<area shape="rect" id="Node000005" href="$stylesheet_8h.html" title="This file contains the definition of the xslt::stylesheet class." alt="" coords="742,152,913,177"/>
+<area shape="poly" id="edge15_Node000001_Node000005" title=" " alt="" coords="551,22,776,42,874,57,907,66,926,77,932,89,932,101,917,122,889,140,860,154,858,149,887,136,913,118,927,99,927,90,922,81,905,71,872,62,775,47,551,27"/>
+<area shape="rect" id="Node000006" href="$relaxng_8h.html" title="This file contains the definition of the xml::relaxng class." alt="" coords="24,79,176,104"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="395,36,160,81,159,76,394,31"/>
+<area shape="rect" id="Node000007" href="$schema_8h.html" title="This file contains the definition of the xml::schema class." alt="" coords="200,79,354,104"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="424,38,309,81,307,76,422,33"/>
+<area shape="rect" id="Node000008" href="$tree__parser_8h.html" title="This file contains the definition of the xml::tree_parser class." alt="" coords="378,79,554,104"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="469,44,469,79,464,79,464,44"/>
+<area shape="rect" id="Node000009" href="$xpath_8h.html" title="This files contains definitions for XPath&#45;related classes." alt="" coords="579,79,719,104"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="509,33,620,76,618,81,508,38"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="757,109,525,155,524,149,756,104"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="830,118,830,152,825,152,825,118"/>
+<area shape="rect" id="Node000004" href="$xsltwrapp_8h_source.html" title=" " alt="" coords="563,225,730,251"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="509,180,618,223,616,228,507,185"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="787,185,677,228,675,223,785,180"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="172,104,408,149,407,155,171,109"/>
+<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="321,106,436,149,435,154,319,111"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="469,118,469,152,464,152,464,118"/>
+<area shape="poly" id="edge14_Node000009_Node000003" title=" " alt="" coords="608,111,497,154,495,149,606,106"/>
 </map>

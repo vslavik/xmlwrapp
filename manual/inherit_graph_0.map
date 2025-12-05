@@ -1,3 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classxml_1_1attributes.html" title="The xml::attributes class is used to access all the attributes of one xml::node. " alt="" coords="5,5,111,32"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,5,120,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="168,5,307,31"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="134,15,168,15,168,21,134,21"/>
+<area shape="rect" id="Node000002" href="$classxml_1_1exception.html" title="This exception class is thrown by xmlwrapp for all runtime XML&#45;related errors." alt="" coords="355,5,473,31"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="321,15,354,15,354,21,321,21"/>
 </map>
