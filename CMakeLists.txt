@@ -1,5 +1,4 @@
-# 3.20 is required due to the of configure_file(FILE_PERMISSIONS).
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.21..4.1)
 
 # Extract version from the header which is the source of truth for it.
 file(READ "${CMAKE_CURRENT_SOURCE_DIR}/include/xmlwrapp/version.h" VERSION_H_CONTENT)
