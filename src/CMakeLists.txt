@@ -74,6 +74,20 @@ target_include_directories(xmlwrapp
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
+
+# Always use -pthread under Linux: this is required to ensure that _REENTRANT
+# is defined as libxml2 < 2.9.10 needs it to enable thread-safe operation.
+#
+# Note that using find_package(Threads) wouldn't work as it doesn't add any
+# compilation flags on modern Linux systems deeming them unnecessary (which
+# is formally correct but breaks using libxml2 in practice).
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  target_compile_options(xmlwrapp
+    PRIVATE
+      -pthread
+  )
+endif()
+
 target_link_options(xmlwrapp
   PUBLIC
     ${LIBXML2_LDFLAGS}
