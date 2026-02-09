@@ -296,3 +296,36 @@ TEST_CASE_METHOD( SrcdirConfig, "attributes/compare_attr_iterators", "[attribute
     CHECK( ci == i );
     CHECK( !(ci != i) );
 }
+
+/*
+ * Test to see if moving attribute objects works.
+ */
+TEST_CASE_METHOD( SrcdirConfig, "attributes/move", "[attributes]" )
+{
+    xml::tree_parser parser(test_file_path("attributes/data/06b.xml").c_str());
+
+    xml::attributes attrs1 = parser.get_document().get_root_node().get_attributes();
+    CHECK( !attrs1.empty() );
+
+    xml::attributes attrs2{std::move(attrs1)};
+    CHECK( attrs1.empty() );
+    CHECK( !attrs2.empty() );
+
+    xml::attributes attrs3;
+    attrs3 = std::move(attrs2);
+    CHECK( attrs2.empty() );
+    CHECK( !attrs3.empty() );
+
+    auto const end = xml::attributes::iterator{};
+    auto i1 = attrs3.begin();
+    CHECK( i1 != end );
+
+    auto i2{std::move(i1)};
+    CHECK( i1 == end );
+    CHECK( i2 != end );
+
+    decltype(i2) i3;
+    i3 = std::move(i2);
+    CHECK( i2 == end );
+    CHECK( i3 != end );
+}
