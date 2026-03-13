@@ -55,8 +55,12 @@ option(XMLWRAPP_WITH_LIBXSLT "Build libxsltwrapp library" ON)
 set(XMLWRAPP_NAME_PREFIX "" CACHE STRING "Use the given prefix for the libraries")
 set(XMLWRAPP_NAME_SUFFIX "" CACHE STRING "Use the given suffix for the libraries")
 
+if(${PROJECT_IS_TOP_LEVEL})
+
 include(GNUInstallDirs)
 set(INSTALL_CMAKE_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/xmlwrapp)
+
+endif(${PROJECT_IS_TOP_LEVEL})
 
 # When xmlwrapp is used as a subdirectory, the super-project may have
 # predefined libxml2 target, in which case we just use it.
@@ -90,6 +94,7 @@ if( XMLWRAPP_DOC )
   add_subdirectory(docs)
 endif( XMLWRAPP_DOC )
 
+if(${PROJECT_IS_TOP_LEVEL})
 
 # Delegate to another script for pkg-config and xmlwrapp-config creation as
 # the paths used in them are only known at install time and not at configure
@@ -196,6 +201,8 @@ add_custom_target(distcheck
   COMMENT "Checking that the source package is usable."
   VERBATIM
 )
+
+endif(${PROJECT_IS_TOP_LEVEL})
 
 # Give build summary at the end but only if it's the first time we're running,
 # as indicated by XMLWRAPP_SUMMARY not being cached yet, or if it has changed.
