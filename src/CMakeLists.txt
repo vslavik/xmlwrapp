@@ -8,9 +8,20 @@ function(setup_shared_library target version)
   if (XMLWRAPP_SHARED)
     # Construct XMLWRAPP_USE_DLL or XSLTWRAPP_USE_DLL symbol name.
     string(TOUPPER "${target}_USE_DLL" use_dll_symbol)
+
+    if(WIN32)
+      # Under Windows we need to define a special symbol when building the DLL
+      # to let the code know that its public symbols should be exported.
+      string(TOUPPER "${target}_BUILD" build_dll_symbol)
+    else()
+      # On non-Windows platforms, we don't need separate symbols for building and
+      # using the DLL, just indicate that we have visibility support.
+      set(build_dll_symbol HAVE_VISIBILITY)
+    endif()
+
     target_compile_definitions(${target}
       PRIVATE
-        HAVE_VISIBILITY
+        ${build_dll_symbol}
       INTERFACE
         ${use_dll_symbol}
     )
