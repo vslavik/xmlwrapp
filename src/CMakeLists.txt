@@ -79,8 +79,6 @@ target_sources(xmlwrapp
 )
 
 target_include_directories(xmlwrapp
-  PRIVATE
-    ${LIBXML2_INCLUDE_DIRS}
   PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
@@ -99,6 +97,20 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
   )
 endif()
 
+if(TARGET libxml2)
+
+target_link_libraries(xmlwrapp
+  PUBLIC
+    libxml2
+)
+
+else()
+
+target_include_directories(xmlwrapp
+  PRIVATE
+    ${LIBXML2_INCLUDE_DIRS}
+)
+
 target_link_options(xmlwrapp
   PUBLIC
     ${LIBXML2_LDFLAGS}
@@ -107,6 +119,9 @@ target_link_libraries(xmlwrapp
   PUBLIC
     ${LIBXML2_LIBRARIES}
 )
+
+endif()
+
 setup_shared_library(xmlwrapp 6.0.0)
 install (TARGETS xmlwrapp EXPORT XmlwrappTargets DESTINATION ${CMAKE_INSTALL_LIBDIR})
 

@@ -58,6 +58,10 @@ set(XMLWRAPP_NAME_SUFFIX "" CACHE STRING "Use the given suffix for the libraries
 include(GNUInstallDirs)
 set(INSTALL_CMAKE_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/xmlwrapp)
 
+# When xmlwrapp is used as a subdirectory, the super-project may have
+# predefined libxml2 target, in which case we just use it.
+if(NOT TARGET libxml2)
+
 find_package(PkgConfig)
 
 pkg_check_modules(LIBXML2 REQUIRED libxml-2.0>=2.4.28)
@@ -66,6 +70,8 @@ if( XMLWRAPP_WITH_LIBXSLT )
   pkg_check_modules(LIBXSLT REQUIRED libxslt>=1.1.6)
   pkg_check_modules(LIBEXSLT REQUIRED libexslt)
 endif( XMLWRAPP_WITH_LIBXSLT )
+
+endif()
 
 
 add_subdirectory(include)
