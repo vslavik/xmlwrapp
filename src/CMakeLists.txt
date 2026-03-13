@@ -8,9 +8,20 @@ function(setup_shared_library target version)
   if (XMLWRAPP_SHARED)
     # Construct XMLWRAPP_USE_DLL or XSLTWRAPP_USE_DLL symbol name.
     string(TOUPPER "${target}_USE_DLL" use_dll_symbol)
+
+    if(WIN32)
+      # Under Windows we need to define a special symbol when building the DLL
+      # to let the code know that its public symbols should be exported.
+      string(TOUPPER "${target}_BUILD" build_dll_symbol)
+    else()
+      # On non-Windows platforms, we don't need separate symbols for building and
+      # using the DLL, just indicate that we have visibility support.
+      set(build_dll_symbol HAVE_VISIBILITY)
+    endif()
+
     target_compile_definitions(${target}
       PRIVATE
-        HAVE_VISIBILITY
+        ${build_dll_symbol}
       INTERFACE
         ${use_dll_symbol}
     )
@@ -68,8 +79,6 @@ target_sources(xmlwrapp
 )
 
 target_include_directories(xmlwrapp
-  PRIVATE
-    ${LIBXML2_INCLUDE_DIRS}
   PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
@@ -88,6 +97,20 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
   )
 endif()
 
+if(TARGET libxml2)
+
+target_link_libraries(xmlwrapp
+  PUBLIC
+    libxml2
+)
+
+else()
+
+target_include_directories(xmlwrapp
+  PRIVATE
+    ${LIBXML2_INCLUDE_DIRS}
+)
+
 target_link_options(xmlwrapp
   PUBLIC
     ${LIBXML2_LDFLAGS}
@@ -96,6 +119,9 @@ target_link_libraries(xmlwrapp
   PUBLIC
     ${LIBXML2_LIBRARIES}
 )
+
+endif()
+
 setup_shared_library(xmlwrapp 6.0.0)
 install (TARGETS xmlwrapp EXPORT XmlwrappTargets DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
