@@ -34,6 +34,8 @@
 -- TEXT: 
 
 -- PI: TARGET=someapp DATA=just above /root
+-- PI: TARGET=someapp DATA=
+-- PI: TARGET=someapp DATA=
 -- TEXT: 
 
 -- END_ELEMENT: root

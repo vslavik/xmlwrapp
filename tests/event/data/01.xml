@@ -9,5 +9,5 @@
 	    <two_dot_two><![CDATA[inside two_dot_two]]></two_dot_two>
 	</two_dot_one>
     </two>
-<?someapp just above /root?>
+<?someapp just above /root?><?someapp?><?someapp ?>
 </root>
