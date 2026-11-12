@@ -68,7 +68,7 @@ if(NOT TARGET libxml2)
 
 find_package(PkgConfig)
 
-pkg_check_modules(LIBXML2 REQUIRED libxml-2.0>=2.4.28)
+pkg_check_modules(LIBXML2 REQUIRED libxml-2.0>=2.7.6)
 
 if( XMLWRAPP_WITH_LIBXSLT )
   pkg_check_modules(LIBXSLT REQUIRED libxslt>=1.1.6)
