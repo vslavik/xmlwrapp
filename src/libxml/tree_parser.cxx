@@ -42,13 +42,7 @@
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlversion.h>
-#if LIBXML_VERSION >= 20600
-    #define xmlwrapp_initDefaultSAXHandler xmlSAX2InitDefaultSAXHandler
-    #include <libxml/SAX2.h>
-#else
-    #define xmlwrapp_initDefaultSAXHandler initxmlDefaultSAXHandler
-    #include <libxml/SAX.h>
-#endif
+#include <libxml/SAX2.h>
 
 
 // standard includes
@@ -116,7 +110,7 @@ extern "C" void cb_tree_ignore(void*, const xmlChar*, int)
 impl::tree_impl::tree_impl()
 {
     std::memset(&sax_, 0, sizeof(sax_));
-    xmlwrapp_initDefaultSAXHandler(&sax_, 0);
+    xmlSAX2InitDefaultSAXHandler(&sax_, 0);
 
     // Setting the structured error handler overrides all the others, so there
     // is no need to reset them.
