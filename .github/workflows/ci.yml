@@ -12,6 +12,7 @@ jobs:
   build-cmake:
     name: ${{ matrix.name }} CMake
     runs-on: ${{ matrix.runner }}
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
@@ -61,6 +62,7 @@ jobs:
   build-cmake-dist:
     name: Ubuntu 24.04 CMake Dist
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
     env:
       XMLWRAPP_WITH_DOCS: 1
       XMLWRAPP_CMAKE: 1
@@ -88,6 +90,7 @@ jobs:
   build-cmake-subproject:
     name: Ubuntu 24.04 As CMake Subproject
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
     env:
       XMLWRAPP_CMAKE: 1
     steps:
@@ -117,6 +120,7 @@ jobs:
   build-libxml2-versions:
     name: libxml2 ${{ matrix.libxml2 }}
     runs-on: ubuntu-26.04
+    timeout-minutes: 10
     # Failures with the latest development version are not fatal.
     continue-on-error: ${{ matrix.libxml2 == 'master' }}
     strategy:
@@ -198,6 +202,7 @@ jobs:
   build-autoconf:
     name: ${{ matrix.name }} autoconf
     runs-on: ${{ matrix.runner }}
+    timeout-minutes: 10
     container: ${{ matrix.container }}
     strategy:
       fail-fast: false
@@ -298,6 +303,7 @@ jobs:
   build-msvs:
     name: MSVS ${{ matrix.arch }}
     runs-on: windows-2022
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
