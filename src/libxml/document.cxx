@@ -497,6 +497,16 @@ bool document::save_to_file(const char *filename, int compression_level, error_h
         rc = xmlSaveFormatFile(filename, pimpl_->doc_, 1) > 0;
     }
 
+    // Not all failures are reported by libxml2, e.g. since 2.13 failing to
+    // create the output file isn't, so make sure we report at least something.
+    if (!rc && !err.has_errors())
+    {
+        std::string msg = "failed to save document to \"";
+        msg += filename;
+        msg += "\"";
+        err.on_error(msg);
+    }
+
     err.replay(on_error);
 
     return rc;
