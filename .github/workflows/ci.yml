@@ -111,6 +111,90 @@ jobs:
       - name: Run Example
         run: ./build-example/example
 
+  # Test with as many different libxml2 versions as possible, as its behaviour
+  # changes between them. Note that we don't use libxslt here, as building old
+  # libxslt versions is more problematic and there are fewer changes in it.
+  build-libxml2-versions:
+    name: libxml2 ${{ matrix.libxml2 }}
+    runs-on: ubuntu-26.04
+    # Failures with the latest development version are not fatal.
+    continue-on-error: ${{ matrix.libxml2 == 'master' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # Use the oldest supported version and the latest release of each
+        # series since then, see https://download.gnome.org/sources/libxml2/
+        libxml2:
+          - 2.7.6
+          - 2.8.0
+          - 2.9.14
+          - 2.10.4
+          - 2.11.9
+          - 2.12.10
+          - 2.13.9
+          - 2.14.6
+          - 2.15.4
+          - master
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install CCache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: libxml2-${{ matrix.libxml2 }}
+
+      - name: Install autotools
+        if: matrix.libxml2 == 'master'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -qq autoconf automake libtool
+
+      # There is no need to cache master, as it changes all the time anyhow.
+      - name: Cache libxml2
+        if: matrix.libxml2 != 'master'
+        uses: actions/cache@v4
+        with:
+          path: ~/libxml2
+          key: libxml2-${{ matrix.libxml2 }}-ubuntu-26.04
+
+      - name: Build libxml2
+        run: |
+          ./scripts/ci/build-libxml2.sh ${{ matrix.libxml2 }} ~/libxml2
+          echo "PKG_CONFIG_PATH=$HOME/libxml2/lib/pkgconfig" >> $GITHUB_ENV
+
+      - name: Configure
+        run: |
+          cmake -S . -B build-cmake \
+            -DXMLWRAPP_WITH_LIBXSLT=OFF \
+            -DCMAKE_BUILD_RPATH=$HOME/libxml2/lib \
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+
+      - name: Build
+        run: cmake --build build-cmake
+
+      # Ensure that we didn't accidentally use the system libxml2.
+      - name: Check libxml2 version
+        run: |
+          expected=$(pkg-config --modversion libxml-2.0)
+          echo "Expected libxml2 version: $expected"
+
+          found=$(sed -n 's/^LIBXML2_VERSION:INTERNAL=//p' build-cmake/CMakeCache.txt)
+          echo "libxml2 version used by CMake: $found"
+          if [ "$found" != "$expected" ]; then
+            echo "::error ::Wrong libxml2 version $found used, expected $expected."
+            exit 1
+          fi
+
+          ldd build-cmake/tests/test_xmlwrapp | grep libxml2
+          if ! ldd build-cmake/tests/test_xmlwrapp | grep -q "libxml2.*=> $HOME/libxml2/lib/"; then
+            echo "::error ::Tests don't use the expected libxml2 library."
+            exit 1
+          fi
+
+      - name: Test
+        run: ctest --test-dir build-cmake --output-on-failure
+
   build-autoconf:
     name: ${{ matrix.name }} autoconf
     runs-on: ${{ matrix.runner }}
