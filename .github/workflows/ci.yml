@@ -207,7 +207,7 @@ jobs:
             runner: ubuntu-latest
             container: ubuntu:18.04
           - name: Ubuntu 20.04 ASAN
-            runner: ubuntu-latest
+            runner: ubuntu-24.04
             container: ubuntu:20.04
             cxxflags: -fsanitize=address -fno-omit-frame-pointer
             ldflags: -fsanitize=address
