@@ -1,3 +1,12 @@
+Version 0.10.1 [not released yet]
+
+    Require libxml2 2.7.6 or later, which is the oldest version tested in CI
+    (previously 2.4.28 was nominally supported, but hadn't been tested for a
+    long time), for building the library.
+
+    Fix error reporting for parsing documents using libxml2 2.13 and later (all
+    version up to the latest currently available, 2.15, are now tested by CI).
+
 Version 0.10.0 [2025-12-05]
 
     Building xmlwrapp now requires C++11 compiler.
