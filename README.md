@@ -16,9 +16,11 @@ or email directly to xmlwrapp@googlegroups.com.
 
 ## 1. Requirements
 
-In order to build xmlwrapp, you need libxml2 version 2.4.28 or newer. When
+In order to build xmlwrapp, you need libxml2 version 2.7.6 or newer. When
 building with XSLT support, libxslt 1.1.6 or newer is required. Both libraries
-are available from [libxml2 home page](https://xmlsoft.org).
+are available from their home pages:
+[libxml2](https://gitlab.gnome.org/GNOME/libxml2) and
+[libxslt](https://gitlab.gnome.org/GNOME/libxslt).
 
 
 ## 2. Building on Unix

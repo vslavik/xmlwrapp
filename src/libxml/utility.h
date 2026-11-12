@@ -39,6 +39,7 @@
 #include <stdexcept>
 #include <string>
 #include <cstdarg>
+#include <climits>
 
 // libxml2 includes
 #include <libxml/tree.h>

@@ -11,13 +11,18 @@ set -e
 # Takes base name of the library, its version and an arbitrary number of
 # arguments to pass to the library configure.
 install_lib() {
-    lib_basename=$1-$2
+    lib_name=$1
+    lib_version=$2
     shift
     shift
-    lib_archive=$lib_basename.tar.gz
+    lib_basename=$lib_name-$lib_version
+    lib_archive=$lib_basename.tar.xz
 
-    [ -e $lib_archive ] || wget http://xmlsoft.org/sources/$lib_archive
-    tar xzf $lib_archive
+    # GNOME download site organizes the sources by "major.minor" series.
+    lib_series=$(echo $lib_version | cut -d. -f1,2)
+
+    [ -e $lib_archive ] || wget https://download.gnome.org/sources/$lib_name/$lib_series/$lib_archive
+    tar xJf $lib_archive
     cd $lib_basename
     # Use minimal and build maximally self-contained library.
     configure_args='--disable-dependency-tracking --disable-static --without-python'

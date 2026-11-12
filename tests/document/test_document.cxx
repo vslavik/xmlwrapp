@@ -454,8 +454,11 @@ TEST_CASE_METHOD( SrcdirConfig, "document/save_to_file", "[document]" )
 
 TEST_CASE_METHOD( SrcdirConfig, "document/save_throws_on_failure", "[document]" )
 {
+    // Saving used to fail for documents containing characters not allowed in
+    // XML, but since libxml2 2.13 they're replaced with U+FFFD, so make it fail
+    // in other ways working with all libxml2 versions.
     xml::document doc(xml::node("root"));
-    doc.get_root_node().push_back(xml::node(xml::node::text("invalid character: \x7")));
+    doc.set_encoding("no-such-encoding");
 
     std::string s;
     REQUIRE_THROWS_AS
@@ -464,11 +467,10 @@ TEST_CASE_METHOD( SrcdirConfig, "document/save_throws_on_failure", "[document]" 
         xml::exception
     );
 
-    temp_test_file test_file;
-    REQUIRE_THROWS_AS
+    CHECK_THROWS_WITH
     (
-        doc.save_to_file(test_file.get_name()),
-        xml::exception
+        xml::document(xml::node("root")).save_to_file("no-such-dir/test_temp_file"),
+        Catch::Contains("no-such-dir/test_temp_file")
     );
 }
 
