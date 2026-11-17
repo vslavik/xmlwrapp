@@ -39,6 +39,9 @@
 #include <cstring>
 #include <sstream>
 
+// libxml2 includes
+#include <libxml/parser.h>
+
 namespace xml
 {
 
@@ -147,30 +150,27 @@ std::string build_message(const std::string& what, const xmlError& error)
 
 bool treat_warning_as_error(const xmlError& error)
 {
-    // Currently we only handle warnings with this error code as errors.
-    if (error.code != XML_IO_LOAD_ERROR)
-        return false;
-
-    // But even warnings using this error code are not always errors, as we
-    // also get them when a DTD referenced in the file being parsed can't be
-    // opened -- which is really just a warning.
+    // Failing to open the file being parsed is reported as a warning, with
+    // "failed to load external entity "<file>"" message before libxml2 2.13
+    // and "failed to load "<file>": <reason>" since then, but this is really
+    // an error and we want to report it as such. However, failing to load a
+    // DTD referenced by the document being parsed is reported in the same way,
+    // but this one is really only a warning.
     //
-    // So check that the warning is really about the file itself by checking
-    // the error message, which always references the file in this case. Be
-    // careful to not suppose that either file or str1 fields are set, as
-    // "file" field is NULL and the XML file path is in "str1" for the warnings
-    // concerning the file itself while warnings about loading DTD contain DTD
-    // itself in "str1" and the XML file being processed is in "file".
-    std::string load_error = "failed to load external entity \"";
-    load_error += error.file ? error.file : error.str1 ? error.str1 : "";
-    load_error += "\"";
+    // Check whether the parser has any inputs to distinguish between the 2
+    // cases: it doesn't when failing to open the document itself, but already
+    // has the document as input when loading the DTD.
 
-    if (error.message != load_error)
-        return false;
+    static const char load_error[] = "failed to load";
 
-    // We really failed to open the file being processed, this is definitely an
-    // error.
-    return true;
+    // Note that the context associated with XML_FROM_IO errors is always the
+    // parser context (libxml2 itself relies on this), if it is set at all.
+    const auto ctxt = static_cast<xmlParserCtxtPtr>(error.ctxt);
+
+    return error.domain == XML_FROM_IO &&
+           (!ctxt || ctxt->inputNr == 0) &&
+           error.message &&
+           std::strncmp(error.message, load_error, sizeof(load_error) - 1) == 0;
 }
 
 #if LIBXML_VERSION >= 21200

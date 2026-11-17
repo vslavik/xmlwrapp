@@ -22,7 +22,7 @@ set_and_check(XMLWRAPP_LIBRARY_DIR "@PACKAGE_CMAKE_INSTALL_LIBDIR@")
 set(XMLWRAPP_XSLT_FOUND "@XMLWRAPP_WITH_LIBXSLT@")
 
 find_package(PkgConfig)
-pkg_search_module(LIBXML2 REQUIRED libxml-2.0 >= 2.4.28)
+pkg_search_module(LIBXML2 REQUIRED libxml-2.0 >= 2.7.6)
 if(XMLWRAPP_XSLT_FOUND)
   pkg_search_module(LIBXSLT REQUIRED libxslt >= 1.1.6)
   pkg_search_module(LIBEXSLT REQUIRED libexslt)

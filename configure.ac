@@ -125,7 +125,7 @@ dnl use C++ compiler as we're checking for C++ libraries/headers from now on
 dnl (we couldn't do it before as libtool tests must be done with C compiler)
 AC_LANG(C++)
 
-PKG_CHECK_MODULES(LIBXML, [libxml-2.0 >= 2.4.28])
+PKG_CHECK_MODULES(LIBXML, [libxml-2.0 >= 2.7.6])
 
 if test "x$build_xslt" = "xyes" ; then
     PKG_CHECK_MODULES(LIBXSLT, [libxslt >= 1.1.6])

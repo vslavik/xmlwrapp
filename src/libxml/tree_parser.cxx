@@ -42,13 +42,7 @@
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlversion.h>
-#if LIBXML_VERSION >= 20600
-    #define xmlwrapp_initDefaultSAXHandler xmlSAX2InitDefaultSAXHandler
-    #include <libxml/SAX2.h>
-#else
-    #define xmlwrapp_initDefaultSAXHandler initxmlDefaultSAXHandler
-    #include <libxml/SAX.h>
-#endif
+#include <libxml/SAX2.h>
 
 
 // standard includes
@@ -90,7 +84,15 @@ extern "C" void cb_tree_structured_error(void *out, const xmlError *error)
 extern "C" void cb_tree_structured_error(void *out, xmlErrorPtr error)
 #endif
 {
+#if LIBXML_VERSION < 20800
+    // Before 2.8.0, libxml2 didn't pass the parser context to the structured
+    // error handler set in SAX handler, but either nullptr or the generic
+    // error context, so we can't use "out" and must get it from the error.
+    (void)out;
+    auto ctxt = static_cast<xmlParserCtxtPtr>(error->ctxt);
+#else
     auto ctxt = static_cast<xmlParserCtxtPtr>(out);
+#endif
 
     auto* const p = static_cast<tree_impl*>(ctxt->_private);
 
@@ -108,7 +110,7 @@ extern "C" void cb_tree_ignore(void*, const xmlChar*, int)
 impl::tree_impl::tree_impl()
 {
     std::memset(&sax_, 0, sizeof(sax_));
-    xmlwrapp_initDefaultSAXHandler(&sax_, 0);
+    xmlSAX2InitDefaultSAXHandler(&sax_, 0);
 
     // Setting the structured error handler overrides all the others, so there
     // is no need to reset them.

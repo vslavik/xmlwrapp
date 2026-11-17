@@ -3,7 +3,7 @@
 @page xslt Using the XSLT Support
 
 Starting with version 0.4.0, xmlwrapp supports XSLT using the
-<a href="http://xmlsoft.org/XSLT/">libxslt</a> XSLT library. If @c configure
+<a href="https://gitlab.gnome.org/GNOME/libxslt">libxslt</a> XSLT library. If @c configure
 detects that you have libxslt installed, it will enable the creation of a
 library called @c xsltwrapp.
 
